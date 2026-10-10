@@ -26,9 +26,13 @@ npm run preview
 ```
 
 The production site is in `dist/`, including the static Learning dataset.
-Cloudflare Pages can serve this directory. `public/_redirects` enables direct
-navigation and refreshes for React Router paths such as `/learning`,
-`/learning/java/knowledge/HIKARI_CP`, `/project`, and `/about-me`.
+Cloudflare Pages can serve this directory and automatically falls back to
+`index.html` for SPA navigation when no top-level `404.html` exists.
+For **Cloudflare Workers Static Assets**, `wrangler.jsonc` configures
+`assets.not_found_handling: single-page-application` for deep links such as
+`/learning`, `/learning/java/knowledge/HIKARI_CP`, `/project`, and `/about-me`.
+Do not add a catch-all `/* /index.html 200` rule to `public/_redirects`:
+Cloudflare may reject it as an infinite redirect loop during deployment.
 
 ## Learning data snapshot
 
@@ -41,7 +45,6 @@ public/
   module-catalog.json
   module/
   search/
-  _redirects
 ```
 
 It contains the current Java module catalog and generated Knowledge, Roadmap,

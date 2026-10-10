@@ -1,0 +1,138 @@
+EqualityController:
+  identityVsEquality():
+    summary: Phân biệt định danh tham chiếu và phép bằng nhau về mặt logic
+    description: |-
+      Tạo hai đối tượng `Value` riêng biệt nhưng cùng `id`, sau đó trả về đồng thời kết quả `==`, `equals` và so sánh mã băm.
+      Thí nghiệm cho thấy định danh và phép bằng nhau về mặt logic trả lời hai câu hỏi khác nhau, đồng thời củng cố quy tắc rằng các đối tượng bằng nhau phải tạo cùng mã băm.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 2.IdentityEquality/IdentityEquality.md
+      anchor: identity-vs-equality
+    methodName: identityVsEquality
+    params: [
+      ]
+    path: com/example/learning/controller/EqualityController.java
+    mapping: '@GetMapping("/identity-vs-equality")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/object-contract/equality/identity-vs-equality
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+HashContractController:
+  brokenHashSetLookup():
+    summary: Tra cứu HashSet khi quy ước equals/hashCode bị phá vỡ
+    description: |-
+      Tạo hai khóa có `equals == true` nhưng cố ý trả hai mã băm khác nhau, đưa một khóa vào `HashSet` rồi tra cứu bằng khóa bằng nhau về mặt logic còn lại.
+      Kết quả biến một vi phạm quy ước trừu tượng thành hành vi có thể quan sát: cấu trúc dữ liệu có thể không tìm thấy giá trị mà `equals` nói là bằng nhau.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 5.EqualsHashCode/EqualsHashCode.md
+      anchor: broken-contract-effects
+    methodName: brokenHashSetLookup
+    params: [
+      ]
+    path: com/example/learning/controller/HashContractController.java
+    mapping: '@GetMapping("/broken-contract")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/object-contract/hash/broken-contract
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  mutableKey():
+    summary: Rủi ro thay đổi trạng thái equals/hashCode sau khi đưa khóa vào
+    description: |-
+      Đưa một khóa có thể thay đổi vào `HashMap`, kiểm tra tra cứu trước khi thay đổi, sửa trường dữ liệu tham gia `equals/hashCode`, rồi kiểm tra lại.
+      Thí nghiệm cho thấy vì sao khóa trong cấu trúc dữ liệu dựa trên mã băm nên giữ trạng thái liên quan tới phép bằng nhau và mã băm ổn định; kết quả sau thay đổi là minh chứng của phần triển khai đang chạy, không phải quy ước bảo đảm mọi lần tra cứu đều thất bại theo cùng một cách.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 5.EqualsHashCode/EqualsHashCode.md
+      anchor: mutable-key-risk
+    methodName: mutableKey
+    params: [
+      ]
+    path: com/example/learning/controller/HashContractController.java
+    mapping: '@GetMapping("/mutable-key")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/object-contract/hash/mutable-key
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+OrderingController:
+  naturalVsCustom():
+    summary: Thứ tự tự nhiên so với Comparator tùy chỉnh
+    description: |-
+      Dùng cùng một danh sách `Person`: `Collections.sort` áp dụng thứ tự tự nhiên từ `Comparable` theo `age`, còn `Comparator.comparing(Person::name)` áp dụng chính sách sắp xếp bên ngoài theo `name`.
+      Hai kết quả cho thấy thứ tự do kiểu dữ liệu sở hữu hay do đoạn mã sử dụng cung cấp là một quyết định thiết kế, không phải hai cú pháp tương đương.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 8.Comparator/Comparator.md
+      anchor: external-order
+    methodName: naturalVsCustom
+    params: [
+      ]
+    path: com/example/learning/controller/OrderingController.java
+    mapping: '@GetMapping("/natural-vs-custom")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/object-contract/ordering/natural-vs-custom
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  compareToEquals():
+    summary: Khi compareTo và equals không nhất quán
+    description: |-
+      So sánh `BigDecimal("1.0")` với `BigDecimal("1.00")`: `equals` trả false nhưng `compareTo` trả 0, sau đó đưa cả hai vào `HashSet` và `TreeSet`.
+      Kết quả cho thấy cấu trúc dựa trên mã băm và cấu trúc có thứ tự có thể có kích thước khác nhau khi phép bằng nhau và thứ tự xác định tính tương đương của khóa theo hai cách khác nhau.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 7.Comparable/Comparable.md
+      anchor: compareto-equals-consistency
+    methodName: compareToEquals
+    params: [
+      ]
+    path: com/example/learning/controller/OrderingController.java
+    mapping: '@GetMapping("/compareto-equals")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/object-contract/ordering/compareto-equals
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true

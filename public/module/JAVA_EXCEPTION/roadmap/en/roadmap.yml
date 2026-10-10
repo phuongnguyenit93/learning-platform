@@ -1,0 +1,120 @@
+# <roadmap-schema>
+# Module Roadmap Structure
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: High-level learning milestones for the current language roadmap.
+#
+# - id [string, required]: Stable and unique milestone identity within the current language roadmap.
+# - title [string, required]: Milestone title displayed to the learner.
+# - purpose [string, required]: What the learner should understand or achieve from this milestone.
+# - dependsOn [list, optional]: Prerequisite milestone ids when item order alone is not enough to express the dependency.
+# - objectives [list, optional]: Milestone-level learning objectives; do not use this to list every small fact/API/syntax item.
+# - relatedKnowledge [list, optional]: Knowledge category ids in the current module that support this milestone. Portal displays this list on the side opposite the milestone and clicking an item navigates to the matching Knowledge category.
+# - relatedModules [list, optional]: Related modules displayed as Portal Level 2 cards. Each item requires routeId and may provide localized label/note; this relation is navigation only and does not create child milestones or change learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - What is this topic/module?
+#   - Why does it exist?
+#   - What problem exists without it?
+# FOUNDATION
+#   - What prerequisite or mental model must the learner have first?
+# CORE MODEL
+#   - What major abstractions or building blocks make up this topic?
+# MECHANICS
+#   - How does it work at the language/runtime/API level appropriate for this module?
+# USAGE
+#   - How is it used in real code?
+# DECISION / TRADE-OFF
+#   - When should this mechanism be chosen over another?
+#   - When should it not be used?
+# FAILURE / PITFALL
+#   - What mistakes, compile-time failures, or runtime failures matter?
+# INTEGRATION
+#   - How does this topic connect to neighboring concepts/modules?
+# SYNTHESIS
+#   - What end-to-end mental model should the learner retain?
+#
+# Each language owns its own roadmap. Do not infer or synchronize its structure from another language roadmap.
+# Item order in roadmap is the default learning order. Use dependsOn only when a dependency needs to be expressed beyond the linear order.
+# The skeleton must not force every module to have the same number of nodes. It is a thinking framework, not a rigid template.
+# </roadmap-schema>
+
+roadmap:
+  - id: exception-purpose
+    title: What Exceptions Are and Why Java Uses Them
+    purpose: Understand exceptions as a failure mechanism separate from the normal success path, allowing failure context to cross method calls without forcing every layer to return and inspect status values.
+    relatedKnowledge:
+      - ExceptionPurpose
+    objectives:
+      - Explain how exceptions separate successful execution from failure propagation and carry context to the boundary responsible for handling it.
+      - Recognize that exceptions are not the default mechanism for ordinary expected control flow.
+  - id: throwable-model
+    title: Throwable and Java's Failure Hierarchy
+    purpose: Understand Throwable as the object that carries failure information and as the root of Java's exception type hierarchy.
+    relatedKnowledge:
+      - ThrowableModel
+    objectives:
+      - Distinguish Error, Exception, RuntimeException, cause, and stack trace roles.
+      - Use the type hierarchy to reason about which failures should or should not be caught instead of merely memorizing classes.
+  - id: checked-and-unchecked-contracts
+    title: Checked and Unchecked Exception Contracts
+    purpose: Understand when a failure becomes part of the compiler-enforced method contract and how checked and unchecked exceptions assign different responsibilities to callers.
+    relatedKnowledge:
+      - CheckedUncheckedContracts
+    objectives:
+      - Explain compiler obligations for checked exceptions.
+      - Choose checked or unchecked exceptions according to recoverability and abstraction contracts rather than habit.
+  - id: throwing-and-propagation
+    title: throw, throws, and Exception Propagation
+    purpose: Understand how exceptions are thrown, declared, and allowed to continue through the call stack when no suitable handling boundary exists yet.
+    relatedKnowledge:
+      - ThrowingPropagation
+    objectives:
+      - Distinguish `throw` from `throws` and understand their roles in method contracts.
+      - Trace stack unwinding, catch selection, and the causal chain across multiple layers.
+  - id: handling-and-cleanup
+    title: Handling Exceptions with try/catch/finally
+    purpose: Understand how `try`, `catch`, and `finally` route control when an exception occurs and perform cleanup without hiding a pending result or failure.
+    relatedKnowledge:
+      - HandlingCleanup
+    objectives:
+      - Trace control flow through `try` and `catch` when exceptions are and are not thrown.
+      - Understand the role of `finally` and avoid cleanup logic that hides a pending result or failure.
+  - id: resource-safe-failure
+    title: Resource Safety with try-with-resources
+    purpose: Understand how try-with-resources and AutoCloseable manage resource lifetime, close order, and preservation of the primary failure when resource cleanup also fails.
+    relatedKnowledge:
+      - ResourceSafeFailure
+    relatedModules:
+      - routeId: JAVA_IO
+        label: I/O
+        note: I/O resources make safe resource cleanup under exception conditions especially visible.
+    objectives:
+      - Understand the AutoCloseable contract and reverse close order in try-with-resources.
+      - Distinguish primary failures, suppressed exceptions, and causes so information is preserved when both work and cleanup fail.
+  - id: custom-exceptions-and-context
+    title: Designing Custom Exceptions
+    purpose: Understand when a dedicated exception type adds meaning at the right abstraction level and how to preserve causes and useful context without leaking unnecessary low-level details.
+    relatedKnowledge:
+      - CustomExceptionsContext
+    objectives:
+      - Create custom exceptions or small hierarchies only when they clarify caller decisions.
+      - Preserve causes and relevant contextual data when wrapping instead of merely replacing messages or adding meaningless wrappers.
+  - id: exception-boundary-design
+    title: Designing Exception Boundaries
+    purpose: Build an end-to-end model for deciding where exceptions should be translated, logged, retried, recovered, or allowed to continue propagating.
+    relatedKnowledge:
+      - ExceptionBoundaryDesign
+    objectives:
+      - Avoid swallowing failures, duplicate logging across layers, and using exceptions for ordinary expected control flow.
+      - Separate cleanup, recovery, translation, and observability responsibilities across handling boundaries.
+  - id: exception-synthesis
+    title: Exception Handling Synthesis
+    purpose: Connect failure representation, propagation, handling, resource cleanup, translation, and recovery into one end-to-end error-handling model.
+    relatedKnowledge:
+      - ExceptionSynthesis
+    objectives:
+      - Follow one failure from origin through propagation or translation to the responsible handling boundary.
+      - Recognize when exception wrapping adds useful context versus merely adding another wrapper.

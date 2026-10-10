@@ -1,0 +1,1 @@
+# Chuỗi biến đổi class

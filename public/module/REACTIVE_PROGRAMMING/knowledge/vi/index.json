@@ -1,0 +1,150 @@
+{
+    "version": 1,
+    "moduleId": "REACTIVE_PROGRAMMING",
+    "language": "vi",
+    "categoryCount": 6,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ReactiveProgramming",
+                    "title": "Reactive Programming",
+                    "sourcePath": "1.Introduction/ReactiveProgramming.md",
+                    "sections": [
+                        {
+                            "id": "reactive-what",
+                            "title": "1. Reactive Programming l\u00e0 g\u00ec?",
+                            "content": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ReactiveProgramming/sections/reactive-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reactive-why",
+                            "title": "2. T\u1ea1i sao n\u00f3 t\u1ed3n t\u1ea1i?",
+                            "content": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ReactiveProgramming/sections/reactive-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reactive-solution",
+                            "title": "3. Reactive Programming gi\u1ea3i quy\u1ebft th\u1ebf n\u00e0o?",
+                            "content": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ReactiveProgramming/sections/reactive-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reactive-streams-boundary",
+                            "title": "4. Reactive Streams n\u1eb1m \u1edf \u0111\u00e2u?",
+                            "content": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ReactiveProgramming/sections/reactive-streams-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reactive-framework-boundary",
+                            "title": "5. Boundary v\u1edbi framework",
+                            "content": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ReactiveProgramming/sections/reactive-framework-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ReactiveProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.DataFlow",
+            "title": "2.DataFlow",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DataFlow",
+                    "title": "Data Flow, Push v\u00e0 Pull",
+                    "sourcePath": "2.DataFlow/DataFlow.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/DataFlow/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Backpressure",
+            "title": "3.Backpressure",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Backpressure",
+                    "title": "Backpressure",
+                    "sourcePath": "3.Backpressure/Backpressure.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/Backpressure/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.ReactiveStreams",
+            "title": "4.ReactiveStreams",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ReactiveStreams",
+                    "title": "Reactive Streams Specification",
+                    "sourcePath": "4.ReactiveStreams/ReactiveStreams.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ReactiveStreams/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ErrorCancellation",
+            "title": "5.ErrorCancellation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ErrorCancellation",
+                    "title": "Error, Cancellation v\u00e0 Lifecycle",
+                    "sourcePath": "5.ErrorCancellation/ErrorCancellation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/ErrorCancellation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Tradeoffs",
+            "title": "6.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Reactive Programming Trade-off",
+                    "sourcePath": "6.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/REACTIVE_PROGRAMMING/knowledge/vi/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

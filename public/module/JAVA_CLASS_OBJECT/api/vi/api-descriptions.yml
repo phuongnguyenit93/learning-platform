@@ -1,0 +1,198 @@
+AliasingController:
+  mutateAlias():
+    summary: Quan sát dùng chung tham chiếu qua trạng thái có thể thay đổi
+    description: Tạo hai tham chiếu BankAccount cùng trỏ tới một đối tượng, thay đổi
+      tags qua một tham chiếu rồi trả về bằng chứng về danh tính và trạng thái để
+      thấy vì sao tham chiếu còn lại cũng quan sát cùng thay đổi.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 13.ObjectAliasingMutability/ObjectAliasingMutability.md
+      anchor: aliasing-model
+    methodName: mutateAlias
+    params: [
+      ]
+    path: com/example/learning/controller/AliasingController.java
+    mapping: '@GetMapping("/mutation")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/class-object/aliasing/mutation
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+ConstructionController:
+  constructorDispatchRisk():
+    summary: Quan sát điều phối động trong quá trình tạo đối tượng
+    description: Cho hàm khởi tạo lớp cha gọi một phương thức có thể bị ghi đè rồi
+      so sánh giá trị trường của lớp con được quan sát trong hàm khởi tạo lớp cha
+      với giá trị sau khi quá trình tạo đối tượng hoàn tất.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 8.ObjectCreationLifecycle/ObjectCreationLifecycle.md
+      anchor: constructor-dynamic-dispatch-risk
+    methodName: constructorDispatchRisk
+    params: [
+      ]
+    path: com/example/learning/controller/ConstructionController.java
+    mapping: '@GetMapping("/override-risk")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/class-object/construction/override-risk
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+CopyController:
+  shallowVsDeep():
+    summary: So sánh sao chép nông và sao chép sâu
+    description: Tạo bản sao nông và bản sao sâu của BankAccount, thay đổi trạng thái
+      lồng có thể thay đổi ở đối tượng nguồn rồi cho thấy bản sao nào còn dùng chung
+      cùng một List.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 12.CopySemantics/CopySemantics.md
+      anchor: shallow-copy
+    methodName: shallowVsDeep
+    params: [
+      ]
+    path: com/example/learning/controller/CopyController.java
+    mapping: '@GetMapping("/shallow-vs-deep")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/class-object/copy/shallow-vs-deep
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+EnumController:
+  enumBehavior():
+    summary: Quan sát danh tính enum và hành vi riêng của từng hằng
+    description: Dùng các hằng FeeTier cùng triển khai một giao diện nhưng có hành
+      vi khác nhau, sau đó trả về mức phí, kết quả kiểm tra danh tính từ valueOf và
+      thứ tự khai báo từ values.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 11.Enum/Enum.md
+      anchor: enum-constant-specific
+    methodName: enumBehavior
+    params: [
+      ]
+    path: com/example/learning/controller/EnumController.java
+    mapping: '@GetMapping("/behavior")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/class-object/enum/behavior
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+ImmutabilityController:
+  defensiveCopy():
+    summary: Quan sát sao chép phòng vệ ở đầu vào và danh sách lưu trữ không thể sửa
+    description: Tạo BankAccountSnapshot từ danh sách đầu vào có thể thay đổi bằng
+      List.copyOf, thay đổi List gốc rồi xác nhận bản chụp trạng thái không đổi và
+      danh sách được trả ra không thể sửa. Phương thức truy cập trả trực tiếp danh
+      sách đã lưu; API không thực hiện sao chép phòng vệ ở đầu ra.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 14.ImmutabilityDefensiveCopy/ImmutabilityDefensiveCopy.md
+      anchor: defensive-copy-output
+    methodName: defensiveCopy
+    params: [
+      ]
+    path: com/example/learning/controller/ImmutabilityController.java
+    mapping: '@GetMapping("/defensive-copy")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/class-object/immutability/defensive-copy
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+InitializationController:
+  traceOrder():
+    summary: Ghi vết thứ tự khởi tạo giữa lớp cha và lớp con
+    description: Ghi lại hàm khởi tạo lớp cha, phần khởi tạo trường của lớp con, khối
+      khởi tạo đối tượng của lớp con và hàm khởi tạo lớp con theo đúng thứ tự thực
+      thi. API cũng trả vết đã được ghi bởi phần khởi tạo static khi các lớp Parent
+      và Child được khởi tạo lần đầu; các khối static không chạy lại theo từng lần
+      gọi API.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 7.InitializationOrder/InitializationOrder.md
+      anchor: inheritance-initialization-order
+    methodName: traceOrder
+    params: [
+      ]
+    path: com/example/learning/controller/InitializationController.java
+    mapping: '@GetMapping("/order")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/class-object/initialization/order
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+NestedClassController:
+  capture():
+    summary: Quan sát việc dùng biến cục bộ và trạng thái đối tượng bao quanh
+    description: Dùng lớp cục bộ đọc cả biến cục bộ effectively final và trường của
+      controller bao quanh, giúp quan sát hai nguồn ngữ cảnh trong cùng kết quả.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 9.NestedInnerClass/NestedInnerClass.md
+      anchor: capture-semantics
+    methodName: capture
+    params: [
+      ]
+    path: com/example/learning/controller/NestedClassController.java
+    mapping: '@GetMapping("/capture")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/class-object/nested/capture
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true

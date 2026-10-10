@@ -1,0 +1,505 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_GENERICS",
+    "language": "vi",
+    "categoryCount": 8,
+    "sectionCount": 46,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.GenericsPurpose",
+            "title": "1.GenericsPurpose",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "GenericsPurpose",
+                    "title": "Generics l\u00e0 g\u00ec v\u00e0 v\u00ec sao c\u1ea7n?",
+                    "sourcePath": "1.GenericsPurpose/GenericsPurpose.md",
+                    "sections": [
+                        {
+                            "id": "generic-type-purpose",
+                            "title": "Generics l\u00e0 g\u00ec v\u00e0 v\u00ec sao c\u1ea7n d\u00f9ng?",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericsPurpose/sections/generic-type-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "type-parameter",
+                            "title": "Tham s\u1ed1 ki\u1ec3u (Type Parameter) v\u00e0 \u0111\u1ed1i s\u1ed1 ki\u1ec3u (Type Argument)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericsPurpose/sections/type-parameter.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/GenericsPurpose/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.GenericTypesAndMethods",
+            "title": "2.GenericTypesAndMethods",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "GenericTypesAndMethods",
+                    "title": "Ki\u1ec3u generic v\u00e0 ph\u01b0\u01a1ng th\u1ee9c generic",
+                    "sourcePath": "2.GenericTypesAndMethods/GenericTypesAndMethods.md",
+                    "sections": [
+                        {
+                            "id": "generic-type-declaration",
+                            "title": "Khai b\u00e1o v\u00e0 s\u1eed d\u1ee5ng ki\u1ec3u generic",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/sections/generic-type-declaration.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "diamond-operator",
+                            "title": "To\u00e1n t\u1eed kim c\u01b0\u01a1ng (Diamond Operator) \u2014 &lt;&gt;",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/sections/diamond-operator.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-method-syntax",
+                            "title": "C\u00fa ph\u00e1p ph\u01b0\u01a1ng th\u1ee9c generic",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/sections/generic-method-syntax.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-constructor",
+                            "title": "H\u00e0m t\u1ea1o generic (Generic Constructor)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/sections/generic-constructor.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "type-inference",
+                            "title": "Suy lu\u1eadn ki\u1ec3u (Type Inference)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/sections/type-inference.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-generic-method",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c static generic",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/sections/static-generic-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-method-vs-type",
+                            "title": "Tham s\u1ed1 ki\u1ec3u c\u1ee7a ph\u01b0\u01a1ng th\u1ee9c v\u00e0 c\u1ee7a l\u1edbp",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/sections/generic-method-vs-type.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/GenericTypesAndMethods/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.BoundedTypeParameters",
+            "title": "3.BoundedTypeParameters",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BoundedTypeParameters",
+                    "title": "Tham s\u1ed1 ki\u1ec3u c\u00f3 gi\u1edbi h\u1ea1n",
+                    "sourcePath": "3.BoundedTypeParameters/BoundedTypeParameters.md",
+                    "sections": [
+                        {
+                            "id": "upper-bounded-type",
+                            "title": "Tham s\u1ed1 ki\u1ec3u c\u00f3 gi\u1edbi h\u1ea1n tr\u00ean",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/BoundedTypeParameters/sections/upper-bounded-type.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "multiple-bounds",
+                            "title": "Nhi\u1ec1u gi\u1edbi h\u1ea1n (Multiple Bounds)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/BoundedTypeParameters/sections/multiple-bounds.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "recursive-bound",
+                            "title": "Gi\u1edbi h\u1ea1n \u0111\u1ec7 quy (Recursive / Self Bound)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/BoundedTypeParameters/sections/recursive-bound.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bound-api-capability",
+                            "title": "Gi\u1edbi h\u1ea1n m\u1edf ra kh\u1ea3 n\u0103ng an to\u00e0n",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/BoundedTypeParameters/sections/bound-api-capability.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/BoundedTypeParameters/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.InvarianceAndSubtyping",
+            "title": "4.InvarianceAndSubtyping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "InvarianceAndSubtyping",
+                    "title": "T\u00ednh b\u1ea5t bi\u1ebfn v\u00e0 quan h\u1ec7 ki\u1ec3u con",
+                    "sourcePath": "4.InvarianceAndSubtyping/InvarianceAndSubtyping.md",
+                    "sections": [
+                        {
+                            "id": "generic-invariance-intro",
+                            "title": "T\u1eeb quan h\u1ec7 ki\u1ec3u con \u0111\u1ebfn Invariance",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/InvarianceAndSubtyping/sections/generic-invariance-intro.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-declaration-subtyping",
+                            "title": "Ki\u1ec3u generic v\u1eabn gi\u1eef quan h\u1ec7 k\u1ebf th\u1eeba",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/InvarianceAndSubtyping/sections/generic-declaration-subtyping.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-invariance",
+                            "title": "T\u00ednh b\u1ea5t bi\u1ebfn c\u1ee7a ki\u1ec3u generic",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/InvarianceAndSubtyping/sections/generic-invariance.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "variance-vs-arrays",
+                            "title": "Generics v\u00e0 t\u00ednh hi\u1ec7p bi\u1ebfn c\u1ee7a m\u1ea3ng",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/InvarianceAndSubtyping/sections/variance-vs-arrays.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "variance-safety",
+                            "title": "V\u00ec sao t\u00ednh b\u1ea5t bi\u1ebfn b\u1ea3o v\u1ec7 an to\u00e0n ki\u1ec3u?",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/InvarianceAndSubtyping/sections/variance-safety.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/InvarianceAndSubtyping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.WildcardsAndPECS",
+            "title": "5.WildcardsAndPECS",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "WildcardsAndPECS",
+                    "title": "Wildcard, PECS v\u00e0 chi\u1ec1u \u0111\u1ecdc/ghi d\u1eef li\u1ec7u",
+                    "sourcePath": "5.WildcardsAndPECS/WildcardsAndPECS.md",
+                    "sections": [
+                        {
+                            "id": "unbounded-wildcard",
+                            "title": "Wildcard kh\u00f4ng gi\u1edbi h\u1ea1n \u2014 ?",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/unbounded-wildcard.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wildcard-vs-object",
+                            "title": "List&lt;?&gt; kh\u00e1c List&lt;Object&gt; th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/wildcard-vs-object.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wildcard-placement",
+                            "title": "Wildcard \u0111\u01b0\u1ee3c d\u00f9ng \u1edf \u0111\u00e2u?",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/wildcard-placement.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wildcard-vs-type-parameter",
+                            "title": "Wildcard hay tham s\u1ed1 ki\u1ec3u c\u00f3 t\u00ean?",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/wildcard-vs-type-parameter.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "extends-wildcard",
+                            "title": "Wildcard gi\u1edbi h\u1ea1n tr\u00ean \u2014 ? extends",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/extends-wildcard.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "super-wildcard",
+                            "title": "Wildcard gi\u1edbi h\u1ea1n d\u01b0\u1edbi \u2014 ? super",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/super-wildcard.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pecs-rule",
+                            "title": "Quy t\u1eafc PECS",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/pecs-rule.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "read-from-producer",
+                            "title": "\u0110\u1ecdc t\u1eeb b\u00ean cung c\u1ea5p (Producer) \u2014 extends",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/read-from-producer.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "write-to-consumer",
+                            "title": "Ghi v\u00e0o b\u00ean ti\u1ebfp nh\u1eadn (Consumer) \u2014 super",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/write-to-consumer.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pecs-api-design",
+                            "title": "\u00c1p d\u1ee5ng PECS khi thi\u1ebft k\u1ebf API",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/pecs-api-design.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wildcard-capture",
+                            "title": "B\u1eaft gi\u1eef Wildcard (Wildcard Capture)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/sections/wildcard-capture.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/WildcardsAndPECS/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.RawTypesAndLegacyBoundaries",
+            "title": "6.RawTypesAndLegacyBoundaries",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RawTypesAndLegacyBoundaries",
+                    "title": "Ki\u1ec3u th\u00f4 (Raw Types) v\u00e0 ranh gi\u1edbi m\u00e3 c\u0169",
+                    "sourcePath": "6.RawTypesAndLegacyBoundaries/RawTypesAndLegacyBoundaries.md",
+                    "sections": [
+                        {
+                            "id": "raw-type-compatibility",
+                            "title": "Ki\u1ec3u th\u00f4 v\u00e0 kh\u1ea3 n\u0103ng t\u01b0\u01a1ng th\u00edch v\u1edbi m\u00e3 c\u0169",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/RawTypesAndLegacyBoundaries/sections/raw-type-compatibility.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "unchecked-warning",
+                            "title": "C\u1ea3nh b\u00e1o kh\u00f4ng \u0111\u01b0\u1ee3c ki\u1ec3m tra \u0111\u1ea7y \u0111\u1ee7 (Unchecked Warning)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/RawTypesAndLegacyBoundaries/sections/unchecked-warning.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "heap-pollution",
+                            "title": "\u00d4 nhi\u1ec5m heap (Heap Pollution)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/RawTypesAndLegacyBoundaries/sections/heap-pollution.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "raw-type-boundary",
+                            "title": "C\u00f4 l\u1eadp ranh gi\u1edbi d\u00f9ng ki\u1ec3u th\u00f4",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/RawTypesAndLegacyBoundaries/sections/raw-type-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/RawTypesAndLegacyBoundaries/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.TypeErasureAndRuntimeModel",
+            "title": "7.TypeErasureAndRuntimeModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TypeErasureAndRuntimeModel",
+                    "title": "X\u00f3a ki\u1ec3u (Type Erasure) v\u00e0 m\u00f4 h\u00ecnh l\u00fac ch\u1ea1y",
+                    "sourcePath": "7.TypeErasureAndRuntimeModel/TypeErasureAndRuntimeModel.md",
+                    "sections": [
+                        {
+                            "id": "erasure-model",
+                            "title": "M\u00f4 h\u00ecnh x\u00f3a ki\u1ec3u (Type Erasure)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/TypeErasureAndRuntimeModel/sections/erasure-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "erased-runtime-type",
+                            "title": "Ki\u1ec3u generic \u1edf l\u00fac ch\u1ea1y",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/TypeErasureAndRuntimeModel/sections/erased-runtime-type.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-signature-metadata",
+                            "title": "Si\u00eau d\u1eef li\u1ec7u ch\u1eef k\u00fd Generic c\u00f2n l\u1ea1i sau x\u00f3a ki\u1ec3u",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/TypeErasureAndRuntimeModel/sections/generic-signature-metadata.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bridge-method",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c c\u1ea7u n\u1ed1i (Bridge Method)",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/TypeErasureAndRuntimeModel/sections/bridge-method.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "non-reifiable-types",
+                            "title": "Ki\u1ec3u reifiable v\u00e0 non-reifiable",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/TypeErasureAndRuntimeModel/sections/non-reifiable-types.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/TypeErasureAndRuntimeModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.GenericLimitationsAndApiDesign",
+            "title": "8.GenericLimitationsAndApiDesign",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "GenericLimitationsAndApiDesign",
+                    "title": "Gi\u1edbi h\u1ea1n c\u1ee7a Generics v\u00e0 thi\u1ebft k\u1ebf API",
+                    "sourcePath": "8.GenericLimitationsAndApiDesign/GenericLimitationsAndApiDesign.md",
+                    "sections": [
+                        {
+                            "id": "no-generic-primitives",
+                            "title": "Kh\u00f4ng d\u00f9ng ki\u1ec3u nguy\u00ean th\u1ee7y l\u00e0m \u0111\u1ed1i s\u1ed1 ki\u1ec3u",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/no-generic-primitives.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "no-new-type-parameter",
+                            "title": "Kh\u00f4ng th\u1ec3 new T tr\u1ef1c ti\u1ebfp",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/no-new-type-parameter.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-array-limit",
+                            "title": "Gi\u1edbi h\u1ea1n c\u1ee7a m\u1ea3ng Generic",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/generic-array-limit.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-type-information-limit",
+                            "title": "Gi\u1edbi h\u1ea1n c\u1ee7a th\u00f4ng tin ki\u1ec3u l\u00fac ch\u1ea1y",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/runtime-type-information-limit.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-type-parameter-limit",
+                            "title": "Ng\u1eef c\u1ea3nh static v\u00e0 tham s\u1ed1 ki\u1ec3u c\u1ee7a l\u1edbp",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/static-type-parameter-limit.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "erasure-signature-clash",
+                            "title": "Xung \u0111\u1ed9t ch\u1eef k\u00fd sau x\u00f3a ki\u1ec3u",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/erasure-signature-clash.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-exception-limit",
+                            "title": "Gi\u1edbi h\u1ea1n c\u1ee7a Generics v\u1edbi Exception",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/generic-exception-limit.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-api-design",
+                            "title": "Thi\u1ebft k\u1ebf API Generic",
+                            "content": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/sections/generic-api-design.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_GENERICS/knowledge/vi/content/GenericLimitationsAndApiDesign/intro.md"
+                }
+            ]
+        }
+    ]
+}

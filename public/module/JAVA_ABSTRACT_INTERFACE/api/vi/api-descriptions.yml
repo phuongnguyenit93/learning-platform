@@ -1,0 +1,140 @@
+AbstractClassController:
+  templateBehavior():
+    summary: Trạng thái dùng chung, hành vi khung và điểm mở abstract
+    description: Processor giữ trạng thái prefix và phương thức cụ thể process(...), còn
+      UpperProcessor hoàn thiện abstract transform(...). Kết quả cho thấy tham chiếu kiểu
+      Processor vẫn phân phối động tới kiểu thực tế UpperProcessor và tạo result:JAVA.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 2.AbstractClass/AbstractClass.md
+      anchor: abstract-class-model
+    methodName: templateBehavior
+    params: [
+      ]
+    path: com/example/learning/controller/AbstractClassController.java
+    mapping: '@GetMapping("/template")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/abstract-class/template
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+DefaultMethodController:
+  dispatch():
+    summary: Kế thừa phương thức default khi lớp không override
+    description: DefaultGreeting không khai báo greet(), nhưng đối tượng vẫn gọi được
+      Greeting.greet() và trả hello-default. Thí nghiệm làm rõ phương thức default là
+      hành vi của đối tượng có thể được kế thừa.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 6.DefaultStaticPrivate/DefaultStaticPrivate.md
+      anchor: default-method
+    methodName: dispatch
+    params: [
+      ]
+    path: com/example/learning/controller/DefaultMethodController.java
+    mapping: '@GetMapping("/dispatch")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/default-method/dispatch
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  resolveConflict():
+    summary: Giải quyết xung đột giữa hai phương thức default
+    description: Left và Right cùng cung cấp value(). Trong ví dụ này Both phải override phương thức và
+      gọi tường minh Left.super.value() cùng Right.super.value(). Kết quả left+right
+      chứng minh Java không tự chọn một hành vi thay cho lớp triển khai.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 7.MultipleInheritance/MultipleInheritance.md
+      anchor: default-method-conflict
+    methodName: resolveConflict
+    params: [
+      ]
+    path: com/example/learning/controller/DefaultMethodController.java
+    mapping: '@GetMapping("/resolve-conflict")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/default-method/resolve-conflict
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+InterfaceController:
+  multipleContracts():
+    summary: Một đối tượng thỏa nhiều hợp đồng interface
+    description: Feature triển khai cả Named và Enabled. Hai tham chiếu theo hai interface
+      khác nhau vẫn trỏ tới cùng một đối tượng Feature; kết quả cho thấy sameObject=true
+      đồng thời gọi được name() và enabled().
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 3.Interface/Interface.md
+      anchor: interface-implementation
+    methodName: multipleContracts
+    params: [
+      ]
+    path: com/example/learning/controller/InterfaceController.java
+    mapping: '@GetMapping("/multiple-contracts")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/interface/multiple-contracts
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+InterfaceEvolutionController:
+  defaultCompatibility():
+    summary: Lớp triển khai cũ kế thừa hành vi default mới
+    description: OldStyleImplementation chỉ định nghĩa id(), trong khi Versioned cung
+      cấp display() bằng phương thức default. Kết quả cho thấy display() vẫn chạy và gọi
+      id() của lớp triển khai để tạo id=legacy; đây là bằng chứng cho cơ chế mở rộng
+      interface theo thời gian, không phải tuyên bố rằng mọi thay đổi interface đều tương thích.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 6.DefaultStaticPrivate/DefaultStaticPrivate.md
+      anchor: default-method-evolution
+    methodName: defaultCompatibility
+    params: [
+      ]
+    path: com/example/learning/controller/InterfaceEvolutionController.java
+    mapping: '@GetMapping("/default-compatibility")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/evolution/default-compatibility
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true

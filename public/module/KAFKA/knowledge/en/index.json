@@ -1,0 +1,68 @@
+{
+    "version": 1,
+    "moduleId": "KAFKA",
+    "language": "en",
+    "categoryCount": 6,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "CATEGORY",
+            "id": "1.Overview",
+            "title": "1.Overview",
+            "sourcePath": "1.Overview.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/en/content/1.Overview/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "2.Setup",
+            "title": "2.Setup",
+            "sourcePath": "2.Setup.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/en/content/2.Setup/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "3.Config",
+            "title": "3.Config",
+            "sourcePath": "3.Config.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/en/content/3.Config/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "4.Advanced",
+            "title": "C\u00e1c ki\u1ebfn th\u1ee9c n\u00e2ng cao c\u1ee7a Kafka",
+            "sourcePath": "4.Advanced.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/en/content/4.Advanced/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "5.Security",
+            "title": "5.Security",
+            "sourcePath": "5.Security.md",
+            "sections": [
+                
+            ]
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "6.Q&A",
+            "title": "6.Q&A",
+            "sourcePath": "6.Q&A.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/en/content/6.Q%26A/intro.md"
+        }
+    ]
+}

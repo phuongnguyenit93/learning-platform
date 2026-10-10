@@ -1,0 +1,793 @@
+{
+    "version": 1,
+    "moduleId": "ASPECT",
+    "language": "en",
+    "categoryCount": 15,
+    "sectionCount": 68,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.CrossCutting",
+            "title": "1.CrossCutting",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CrossCutting",
+                    "title": "AOP and Cross-Cutting Concerns",
+                    "sourcePath": "1.CrossCutting/CrossCutting.md",
+                    "sections": [
+                        {
+                            "id": "cross-cutting-concern",
+                            "title": "1. Business concerns and cross-cutting concerns",
+                            "content": "/module/ASPECT/knowledge/en/content/CrossCutting/sections/cross-cutting-concern.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "cross-cutting-demo",
+                            "title": "2. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/CrossCutting/sections/cross-cutting-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "cross-cutting-conclusion",
+                            "title": "3. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/CrossCutting/sections/cross-cutting-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/CrossCutting/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Terminology",
+            "title": "2.Terminology",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Terminology",
+                    "title": "AOP Terminology",
+                    "sourcePath": "2.Terminology/Terminology.md",
+                    "sections": [
+                        {
+                            "id": "terminology-map",
+                            "title": "1. Core terminology",
+                            "content": "/module/ASPECT/knowledge/en/content/Terminology/sections/terminology-map.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "terminology-demo",
+                            "title": "2. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Terminology/sections/terminology-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-aop-vs-aspectj-style",
+                            "title": "3. @AspectJ style does not mean AspectJ weaving",
+                            "content": "/module/ASPECT/knowledge/en/content/Terminology/sections/spring-aop-vs-aspectj-style.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "terminology-conclusion",
+                            "title": "4. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Terminology/sections/terminology-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Terminology/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Proxy",
+            "title": "3.Proxy",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Proxy",
+                    "title": "Spring AOP Proxy Mental Model",
+                    "sourcePath": "3.Proxy/Proxy.md",
+                    "sections": [
+                        {
+                            "id": "proxy-mental-model",
+                            "title": "1. The caller does not necessarily invoke the target directly",
+                            "content": "/module/ASPECT/knowledge/en/content/Proxy/sections/proxy-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-demo",
+                            "title": "2. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Proxy/sections/proxy-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "managed-vs-new-demo",
+                            "title": "3. Spring-managed bean vs object created with new",
+                            "content": "/module/ASPECT/knowledge/en/content/Proxy/sections/managed-vs-new-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-strategies",
+                            "title": "4. JDK Dynamic Proxy and CGLIB",
+                            "content": "/module/ASPECT/knowledge/en/content/Proxy/sections/proxy-strategies.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-conclusion",
+                            "title": "5. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Proxy/sections/proxy-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Proxy/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Pointcut",
+            "title": "4.Pointcut",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Pointcut",
+                    "title": "Pointcuts and Method Matching",
+                    "sourcePath": "4.Pointcut/Pointcut.md",
+                    "sections": [
+                        {
+                            "id": "pointcut-mental-model",
+                            "title": "1. What is the pointcut matching against?",
+                            "content": "/module/ASPECT/knowledge/en/content/Pointcut/sections/pointcut-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pointcut-demo",
+                            "title": "2. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Pointcut/sections/pointcut-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-aop-pointcut-boundary",
+                            "title": "3. Spring AOP does not support the full AspectJ join point model",
+                            "content": "/module/ASPECT/knowledge/en/content/Pointcut/sections/spring-aop-pointcut-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pointcut-conclusion",
+                            "title": "4. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Pointcut/sections/pointcut-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Pointcut/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Advice",
+            "title": "5.Advice",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Advice",
+                    "title": "Advice Lifecycle",
+                    "sourcePath": "5.Advice/Advice.md",
+                    "sections": [
+                        {
+                            "id": "advice-semantics",
+                            "title": "1. Semantics of each Advice type",
+                            "content": "/module/ASPECT/knowledge/en/content/Advice/sections/advice-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "advice-success-demo",
+                            "title": "2. Success path",
+                            "content": "/module/ASPECT/knowledge/en/content/Advice/sections/advice-success-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "advice-failure-demo",
+                            "title": "3. Exception path",
+                            "content": "/module/ASPECT/knowledge/en/content/Advice/sections/advice-failure-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "advice-parameter-binding",
+                            "title": "4. Advice parameter binding",
+                            "content": "/module/ASPECT/knowledge/en/content/Advice/sections/advice-parameter-binding.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "advice-conclusion",
+                            "title": "5. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Advice/sections/advice-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Advice/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Around",
+            "title": "6.Around",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Around",
+                    "title": "Around Advice and ProceedingJoinPoint",
+                    "sourcePath": "6.Around/Around.md",
+                    "sections": [
+                        {
+                            "id": "around-mental-model",
+                            "title": "1. Mental model of @Around",
+                            "content": "/module/ASPECT/knowledge/en/content/Around/sections/around-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "around-timing-demo",
+                            "title": "2. Timing demo",
+                            "content": "/module/ASPECT/knowledge/en/content/Around/sections/around-timing-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "around-transform-demo",
+                            "title": "3. Return-value transformation demo",
+                            "content": "/module/ASPECT/knowledge/en/content/Around/sections/around-transform-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "around-skip-demo",
+                            "title": "4. Demo without calling proceed()",
+                            "content": "/module/ASPECT/knowledge/en/content/Around/sections/around-skip-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "around-arguments-demo",
+                            "title": "5. proceed(Object[]) and argument replacement",
+                            "content": "/module/ASPECT/knowledge/en/content/Around/sections/around-arguments-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "around-exception-demo",
+                            "title": "6. Exception propagation demo",
+                            "content": "/module/ASPECT/knowledge/en/content/Around/sections/around-exception-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "around-conclusion",
+                            "title": "7. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Around/sections/around-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Around/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Annotation",
+            "title": "7.Annotation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Annotation",
+                    "title": "Custom Annotation-Based Aspect",
+                    "sourcePath": "7.Annotation/Annotation.md",
+                    "sections": [
+                        {
+                            "id": "annotation-contract",
+                            "title": "1. The annotation as a contract",
+                            "content": "/module/ASPECT/knowledge/en/content/Annotation/sections/annotation-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "annotation-demo",
+                            "title": "2. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Annotation/sections/annotation-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "annotation-vs-expression",
+                            "title": "3. When is an annotation-based pointcut appropriate?",
+                            "content": "/module/ASPECT/knowledge/en/content/Annotation/sections/annotation-vs-expression.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "annotation-conclusion",
+                            "title": "4. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Annotation/sections/annotation-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Annotation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Ordering",
+            "title": "8.Ordering",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Ordering",
+                    "title": "Multiple Aspects and Ordering",
+                    "sourcePath": "8.Ordering/Ordering.md",
+                    "sections": [
+                        {
+                            "id": "ordering-mental-model",
+                            "title": "1. The advice chain is a nested call stack",
+                            "content": "/module/ASPECT/knowledge/en/content/Ordering/sections/ordering-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ordering-demo",
+                            "title": "2. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Ordering/sections/ordering-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ordering-pitfall",
+                            "title": "3. Ordering should not become a business protocol",
+                            "content": "/module/ASPECT/knowledge/en/content/Ordering/sections/ordering-pitfall.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ordering-conclusion",
+                            "title": "4. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Ordering/sections/ordering-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Ordering/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.SelfInvocation",
+            "title": "9.SelfInvocation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SelfInvocation",
+                    "title": "Proxy Limitations and Self-Invocation",
+                    "sourcePath": "9.SelfInvocation/SelfInvocation.md",
+                    "sections": [
+                        {
+                            "id": "self-invocation-mental-model",
+                            "title": "1. Why is this.inner() different from an external call?",
+                            "content": "/module/ASPECT/knowledge/en/content/SelfInvocation/sections/self-invocation-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "self-invocation-demo",
+                            "title": "2. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/SelfInvocation/sections/self-invocation-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-limitations",
+                            "title": "3. Related limitations",
+                            "content": "/module/ASPECT/knowledge/en/content/SelfInvocation/sections/proxy-limitations.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "final-method-demo",
+                            "title": "4. Final methods on class-based proxies",
+                            "content": "/module/ASPECT/knowledge/en/content/SelfInvocation/sections/final-method-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "self-invocation-conclusion",
+                            "title": "5. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/SelfInvocation/sections/self-invocation-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/SelfInvocation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Patterns",
+            "title": "10.Patterns",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Patterns",
+                    "title": "Practical Patterns and Pitfalls",
+                    "sourcePath": "10.Patterns/Patterns.md",
+                    "sections": [
+                        {
+                            "id": "practical-patterns",
+                            "title": "1. Patterns that fit AOP",
+                            "content": "/module/ASPECT/knowledge/en/content/Patterns/sections/practical-patterns.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "practical-demo",
+                            "title": "2. Auditing + timing demo",
+                            "content": "/module/ASPECT/knowledge/en/content/Patterns/sections/practical-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-pitfalls",
+                            "title": "3. Pitfalls to avoid",
+                            "content": "/module/ASPECT/knowledge/en/content/Patterns/sections/aop-pitfalls.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "practical-conclusion",
+                            "title": "4. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Patterns/sections/practical-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Patterns/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.ProxyFactory",
+            "title": "11.ProxyFactory",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ProxyFactory",
+                    "title": "Advanced - ProxyFactory and MethodInterceptor",
+                    "sourcePath": "11.ProxyFactory/ProxyFactory.md",
+                    "sections": [
+                        {
+                            "id": "proxy-factory-mental-model",
+                            "title": "1. From annotations down to proxy infrastructure",
+                            "content": "/module/ASPECT/knowledge/en/content/ProxyFactory/sections/proxy-factory-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jdk-vs-cglib",
+                            "title": "2. JDK Dynamic Proxy and CGLIB with the same target",
+                            "content": "/module/ASPECT/knowledge/en/content/ProxyFactory/sections/jdk-vs-cglib.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-factory-demo",
+                            "title": "3. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/ProxyFactory/sections/proxy-factory-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-factory-conclusion",
+                            "title": "4. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/ProxyFactory/sections/proxy-factory-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/ProxyFactory/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.Advisor",
+            "title": "12.Advisor",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Advisor",
+                    "title": "Advanced - Advisor and Programmatic Pointcut",
+                    "sourcePath": "12.Advisor/Advisor.md",
+                    "sections": [
+                        {
+                            "id": "advisor-mental-model",
+                            "title": "1. Advisor = Pointcut + Advice",
+                            "content": "/module/ASPECT/knowledge/en/content/Advisor/sections/advisor-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pointcut-internals",
+                            "title": "2. Pointcut = ClassFilter + MethodMatcher",
+                            "content": "/module/ASPECT/knowledge/en/content/Advisor/sections/pointcut-internals.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-dynamic-pointcut",
+                            "title": "3. Static and dynamic MethodMatcher",
+                            "content": "/module/ASPECT/knowledge/en/content/Advisor/sections/static-dynamic-pointcut.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "advisor-demo",
+                            "title": "4. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Advisor/sections/advisor-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "advisor-conclusion",
+                            "title": "5. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Advisor/sections/advisor-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Advisor/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "13.Infrastructure",
+            "title": "13.Infrastructure",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Infrastructure",
+                    "title": "Advanced - Auto Proxy Creator and Advised",
+                    "sourcePath": "13.Infrastructure/Infrastructure.md",
+                    "sections": [
+                        {
+                            "id": "auto-proxy-mental-model",
+                            "title": "1. Where does auto-proxy creation happen?",
+                            "content": "/module/ASPECT/knowledge/en/content/Infrastructure/sections/auto-proxy-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-boot-aop-auto-config",
+                            "title": "2. What enables AOP in Spring Boot?",
+                            "content": "/module/ASPECT/knowledge/en/content/Infrastructure/sections/spring-boot-aop-auto-config.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "advised-interface",
+                            "title": "3. Advised reveals what a proxy contains",
+                            "content": "/module/ASPECT/knowledge/en/content/Infrastructure/sections/advised-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "infrastructure-demo",
+                            "title": "4. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Infrastructure/sections/infrastructure-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "infrastructure-conclusion",
+                            "title": "5. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Infrastructure/sections/infrastructure-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Infrastructure/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "14.Introduction",
+            "title": "14.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Introduction",
+                    "title": "Advanced - Introduction and Interface Enrichment",
+                    "sourcePath": "14.Introduction/Introduction.md",
+                    "sections": [
+                        {
+                            "id": "introduction-mental-model",
+                            "title": "1. What is Introduction?",
+                            "content": "/module/ASPECT/knowledge/en/content/Introduction/sections/introduction-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "declare-parents",
+                            "title": "2. @DeclareParents",
+                            "content": "/module/ASPECT/knowledge/en/content/Introduction/sections/declare-parents.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "introduction-demo",
+                            "title": "3. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/Introduction/sections/introduction-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "introduction-conclusion",
+                            "title": "4. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/Introduction/sections/introduction-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/Introduction/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "15.RuntimeBoundary",
+            "title": "15.RuntimeBoundary",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RuntimeBoundary",
+                    "title": "Advanced - Spring AOP Runtime Boundary and AspectJ",
+                    "sourcePath": "15.RuntimeBoundary/RuntimeBoundary.md",
+                    "sections": [
+                        {
+                            "id": "spring-aop-runtime",
+                            "title": "1. @AspectJ syntax, Spring AOP runtime",
+                            "content": "/module/ASPECT/knowledge/en/content/RuntimeBoundary/sections/spring-aop-runtime.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-aop-vs-aspectj",
+                            "title": "2. Boundary with full AspectJ",
+                            "content": "/module/ASPECT/knowledge/en/content/RuntimeBoundary/sections/spring-aop-vs-aspectj.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-boundary-demo",
+                            "title": "3. Demo in this module",
+                            "content": "/module/ASPECT/knowledge/en/content/RuntimeBoundary/sections/runtime-boundary-demo.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "framework-connections",
+                            "title": "4. Connections to other Spring features",
+                            "content": "/module/ASPECT/knowledge/en/content/RuntimeBoundary/sections/framework-connections.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-boundary-conclusion",
+                            "title": "5. Conclusion",
+                            "content": "/module/ASPECT/knowledge/en/content/RuntimeBoundary/sections/runtime-boundary-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT/knowledge/en/content/RuntimeBoundary/intro.md"
+                }
+            ]
+        }
+    ]
+}

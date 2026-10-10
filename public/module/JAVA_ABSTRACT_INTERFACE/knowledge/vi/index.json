@@ -1,0 +1,377 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_ABSTRACT_INTERFACE",
+    "language": "vi",
+    "categoryCount": 8,
+    "sectionCount": 30,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.AbstractionPurpose",
+            "title": "1.AbstractionPurpose",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractionPurpose",
+                    "title": "V\u00ec sao Java c\u1ea7n l\u1edbp tr\u1eebu t\u01b0\u1ee3ng v\u00e0 interface?",
+                    "sourcePath": "1.AbstractionPurpose/AbstractionPurpose.md",
+                    "sections": [
+                        {
+                            "id": "abstraction-mechanism-purpose",
+                            "title": "B\u00e0i to\u00e1n m\u00e0 l\u1edbp tr\u1eebu t\u01b0\u1ee3ng v\u00e0 interface gi\u1ea3i quy\u1ebft",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionPurpose/sections/abstraction-mechanism-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-mechanism-roles",
+                            "title": "Hai c\u01a1 ch\u1ebf c\u00f3 vai tr\u00f2 kh\u00e1c nhau",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionPurpose/sections/abstraction-mechanism-roles.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-running-example",
+                            "title": "V\u00ed d\u1ee5 xuy\u00ean su\u1ed1t module",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionPurpose/sections/abstraction-running-example.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-learning-roadmap",
+                            "title": "L\u1ed9 tr\u00ecnh h\u1ecdc",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionPurpose/sections/abstraction-learning-roadmap.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionPurpose/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.AbstractClass",
+            "title": "2.AbstractClass",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractClass",
+                    "title": "L\u1edbp tr\u1eebu t\u01b0\u1ee3ng (abstract class)",
+                    "sourcePath": "2.AbstractClass/AbstractClass.md",
+                    "sections": [
+                        {
+                            "id": "abstract-class-model",
+                            "title": "L\u1edbp tr\u1eebu t\u01b0\u1ee3ng l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractClass/sections/abstract-class-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-method",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c abstract",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractClass/sections/abstract-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-constructor",
+                            "title": "H\u00e0m kh\u1edfi t\u1ea1o c\u1ee7a l\u1edbp tr\u1eebu t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractClass/sections/abstract-constructor.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-class-limits",
+                            "title": "Gi\u1edbi h\u1ea1n c\u1ee7a l\u1edbp tr\u1eebu t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractClass/sections/abstract-class-limits.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractClass/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Interface",
+            "title": "3.Interface",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Interface",
+                    "title": "Interface nh\u01b0 h\u1ee3p \u0111\u1ed3ng h\u00e0nh vi",
+                    "sourcePath": "3.Interface/Interface.md",
+                    "sections": [
+                        {
+                            "id": "interface-contract",
+                            "title": "Interface l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/Interface/sections/interface-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-fields",
+                            "title": "Tr\u01b0\u1eddng (field) trong interface",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/Interface/sections/interface-fields.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-method-kinds",
+                            "title": "C\u00e1c lo\u1ea1i ph\u01b0\u01a1ng th\u1ee9c trong interface",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/Interface/sections/interface-method-kinds.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-implementation",
+                            "title": "M\u1ed9t l\u1edbp tri\u1ec3n khai nhi\u1ec1u interface",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/Interface/sections/interface-implementation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/Interface/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.AbstractVsInterface",
+            "title": "4.AbstractVsInterface",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractVsInterface",
+                    "title": "Ch\u1ecdn l\u1edbp tr\u1eebu t\u01b0\u1ee3ng hay interface?",
+                    "sourcePath": "4.AbstractVsInterface/AbstractVsInterface.md",
+                    "sections": [
+                        {
+                            "id": "abstract-vs-interface-state",
+                            "title": "Tr\u1ea1ng th\u00e1i v\u00e0 h\u00e0m kh\u1edfi t\u1ea1o",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractVsInterface/sections/abstract-vs-interface-state.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-vs-interface-inheritance",
+                            "title": "M\u1ed9t l\u1edbp cha, nhi\u1ec1u interface",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractVsInterface/sections/abstract-vs-interface-inheritance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "selection-guidance",
+                            "title": "Ti\u00eau ch\u00ed l\u1ef1a ch\u1ecdn",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractVsInterface/sections/selection-guidance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractVsInterface/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.InterfaceInheritance",
+            "title": "5.InterfaceInheritance",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "InterfaceInheritance",
+                    "title": "K\u1ebf th\u1eeba v\u00e0 k\u1ebft h\u1ee3p interface",
+                    "sourcePath": "5.InterfaceInheritance/InterfaceInheritance.md",
+                    "sections": [
+                        {
+                            "id": "interface-extends-interface",
+                            "title": "Interface k\u1ebf th\u1eeba interface",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/InterfaceInheritance/sections/interface-extends-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "multiple-interface-hierarchy",
+                            "title": "Nhi\u1ec1u interface cha",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/InterfaceInheritance/sections/multiple-interface-hierarchy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-redeclaration",
+                            "title": "Khai b\u00e1o l\u1ea1i ph\u01b0\u01a1ng th\u1ee9c \u0111\u01b0\u1ee3c k\u1ebf th\u1eeba",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/InterfaceInheritance/sections/interface-redeclaration.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/InterfaceInheritance/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.DefaultStaticPrivate",
+            "title": "6.DefaultStaticPrivate",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DefaultStaticPrivate",
+                    "title": "Ph\u01b0\u01a1ng th\u1ee9c default, static v\u00e0 private trong interface",
+                    "sourcePath": "6.DefaultStaticPrivate/DefaultStaticPrivate.md",
+                    "sections": [
+                        {
+                            "id": "default-method",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c default",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/DefaultStaticPrivate/sections/default-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-interface-method",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c static trong interface",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/DefaultStaticPrivate/sections/static-interface-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "private-interface-method",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c private trong interface",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/DefaultStaticPrivate/sections/private-interface-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "default-method-evolution",
+                            "title": "M\u1edf r\u1ed9ng interface theo th\u1eddi gian",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/DefaultStaticPrivate/sections/default-method-evolution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/DefaultStaticPrivate/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.MultipleInheritance",
+            "title": "7.MultipleInheritance",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MultipleInheritance",
+                    "title": "\u0110a k\u1ebf th\u1eeba qua interface v\u00e0 gi\u1ea3i quy\u1ebft xung \u0111\u1ed9t",
+                    "sourcePath": "7.MultipleInheritance/MultipleInheritance.md",
+                    "sections": [
+                        {
+                            "id": "default-method-conflict",
+                            "title": "Xung \u0111\u1ed9t ph\u01b0\u01a1ng th\u1ee9c default",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/MultipleInheritance/sections/default-method-conflict.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-wins-rule",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c t\u1eeb h\u1ec7 ph\u00e2n c\u1ea5p l\u1edbp \u0111\u01b0\u1ee3c \u01b0u ti\u00ean",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/MultipleInheritance/sections/class-wins-rule.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "explicit-super-interface",
+                            "title": "G\u1ecdi InterfaceName.super",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/MultipleInheritance/sections/explicit-super-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "diamond-interface",
+                            "title": "K\u1ebf th\u1eeba interface d\u1ea1ng kim c\u01b0\u01a1ng",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/MultipleInheritance/sections/diamond-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/MultipleInheritance/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.AbstractionSynthesis",
+            "title": "8.AbstractionSynthesis",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractionSynthesis",
+                    "title": "T\u1ed5ng h\u1ee3p thi\u1ebft k\u1ebf b\u1eb1ng l\u1edbp tr\u1eebu t\u01b0\u1ee3ng v\u00e0 interface",
+                    "sourcePath": "8.AbstractionSynthesis/AbstractionSynthesis.md",
+                    "sections": [
+                        {
+                            "id": "abstraction-design-synthesis",
+                            "title": "M\u00f4 h\u00ecnh quy\u1ebft \u0111\u1ecbnh t\u1ed5ng th\u1ec3",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionSynthesis/sections/abstraction-design-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-design-example",
+                            "title": "Gh\u00e9p l\u1ea1i v\u00ed d\u1ee5 thanh to\u00e1n",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionSynthesis/sections/abstraction-design-example.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-design-checklist",
+                            "title": "Danh s\u00e1ch ki\u1ec3m tra khi thi\u1ebft k\u1ebf",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionSynthesis/sections/abstraction-design-checklist.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-final-mental-model",
+                            "title": "M\u00f4 h\u00ecnh t\u01b0 duy c\u1ea7n gi\u1eef l\u1ea1i",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionSynthesis/sections/abstraction-final-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/vi/content/AbstractionSynthesis/intro.md"
+                }
+            ]
+        }
+    ]
+}

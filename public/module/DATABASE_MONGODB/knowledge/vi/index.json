@@ -1,0 +1,125 @@
+{
+    "version": 1,
+    "moduleId": "DATABASE_MONGODB",
+    "language": "vi",
+    "categoryCount": 4,
+    "sectionCount": 8,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "0.Preset",
+            "title": "0.Preset",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Configuration",
+                    "title": "Configuration",
+                    "sourcePath": "0.Preset/Configuration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DATABASE_MONGODB/knowledge/vi/content/Configuration/intro.md"
+                },
+                {
+                    "kind": "CATEGORY",
+                    "id": "Documentation",
+                    "title": "Documentation",
+                    "sourcePath": "0.Preset/Documentation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DATABASE_MONGODB/knowledge/vi/content/Documentation/intro.md"
+                },
+                {
+                    "kind": "CATEGORY",
+                    "id": "ExtractData",
+                    "title": "Tr\u00edch xu\u1ea5t d\u1eef li\u1ec7u t\u1eeb MongoDB",
+                    "sourcePath": "0.Preset/ExtractData.md",
+                    "sections": [
+                        {
+                            "id": "extract-mongo-atlas",
+                            "title": "H\u01b0\u1edbng d\u1eabn: Backup d\u1eef li\u1ec7u MongoDB Atlas v\u1ec1 m\u00e1y Local",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/ExtractData/sections/extract-mongo-atlas.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "backup-mongo-local",
+                            "title": "H\u01b0\u1edbng d\u1eabn: Backup MongoDB n\u1ed9i b\u1ed9 (Local/Docker)",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/ExtractData/sections/backup-mongo-local.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/DATABASE_MONGODB/knowledge/vi/content/ExtractData/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "1.Native",
+            "title": "1.Native",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CoreArchitecture",
+                    "title": "C\u1ea5u tr\u00fac d\u1eef li\u1ec7u trong MongoDB",
+                    "sourcePath": "1.Native/CoreArchitecture.md",
+                    "sections": [
+                        {
+                            "id": "bson-in-mongodb",
+                            "title": "Gi\u1ea3i m\u00e3: T\u1ea1i sao MongoDB d\u00f9ng BSON thay v\u00ec JSON thu\u1ea7n t\u00fay?",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/CoreArchitecture/sections/bson-in-mongodb.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "document-in-mongodb",
+                            "title": "Kh\u00e1m ph\u00e1 Document: \u0110\u01a1n v\u1ecb l\u01b0u tr\u1eef c\u1ed1t l\u00f5i trong MongoDB",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/CoreArchitecture/sections/document-in-mongodb.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "objectId-in-mongodb",
+                            "title": "Gi\u1ea3i m\u00e3 ObjectId: \"Ch\u1ee9ng minh th\u01b0\" 12-byte th\u00f4ng minh c\u1ee7a MongoDB",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/CoreArchitecture/sections/objectId-in-mongodb.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dynamic-schema",
+                            "title": "Kh\u00e1m ph\u00e1 Dynamic Schema: S\u1ef1 t\u1ef1 do tuy\u1ec7t \u0111\u1ed1i c\u1ee7a MongoDB",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/CoreArchitecture/sections/dynamic-schema.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "acid-in-mongodb",
+                            "title": "ACID: \"Gi\u1ea5y b\u1ea3o hi\u1ec3m\" cho t\u00ednh to\u00e0n v\u1eb9n d\u1eef li\u1ec7u",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/CoreArchitecture/sections/acid-in-mongodb.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mongodb-with-hikaricp",
+                            "title": "T\u1ea1i sao MongoDB kh\u00f4ng c\u1ea7n HikariCP?",
+                            "content": "/module/DATABASE_MONGODB/knowledge/vi/content/CoreArchitecture/sections/mongodb-with-hikaricp.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/DATABASE_MONGODB/knowledge/vi/content/CoreArchitecture/intro.md"
+                }
+            ]
+        }
+    ]
+}

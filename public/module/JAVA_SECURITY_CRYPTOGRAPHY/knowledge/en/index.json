@@ -1,0 +1,865 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_SECURITY_CRYPTOGRAPHY",
+    "language": "en",
+    "categoryCount": 17,
+    "sectionCount": 73,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MentalModel",
+                    "title": "Cryptography and Security Goals",
+                    "sourcePath": "1.MentalModel/MentalModel.md",
+                    "sections": [
+                        {
+                            "id": "security-goals",
+                            "title": "Security Goals: Confidentiality, Integrity, and Authenticity",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MentalModel/sections/security-goals.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "cryptography-role",
+                            "title": "What Part of Security Does Cryptography Solve?",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MentalModel/sections/cryptography-role.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "threat-model-boundary",
+                            "title": "Threat Models and Module Boundaries",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MentalModel/sections/threat-model-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "primitive-by-goal",
+                            "title": "Choose Cryptographic Mechanisms from Security Goals",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MentalModel/sections/primitive-by-goal.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MentalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.EncodingVsEncryption",
+            "title": "2.EncodingVsEncryption",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EncodingVsEncryption",
+                    "title": "Encoding, Hashing, and Encryption",
+                    "sourcePath": "2.EncodingVsEncryption/EncodingVsEncryption.md",
+                    "sections": [
+                        {
+                            "id": "encoding-purpose",
+                            "title": "What Encoding Is For",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/EncodingVsEncryption/sections/encoding-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hashing-purpose",
+                            "title": "What Hashing Is For",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/EncodingVsEncryption/sections/hashing-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "encryption-purpose",
+                            "title": "What Encryption Is For",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/EncodingVsEncryption/sections/encryption-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "authentication-purpose",
+                            "title": "What MACs and Digital Signatures Add",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/EncodingVsEncryption/sections/authentication-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/EncodingVsEncryption/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ProvidersAlgorithms",
+            "title": "3.ProvidersAlgorithms",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ProvidersAlgorithms",
+                    "title": "JCA/JCE, Algorithms, and Security Providers",
+                    "sourcePath": "3.ProvidersAlgorithms/ProvidersAlgorithms.md",
+                    "sections": [
+                        {
+                            "id": "jca-jce-architecture",
+                            "title": "JCA/JCE Architecture",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/ProvidersAlgorithms/sections/jca-jce-architecture.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "engine-spi-provider",
+                            "title": "Engine Classes, SPIs, and Providers",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/ProvidersAlgorithms/sections/engine-spi-provider.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "algorithm-names-transformations",
+                            "title": "Standard Algorithm Names and Transformations",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/ProvidersAlgorithms/sections/algorithm-names-transformations.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "provider-selection",
+                            "title": "How Java Selects Providers",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/ProvidersAlgorithms/sections/provider-selection.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "security-properties-constraints",
+                            "title": "Security Properties and Algorithm Constraints",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/ProvidersAlgorithms/sections/security-properties-constraints.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/ProvidersAlgorithms/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.SecureRandom",
+            "title": "4.SecureRandom",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SecureRandom",
+                    "title": "Secure Randomness with SecureRandom",
+                    "sourcePath": "4.SecureRandom/SecureRandom.md",
+                    "sections": [
+                        {
+                            "id": "cryptographic-randomness",
+                            "title": "Why Cryptography Needs Unpredictable Randomness",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SecureRandom/sections/cryptographic-randomness.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "entropy-and-seeding",
+                            "title": "Entropy and Seeding",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SecureRandom/sections/entropy-and-seeding.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "secure-random-selection",
+                            "title": "Selecting and Using SecureRandom",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SecureRandom/sections/secure-random-selection.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "randomness-misuse",
+                            "title": "Common Cryptographic Randomness Mistakes",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SecureRandom/sections/randomness-misuse.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SecureRandom/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.KeysKeyPair",
+            "title": "5.KeysKeyPair",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "KeysKeyPair",
+                    "title": "Secret Keys, Public Keys, and Key Pairs",
+                    "sourcePath": "5.KeysKeyPair/KeysKeyPair.md",
+                    "sections": [
+                        {
+                            "id": "key-models",
+                            "title": "Secret, Public, and Private Keys",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeysKeyPair/sections/key-models.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "key-generation",
+                            "title": "KeyGenerator and KeyPairGenerator",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeysKeyPair/sections/key-generation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "key-factory-specification",
+                            "title": "KeyFactory, SecretKeyFactory, and Key Specifications",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeysKeyPair/sections/key-factory-specification.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "key-material-boundary",
+                            "title": "Key-Material Lifecycle and Protection Boundaries",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeysKeyPair/sections/key-material-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeysKeyPair/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.MessageDigest",
+            "title": "6.MessageDigest",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MessageDigest",
+                    "title": "Cryptographic Hashing with MessageDigest",
+                    "sourcePath": "6.MessageDigest/MessageDigest.md",
+                    "sections": [
+                        {
+                            "id": "digest-model",
+                            "title": "Cryptographic Digest Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MessageDigest/sections/digest-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "message-digest-workflow",
+                            "title": "MessageDigest Workflow",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MessageDigest/sections/message-digest-workflow.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "trusted-digest-reference",
+                            "title": "Digests and Trusted Reference Values",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MessageDigest/sections/trusted-digest-reference.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "digest-limitations",
+                            "title": "Limits of Unkeyed Digests",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MessageDigest/sections/digest-limitations.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/MessageDigest/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Mac",
+            "title": "7.Mac",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Mac",
+                    "title": "Message Authentication Codes",
+                    "sourcePath": "7.Mac/Mac.md",
+                    "sections": [
+                        {
+                            "id": "mac-model",
+                            "title": "What Problem Does a MAC Solve?",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/Mac/sections/mac-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mac-shared-secret",
+                            "title": "The Role of the Shared Secret Key",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/Mac/sections/mac-shared-secret.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mac-workflow",
+                            "title": "MAC Generation and Verification",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/Mac/sections/mac-workflow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mac-comparison",
+                            "title": "MACs vs Digests and Digital Signatures",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/Mac/sections/mac-comparison.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/Mac/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.DigitalSignature",
+            "title": "8.DigitalSignature",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DigitalSignature",
+                    "title": "Digital Signatures",
+                    "sourcePath": "8.DigitalSignature/DigitalSignature.md",
+                    "sections": [
+                        {
+                            "id": "signature-model",
+                            "title": "Digital Signature Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/DigitalSignature/sections/signature-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sign-and-verify",
+                            "title": "Signing and Verification",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/DigitalSignature/sections/sign-and-verify.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "signature-data-contract",
+                            "title": "Signed Data and the Verification Contract",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/DigitalSignature/sections/signature-data-contract.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "signature-comparison",
+                            "title": "Digital Signatures vs MACs and Encryption",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/DigitalSignature/sections/signature-comparison.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/DigitalSignature/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.SymmetricEncryption",
+            "title": "9.SymmetricEncryption",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SymmetricEncryption",
+                    "title": "Symmetric Encryption",
+                    "sourcePath": "9.SymmetricEncryption/SymmetricEncryption.md",
+                    "sections": [
+                        {
+                            "id": "symmetric-encryption-model",
+                            "title": "Symmetric Encryption Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SymmetricEncryption/sections/symmetric-encryption-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "cipher-transformation",
+                            "title": "Cipher Transformations, Modes, and Padding",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SymmetricEncryption/sections/cipher-transformation.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "iv-and-parameters",
+                            "title": "IVs and Algorithm Parameters",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SymmetricEncryption/sections/iv-and-parameters.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "symmetric-encryption-workflow",
+                            "title": "Encryption and Decryption Workflow",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SymmetricEncryption/sections/symmetric-encryption-workflow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/SymmetricEncryption/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.AsymmetricEncryption",
+            "title": "10.AsymmetricEncryption",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AsymmetricEncryption",
+                    "title": "Asymmetric Encryption",
+                    "sourcePath": "10.AsymmetricEncryption/AsymmetricEncryption.md",
+                    "sections": [
+                        {
+                            "id": "asymmetric-encryption-model",
+                            "title": "Asymmetric Encryption Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AsymmetricEncryption/sections/asymmetric-encryption-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "public-private-key-roles",
+                            "title": "Public- and Private-Key Roles",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AsymmetricEncryption/sections/public-private-key-roles.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "asymmetric-encryption-limits",
+                            "title": "Limits and Costs of Asymmetric Encryption",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AsymmetricEncryption/sections/asymmetric-encryption-limits.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hybrid-encryption-model",
+                            "title": "Hybrid Encryption Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AsymmetricEncryption/sections/hybrid-encryption-model.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AsymmetricEncryption/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.AuthenticatedEncryption",
+            "title": "11.AuthenticatedEncryption",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AuthenticatedEncryption",
+                    "title": "Authenticated Encryption and AEAD",
+                    "sourcePath": "11.AuthenticatedEncryption/AuthenticatedEncryption.md",
+                    "sections": [
+                        {
+                            "id": "aead-purpose",
+                            "title": "Why Authenticated Encryption Is Needed",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AuthenticatedEncryption/sections/aead-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "nonce-uniqueness",
+                            "title": "Nonce/IV Uniqueness",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AuthenticatedEncryption/sections/nonce-uniqueness.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aad-and-authentication-tag",
+                            "title": "AAD and Authentication Tags",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AuthenticatedEncryption/sections/aad-and-authentication-tag.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aead-decryption-failure",
+                            "title": "Tag Verification and Decryption Failure",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AuthenticatedEncryption/sections/aead-decryption-failure.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/AuthenticatedEncryption/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.KeyEstablishment",
+            "title": "12.KeyEstablishment",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "KeyEstablishment",
+                    "title": "Shared-Secret Establishment",
+                    "sourcePath": "12.KeyEstablishment/KeyEstablishment.md",
+                    "sections": [
+                        {
+                            "id": "key-establishment-purpose",
+                            "title": "The Shared-Secret Establishment Problem",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyEstablishment/sections/key-establishment-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "key-agreement-model",
+                            "title": "KeyAgreement Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyEstablishment/sections/key-agreement-model.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "kem-model",
+                            "title": "Key Encapsulation Mechanism Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyEstablishment/sections/kem-model.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "agreement-vs-kem",
+                            "title": "KeyAgreement vs KEM",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyEstablishment/sections/agreement-vs-kem.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyEstablishment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "13.KeyDerivation",
+            "title": "13.KeyDerivation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "KeyDerivation",
+                    "title": "Key Derivation",
+                    "sourcePath": "13.KeyDerivation/KeyDerivation.md",
+                    "sections": [
+                        {
+                            "id": "key-derivation-purpose",
+                            "title": "What Problem Does Key Derivation Solve?",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyDerivation/sections/key-derivation-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "password-key-material",
+                            "title": "Passwords as Input Key Material",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyDerivation/sections/password-key-material.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "password-kdf-java-api",
+                            "title": "SecretKeyFactory and PBEKeySpec for Password-Based Derivation",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyDerivation/sections/password-kdf-java-api.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "salt-and-work-factor",
+                            "title": "Salt, Work Factors, and Derivation Cost",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyDerivation/sections/salt-and-work-factor.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "derived-key-usage",
+                            "title": "Using Derived Keys for the Right Purpose",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyDerivation/sections/derived-key-usage.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyDerivation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "14.KeyStore",
+            "title": "14.KeyStore",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "KeyStore",
+                    "title": "Key Management with KeyStore",
+                    "sourcePath": "14.KeyStore/KeyStore.md",
+                    "sections": [
+                        {
+                            "id": "keystore-model",
+                            "title": "KeyStore Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyStore/sections/keystore-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "keystore-entry-types",
+                            "title": "KeyStore Entry Types",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyStore/sections/keystore-entry-types.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "keystore-protection",
+                            "title": "Loading, Storing, and Protecting a KeyStore",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyStore/sections/keystore-protection.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "keystore-vs-truststore",
+                            "title": "Keystore vs Truststore Roles",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyStore/sections/keystore-vs-truststore.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/KeyStore/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "15.CertificatesTrust",
+            "title": "15.CertificatesTrust",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CertificatesTrust",
+                    "title": "Certificates, Certification Paths, and Trust",
+                    "sourcePath": "15.CertificatesTrust/CertificatesTrust.md",
+                    "sections": [
+                        {
+                            "id": "x509-certificate-model",
+                            "title": "X.509 Certificate Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CertificatesTrust/sections/x509-certificate-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "certification-path",
+                            "title": "Certificate Chains and Certification Paths",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CertificatesTrust/sections/certification-path.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "trust-anchor-validation",
+                            "title": "Trust Anchors and Path Validation",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CertificatesTrust/sections/trust-anchor-validation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "certificate-revocation",
+                            "title": "Certificate Revocation Checking",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CertificatesTrust/sections/certificate-revocation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "trust-vs-identity",
+                            "title": "Trust Validation vs Identity Verification",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CertificatesTrust/sections/trust-vs-identity.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CertificatesTrust/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "16.TlsJsse",
+            "title": "16.TlsJsse",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TlsJsse",
+                    "title": "JSSE and TLS Security",
+                    "sourcePath": "16.TlsJsse/TlsJsse.md",
+                    "sections": [
+                        {
+                            "id": "jsse-model",
+                            "title": "JSSE Model",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/TlsJsse/sections/jsse-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ssl-context-managers",
+                            "title": "SSLContext, KeyManager, and TrustManager",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/TlsJsse/sections/ssl-context-managers.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tls-handshake-security",
+                            "title": "TLS Handshake and Secure-Session Establishment",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/TlsJsse/sections/tls-handshake-security.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "endpoint-identification",
+                            "title": "Endpoint Identity Verification",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/TlsJsse/sections/endpoint-identification.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tls-algorithm-constraints",
+                            "title": "TLS Protocol and Algorithm Constraints",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/TlsJsse/sections/tls-algorithm-constraints.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/TlsJsse/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "17.CryptoPitfalls",
+            "title": "17.CryptoPitfalls",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CryptoPitfalls",
+                    "title": "Safe Cryptographic Design and Common Pitfalls",
+                    "sourcePath": "17.CryptoPitfalls/CryptoPitfalls.md",
+                    "sections": [
+                        {
+                            "id": "security-goal-before-api",
+                            "title": "Start from Security Goals, Not APIs",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CryptoPitfalls/sections/security-goal-before-api.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "algorithm-provider-portability",
+                            "title": "Portable Algorithm and Provider Selection",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CryptoPitfalls/sections/algorithm-provider-portability.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "secret-key-nonce-handling",
+                            "title": "Handling Secrets, Keys, IVs, and Nonces",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CryptoPitfalls/sections/secret-key-nonce-handling.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "crypto-failure-handling",
+                            "title": "Handle Failures Without Weakening Security",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CryptoPitfalls/sections/crypto-failure-handling.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "end-to-end-crypto-review",
+                            "title": "Review Cryptographic Designs End to End",
+                            "content": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CryptoPitfalls/sections/end-to-end-crypto-review.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_SECURITY_CRYPTOGRAPHY/knowledge/en/content/CryptoPitfalls/intro.md"
+                }
+            ]
+        }
+    ]
+}

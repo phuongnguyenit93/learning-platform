@@ -1,0 +1,729 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_LANGUAGE_BASICS",
+    "language": "en",
+    "categoryCount": 16,
+    "sectionCount": 58,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.LanguagePurpose",
+            "title": "1.LanguagePurpose",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LanguagePurpose",
+                    "title": "Java Language Basics: The Big Picture",
+                    "sourcePath": "1.LanguagePurpose/LanguagePurpose.md",
+                    "sections": [
+                        {
+                            "id": "language-basics-roadmap",
+                            "title": "What Does Java Language Basics Teach?",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/LanguagePurpose/sections/language-basics-roadmap.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/LanguagePurpose/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.SourceCodeStructure",
+            "title": "2.SourceCodeStructure",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SourceCodeStructure",
+                    "title": "How a Java Program Is Organized",
+                    "sourcePath": "2.SourceCodeStructure/SourceCodeStructure.md",
+                    "sections": [
+                        {
+                            "id": "source-file-type-structure",
+                            "title": "Source Files and Type Declarations",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/SourceCodeStructure/sections/source-file-type-structure.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "statement-expression-model",
+                            "title": "Statements and Expressions",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/SourceCodeStructure/sections/statement-expression-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lexical-elements",
+                            "title": "Identifiers, Keywords, Literals, and Comments",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/SourceCodeStructure/sections/lexical-elements.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/SourceCodeStructure/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.PrimitiveReference",
+            "title": "3.PrimitiveReference",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PrimitiveReference",
+                    "title": "Values, Primitive Types, and Reference Types",
+                    "sourcePath": "3.PrimitiveReference/PrimitiveReference.md",
+                    "sections": [
+                        {
+                            "id": "primitive-vs-reference-model",
+                            "title": "Primitive vs Reference",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PrimitiveReference/sections/primitive-vs-reference-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "primitive-ranges-and-defaults",
+                            "title": "Primitive Types, Ranges, and Literals",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PrimitiveReference/sections/primitive-ranges-and-defaults.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reference-value-semantics",
+                            "title": "What Does a Reference Value Mean?",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PrimitiveReference/sections/reference-value-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PrimitiveReference/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.VariablesScope",
+            "title": "4.VariablesScope",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "VariablesScope",
+                    "title": "Variables, Scope, and Lifetime",
+                    "sourcePath": "4.VariablesScope/VariablesScope.md",
+                    "sections": [
+                        {
+                            "id": "variable-kinds-and-lifetime",
+                            "title": "Variable Kinds",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/VariablesScope/sections/variable-kinds-and-lifetime.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "scope-and-shadowing",
+                            "title": "Scope and Shadowing",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/VariablesScope/sections/scope-and-shadowing.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "definite-assignment",
+                            "title": "Definite Assignment",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/VariablesScope/sections/definite-assignment.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/VariablesScope/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Null",
+            "title": "5.Null",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Null",
+                    "title": "Null and Reference Safety",
+                    "sourcePath": "5.Null/Null.md",
+                    "sections": [
+                        {
+                            "id": "null-reference",
+                            "title": "null as a Reference Value",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Null/sections/null-reference.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "null-dereference",
+                            "title": "Dereferencing null",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Null/sections/null-dereference.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "null-comparison",
+                            "title": "Comparing with null",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Null/sections/null-comparison.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "null-api-design",
+                            "title": "Nullability in API Design",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Null/sections/null-api-design.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Null/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.WrapperBoxing",
+            "title": "6.WrapperBoxing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "WrapperBoxing",
+                    "title": "Wrapper Types, Boxing, and Unboxing",
+                    "sourcePath": "6.WrapperBoxing/WrapperBoxing.md",
+                    "sections": [
+                        {
+                            "id": "wrapper-types",
+                            "title": "Wrapper Types",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/WrapperBoxing/sections/wrapper-types.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "boxing-unboxing",
+                            "title": "Boxing and Unboxing",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/WrapperBoxing/sections/boxing-unboxing.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wrapper-caching",
+                            "title": "Wrapper Caching",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/WrapperBoxing/sections/wrapper-caching.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "unboxing-null",
+                            "title": "Unboxing null",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/WrapperBoxing/sections/unboxing-null.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/WrapperBoxing/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Operators",
+            "title": "7.Operators",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Operators",
+                    "title": "Expressions and Operators",
+                    "sourcePath": "7.Operators/Operators.md",
+                    "sections": [
+                        {
+                            "id": "numeric-promotion",
+                            "title": "Numeric Promotion",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Operators/sections/numeric-promotion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "short-circuit-operators",
+                            "title": "Short-circuit Boolean Operators",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Operators/sections/short-circuit-operators.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bitwise-shift",
+                            "title": "Bitwise and Shift Operators",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Operators/sections/bitwise-shift.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "precedence-side-effects",
+                            "title": "Precedence and Evaluation Order",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Operators/sections/precedence-side-effects.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Operators/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Casting",
+            "title": "8.Casting",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Casting",
+                    "title": "Type Conversion and Casting",
+                    "sourcePath": "8.Casting/Casting.md",
+                    "sections": [
+                        {
+                            "id": "primitive-casting",
+                            "title": "Primitive Casting",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Casting/sections/primitive-casting.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reference-upcast-downcast",
+                            "title": "Reference Upcast and Downcast",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Casting/sections/reference-upcast-downcast.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Casting/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ControlFlow",
+            "title": "9.ControlFlow",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ControlFlow",
+                    "title": "Program Control Flow",
+                    "sourcePath": "9.ControlFlow/ControlFlow.md",
+                    "sections": [
+                        {
+                            "id": "branching-model",
+                            "title": "if and switch Branching",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/ControlFlow/sections/branching-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "loop-control",
+                            "title": "Loops and break/continue",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/ControlFlow/sections/loop-control.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "switch-expression",
+                            "title": "Switch Expressions and yield",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/ControlFlow/sections/switch-expression.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "control-flow-pitfalls",
+                            "title": "Control-flow Pitfalls",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/ControlFlow/sections/control-flow-pitfalls.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/ControlFlow/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Arrays",
+            "title": "10.Arrays",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Arrays",
+                    "title": "Arrays",
+                    "sourcePath": "10.Arrays/Arrays.md",
+                    "sections": [
+                        {
+                            "id": "array-type-model",
+                            "title": "Array Type Model",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Arrays/sections/array-type-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "array-initialization",
+                            "title": "Array Initialization",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Arrays/sections/array-initialization.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "array-covariance-risk",
+                            "title": "Array Covariance",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Arrays/sections/array-covariance-risk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "multidimensional-arrays",
+                            "title": "Multidimensional Arrays",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Arrays/sections/multidimensional-arrays.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Arrays/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.Methods",
+            "title": "11.Methods",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Methods",
+                    "title": "Methods and Call Selection",
+                    "sourcePath": "11.Methods/Methods.md",
+                    "sections": [
+                        {
+                            "id": "method-signature",
+                            "title": "Method Signature",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/sections/method-signature.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-invocation-conversion",
+                            "title": "Method Invocation Conversions",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/sections/method-invocation-conversion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "overload-resolution-phases",
+                            "title": "Overload Resolution Phases",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/sections/overload-resolution-phases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "most-specific-overload",
+                            "title": "Most-specific Overload",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/sections/most-specific-overload.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "null-overload-ambiguity",
+                            "title": "null Overload Ambiguity",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/sections/null-overload-ambiguity.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-call-evaluation",
+                            "title": "Argument Evaluation Order",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/sections/method-call-evaluation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "recursion-stack",
+                            "title": "Recursion and the Call Stack",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/sections/recursion-stack.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Methods/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.Varargs",
+            "title": "12.Varargs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Varargs",
+                    "title": "Varargs and Arrays at the Call Boundary",
+                    "sourcePath": "12.Varargs/Varargs.md",
+                    "sections": [
+                        {
+                            "id": "varargs-array-model",
+                            "title": "Varargs Are Arrays",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Varargs/sections/varargs-array-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "varargs-overload",
+                            "title": "Varargs and Overloading",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Varargs/sections/varargs-overload.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "varargs-generics-warning",
+                            "title": "Advanced Boundary: Generic Varargs and Heap Pollution",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Varargs/sections/varargs-generics-warning.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/Varargs/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "13.PassByValue",
+            "title": "13.PassByValue",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PassByValue",
+                    "title": "Passing Data by Value",
+                    "sourcePath": "13.PassByValue/PassByValue.md",
+                    "sections": [
+                        {
+                            "id": "java-pass-by-value",
+                            "title": "Java Is Always Pass-by-Value",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PassByValue/sections/java-pass-by-value.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reference-copy-mutation",
+                            "title": "Reference Copy and Mutation",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PassByValue/sections/reference-copy-mutation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reassignment-vs-mutation",
+                            "title": "Reassignment vs Mutation",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PassByValue/sections/reassignment-vs-mutation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PassByValue/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "14.PackagesImports",
+            "title": "14.PackagesImports",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PackagesImports",
+                    "title": "Packages, Imports, and Name Organization",
+                    "sourcePath": "14.PackagesImports/PackagesImports.md",
+                    "sections": [
+                        {
+                            "id": "package-namespace",
+                            "title": "Packages as Namespaces",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PackagesImports/sections/package-namespace.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "import-resolution",
+                            "title": "Imports and Name Resolution",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PackagesImports/sections/import-resolution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-import",
+                            "title": "Static Import",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PackagesImports/sections/static-import.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "package-access",
+                            "title": "Package-private Access",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PackagesImports/sections/package-access.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/PackagesImports/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "15.TypeSystemMentalModel",
+            "title": "15.TypeSystemMentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TypeSystemMentalModel",
+                    "title": "Compile-Time and Runtime Type Boundaries",
+                    "sourcePath": "15.TypeSystemMentalModel/TypeSystemMentalModel.md",
+                    "sections": [
+                        {
+                            "id": "compile-time-vs-runtime-type",
+                            "title": "Compile-time vs Runtime Type",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/TypeSystemMentalModel/sections/compile-time-vs-runtime-type.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "assignment-compatibility",
+                            "title": "Assignment Compatibility",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/TypeSystemMentalModel/sections/assignment-compatibility.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "instanceof-safe-cast",
+                            "title": "instanceof and Safe Casting",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/TypeSystemMentalModel/sections/instanceof-safe-cast.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-cast-failure",
+                            "title": "ClassCastException",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/TypeSystemMentalModel/sections/class-cast-failure.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "overload-vs-override-dispatch",
+                            "title": "Overload vs Override Dispatch",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/TypeSystemMentalModel/sections/overload-vs-override-dispatch.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "type-system-boundaries",
+                            "title": "Compile-time vs Runtime Boundaries",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/TypeSystemMentalModel/sections/type-system-boundaries.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/TypeSystemMentalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "16.LanguageBasicsSynthesis",
+            "title": "16.LanguageBasicsSynthesis",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LanguageBasicsSynthesis",
+                    "title": "Putting Java Language Basics Together",
+                    "sourcePath": "16.LanguageBasicsSynthesis/LanguageBasicsSynthesis.md",
+                    "sections": [
+                        {
+                            "id": "language-basics-synthesis",
+                            "title": "One End-to-End Mental Model",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/LanguageBasicsSynthesis/sections/language-basics-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "end-to-end-value-flow",
+                            "title": "Trace a Value Through the Program",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/LanguageBasicsSynthesis/sections/end-to-end-value-flow.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "language-basics-next-boundaries",
+                            "title": "Boundaries to the Next Modules",
+                            "content": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/LanguageBasicsSynthesis/sections/language-basics-next-boundaries.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_LANGUAGE_BASICS/knowledge/en/content/LanguageBasicsSynthesis/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_CLASS_FILE_API",
+    "language": "en",
+    "categoryCount": 1,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.ClassFileApi",
+            "title": "1.ClassFileApi",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ClassFileApi",
+                    "title": "Class-File API",
+                    "sourcePath": "1.ClassFileApi/ClassFileApi.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_CLASS_FILE_API/knowledge/en/content/ClassFileApi/intro.md"
+                }
+            ]
+        }
+    ]
+}

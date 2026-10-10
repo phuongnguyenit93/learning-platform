@@ -1,0 +1,705 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_JVM",
+    "language": "en",
+    "categoryCount": 8,
+    "sectionCount": 71,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.JvmPurposeContract",
+            "title": "1.JvmPurposeContract",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JvmPurposeContract",
+                    "title": "JVM Purpose and Execution Contract",
+                    "sourcePath": "1.JvmPurposeContract/JvmPurposeContract.md",
+                    "sections": [
+                        {
+                            "id": "jvm-purpose",
+                            "title": "What Is the JVM and Why Does It Exist?",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/JvmPurposeContract/sections/jvm-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "classfile-execution-contract",
+                            "title": "The Class File as the JVM Execution Contract",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/JvmPurposeContract/sections/classfile-execution-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jvm-language-independence",
+                            "title": "JVM Language Independence",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/JvmPurposeContract/sections/jvm-language-independence.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jvm-portability-model",
+                            "title": "Portability Through the Virtual-Machine Layer",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/JvmPurposeContract/sections/jvm-portability-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jvm-specification-vs-implementation",
+                            "title": "JVM Specification vs JVM Implementation",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/JvmPurposeContract/sections/jvm-specification-vs-implementation.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jvm-runtime-boundary",
+                            "title": "The JVM Runtime Responsibility Boundary",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/JvmPurposeContract/sections/jvm-runtime-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/JvmPurposeContract/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ClassFileBytecode",
+            "title": "2.ClassFileBytecode",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ClassFileBytecode",
+                    "title": "Class Files, Bytecode, and the Pre-Execution Boundary",
+                    "sourcePath": "2.ClassFileBytecode/ClassFileBytecode.md",
+                    "sections": [
+                        {
+                            "id": "classfile-format-overview",
+                            "title": "Class File Format Overview",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/classfile-format-overview.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "classfile-structure",
+                            "title": "The ClassFile Structure and Major Components",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/classfile-structure.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bytecode-instruction-model",
+                            "title": "The Bytecode Instruction Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/bytecode-instruction-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constant-pool-symbolic-references",
+                            "title": "The Constant Pool and Symbolic References",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/constant-pool-symbolic-references.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-constant-pool",
+                            "title": "From the Constant Pool to the Runtime Constant Pool",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/runtime-constant-pool.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "loading-linking-initialization-overview",
+                            "title": "Loading, Linking, and Initialization at the JVM Level",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/loading-linking-initialization-overview.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "verification-preparation-resolution",
+                            "title": "Verification, Preparation, and Resolution",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/verification-preparation-resolution.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pre-execution-failures",
+                            "title": "Failures Before a Method Body Executes",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/sections/pre-execution-failures.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/ClassFileBytecode/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.RuntimeDataAreasFrames",
+            "title": "3.RuntimeDataAreasFrames",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RuntimeDataAreasFrames",
+                    "title": "Runtime Data Areas and Stack Frames",
+                    "sourcePath": "3.RuntimeDataAreasFrames/RuntimeDataAreasFrames.md",
+                    "sections": [
+                        {
+                            "id": "runtime-data-areas-purpose",
+                            "title": "Why Runtime Data Areas Exist",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/runtime-data-areas-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "vm-wide-vs-thread-private-areas",
+                            "title": "VM-Wide vs Thread-Private Areas",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/vm-wide-vs-thread-private-areas.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pc-register",
+                            "title": "The PC Register",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/pc-register.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jvm-stacks",
+                            "title": "JVM Stacks",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/jvm-stacks.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "heap",
+                            "title": "The Heap",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/heap.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-area",
+                            "title": "The Method Area",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/method-area.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-constant-pool-area",
+                            "title": "The Runtime Constant Pool in the Runtime Data Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/runtime-constant-pool-area.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-method-stacks",
+                            "title": "Native Method Stacks",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/native-method-stacks.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stack-frame-model",
+                            "title": "The Stack Frame Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/stack-frame-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "local-variables-and-operand-stack",
+                            "title": "Local Variables and the Operand Stack",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/local-variables-and-operand-stack.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "frame-lifecycle-and-completion",
+                            "title": "Frame Lifecycle, Method Return, and Abrupt Completion",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/frame-lifecycle-and-completion.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-area-failure-boundaries",
+                            "title": "StackOverflowError, OutOfMemoryError, and Resource Boundaries",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/sections/runtime-area-failure-boundaries.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/RuntimeDataAreasFrames/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.ManagedHeapGC",
+            "title": "4.ManagedHeapGC",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ManagedHeapGC",
+                    "title": "Managed Heap, Object Allocation, and Garbage Collection",
+                    "sourcePath": "4.ManagedHeapGC/ManagedHeapGC.md",
+                    "sections": [
+                        {
+                            "id": "managed-heap-purpose",
+                            "title": "What Problem Does the Managed Heap Solve?",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/managed-heap-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-allocation-model",
+                            "title": "The Heap Object-Allocation Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/object-allocation-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-layout-boundary",
+                            "title": "Object Layout - Specification vs Implementation Detail",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/object-layout-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reachability-and-liveness",
+                            "title": "Reachability and Object Liveness",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/reachability-and-liveness.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "automatic-memory-reclamation",
+                            "title": "Automatic Memory Reclamation",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/automatic-memory-reclamation.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "garbage-collection-model",
+                            "title": "The Garbage-Collection Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/garbage-collection-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collector-strategies",
+                            "title": "Collector Strategies and How They Differ",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/collector-strategies.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "gc-goals-and-tradeoffs",
+                            "title": "Throughput, Latency, and Memory-Footprint Trade-Offs",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/gc-goals-and-tradeoffs.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reference-strengths",
+                            "title": "Reference Strengths and Garbage-Collector Interaction",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/reference-strengths.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "gc-mechanism-vs-diagnostics",
+                            "title": "Garbage-Collection Mechanics vs Diagnostics",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/sections/gc-mechanism-vs-diagnostics.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/ManagedHeapGC/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.AdaptiveExecutionJIT",
+            "title": "5.AdaptiveExecutionJIT",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AdaptiveExecutionJIT",
+                    "title": "Interpreter, JIT, and Adaptive Optimization",
+                    "sourcePath": "5.AdaptiveExecutionJIT/AdaptiveExecutionJIT.md",
+                    "sections": [
+                        {
+                            "id": "execution-engine-model",
+                            "title": "The Execution-Engine Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/execution-engine-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interpreter-role",
+                            "title": "The Role of the Interpreter",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/interpreter-role.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "profiling-and-hot-code",
+                            "title": "Profiling and Hot Code",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/profiling-and-hot-code.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jit-compilation-model",
+                            "title": "The JIT Compilation Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/jit-compilation-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tiered-and-adaptive-compilation",
+                            "title": "Tiered and Adaptive Compilation",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/tiered-and-adaptive-compilation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "compiled-code-and-code-cache",
+                            "title": "Compiled Code and the Code Cache",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/compiled-code-and-code-cache.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inlining-and-runtime-optimization",
+                            "title": "Inlining and Runtime Optimization",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/inlining-and-runtime-optimization.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "escape-analysis-and-scalar-replacement",
+                            "title": "Escape Analysis and Scalar Replacement",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/escape-analysis-and-scalar-replacement.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "speculation-and-deoptimization",
+                            "title": "Speculation and Deoptimization",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/speculation-and-deoptimization.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optimization-semantics-boundary",
+                            "title": "The Boundary Between Optimization and Java Semantics",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/sections/optimization-semantics-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/AdaptiveExecutionJIT/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.ProcessMemory",
+            "title": "6.ProcessMemory",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ProcessMemory",
+                    "title": "JVM Process Memory Beyond the Java Heap",
+                    "sourcePath": "6.ProcessMemory/ProcessMemory.md",
+                    "sections": [
+                        {
+                            "id": "process-memory-purpose",
+                            "title": "Why the Java Heap Is Not the Whole JVM Process Memory",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/process-memory-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-areas-vs-process-memory",
+                            "title": "Runtime Data Areas vs Process-Level Memory",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/runtime-areas-vs-process-memory.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-and-native-stack-memory",
+                            "title": "Thread-Stack and Native-Stack Memory",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/thread-and-native-stack-memory.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-metadata-memory",
+                            "title": "Class Metadata and Memory Beyond the Heap",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/class-metadata-memory.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "compiled-code-memory",
+                            "title": "Memory for Compiled Code",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/compiled-code-memory.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "direct-and-offheap-memory-awareness",
+                            "title": "Direct and Off-Heap Memory Awareness",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/direct-and-offheap-memory-awareness.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "process-memory-growth",
+                            "title": "Why Process Memory Can Grow While the Heap Is Not Full",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/process-memory-growth.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "nonheap-resource-exhaustion",
+                            "title": "Memory and Resource Exhaustion Beyond the Heap",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/nonheap-resource-exhaustion.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-memory-vs-native-interoperability",
+                            "title": "Native-Memory Awareness vs Native Interoperability",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/sections/native-memory-vs-native-interoperability.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/ProcessMemory/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.HotSpotErgonomics",
+            "title": "7.HotSpotErgonomics",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "HotSpotErgonomics",
+                    "title": "HotSpot Ergonomics and JVM Configuration Boundaries",
+                    "sourcePath": "7.HotSpotErgonomics/HotSpotErgonomics.md",
+                    "sections": [
+                        {
+                            "id": "ergonomics-purpose",
+                            "title": "What Problem Does Ergonomics Solve?",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/ergonomics-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hotspot-default-selection",
+                            "title": "How HotSpot Chooses Default Runtime Policies",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/hotspot-default-selection.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "heap-sizing-concepts",
+                            "title": "Heap-Sizing Concepts",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/heap-sizing-concepts.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collector-selection-and-goals",
+                            "title": "Collector Selection and GC Goals",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/collector-selection-and-goals.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-compiler-policy",
+                            "title": "Runtime-Compiler Policy",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/runtime-compiler-policy.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "vm-options-model",
+                            "title": "The VM Options Model",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/vm-options-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "portable-vs-implementation-specific-controls",
+                            "title": "Portable Behavior vs Implementation-Specific Controls",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/portable-vs-implementation-specific-controls.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "configuration-vs-diagnostics",
+                            "title": "When to Stop Tuning and Move to Diagnostics",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/sections/configuration-vs-diagnostics.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/HotSpotErgonomics/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.EndToEndModel",
+            "title": "8.EndToEndModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EndToEndModel",
+                    "title": "End-to-End JVM Mental Model",
+                    "sourcePath": "8.EndToEndModel/EndToEndModel.md",
+                    "sections": [
+                        {
+                            "id": "startup-to-execution-flow",
+                            "title": "From JVM Startup to Method Execution",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/startup-to-execution-flow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "classfile-to-runtime-state-flow",
+                            "title": "From Class Files to Runtime State",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/classfile-to-runtime-state-flow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-execution-flow",
+                            "title": "Method Execution Through Frames, the Operand Stack, and the Execution Engine",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/method-execution-flow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "allocation-to-reclamation-flow",
+                            "title": "From Object Allocation to Memory Reclamation",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/allocation-to-reclamation-flow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interpreted-to-optimized-flow",
+                            "title": "From Interpreted Execution to Optimized Code",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/interpreted-to-optimized-flow.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "whole-process-memory-view",
+                            "title": "Viewing the JVM as a Whole Process",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/whole-process-memory-view.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jvm-problem-boundary-map",
+                            "title": "Mapping Problems to the Correct Module Owner",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/jvm-problem-boundary-map.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jvm-mental-model-checkpoint",
+                            "title": "JVM Mental-Model Checkpoint",
+                            "content": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/sections/jvm-mental-model-checkpoint.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_JVM/knowledge/en/content/EndToEndModel/intro.md"
+                }
+            ]
+        }
+    ]
+}

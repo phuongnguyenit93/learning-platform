@@ -1,0 +1,209 @@
+{
+    "version": 1,
+    "moduleId": "AGILE_DEVELOPMENT",
+    "language": "vi",
+    "categoryCount": 9,
+    "sectionCount": 6,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AgileDevelopment",
+                    "title": "Agile Software Development",
+                    "sourcePath": "1.Introduction/AgileDevelopment.md",
+                    "sections": [
+                        {
+                            "id": "agile-what",
+                            "title": "1. Agile l\u00e0 g\u00ec?",
+                            "content": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/AgileDevelopment/sections/agile-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "agile-why",
+                            "title": "2. T\u1ea1i sao Agile t\u1ed3n t\u1ea1i?",
+                            "content": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/AgileDevelopment/sections/agile-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "agile-without",
+                            "title": "3. C\u00e1ch \u0111\u01a1n gi\u1ea3n h\u01a1n tr\u01b0\u1edbc \u0111\u00f3 ch\u01b0a \u0111\u1ee7 \u1edf \u0111\u00e2u?",
+                            "content": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/AgileDevelopment/sections/agile-without.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "agile-model",
+                            "title": "4. Mental model",
+                            "content": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/AgileDevelopment/sections/agile-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "agile-methods",
+                            "title": "5. Scrum, Kanban, XP v\u00e0 Lean n\u1eb1m \u1edf \u0111\u00e2u?",
+                            "content": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/AgileDevelopment/sections/agile-methods.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "agile-boundary",
+                            "title": "6. Boundary",
+                            "content": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/AgileDevelopment/sections/agile-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/AgileDevelopment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ManifestoPrinciples",
+            "title": "2.ManifestoPrinciples",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ManifestoPrinciples",
+                    "title": "Agile Manifesto, Values v\u00e0 Principles",
+                    "sourcePath": "2.ManifestoPrinciples/ManifestoPrinciples.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/ManifestoPrinciples/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.IterativeIncremental",
+            "title": "3.IterativeIncremental",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "IterativeIncremental",
+                    "title": "Iterative, Incremental v\u00e0 Feedback Loop",
+                    "sourcePath": "3.IterativeIncremental/IterativeIncremental.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/IterativeIncremental/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Scrum",
+            "title": "4.Scrum",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Scrum",
+                    "title": "Scrum",
+                    "sourcePath": "4.Scrum/Scrum.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/Scrum/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Kanban",
+            "title": "5.Kanban",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Kanban",
+                    "title": "Kanban",
+                    "sourcePath": "5.Kanban/Kanban.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/Kanban/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.ExtremeProgramming",
+            "title": "6.ExtremeProgramming",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ExtremeProgramming",
+                    "title": "Extreme Programming (XP)",
+                    "sourcePath": "6.ExtremeProgramming/ExtremeProgramming.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/ExtremeProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Lean",
+            "title": "7.Lean",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Lean",
+                    "title": "Lean Software Development",
+                    "sourcePath": "7.Lean/Lean.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/Lean/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.PlanningFeedback",
+            "title": "8.PlanningFeedback",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PlanningFeedback",
+                    "title": "Planning, Feedback v\u00e0 Adaptation",
+                    "sourcePath": "8.PlanningFeedback/PlanningFeedback.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/PlanningFeedback/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Tradeoffs",
+            "title": "9.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Agile Trade-off v\u00e0 Misconception",
+                    "sourcePath": "9.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/AGILE_DEVELOPMENT/knowledge/vi/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

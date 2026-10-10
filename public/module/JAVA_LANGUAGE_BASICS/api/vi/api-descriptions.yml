@@ -1,0 +1,284 @@
+ArrayController:
+  covarianceFailure():
+    summary: Hiệp biến của mảng và ArrayStoreException
+    description: Minh họa việc phép gán hiệp biến có thể hợp lệ lúc biên dịch nhưng phép ghi phần tử không tương thích vẫn bị kiểm tra ở thời điểm chạy và ném ArrayStoreException.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 10.Arrays/Arrays.md
+      anchor: array-covariance-risk
+    methodName: covarianceFailure
+    params: [
+      ]
+    path: com/example/learning/controller/ArrayController.java
+    mapping: '@GetMapping("/covariance-failure")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/array/covariance-failure
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  copyReferenceElements():
+    summary: Sao chép mảng tham chiếu và chia sẻ đối tượng phần tử
+    description: Tạo mảng mới bằng Arrays.copyOf rồi chứng minh hai mảng là hai đối tượng khác nhau nhưng các phần tử tham chiếu tương ứng vẫn có thể cùng nhận diện một đối tượng.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 10.Arrays/Arrays.md
+      anchor: array-initialization
+    methodName: copyReferenceElements
+    params: [
+      ]
+    path: com/example/learning/controller/ArrayController.java
+    mapping: '@GetMapping("/copy-reference-elements")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/array/copy-reference-elements
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+CastingController:
+  safeAndUnsafeCast(String):
+    summary: Ép kiểu tham chiếu an toàn và lỗi ClassCastException
+    description: So sánh kiểm tra kiểu bằng instanceof với một downcast không tương thích để quan sát ranh giới giữa quan hệ kiểu hợp lệ lúc biên dịch và kiểm tra đối tượng thực tế ở lúc chạy.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: class-cast-failure
+    methodName: safeAndUnsafeCast
+    params:
+    - input
+    path: com/example/learning/controller/CastingController.java
+    mapping: '@GetMapping("/safe-and-unsafe")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/casting/safe-and-unsafe
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+MethodDispatchController:
+  overloadVsOverride():
+    summary: Chọn overload lúc biên dịch và phân phối override lúc chạy
+    description: Cho thấy chữ ký overload được chọn từ kiểu khai báo ở thời điểm biên dịch, còn thân phương thức instance đã ghi đè được chọn theo kiểu thực tế của đối tượng ở thời điểm chạy.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: overload-vs-override-dispatch
+    methodName: overloadVsOverride
+    params: [
+      ]
+    path: com/example/learning/controller/MethodDispatchController.java
+    mapping: '@GetMapping("/overload-vs-override")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/dispatch/overload-vs-override
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+OperatorController:
+  shortCircuit():
+    summary: Đánh giá ngắn mạch của toán tử logic
+    description: Ghi lại thứ tự đánh giá để chứng minh toán hạng bên phải của && hoặc || có thể không được thực thi khi kết quả đã được quyết định từ toán hạng bên trái.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 7.Operators/Operators.md
+      anchor: short-circuit-operators
+    methodName: shortCircuit
+    params: [
+      ]
+    path: com/example/learning/controller/OperatorController.java
+    mapping: '@GetMapping("/short-circuit")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/operator/short-circuit
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+OverloadResolutionController:
+  selectionMatrix():
+    summary: Các giai đoạn phân giải nạp chồng
+    description: So sánh mở rộng kiểu nguyên thủy, boxing và varargs để quan sát vì sao ứng viên áp dụng được ở giai đoạn sớm được xét trước các lựa chọn ở giai đoạn sau.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 11.Methods/Methods.md
+      anchor: overload-resolution-phases
+    methodName: selectionMatrix
+    params: [
+      ]
+    path: com/example/learning/controller/OverloadResolutionController.java
+    mapping: '@GetMapping("/selection-matrix")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/overload/selection-matrix
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+PassByValueController:
+  mutateAndReassign():
+    summary: Sao chép giá trị tham chiếu và gán lại tham số
+    description: Chứng minh thay đổi trạng thái qua bản sao của giá trị tham chiếu có thể được bên gọi quan sát, trong khi gán lại chính biến tham số chỉ có tác dụng bên trong phương thức.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 13.PassByValue/PassByValue.md
+      anchor: reference-copy-mutation
+    methodName: mutateAndReassign
+    params: [
+      ]
+    path: com/example/learning/controller/PassByValueController.java
+    mapping: '@GetMapping("/mutate-and-reassign")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/pass-by-value/mutate-and-reassign
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+TypeSystemController:
+  inspectRuntimeType(Object):
+    summary: Kiểu lúc biên dịch và kiểu lúc chạy
+    description: Đặt giá trị dưới góc nhìn Object rồi trả về lớp thực tế và kết quả instanceof để phân biệt thông tin kiểu mà trình biên dịch biết với kiểu đối tượng quan sát được ở thời điểm chạy.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: compile-time-vs-runtime-type
+    methodName: inspectRuntimeType
+    params:
+    - value
+    path: com/example/learning/controller/TypeSystemController.java
+    mapping: '@GetMapping("/runtime-type")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/type-system/runtime-type
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  conversionContexts():
+    summary: Quy tắc chuyển đổi phụ thuộc ngữ cảnh
+    description: Đặt cạnh nhau phép gán hằng, thăng hạng kiểu số học, mở rộng kiểu khi gọi phương thức và boxing để chứng minh mỗi ngữ cảnh Java cho phép một tập chuyển đổi khác nhau.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: assignment-compatibility
+    methodName: conversionContexts
+    params: [
+      ]
+    path: com/example/learning/controller/TypeSystemController.java
+    mapping: '@GetMapping("/conversion-contexts")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/type-system/conversion-contexts
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+WrapperController:
+  wrapperIdentity():
+    summary: Bộ nhớ đệm kiểu bao và bẫy khi dùng ==
+    description: So sánh == với equals trên các Integer trong và ngoài khoảng cache thường gặp để nhấn mạnh rằng == kiểm tra tính đồng nhất của tham chiếu chứ không phải hợp đồng so sánh giá trị.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 6.WrapperBoxing/WrapperBoxing.md
+      anchor: wrapper-caching
+    methodName: wrapperIdentity
+    params: [
+      ]
+    path: com/example/learning/controller/WrapperController.java
+    mapping: '@GetMapping("/identity")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/wrapper/identity
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+ControlFlowController:
+  patternSwitch():
+    summary: Java 21 pattern switch và case null
+    description: Chạy cùng một biểu thức switch với Integer, String, null và một kiểu khác để quan sát type pattern, biến pattern, case null và nhánh default trong Java 21.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: instanceof-safe-cast
+    methodName: patternSwitch
+    params: [
+      ]
+    path: com/example/learning/controller/ControlFlowController.java
+    mapping: '@GetMapping("/pattern-switch")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/control-flow/pattern-switch
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true

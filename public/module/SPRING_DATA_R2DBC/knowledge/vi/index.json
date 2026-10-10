@@ -1,0 +1,179 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_DATA_R2DBC",
+    "language": "vi",
+    "categoryCount": 10,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringDataR2DBC",
+                    "title": "SpringDataR2DBC",
+                    "sourcePath": "1.Introduction/SpringDataR2DBC.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/SpringDataR2DBC/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.R2dbcVsJdbc",
+            "title": "2.R2dbcVsJdbc",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "R2dbcVsJdbc",
+                    "title": "R2dbcVsJdbc",
+                    "sourcePath": "2.R2dbcVsJdbc/R2dbcVsJdbc.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/R2dbcVsJdbc/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Mapping",
+            "title": "3.Mapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Mapping",
+                    "title": "Mapping",
+                    "sourcePath": "3.Mapping/Mapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/Mapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Repositories",
+            "title": "4.Repositories",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Repositories",
+                    "title": "Repositories",
+                    "sourcePath": "4.Repositories/Repositories.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/Repositories/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.DatabaseClient",
+            "title": "5.DatabaseClient",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DatabaseClient",
+                    "title": "DatabaseClient",
+                    "sourcePath": "5.DatabaseClient/DatabaseClient.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/DatabaseClient/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.R2dbcEntityTemplate",
+            "title": "6.R2dbcEntityTemplate",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "R2dbcEntityTemplate",
+                    "title": "R2dbcEntityTemplate",
+                    "sourcePath": "6.R2dbcEntityTemplate/R2dbcEntityTemplate.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/R2dbcEntityTemplate/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.QueryMethods",
+            "title": "7.QueryMethods",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "QueryMethods",
+                    "title": "QueryMethods",
+                    "sourcePath": "7.QueryMethods/QueryMethods.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/QueryMethods/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Transactions",
+            "title": "8.Transactions",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Transactions",
+                    "title": "Transactions",
+                    "sourcePath": "8.Transactions/Transactions.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/Transactions/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Backpressure",
+            "title": "9.Backpressure",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Backpressure",
+                    "title": "Backpressure",
+                    "sourcePath": "9.Backpressure/Backpressure.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/Backpressure/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Testing",
+            "title": "10.Testing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Testing",
+                    "title": "Testing",
+                    "sourcePath": "10.Testing/Testing.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_R2DBC/knowledge/vi/content/Testing/intro.md"
+                }
+            ]
+        }
+    ]
+}

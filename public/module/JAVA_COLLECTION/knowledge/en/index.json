@@ -1,0 +1,769 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_COLLECTION",
+    "language": "en",
+    "categoryCount": 12,
+    "sectionCount": 71,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Hierarchy",
+            "title": "1.Hierarchy",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Hierarchy",
+                    "title": "Collection Foundation: Why the Collections Framework Exists",
+                    "sourcePath": "1.Hierarchy/Hierarchy.md",
+                    "sections": [
+                        {
+                            "id": "collection-purpose",
+                            "title": "What Is a Collection and Why Use One?",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/collection-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collection-vs-collections",
+                            "title": "Collection, Collections, and the Collections Framework",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/collection-vs-collections.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collection-hierarchy",
+                            "title": "Collection Hierarchy",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/collection-hierarchy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sorted-navigable-contracts",
+                            "title": "Sorted and Navigable Contracts",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/sorted-navigable-contracts.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collection-api-contract",
+                            "title": "Shared Collection API Contract",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/collection-api-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-syntax-boundary",
+                            "title": "Lambda and Method-Reference Syntax in Collection Examples",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/functional-syntax-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-separate-hierarchy",
+                            "title": "Why Map Is Separate",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/map-separate-hierarchy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-vs-implementation",
+                            "title": "Interface vs Implementation",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/interface-vs-implementation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collection-characteristics",
+                            "title": "Collection Characteristics",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/collection-characteristics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "complexity-mental-model",
+                            "title": "Mental Model for O(1), O(n), and O(log n)",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/sections/complexity-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/Hierarchy/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.List",
+            "title": "2.List",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "List",
+                    "title": "Core Collection Contracts \u2014 List",
+                    "sourcePath": "2.List/List.md",
+                    "sections": [
+                        {
+                            "id": "list-semantics",
+                            "title": "List Semantics",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/List/sections/list-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "list-practical-boundaries",
+                            "title": "Practical List Boundaries",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/List/sections/list-practical-boundaries.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "arraylist-model",
+                            "title": "ArrayList Model",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/List/sections/arraylist-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "linkedlist-model",
+                            "title": "LinkedList Model",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/List/sections/linkedlist-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "list-equality",
+                            "title": "List Equality Is Order-Sensitive",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/List/sections/list-equality.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/List/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Set",
+            "title": "3.Set",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Set",
+                    "title": "Core Collection Contracts \u2014 Set",
+                    "sourcePath": "3.Set/Set.md",
+                    "sections": [
+                        {
+                            "id": "set-semantics",
+                            "title": "Set Semantics",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Set/sections/set-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "set-algebra",
+                            "title": "Set Operations Through the Set API",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Set/sections/set-algebra.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "set-equality",
+                            "title": "Set Equality Ignores Encounter Order",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Set/sections/set-equality.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hashset-model",
+                            "title": "HashSet Model",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Set/sections/hashset-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "linkedhashset-order",
+                            "title": "LinkedHashSet Order",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Set/sections/linkedhashset-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "treeset-order",
+                            "title": "TreeSet Order",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Set/sections/treeset-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/Set/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Map",
+            "title": "4.Map",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Map",
+                    "title": "Core Collection Contracts \u2014 Map",
+                    "sourcePath": "4.Map/Map.md",
+                    "sections": [
+                        {
+                            "id": "map-semantics",
+                            "title": "Map Semantics",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/map-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-basic-contract",
+                            "title": "Basic Map Operations",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/map-basic-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-entry-model",
+                            "title": "Map.Entry Represents One key \u2192 value Mapping",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/map-entry-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-views",
+                            "title": "keySet, values, and entrySet Are Backed Views",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/map-views.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-default-operations",
+                            "title": "Everyday Map Operations Before compute/merge",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/map-default-operations.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-equality",
+                            "title": "Map Equality Is Based on Mappings",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/map-equality.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hashmap-model",
+                            "title": "HashMap Model",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/hashmap-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "linkedhashmap-order",
+                            "title": "LinkedHashMap Order",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/linkedhashmap-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "treemap-order",
+                            "title": "TreeMap Order",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/treemap-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-compute-merge",
+                            "title": "Compute and Merge Updates",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Map/sections/map-compute-merge.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/Map/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.QueueDeque",
+            "title": "5.QueueDeque",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "QueueDeque",
+                    "title": "Core Collection Contracts \u2014 Queue and Deque",
+                    "sourcePath": "5.QueueDeque/QueueDeque.md",
+                    "sections": [
+                        {
+                            "id": "queue-semantics",
+                            "title": "Queue Semantics",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/QueueDeque/sections/queue-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "deque-semantics",
+                            "title": "Deque Semantics",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/QueueDeque/sections/deque-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "exception-vs-special-value",
+                            "title": "Exceptions vs Special Values",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/QueueDeque/sections/exception-vs-special-value.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "priority-queue",
+                            "title": "PriorityQueue",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/QueueDeque/sections/priority-queue.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/QueueDeque/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Iteration",
+            "title": "6.Iteration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Iteration",
+                    "title": "Traversal and Iteration",
+                    "sourcePath": "6.Iteration/Iteration.md",
+                    "sections": [
+                        {
+                            "id": "iterator-contract",
+                            "title": "Iterator Contract",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Iteration/sections/iterator-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "enhanced-for",
+                            "title": "Enhanced For",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Iteration/sections/enhanced-for.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "iterator-remove",
+                            "title": "Safe Iterator Removal",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Iteration/sections/iterator-remove.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "listiterator-contract",
+                            "title": "ListIterator: Bidirectional Traversal and Positional Mutation",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Iteration/sections/listiterator-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spliterator-boundary",
+                            "title": "Spliterator Boundary",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/Iteration/sections/spliterator-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/Iteration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.OrderingSorting",
+            "title": "7.OrderingSorting",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OrderingSorting",
+                    "title": "Ordering, Comparison, and Navigation",
+                    "sourcePath": "7.OrderingSorting/OrderingSorting.md",
+                    "sections": [
+                        {
+                            "id": "encounter-order",
+                            "title": "Encounter Order",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/sections/encounter-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "natural-ordering",
+                            "title": "Natural Ordering",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/sections/natural-ordering.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "comparison-result-contract",
+                            "title": "What Negative, Zero, and Positive Comparison Results Mean",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/sections/comparison-result-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "comparator-ordering",
+                            "title": "Comparator-Based Ordering",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/sections/comparator-ordering.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "navigable-range-operations",
+                            "title": "Navigation and Range Views After Ordering Is Understood",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/sections/navigable-range-operations.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stable-sort",
+                            "title": "Stable Sort and Tie Behavior",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/sections/stable-sort.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collections-utility-algorithms",
+                            "title": "Utility Algorithms in Collections",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/sections/collections-utility-algorithms.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/OrderingSorting/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.EqualityHashing",
+            "title": "8.EqualityHashing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EqualityHashing",
+                    "title": "Equality, Hashing, and Lookup Correctness",
+                    "sourcePath": "8.EqualityHashing/EqualityHashing.md",
+                    "sections": [
+                        {
+                            "id": "element-equality-effects",
+                            "title": "How Element Equality Affects Collections",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EqualityHashing/sections/element-equality-effects.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hash-bucket-boundary",
+                            "title": "The Hash-Bucket Boundary",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EqualityHashing/sections/hash-bucket-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sorted-equality-boundary",
+                            "title": "Equality in Sorted Collections",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EqualityHashing/sections/sorted-equality-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collection-equality-boundary",
+                            "title": "Not Every Collection Has List/Set-Style Value Equality",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EqualityHashing/sections/collection-equality-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collection-equality-contracts",
+                            "title": "How List, Set, and Map Equality Differ",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EqualityHashing/sections/collection-equality-contracts.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mutable-element-risk",
+                            "title": "The Risk of Mutable Keys and Elements",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EqualityHashing/sections/mutable-element-risk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/EqualityHashing/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.MutableImmutable",
+            "title": "9.MutableImmutable",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MutableImmutable",
+                    "title": "Mutation Ownership and Collection Views",
+                    "sourcePath": "9.MutableImmutable/MutableImmutable.md",
+                    "sections": [
+                        {
+                            "id": "modifiable-vs-unmodifiable",
+                            "title": "Modifiable vs Unmodifiable",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/MutableImmutable/sections/modifiable-vs-unmodifiable.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "immutable-factory",
+                            "title": "Unmodifiable Collection Factories",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/MutableImmutable/sections/immutable-factory.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "copy-of",
+                            "title": "copyOf and Structural Snapshots",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/MutableImmutable/sections/copy-of.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "backed-view-fixed-size-snapshot",
+                            "title": "Backed Views, Fixed-Size Adapters, and Snapshots",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/MutableImmutable/sections/backed-view-fixed-size-snapshot.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "view-vs-copy",
+                            "title": "View vs Defensive Copy",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/MutableImmutable/sections/view-vs-copy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/MutableImmutable/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.FailFast",
+            "title": "10.FailFast",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FailFast",
+                    "title": "Mutation During Iteration and Fail-Fast Behavior",
+                    "sourcePath": "10.FailFast/FailFast.md",
+                    "sections": [
+                        {
+                            "id": "structural-modification",
+                            "title": "Structural Modification",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/FailFast/sections/structural-modification.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "fail-fast-best-effort",
+                            "title": "Fail-Fast Is Best-Effort",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/FailFast/sections/fail-fast-best-effort.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "concurrent-modification-exception",
+                            "title": "What ConcurrentModificationException Actually Means",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/FailFast/sections/concurrent-modification-exception.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "iterator-safe-mutation",
+                            "title": "Safe Mutation During Iteration",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/FailFast/sections/iterator-safe-mutation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/FailFast/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.ImplementationChoice",
+            "title": "11.ImplementationChoice",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ImplementationChoice",
+                    "title": "Choosing Collection Implementations",
+                    "sourcePath": "11.ImplementationChoice/ImplementationChoice.md",
+                    "sections": [
+                        {
+                            "id": "list-choice",
+                            "title": "Choosing a List: ArrayList vs LinkedList",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/ImplementationChoice/sections/list-choice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "set-choice",
+                            "title": "Choosing a Set: HashSet, LinkedHashSet, or TreeSet",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/ImplementationChoice/sections/set-choice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "map-choice",
+                            "title": "Choosing a Map: HashMap, LinkedHashMap, or TreeMap",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/ImplementationChoice/sections/map-choice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "queue-choice",
+                            "title": "Choosing a Queue: ArrayDeque, LinkedList, or PriorityQueue",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/ImplementationChoice/sections/queue-choice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "null-policy-matrix",
+                            "title": "Null Policies of Common Implementations",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/ImplementationChoice/sections/null-policy-matrix.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "choice-by-characteristics",
+                            "title": "Choose by Characteristics Before Micro-Optimization",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/ImplementationChoice/sections/choice-by-characteristics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/ImplementationChoice/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.EnumCollections",
+            "title": "12.EnumCollections",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EnumCollections",
+                    "title": "Enum-Specialized Collections: EnumSet and EnumMap",
+                    "sourcePath": "12.EnumCollections/EnumCollections.md",
+                    "sections": [
+                        {
+                            "id": "enumset-model",
+                            "title": "EnumSet Model",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EnumCollections/sections/enumset-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "enummap-model",
+                            "title": "EnumMap Model",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EnumCollections/sections/enummap-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "enum-collection-benefits",
+                            "title": "Enum Collection Benefits and Trade-Offs",
+                            "content": "/module/JAVA_COLLECTION/knowledge/en/content/EnumCollections/sections/enum-collection-benefits.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_COLLECTION/knowledge/en/content/EnumCollections/intro.md"
+                }
+            ]
+        }
+    ]
+}

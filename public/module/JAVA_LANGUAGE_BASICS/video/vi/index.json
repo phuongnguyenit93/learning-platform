@@ -1,0 +1,18 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_LANGUAGE_BASICS",
+    "language": "vi",
+    "videoCount": 1,
+    "items": [
+        {
+            "categoryId": "LanguagePurpose",
+            "title": "B\u1ee9c tranh t\u1ed5ng th\u1ec3 v\u1ec1 n\u1ec1n t\u1ea3ng ng\u00f4n ng\u1eef Java",
+            "sourcePath": "1.LanguagePurpose/LanguagePurpose.md",
+            "content": "/module/JAVA_LANGUAGE_BASICS/video/vi/content/LanguagePurpose/script.json",
+            "url": "",
+            "sectionCount": 1,
+            "sceneCount": 5,
+            "transitionCount": 0
+        }
+    ]
+}

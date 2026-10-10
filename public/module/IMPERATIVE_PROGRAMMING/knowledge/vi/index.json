@@ -1,0 +1,116 @@
+{
+    "version": 1,
+    "moduleId": "IMPERATIVE_PROGRAMMING",
+    "language": "vi",
+    "categoryCount": 4,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ImperativeProgramming",
+                    "title": "Imperative Programming",
+                    "sourcePath": "1.Introduction/ImperativeProgramming.md",
+                    "sections": [
+                        {
+                            "id": "imperative-what",
+                            "title": "1. Imperative Programming l\u00e0 g\u00ec?",
+                            "content": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/ImperativeProgramming/sections/imperative-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "imperative-why",
+                            "title": "2. T\u1ea1i sao n\u00f3 t\u1ed3n t\u1ea1i?",
+                            "content": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/ImperativeProgramming/sections/imperative-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "imperative-before",
+                            "title": "3. N\u00f3 gi\u1ea3i quy\u1ebft v\u1ea5n \u0111\u1ec1 g\u00ec?",
+                            "content": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/ImperativeProgramming/sections/imperative-before.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "imperative-solution",
+                            "title": "4. Mental model",
+                            "content": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/ImperativeProgramming/sections/imperative-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "imperative-boundary",
+                            "title": "5. Boundary v\u1edbi c\u00e1c paradigm kh\u00e1c",
+                            "content": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/ImperativeProgramming/sections/imperative-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/ImperativeProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ProceduralProgramming",
+            "title": "2.ProceduralProgramming",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ProceduralProgramming",
+                    "title": "Procedural Programming",
+                    "sourcePath": "2.ProceduralProgramming/ProceduralProgramming.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/ProceduralProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.StateAndCommands",
+            "title": "3.StateAndCommands",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StateAndCommands",
+                    "title": "State, Command v\u00e0 Control Flow",
+                    "sourcePath": "3.StateAndCommands/StateAndCommands.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/StateAndCommands/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Tradeoffs",
+            "title": "4.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Imperative Programming Trade-off",
+                    "sourcePath": "4.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/IMPERATIVE_PROGRAMMING/knowledge/vi/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

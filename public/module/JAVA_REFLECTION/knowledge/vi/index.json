@@ -1,0 +1,569 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_REFLECTION",
+    "language": "vi",
+    "categoryCount": 10,
+    "sectionCount": 50,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Basic",
+            "title": "1.Basic",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Basic",
+                    "title": "Reflection l\u00e0 g\u00ec v\u00e0 v\u00ec sao c\u1ea7n n\u00f3?",
+                    "sourcePath": "1.Basic/Basic.md",
+                    "sections": [
+                        {
+                            "id": "reflection-model",
+                            "title": "Reflection l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Basic/sections/reflection-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reflection-use-cases",
+                            "title": "Khi n\u00e0o Reflection th\u1ef1c s\u1ef1 h\u1eefu \u00edch?",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Basic/sections/reflection-use-cases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/Basic/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ClassMetadata",
+            "title": "2.ClassMetadata",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ClassMetadata",
+                    "title": "M\u00f4 h\u00ecnh ki\u1ec3u l\u00fac ch\u1ea1y v\u1edbi Class<?>",
+                    "sourcePath": "2.ClassMetadata/ClassMetadata.md",
+                    "sections": [
+                        {
+                            "id": "class-object-entrypoints",
+                            "title": "Class<?>: c\u1eeda v\u00e0o c\u1ee7a Reflection",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/class-object-entrypoints.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-names",
+                            "title": "C\u00e1c lo\u1ea1i t\u00ean c\u1ee7a Class",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/class-names.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-kind",
+                            "title": "Ki\u1ec3u l\u00fac ch\u1ea1y n\u00e0y thu\u1ed9c lo\u1ea1i n\u00e0o?",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/class-kind.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "specialized-type-metadata",
+                            "title": "Si\u00eau d\u1eef li\u1ec7u \u0111\u1eb7c th\u00f9 c\u1ee7a m\u1ea3ng, enum, record v\u00e0 ki\u1ec3u sealed",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/specialized-type-metadata.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-annotation-metadata",
+                            "title": "Annotation nh\u01b0 si\u00eau d\u1eef li\u1ec7u l\u00fac ch\u1ea1y",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/runtime-annotation-metadata.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "modifiers",
+                            "title": "\u0110\u1ecdc modifier c\u1ee7a Class",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/modifiers.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "superclass-interfaces",
+                            "title": "Si\u00eau d\u1eef li\u1ec7u l\u1edbp cha v\u00e0 interface",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/superclass-interfaces.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "member-abstraction-model",
+                            "title": "M\u00f4 h\u00ecnh chung c\u1ee7a c\u00e1c \u0111\u1ed1i t\u01b0\u1ee3ng m\u00f4 t\u1ea3 th\u00e0nh ph\u1ea7n",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/member-abstraction-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "declared-vs-public-members",
+                            "title": "Th\u00e0nh ph\u1ea7n khai b\u00e1o tr\u1ef1c ti\u1ebfp v\u00e0 th\u00e0nh ph\u1ea7n public",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/sections/declared-vs-public-members.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/ClassMetadata/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Fields",
+            "title": "3.Fields",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Fields",
+                    "title": "Kh\u00e1m ph\u00e1 Field v\u00e0 si\u00eau d\u1eef li\u1ec7u tr\u1ea1ng th\u00e1i",
+                    "sourcePath": "3.Fields/Fields.md",
+                    "sections": [
+                        {
+                            "id": "field-discovery",
+                            "title": "T\u00ecm Field theo \u0111\u00fang ph\u1ea1m vi",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Fields/sections/field-discovery.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "field-modifiers",
+                            "title": "Modifier v\u00e0 \u0111\u1eb7c t\u00ednh c\u1ee7a Field",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Fields/sections/field-modifiers.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "field-type-metadata",
+                            "title": "Ki\u1ec3u th\u00f4 (raw) v\u00e0 ki\u1ec3u generic c\u1ee7a Field",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Fields/sections/field-type-metadata.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/Fields/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Methods",
+            "title": "4.Methods",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Methods",
+                    "title": "Kh\u00e1m ph\u00e1 Method v\u00e0 ch\u1eef k\u00fd ph\u01b0\u01a1ng th\u1ee9c",
+                    "sourcePath": "4.Methods/Methods.md",
+                    "sections": [
+                        {
+                            "id": "method-discovery",
+                            "title": "T\u00ecm \u0111\u00fang Method",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Methods/sections/method-discovery.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-signature-metadata",
+                            "title": "Si\u00eau d\u1eef li\u1ec7u ch\u1eef k\u00fd c\u1ee7a Method",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Methods/sections/method-signature-metadata.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/Methods/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Constructors",
+            "title": "5.Constructors",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Constructors",
+                    "title": "Kh\u00e1m ph\u00e1 Constructor v\u00e0 si\u00eau d\u1eef li\u1ec7u kh\u1edfi t\u1ea1o",
+                    "sourcePath": "5.Constructors/Constructors.md",
+                    "sections": [
+                        {
+                            "id": "constructor-discovery",
+                            "title": "Kh\u00e1m ph\u00e1 constructor",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Constructors/sections/constructor-discovery.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-metadata",
+                            "title": "Si\u00eau d\u1eef li\u1ec7u c\u1ee7a Constructor",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/Constructors/sections/constructor-metadata.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/Constructors/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.DynamicInvocation",
+            "title": "6.DynamicInvocation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DynamicInvocation",
+                    "title": "Thao t\u00e1c \u0111\u1ed9ng b\u1eb1ng si\u00eau d\u1eef li\u1ec7u",
+                    "sourcePath": "6.DynamicInvocation/DynamicInvocation.md",
+                    "sections": [
+                        {
+                            "id": "field-read-write",
+                            "title": "\u0110\u1ecdc v\u00e0 ghi gi\u00e1 tr\u1ecb qua Field",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/field-read-write.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-invoke",
+                            "title": "G\u1ecdi Method l\u00fac ch\u1ea1y",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/method-invoke.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "invocation-exception",
+                            "title": "InvocationTargetException: l\u1ed7i c\u1ee7a Reflection hay l\u1ed7i c\u1ee7a m\u00e3 \u0111\u00edch?",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/invocation-exception.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "varargs-reflection",
+                            "title": "Varargs qua Reflection",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/varargs-reflection.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-newinstance",
+                            "title": "T\u1ea1o \u0111\u1ed1i t\u01b0\u1ee3ng b\u1eb1ng Constructor.newInstance",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/constructor-newinstance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-reflection-failure",
+                            "title": "C\u00e1c l\u1ed7i khi t\u1ea1o \u0111\u1ed1i t\u01b0\u1ee3ng b\u1eb1ng Reflection",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/constructor-reflection-failure.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reflective-dispatch",
+                            "title": "T\u1ed5ng h\u1ee3p lu\u1ed3ng g\u1ecdi ph\u1ea3n chi\u1ebfu",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/reflective-dispatch.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "argument-conversion",
+                            "title": "Chuy\u1ec3n \u0111\u1ed5i \u0111\u1ed1i s\u1ed1 khi invoke",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/argument-conversion.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dynamic-array-reflection",
+                            "title": "T\u1ea1o v\u00e0 truy c\u1eadp m\u1ea3ng khi ki\u1ec3u ph\u1ea7n t\u1eed ch\u1ec9 bi\u1ebft l\u00fac ch\u1ea1y",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/dynamic-array-reflection.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-handle-boundary",
+                            "title": "Ranh gi\u1edbi v\u1edbi MethodHandle",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/method-handle-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dynamic-invocation-design",
+                            "title": "Thi\u1ebft k\u1ebf l\u1eddi g\u1ecdi \u0111\u1ed9ng",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/sections/dynamic-invocation-design.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicInvocation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.AccessControl",
+            "title": "7.AccessControl",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AccessControl",
+                    "title": "Quy\u1ec1n truy c\u1eadp, \u0111\u00f3ng g\u00f3i v\u00e0 gi\u1edbi h\u1ea1n m\u00f4-\u0111un",
+                    "sourcePath": "7.AccessControl/AccessControl.md",
+                    "sections": [
+                        {
+                            "id": "language-vs-reflective-access",
+                            "title": "Quy\u1ec1n truy c\u1eadp c\u1ee7a Java v\u00e0 quy\u1ec1n truy c\u1eadp qua Reflection",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/AccessControl/sections/language-vs-reflective-access.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "try-set-accessible",
+                            "title": "trySetAccessible v\u00e0 setAccessible",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/AccessControl/sections/try-set-accessible.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "strong-encapsulation-boundary",
+                            "title": "T\u00ednh \u0111\u00f3ng g\u00f3i m\u1ea1nh c\u1ee7a JPMS",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/AccessControl/sections/strong-encapsulation-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "accessible-object-risk",
+                            "title": "R\u1ee7i ro khi m\u1edf quy\u1ec1n truy c\u1eadp",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/AccessControl/sections/accessible-object-risk.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/AccessControl/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.GenericTypeInspection",
+            "title": "8.GenericTypeInspection",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "GenericTypeInspection",
+                    "title": "Si\u00eau d\u1eef li\u1ec7u Generics c\u00f2n l\u1ea1i sau x\u00f3a ki\u1ec3u",
+                    "sourcePath": "8.GenericTypeInspection/GenericTypeInspection.md",
+                    "sections": [
+                        {
+                            "id": "type-interface",
+                            "title": "Type v\u00e0 m\u00f4 h\u00ecnh si\u00eau d\u1eef li\u1ec7u c\u1ee7a khai b\u00e1o generic",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/GenericTypeInspection/sections/type-interface.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "parameterized-type",
+                            "title": "ParameterizedType v\u00e0 \u0111\u1ed1i s\u1ed1 ki\u1ec3u",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/GenericTypeInspection/sections/parameterized-type.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "type-variable-bounds",
+                            "title": "TypeVariable v\u00e0 gi\u1edbi h\u1ea1n ki\u1ec3u",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/GenericTypeInspection/sections/type-variable-bounds.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wildcard-reflection",
+                            "title": "Wildcard qua Reflection",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/GenericTypeInspection/sections/wildcard-reflection.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "erasure-vs-signature-metadata",
+                            "title": "X\u00f3a ki\u1ec3u v\u00e0 si\u00eau d\u1eef li\u1ec7u ch\u1eef k\u00fd generic",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/GenericTypeInspection/sections/erasure-vs-signature-metadata.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/GenericTypeInspection/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.DynamicProxy",
+            "title": "9.DynamicProxy",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DynamicProxy",
+                    "title": "Proxy \u0111\u1ed9ng v\u00e0 ch\u1eb7n l\u1eddi g\u1ecdi",
+                    "sourcePath": "9.DynamicProxy/DynamicProxy.md",
+                    "sections": [
+                        {
+                            "id": "jdk-proxy-model",
+                            "title": "M\u00f4 h\u00ecnh JDK Dynamic Proxy",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicProxy/sections/jdk-proxy-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "invocation-handler",
+                            "title": "InvocationHandler v\u00e0 lu\u1ed3ng \u1ee7y quy\u1ec1n",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicProxy/sections/invocation-handler.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-interfaces",
+                            "title": "Interface l\u00e0 h\u1ee3p \u0111\u1ed3ng c\u1ee7a JDK Proxy",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicProxy/sections/proxy-interfaces.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-methods-proxy",
+                            "title": "equals, hashCode v\u00e0 toString tr\u00ean proxy",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicProxy/sections/object-methods-proxy.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "proxy-limitations",
+                            "title": "Gi\u1edbi h\u1ea1n c\u1ee7a proxy v\u00e0 ranh gi\u1edbi v\u1edbi Spring AOP",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicProxy/sections/proxy-limitations.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/DynamicProxy/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.LimitationsRisks",
+            "title": "10.LimitationsRisks",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LimitationsRisks",
+                    "title": "Khi n\u00e0o n\u00ean d\u00f9ng Reflection?",
+                    "sourcePath": "10.LimitationsRisks/LimitationsRisks.md",
+                    "sections": [
+                        {
+                            "id": "reflection-cost-boundary",
+                            "title": "C\u00e1i gi\u00e1 v\u00e0 ranh gi\u1edbi s\u1eed d\u1ee5ng",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/sections/reflection-cost-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "compile-time-safety-loss",
+                            "title": "M\u1ea5t \u0111\u1ed9 an to\u00e0n t\u1ea1i th\u1eddi \u0111i\u1ec3m bi\u00ean d\u1ecbch",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/sections/compile-time-safety-loss.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "encapsulation-breakage",
+                            "title": "S\u1ef1 ph\u1ee5 thu\u1ed9c khi ph\u00e1 t\u00ednh \u0111\u00f3ng g\u00f3i",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/sections/encapsulation-breakage.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reflection-performance",
+                            "title": "Hi\u1ec7u n\u0103ng v\u00e0 l\u01b0u \u0111\u1ec7m si\u00eau d\u1eef li\u1ec7u",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/sections/reflection-performance.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-image-boundary",
+                            "title": "Ranh gi\u1edbi v\u1edbi native image",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/sections/native-image-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reflection-maintainability",
+                            "title": "Kh\u1ea3 n\u0103ng b\u1ea3o tr\u00ec v\u00e0 t\u00e1i c\u1ea5u tr\u00fac",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/sections/reflection-maintainability.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reflection-decision-model",
+                            "title": "M\u00f4 h\u00ecnh quy\u1ebft \u0111\u1ecbnh: khi n\u00e0o n\u00ean v\u00e0 kh\u00f4ng n\u00ean d\u00f9ng Reflection?",
+                            "content": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/sections/reflection-decision-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_REFLECTION/knowledge/vi/content/LimitationsRisks/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,665 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_CLASS_OBJECT",
+    "language": "vi",
+    "categoryCount": 15,
+    "sectionCount": 52,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.ClassObject",
+            "title": "1.ClassObject",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ClassObject",
+                    "title": "L\u1edbp (class) v\u00e0 \u0111\u1ed1i t\u01b0\u1ee3ng (object)",
+                    "sourcePath": "1.ClassObject/ClassObject.md",
+                    "sections": [
+                        {
+                            "id": "class-object-model",
+                            "title": "L\u1edbp v\u00e0 \u0111\u1ed1i t\u01b0\u1ee3ng l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ClassObject/sections/class-object-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "fields-methods-state",
+                            "title": "Tr\u1ea1ng th\u00e1i, h\u00e0nh vi v\u00e0 danh t\u00ednh",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ClassObject/sections/fields-methods-state.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-reference-lifecycle",
+                            "title": "Tham chi\u1ebfu v\u00e0 th\u1eddi gian t\u1ed3n t\u1ea1i c\u1ee7a \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ClassObject/sections/object-reference-lifecycle.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ClassObject/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Constructor",
+            "title": "2.Constructor",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Constructor",
+                    "title": "H\u00e0m kh\u1edfi t\u1ea1o (constructor) v\u00e0 tr\u1ea1ng th\u00e1i h\u1ee3p l\u1ec7",
+                    "sourcePath": "2.Constructor/Constructor.md",
+                    "sections": [
+                        {
+                            "id": "constructor-purpose",
+                            "title": "M\u1ee5c \u0111\u00edch c\u1ee7a h\u00e0m kh\u1edfi t\u1ea1o",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Constructor/sections/constructor-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-overloading",
+                            "title": "N\u1ea1p ch\u1ed3ng v\u00e0 n\u1ed1i chu\u1ed7i h\u00e0m kh\u1edfi t\u1ea1o",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Constructor/sections/constructor-overloading.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "default-constructor",
+                            "title": "H\u00e0m kh\u1edfi t\u1ea1o m\u1eb7c \u0111\u1ecbnh",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Constructor/sections/default-constructor.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-exceptions",
+                            "title": "Khi h\u00e0m kh\u1edfi t\u1ea1o th\u1ea5t b\u1ea1i",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Constructor/sections/constructor-exceptions.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Constructor/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ThisSuper",
+            "title": "3.ThisSuper",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ThisSuper",
+                    "title": "this, super v\u00e0 chu\u1ed7i kh\u1edfi t\u1ea1o",
+                    "sourcePath": "3.ThisSuper/ThisSuper.md",
+                    "sections": [
+                        {
+                            "id": "this-reference",
+                            "title": "this",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ThisSuper/sections/this-reference.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "super-access",
+                            "title": "super",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ThisSuper/sections/super-access.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-chaining-order",
+                            "title": "Chu\u1ed7i g\u1ecdi this()/super()",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ThisSuper/sections/constructor-chaining-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ThisSuper/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.AccessModifier",
+            "title": "4.AccessModifier",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AccessModifier",
+                    "title": "Ph\u1ea1m vi truy c\u1eadp th\u00e0nh vi\u00ean",
+                    "sourcePath": "4.AccessModifier/AccessModifier.md",
+                    "sections": [
+                        {
+                            "id": "access-levels",
+                            "title": "C\u00e1c m\u1ee9c truy c\u1eadp",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/AccessModifier/sections/access-levels.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "protected-cross-package",
+                            "title": "protected gi\u1eefa c\u00e1c package",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/AccessModifier/sections/protected-cross-package.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "encapsulation-boundary",
+                            "title": "Ki\u1ec3m so\u00e1t truy c\u1eadp v\u00e0 \u0111\u00f3ng g\u00f3i",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/AccessModifier/sections/encapsulation-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "java-modifier-map",
+                            "title": "Ph\u00e2n bi\u1ec7t v\u1edbi c\u00e1c t\u1eeb b\u1ed5 ngh\u0129a kh\u00e1c",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/AccessModifier/sections/java-modifier-map.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/AccessModifier/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.StaticFinal",
+            "title": "5.StaticFinal",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StaticFinal",
+                    "title": "Th\u00e0nh vi\u00ean c\u1ea5p l\u1edbp, th\u00e0nh vi\u00ean c\u1ea5p \u0111\u1ed1i t\u01b0\u1ee3ng v\u00e0 final",
+                    "sourcePath": "5.StaticFinal/StaticFinal.md",
+                    "sections": [
+                        {
+                            "id": "static-vs-instance",
+                            "title": "Th\u00e0nh vi\u00ean static v\u00e0 th\u00e0nh vi\u00ean c\u1ee7a \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/StaticFinal/sections/static-vs-instance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "final-variable-reference",
+                            "title": "\u00dd ngh\u0129a c\u1ee7a final",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/StaticFinal/sections/final-variable-reference.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-initialization",
+                            "title": "Kh\u1edfi t\u1ea1o static",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/StaticFinal/sections/static-initialization.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constants-design",
+                            "title": "H\u1eb1ng s\u1ed1 v\u00e0 h\u1eb1ng s\u1ed1 t\u1ea1i th\u1eddi \u0111i\u1ec3m bi\u00ean d\u1ecbch",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/StaticFinal/sections/constants-design.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/StaticFinal/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.InitializationBlocks",
+            "title": "6.InitializationBlocks",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "InitializationBlocks",
+                    "title": "Kh\u1ed1i kh\u1edfi t\u1ea1o",
+                    "sourcePath": "6.InitializationBlocks/InitializationBlocks.md",
+                    "sections": [
+                        {
+                            "id": "static-initializer",
+                            "title": "Kh\u1ed1i kh\u1edfi t\u1ea1o static",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationBlocks/sections/static-initializer.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "instance-initializer",
+                            "title": "Kh\u1ed1i kh\u1edfi t\u1ea1o \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationBlocks/sections/instance-initializer.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "initializer-use-cases",
+                            "title": "Khi n\u00e0o d\u00f9ng kh\u1ed1i kh\u1edfi t\u1ea1o?",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationBlocks/sections/initializer-use-cases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationBlocks/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.InitializationOrder",
+            "title": "7.InitializationOrder",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "InitializationOrder",
+                    "title": "Th\u1ee9 t\u1ef1 kh\u1edfi t\u1ea1o",
+                    "sourcePath": "7.InitializationOrder/InitializationOrder.md",
+                    "sections": [
+                        {
+                            "id": "class-initialization-order",
+                            "title": "Th\u1ee9 t\u1ef1 kh\u1edfi t\u1ea1o l\u1edbp",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationOrder/sections/class-initialization-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "instance-initialization-order",
+                            "title": "Th\u1ee9 t\u1ef1 kh\u1edfi t\u1ea1o t\u1eebng \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationOrder/sections/instance-initialization-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inheritance-initialization-order",
+                            "title": "Th\u1ee9 t\u1ef1 kh\u1edfi t\u1ea1o khi c\u00f3 k\u1ebf th\u1eeba",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationOrder/sections/inheritance-initialization-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/InitializationOrder/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.ObjectCreationLifecycle",
+            "title": "8.ObjectCreationLifecycle",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectCreationLifecycle",
+                    "title": "Qu\u00e1 tr\u00ecnh t\u1ea1o \u0111\u1ed1i t\u01b0\u1ee3ng",
+                    "sourcePath": "8.ObjectCreationLifecycle/ObjectCreationLifecycle.md",
+                    "sections": [
+                        {
+                            "id": "allocation-initialization-construction",
+                            "title": "C\u00e1c b\u01b0\u1edbc t\u1ea1o \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectCreationLifecycle/sections/allocation-initialization-construction.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-dynamic-dispatch-risk",
+                            "title": "G\u1ecdi ph\u01b0\u01a1ng th\u1ee9c b\u1ecb ghi \u0111\u00e8 trong h\u00e0m kh\u1edfi t\u1ea1o",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectCreationLifecycle/sections/constructor-dynamic-dispatch-risk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "this-escape",
+                            "title": "Chia s\u1ebb this tr\u01b0\u1edbc khi kh\u1edfi t\u1ea1o xong",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectCreationLifecycle/sections/this-escape.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectCreationLifecycle/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.NestedInnerClass",
+            "title": "9.NestedInnerClass",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "NestedInnerClass",
+                    "title": "L\u1edbp l\u1ed3ng nhau v\u00e0 l\u1edbp n\u1ed9i b\u1ed9",
+                    "sourcePath": "9.NestedInnerClass/NestedInnerClass.md",
+                    "sections": [
+                        {
+                            "id": "static-nested-class",
+                            "title": "L\u1edbp l\u1ed3ng static",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/NestedInnerClass/sections/static-nested-class.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inner-class",
+                            "title": "L\u1edbp n\u1ed9i b\u1ed9",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/NestedInnerClass/sections/inner-class.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "local-anonymous-class",
+                            "title": "L\u1edbp c\u1ee5c b\u1ed9 v\u00e0 l\u1edbp v\u00f4 danh",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/NestedInnerClass/sections/local-anonymous-class.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "capture-semantics",
+                            "title": "S\u1eed d\u1ee5ng bi\u1ebfn c\u1ee5c b\u1ed9 t\u1eeb ph\u1ea1m vi b\u00ean ngo\u00e0i",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/NestedInnerClass/sections/capture-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/NestedInnerClass/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.ObjectClass",
+            "title": "10.ObjectClass",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectClass",
+                    "title": "Object \u2013 l\u1edbp g\u1ed1c chung",
+                    "sourcePath": "10.ObjectClass/ObjectClass.md",
+                    "sections": [
+                        {
+                            "id": "object-root-type",
+                            "title": "Object l\u00e0 ki\u1ec3u tham chi\u1ebfu g\u1ed1c",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectClass/sections/object-root-type.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-core-methods",
+                            "title": "C\u00e1c ph\u01b0\u01a1ng th\u1ee9c c\u1ed1t l\u00f5i c\u1ee7a Object",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectClass/sections/object-core-methods.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "clone-finalize-boundary",
+                            "title": "Ranh gi\u1edbi c\u1ee7a clone v\u00e0 finalize",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectClass/sections/clone-finalize-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectClass/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.Enum",
+            "title": "11.Enum",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Enum",
+                    "title": "Ki\u1ec3u li\u1ec7t k\u00ea (enum)",
+                    "sourcePath": "11.Enum/Enum.md",
+                    "sections": [
+                        {
+                            "id": "enum-type-model",
+                            "title": "H\u1eb1ng enum l\u00e0 \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Enum/sections/enum-type-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "enum-fields-constructors",
+                            "title": "Tr\u01b0\u1eddng, h\u00e0m kh\u1edfi t\u1ea1o v\u00e0 ph\u01b0\u01a1ng th\u1ee9c trong enum",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Enum/sections/enum-fields-constructors.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "enum-interface",
+                            "title": "Enum tri\u1ec3n khai giao di\u1ec7n",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Enum/sections/enum-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "enum-constant-specific",
+                            "title": "H\u00e0nh vi ri\u00eang theo t\u1eebng h\u1eb1ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Enum/sections/enum-constant-specific.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "enum-values-valueof",
+                            "title": "values, valueOf, name v\u00e0 ordinal",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Enum/sections/enum-values-valueof.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/Enum/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.CopySemantics",
+            "title": "12.CopySemantics",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CopySemantics",
+                    "title": "C\u00e1ch sao ch\u00e9p \u0111\u1ed1i t\u01b0\u1ee3ng",
+                    "sourcePath": "12.CopySemantics/CopySemantics.md",
+                    "sections": [
+                        {
+                            "id": "reference-copy",
+                            "title": "Sao ch\u00e9p tham chi\u1ebfu",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/CopySemantics/sections/reference-copy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "shallow-copy",
+                            "title": "Sao ch\u00e9p n\u00f4ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/CopySemantics/sections/shallow-copy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "deep-copy",
+                            "title": "Sao ch\u00e9p s\u00e2u",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/CopySemantics/sections/deep-copy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "copy-strategies",
+                            "title": "C\u00e1c chi\u1ebfn l\u01b0\u1ee3c sao ch\u00e9p",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/CopySemantics/sections/copy-strategies.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/CopySemantics/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "13.ObjectAliasingMutability",
+            "title": "13.ObjectAliasingMutability",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectAliasingMutability",
+                    "title": "D\u00f9ng chung tham chi\u1ebfu v\u00e0 tr\u1ea1ng th\u00e1i c\u00f3 th\u1ec3 thay \u0111\u1ed5i",
+                    "sourcePath": "13.ObjectAliasingMutability/ObjectAliasingMutability.md",
+                    "sections": [
+                        {
+                            "id": "aliasing-model",
+                            "title": "Nhi\u1ec1u tham chi\u1ebfu, m\u1ed9t \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectAliasingMutability/sections/aliasing-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "shared-mutable-state",
+                            "title": "Tr\u1ea1ng th\u00e1i c\u00f3 th\u1ec3 thay \u0111\u1ed5i d\u00f9ng chung",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectAliasingMutability/sections/shared-mutable-state.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aliasing-in-collections",
+                            "title": "L\u1ed9 tham chi\u1ebfu qua t\u1eadp h\u1ee3p v\u00e0 ph\u01b0\u01a1ng th\u1ee9c getter",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectAliasingMutability/sections/aliasing-in-collections.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ObjectAliasingMutability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "14.ImmutabilityDefensiveCopy",
+            "title": "14.ImmutabilityDefensiveCopy",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ImmutabilityDefensiveCopy",
+                    "title": "T\u00ednh b\u1ea5t bi\u1ebfn v\u00e0 sao ch\u00e9p ph\u00f2ng v\u1ec7",
+                    "sourcePath": "14.ImmutabilityDefensiveCopy/ImmutabilityDefensiveCopy.md",
+                    "sections": [
+                        {
+                            "id": "immutable-object-design",
+                            "title": "Thi\u1ebft k\u1ebf \u0111\u1ed1i t\u01b0\u1ee3ng b\u1ea5t bi\u1ebfn",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ImmutabilityDefensiveCopy/sections/immutable-object-design.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "defensive-copy-input",
+                            "title": "Sao ch\u00e9p ph\u00f2ng v\u1ec7 \u1edf \u0111\u1ea7u v\u00e0o",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ImmutabilityDefensiveCopy/sections/defensive-copy-input.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "defensive-copy-output",
+                            "title": "Sao ch\u00e9p ph\u00f2ng v\u1ec7 \u1edf \u0111\u1ea7u ra",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ImmutabilityDefensiveCopy/sections/defensive-copy-output.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "deep-immutability",
+                            "title": "B\u1ea5t bi\u1ebfn n\u00f4ng v\u00e0 b\u1ea5t bi\u1ebfn s\u00e2u",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ImmutabilityDefensiveCopy/sections/deep-immutability.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ImmutabilityDefensiveCopy/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "15.ClassObjectSynthesis",
+            "title": "15.ClassObjectSynthesis",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ClassObjectSynthesis",
+                    "title": "T\u1ed5ng h\u1ee3p m\u00f4 h\u00ecnh l\u1edbp v\u00e0 \u0111\u1ed1i t\u01b0\u1ee3ng",
+                    "sourcePath": "15.ClassObjectSynthesis/ClassObjectSynthesis.md",
+                    "sections": [
+                        {
+                            "id": "class-object-synthesis",
+                            "title": "M\u00f4 h\u00ecnh xuy\u00ean su\u1ed1t",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ClassObjectSynthesis/sections/class-object-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-object-module-boundaries",
+                            "title": "Ranh gi\u1edbi v\u1edbi c\u00e1c m\u00f4-\u0111un ti\u1ebfp theo",
+                            "content": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ClassObjectSynthesis/sections/class-object-module-boundaries.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASS_OBJECT/knowledge/vi/content/ClassObjectSynthesis/intro.md"
+                }
+            ]
+        }
+    ]
+}

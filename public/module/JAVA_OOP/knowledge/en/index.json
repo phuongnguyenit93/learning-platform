@@ -1,0 +1,361 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_OOP",
+    "language": "en",
+    "categoryCount": 7,
+    "sectionCount": 30,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MentalModel",
+                    "title": "What Is Object-Oriented Programming (OOP) and Why Use It?",
+                    "sourcePath": "1.MentalModel/MentalModel.md",
+                    "sections": [
+                        {
+                            "id": "oop-object-collaboration",
+                            "title": "What Is OOP?",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/MentalModel/sections/oop-object-collaboration.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-boundaries",
+                            "title": "Responsibility Boundaries",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/MentalModel/sections/oop-boundaries.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-vs-procedural",
+                            "title": "OOP vs Procedural Programming",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/MentalModel/sections/oop-vs-procedural.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/en/content/MentalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Encapsulation",
+            "title": "2.Encapsulation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Encapsulation",
+                    "title": "Encapsulation and Invariants",
+                    "sourcePath": "2.Encapsulation/Encapsulation.md",
+                    "sections": [
+                        {
+                            "id": "encapsulation-model",
+                            "title": "What Is Encapsulation?",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Encapsulation/sections/encapsulation-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "encapsulation-access-modifiers",
+                            "title": "Access Modifiers and Encapsulation",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Encapsulation/sections/encapsulation-access-modifiers.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "invariant-protection",
+                            "title": "Protecting Invariants",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Encapsulation/sections/invariant-protection.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tell-dont-ask-boundary",
+                            "title": "Tell, Don't Ask",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Encapsulation/sections/tell-dont-ask-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/en/content/Encapsulation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Inheritance",
+            "title": "3.Inheritance",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Inheritance",
+                    "title": "Subtyping and Inheritance",
+                    "sourcePath": "3.Inheritance/Inheritance.md",
+                    "sections": [
+                        {
+                            "id": "is-a-subtyping",
+                            "title": "Inheritance and Subtyping",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Inheritance/sections/is-a-subtyping.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inherited-state-behavior",
+                            "title": "Inherited State and Behavior",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Inheritance/sections/inherited-state-behavior.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inheritance-coupling",
+                            "title": "Inheritance Risks",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Inheritance/sections/inheritance-coupling.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/en/content/Inheritance/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Polymorphism",
+            "title": "4.Polymorphism",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Polymorphism",
+                    "title": "Polymorphism and Dynamic Dispatch",
+                    "sourcePath": "4.Polymorphism/Polymorphism.md",
+                    "sections": [
+                        {
+                            "id": "subtype-polymorphism",
+                            "title": "Subtype Polymorphism",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Polymorphism/sections/subtype-polymorphism.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dynamic-dispatch",
+                            "title": "Dynamic Dispatch",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Polymorphism/sections/dynamic-dispatch.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "substitutability",
+                            "title": "Substitutability",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Polymorphism/sections/substitutability.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/en/content/Polymorphism/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.OverloadingOverriding",
+            "title": "5.OverloadingOverriding",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OverloadingOverriding",
+                    "title": "How Java Selects Methods",
+                    "sourcePath": "5.OverloadingOverriding/OverloadingOverriding.md",
+                    "sections": [
+                        {
+                            "id": "overloading-compile-time",
+                            "title": "Overloading",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/sections/overloading-compile-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "overriding-runtime",
+                            "title": "Overriding",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/sections/overriding-runtime.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "covariant-return",
+                            "title": "Covariant Return Types",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/sections/covariant-return.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "override-rules",
+                            "title": "Overriding Rules",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/sections/override-rules.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-method-hiding",
+                            "title": "Static Method Hiding",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/sections/static-method-hiding.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "field-hiding",
+                            "title": "Field Hiding",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/sections/field-hiding.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dispatch-vs-hiding",
+                            "title": "Dispatch vs Hiding",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/sections/dispatch-vs-hiding.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/en/content/OverloadingOverriding/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Composition",
+            "title": "6.Composition",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Composition",
+                    "title": "Object Collaboration through Composition and Delegation",
+                    "sourcePath": "6.Composition/Composition.md",
+                    "sections": [
+                        {
+                            "id": "composition-has-a",
+                            "title": "Composition",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Composition/sections/composition-has-a.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-relationships",
+                            "title": "Object Relationships",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Composition/sections/object-relationships.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "association-dependency",
+                            "title": "Dependency and Association",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Composition/sections/association-dependency.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ownership-lifecycle",
+                            "title": "Ownership and Lifecycle",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Composition/sections/ownership-lifecycle.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "composition-vs-inheritance",
+                            "title": "Composition vs Inheritance",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Composition/sections/composition-vs-inheritance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "delegation",
+                            "title": "Delegation",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Composition/sections/delegation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/en/content/Composition/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Abstraction",
+            "title": "7.Abstraction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Abstraction",
+                    "title": "Abstraction and Behavioral Contracts",
+                    "sourcePath": "7.Abstraction/Abstraction.md",
+                    "sections": [
+                        {
+                            "id": "abstraction-model",
+                            "title": "What Is Abstraction?",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Abstraction/sections/abstraction-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "program-to-abstraction",
+                            "title": "Program to Abstraction",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Abstraction/sections/program-to-abstraction.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-leak",
+                            "title": "Leaky Abstractions",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Abstraction/sections/abstraction-leak.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-synthesis",
+                            "title": "OOP Design Synthesis",
+                            "content": "/module/JAVA_OOP/knowledge/en/content/Abstraction/sections/oop-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/en/content/Abstraction/intro.md"
+                }
+            ]
+        }
+    ]
+}

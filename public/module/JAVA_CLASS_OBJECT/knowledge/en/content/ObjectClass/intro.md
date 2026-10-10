@@ -1,0 +1,3 @@
+# Object as the Common Root Class
+
+`java.lang.Object` is the root class of Java's ordinary class hierarchy. Every class other than `Object` itself has `Object` somewhere in its superclass chain, which gives ordinary class instances a common baseline contract. Learning this model explains both the broadest ordinary reference type and the core methods inherited by normal classes before their deeper behavioral contracts are studied elsewhere. The default implementations inherited from `Object` are not always appropriate for domain semantics, so some classes need behavior defined according to the relevant contracts.

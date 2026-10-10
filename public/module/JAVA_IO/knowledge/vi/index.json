@@ -1,0 +1,625 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_IO",
+    "language": "vi",
+    "categoryCount": 11,
+    "sectionCount": 55,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MentalModel",
+                    "title": "M\u00f4 h\u00ecnh lu\u1ed3ng d\u1eef li\u1ec7u I/O v\u00e0 v\u00f2ng \u0111\u1eddi t\u00e0i nguy\u00ean",
+                    "sourcePath": "1.MentalModel/MentalModel.md",
+                    "sections": [
+                        {
+                            "id": "io-data-flow",
+                            "title": "I/O l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/MentalModel/sections/io-data-flow.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bytes-vs-characters",
+                            "title": "Byte v\u00e0 k\u00fd t\u1ef1",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/MentalModel/sections/bytes-vs-characters.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "blocking-io-boundary",
+                            "title": "I/O ch\u1eb7n, kh\u00f4ng ch\u1eb7n v\u00e0 b\u1ea5t \u0111\u1ed3ng b\u1ed9",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/MentalModel/sections/blocking-io-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "resource-lifecycle",
+                            "title": "V\u00f2ng \u0111\u1eddi t\u00e0i nguy\u00ean I/O",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/MentalModel/sections/resource-lifecycle.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/MentalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ByteStreams",
+            "title": "2.ByteStreams",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ByteStreams",
+                    "title": "Lu\u1ed3ng byte v\u00e0 d\u1eef li\u1ec7u nh\u1ecb ph\u00e2n c\u00f3 c\u1ea5u tr\u00fac",
+                    "sourcePath": "2.ByteStreams/ByteStreams.md",
+                    "sections": [
+                        {
+                            "id": "inputstream-outputstream",
+                            "title": "InputStream v\u00e0 OutputStream",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ByteStreams/sections/inputstream-outputstream.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "standard-console-io",
+                            "title": "I/O chu\u1ea9n v\u00e0 Console",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ByteStreams/sections/standard-console-io.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "read-contract",
+                            "title": "Quy t\u1eafc c\u1ee7a read()",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ByteStreams/sections/read-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "partial-read-write",
+                            "title": "\u0110\u1ecdc t\u1eebng ph\u1ea7n v\u00e0 quy t\u1eafc ghi",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ByteStreams/sections/partial-read-write.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "typed-binary-io",
+                            "title": "I/O nh\u1ecb ph\u00e2n c\u00f3 c\u1ea5u tr\u00fac v\u1edbi DataInput/DataOutput",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ByteStreams/sections/typed-binary-io.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "byte-stream-use-cases",
+                            "title": "Khi n\u00e0o d\u00f9ng lu\u1ed3ng byte?",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ByteStreams/sections/byte-stream-use-cases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/ByteStreams/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.CharacterStreams",
+            "title": "3.CharacterStreams",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CharacterStreams",
+                    "title": "Lu\u1ed3ng k\u00fd t\u1ef1 v\u00e0 chuy\u1ec3n \u0111\u1ed5i b\u1ed9 m\u00e3 k\u00fd t\u1ef1",
+                    "sourcePath": "3.CharacterStreams/CharacterStreams.md",
+                    "sections": [
+                        {
+                            "id": "reader-writer",
+                            "title": "Reader v\u00e0 Writer",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/CharacterStreams/sections/reader-writer.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "charset-bridge",
+                            "title": "Chuy\u1ec3n \u0111\u1ed5i byte \u2194 k\u00fd t\u1ef1 b\u1eb1ng Charset",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/CharacterStreams/sections/charset-bridge.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/CharacterStreams/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.BufferedIO",
+            "title": "4.BufferedIO",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BufferedIO",
+                    "title": "L\u1edbp b\u1ecdc, b\u1ed9 \u0111\u1ec7m v\u00e0 h\u00e0nh vi \u0111\u1ea9y d\u1eef li\u1ec7u (flush)",
+                    "sourcePath": "4.BufferedIO/BufferedIO.md",
+                    "sections": [
+                        {
+                            "id": "wrapper-composition",
+                            "title": "Gh\u00e9p l\u1edbp b\u1ecdc I/O \u0111\u1ec3 b\u1ed5 sung h\u00e0nh vi",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BufferedIO/sections/wrapper-composition.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "buffering-purpose",
+                            "title": "V\u00ec sao c\u1ea7n b\u1ed9 \u0111\u1ec7m?",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BufferedIO/sections/buffering-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "character-buffering",
+                            "title": "D\u00f9ng b\u1ed9 \u0111\u1ec7m cho d\u1eef li\u1ec7u k\u00fd t\u1ef1",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BufferedIO/sections/character-buffering.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "flush-semantics",
+                            "title": "flush() c\u00f3 \u00fd ngh\u0129a g\u00ec?",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BufferedIO/sections/flush-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "buffer-size-tradeoff",
+                            "title": "\u0110\u00e1nh \u0111\u1ed5i k\u00edch th\u01b0\u1edbc b\u1ed9 \u0111\u1ec7m",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BufferedIO/sections/buffer-size-tradeoff.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "buffered-wrappers",
+                            "title": "C\u00e1c l\u1edbp b\u1ecdc c\u00f3 b\u1ed9 \u0111\u1ec7m",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BufferedIO/sections/buffered-wrappers.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/BufferedIO/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.File",
+            "title": "5.File",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "File",
+                    "title": "File v\u00e0 m\u00f4 h\u00ecnh \u0111\u01b0\u1eddng d\u1eabn c\u0169",
+                    "sourcePath": "5.File/File.md",
+                    "sections": [
+                        {
+                            "id": "legacy-file-model",
+                            "title": "M\u00f4 h\u00ecnh java.io.File",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/File/sections/legacy-file-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "file-path-limitations",
+                            "title": "Gi\u1edbi h\u1ea1n c\u1ee7a m\u00f4 h\u00ecnh File/\u0111\u01b0\u1eddng d\u1eabn c\u0169",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/File/sections/file-path-limitations.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "file-api-boundary",
+                            "title": "Ranh gi\u1edbi File v\u1edbi Path/Files",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/File/sections/file-api-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/File/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.PathFiles",
+            "title": "6.PathFiles",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PathFiles",
+                    "title": "Path, Files v\u00e0 m\u00f4 h\u00ecnh h\u1ec7 th\u1ed1ng t\u1ec7p hi\u1ec7n \u0111\u1ea1i",
+                    "sourcePath": "6.PathFiles/PathFiles.md",
+                    "sections": [
+                        {
+                            "id": "path-model",
+                            "title": "M\u00f4 h\u00ecnh Path",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/path-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "resolve-normalize",
+                            "title": "resolve, normalize v\u00e0 relativize",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/resolve-normalize.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "files-operations",
+                            "title": "C\u00e1c thao t\u00e1c v\u1edbi Files",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/files-operations.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "temporary-files",
+                            "title": "T\u1ec7p v\u00e0 th\u01b0 m\u1ee5c t\u1ea1m",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/temporary-files.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "file-attributes",
+                            "title": "Thu\u1ed9c t\u00ednh v\u00e0 si\u00eau d\u1eef li\u1ec7u c\u1ee7a t\u1ec7p",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/file-attributes.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "filesystem-provider-model",
+                            "title": "FileSystem, FileSystemProvider v\u00e0 FileStore",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/filesystem-provider-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "file-permissions-ownership",
+                            "title": "Nh\u00f3m thu\u1ed9c t\u00ednh, quy\u1ec1n truy c\u1eadp v\u00e0 ch\u1ee7 s\u1edf h\u1eefu",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/file-permissions-ownership.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "directory-stream-walk",
+                            "title": "Li\u1ec7t k\u00ea v\u00e0 duy\u1ec7t th\u01b0 m\u1ee5c",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/directory-stream-walk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "watch-service-boundary",
+                            "title": "Theo d\u00f5i thay \u0111\u1ed5i h\u1ec7 th\u1ed1ng t\u1ec7p v\u1edbi WatchService",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/PathFiles/sections/watch-service-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/PathFiles/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.BuffersChannels",
+            "title": "7.BuffersChannels",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BuffersChannels",
+                    "title": "Buffer v\u00e0 Channel trong NIO",
+                    "sourcePath": "7.BuffersChannels/BuffersChannels.md",
+                    "sections": [
+                        {
+                            "id": "buffer-state",
+                            "title": "Tr\u1ea1ng th\u00e1i c\u1ee7a Buffer",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BuffersChannels/sections/buffer-state.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "flip-clear-compact",
+                            "title": "flip, clear v\u00e0 compact",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BuffersChannels/sections/flip-clear-compact.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "byte-order-structured-binary",
+                            "title": "D\u1eef li\u1ec7u nh\u1ecb ph\u00e2n c\u00f3 c\u1ea5u tr\u00fac v\u00e0 th\u1ee9 t\u1ef1 byte",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BuffersChannels/sections/byte-order-structured-binary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "channel-model",
+                            "title": "M\u00f4 h\u00ecnh Channel",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BuffersChannels/sections/channel-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "scatter-gather-boundary",
+                            "title": "\u0110\u1ecdc ph\u00e2n t\u00e1n/ghi thu gom (scatter/gather) v\u1edbi nhi\u1ec1u Buffer",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BuffersChannels/sections/scatter-gather-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bytebuffer-types",
+                            "title": "ByteBuffer tr\u00ean heap v\u00e0 ByteBuffer tr\u1ef1c ti\u1ebfp (direct)",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/BuffersChannels/sections/bytebuffer-types.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/BuffersChannels/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.FileChannel",
+            "title": "8.FileChannel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FileChannel",
+                    "title": "FileChannel v\u00e0 I/O t\u1ec7p n\u00e2ng cao",
+                    "sourcePath": "8.FileChannel/FileChannel.md",
+                    "sections": [
+                        {
+                            "id": "filechannel-random-access",
+                            "title": "Truy c\u1eadp ng\u1eabu nhi\u00ean v\u1edbi FileChannel",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/FileChannel/sections/filechannel-random-access.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "filechannel-transfer",
+                            "title": "transferTo v\u00e0 transferFrom",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/FileChannel/sections/filechannel-transfer.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "file-lock-boundary",
+                            "title": "Ranh gi\u1edbi c\u1ee7a kh\u00f3a t\u1ec7p",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/FileChannel/sections/file-lock-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "memory-mapped-boundary",
+                            "title": "Ranh gi\u1edbi c\u1ee7a t\u1ec7p \u00e1nh x\u1ea1 b\u1ed9 nh\u1edb",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/FileChannel/sections/memory-mapped-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "asynchronous-filechannel-boundary",
+                            "title": "Ranh gi\u1edbi c\u1ee7a AsynchronousFileChannel",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/FileChannel/sections/asynchronous-filechannel-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/FileChannel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ResourceManagement",
+            "title": "9.ResourceManagement",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ResourceManagement",
+                    "title": "Qu\u1ea3n l\u00fd v\u00f2ng \u0111\u1eddi t\u00e0i nguy\u00ean v\u00e0 an to\u00e0n khi l\u1ed7i",
+                    "sourcePath": "9.ResourceManagement/ResourceManagement.md",
+                    "sections": [
+                        {
+                            "id": "closeable-lifecycle",
+                            "title": "Closeable v\u00e0 AutoCloseable",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ResourceManagement/sections/closeable-lifecycle.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "resource-ownership",
+                            "title": "Ai s\u1edf h\u1eefu v\u00e0 ai \u0111\u00f3ng t\u00e0i nguy\u00ean?",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ResourceManagement/sections/resource-ownership.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "try-with-resources-io",
+                            "title": "Try-with-resources cho I/O",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ResourceManagement/sections/try-with-resources-io.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "close-wrapper-chain",
+                            "title": "\u0110\u00f3ng chu\u1ed7i l\u1edbp b\u1ecdc",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ResourceManagement/sections/close-wrapper-chain.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/ResourceManagement/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Serialization",
+            "title": "10.Serialization",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Serialization",
+                    "title": "Ranh gi\u1edbi c\u1ee7a tu\u1ea7n t\u1ef1 h\u00f3a \u0111\u1ed1i t\u01b0\u1ee3ng Java",
+                    "sourcePath": "10.Serialization/Serialization.md",
+                    "sections": [
+                        {
+                            "id": "java-serialization-model",
+                            "title": "M\u00f4 h\u00ecnh tu\u1ea7n t\u1ef1 h\u00f3a Java",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/Serialization/sections/java-serialization-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "serializable-graph",
+                            "title": "\u0110\u1ed3 th\u1ecb \u0111\u1ed1i t\u01b0\u1ee3ng c\u00f3 th\u1ec3 tu\u1ea7n t\u1ef1 h\u00f3a",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/Serialization/sections/serializable-graph.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "serialversionuid",
+                            "title": "serialVersionUID v\u00e0 t\u01b0\u01a1ng th\u00edch phi\u00ean b\u1ea3n",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/Serialization/sections/serialversionuid.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "transient-field",
+                            "title": "Tr\u01b0\u1eddng transient",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/Serialization/sections/transient-field.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "serialization-security-risk",
+                            "title": "R\u1ee7i ro b\u1ea3o m\u1eadt v\u00e0 ranh gi\u1edbi s\u1eed d\u1ee5ng",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/Serialization/sections/serialization-security-risk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/Serialization/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.ChoosingIO",
+            "title": "11.ChoosingIO",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ChoosingIO",
+                    "title": "Ch\u1ecdn c\u00e1ch I/O \u0111\u01a1n gi\u1ea3n nh\u01b0ng \u0111\u00fang",
+                    "sourcePath": "11.ChoosingIO/ChoosingIO.md",
+                    "sections": [
+                        {
+                            "id": "choose-stream-reader-channel",
+                            "title": "Ch\u1ecdn InputStream/OutputStream, Reader/Writer, Files, Channel hay t\u00e0i nguy\u00ean ClassLoader",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ChoosingIO/sections/choose-stream-reader-channel.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "memory-vs-streaming",
+                            "title": "N\u1ea1p to\u00e0n b\u1ed9 hay x\u1eed l\u00fd theo lu\u1ed3ng?",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ChoosingIO/sections/memory-vs-streaming.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "charset-explicit",
+                            "title": "B\u1ed9 m\u00e3 k\u00fd t\u1ef1 (Charset) ph\u1ea3i \u0111\u01b0\u1ee3c th\u1ec3 hi\u1ec7n r\u00f5",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ChoosingIO/sections/charset-explicit.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "io-error-handling",
+                            "title": "X\u1eed l\u00fd l\u1ed7i v\u00e0 thao t\u00e1c t\u1eebng ph\u1ea7n",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ChoosingIO/sections/io-error-handling.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "io-performance-boundary",
+                            "title": "Ranh gi\u1edbi t\u1ed1i \u01b0u hi\u1ec7u n\u0103ng I/O",
+                            "content": "/module/JAVA_IO/knowledge/vi/content/ChoosingIO/sections/io-performance-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_IO/knowledge/vi/content/ChoosingIO/intro.md"
+                }
+            ]
+        }
+    ]
+}

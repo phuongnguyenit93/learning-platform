@@ -1,0 +1,122 @@
+{
+    "version": 1,
+    "moduleId": "ARTHAS",
+    "language": "vi",
+    "categoryCount": 4,
+    "sectionCount": 7,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "0.Preset",
+            "title": "0.Preset",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Definition",
+                    "title": "Arthas v\u00e0 c\u00e1c kh\u00e1i ni\u1ec7m li\u00ean quan",
+                    "sourcePath": "0.Preset/Definition.md",
+                    "sections": [
+                        {
+                            "id": "define-arthas",
+                            "title": "Arthas: \"Con m\u1eaft th\u1ea7n\" ch\u1ea9n \u0111o\u00e1n \u1ee9ng d\u1ee5ng Java Runtime",
+                            "content": "/module/ARTHAS/knowledge/vi/content/Definition/sections/define-arthas.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ARTHAS/knowledge/vi/content/Definition/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "1.Setup",
+            "title": "1.Setup",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Docker",
+                    "title": "Setup Arthas b\u1eb1ng docker",
+                    "sourcePath": "1.Setup/Docker.md",
+                    "sections": [
+                        {
+                            "id": "docker-arthas",
+                            "title": "Qu\u1ea3n l\u00fd t\u1eadp trung: Arthas Tunnel Server & Docker Agent",
+                            "content": "/module/ARTHAS/knowledge/vi/content/Docker/sections/docker-arthas.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "arthas-spring-boot-starter",
+                            "title": "Arthas Spring Boot Starter: Nh\u00fang \"Tr\u1ea1m ch\u1ea9n \u0111o\u00e1n\" v\u00e0o m\u00e3 ngu\u1ed3n",
+                            "content": "/module/ARTHAS/knowledge/vi/content/Docker/sections/arthas-spring-boot-starter.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ARTHAS/knowledge/vi/content/Docker/intro.md"
+                },
+                {
+                    "kind": "CATEGORY",
+                    "id": "Local",
+                    "title": "C\u00e1ch c\u00e0i \u0111\u1eb7t Arthas",
+                    "sourcePath": "1.Setup/Local.md",
+                    "sections": [
+                        {
+                            "id": "arthas-local",
+                            "title": "H\u01b0\u1edbng d\u1eabn: C\u00e0i \u0111\u1eb7t v\u00e0 Ch\u1ea9n \u0111o\u00e1n Java App v\u1edbi Arthas (Local)",
+                            "content": "/module/ARTHAS/knowledge/vi/content/Local/sections/arthas-local.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "arthas-web-console",
+                            "title": "H\u01b0\u1edbng d\u1eabn: S\u1eed d\u1ee5ng Arthas Web Console cho ch\u1ea9n \u0111o\u00e1n t\u1eeb xa",
+                            "content": "/module/ARTHAS/knowledge/vi/content/Local/sections/arthas-web-console.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "shutdown-arthas",
+                            "title": "H\u01b0\u1edbng d\u1eabn: T\u1eaft Arthas v\u00e0 D\u1ecdn d\u1eb9p T\u00e0i nguy\u00ean JVM",
+                            "content": "/module/ARTHAS/knowledge/vi/content/Local/sections/shutdown-arthas.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ARTHAS/knowledge/vi/content/Local/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Command",
+            "title": "2.Command",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Command",
+                    "title": "C\u00e1c c\u00e2u l\u1ec7nh trong Arthas",
+                    "sourcePath": "2.Command/Command.md",
+                    "sections": [
+                        {
+                            "id": "arthas-command",
+                            "title": "Arthas Cheat Sheet: Nh\u1eefng \"V\u0169 kh\u00ed\" Ch\u1ea9n \u0111o\u00e1n L\u1ee3i h\u1ea1i",
+                            "content": "/module/ARTHAS/knowledge/vi/content/Command/sections/arthas-command.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ARTHAS/knowledge/vi/content/Command/intro.md"
+                }
+            ]
+        }
+    ]
+}

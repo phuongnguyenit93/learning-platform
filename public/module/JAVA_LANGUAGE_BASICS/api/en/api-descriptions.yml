@@ -1,0 +1,304 @@
+ArrayController:
+  covarianceFailure():
+    summary: Array covariance and ArrayStoreException
+    description: Runs a deterministic learning experiment for Array covariance and
+      ArrayStoreException. The response exposes concrete runtime evidence instead
+      of only describing the rule.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 10.Arrays/Arrays.md
+      anchor: array-covariance-risk
+    methodName: covarianceFailure
+    params: [
+      ]
+    path: com/example/learning/controller/ArrayController.java
+    mapping: '@GetMapping("/covariance-failure")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/array/covariance-failure
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  copyReferenceElements():
+    summary: Array copy and shared reference elements
+    description: Creates a new reference array with Arrays.copyOf and proves that
+      the new array still contains copied reference values, so both arrays can observe
+      mutation of the same element object.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 10.Arrays/Arrays.md
+      anchor: array-initialization
+    methodName: copyReferenceElements
+    params: [
+      ]
+    path: com/example/learning/controller/ArrayController.java
+    mapping: '@GetMapping("/copy-reference-elements")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/array/copy-reference-elements
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+CastingController:
+  safeAndUnsafeCast(String):
+    summary: Safe reference checks and ClassCastException
+    description: Compares an instanceof-guarded String path with an incompatible Integer
+      downcast, exposing the boundary between compile-time cast legality and runtime object
+      compatibility.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: class-cast-failure
+    methodName: safeAndUnsafeCast
+    params:
+    - input
+    path: com/example/learning/controller/CastingController.java
+    mapping: '@GetMapping("/safe-and-unsafe")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/casting/safe-and-unsafe
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+MethodDispatchController:
+  overloadVsOverride():
+    summary: Overload selection vs override dispatch
+    description: Runs a deterministic learning experiment for Overload selection vs
+      override dispatch. The response exposes concrete runtime evidence instead of
+      only describing the rule.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: overload-vs-override-dispatch
+    methodName: overloadVsOverride
+    params: [
+      ]
+    path: com/example/learning/controller/MethodDispatchController.java
+    mapping: '@GetMapping("/overload-vs-override")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/dispatch/overload-vs-override
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+OperatorController:
+  shortCircuit():
+    summary: Short-circuit boolean operators
+    description: Runs a deterministic learning experiment for Short-circuit boolean
+      operators. The response exposes concrete runtime evidence instead of only describing
+      the rule.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 7.Operators/Operators.md
+      anchor: short-circuit-operators
+    methodName: shortCircuit
+    params: [
+      ]
+    path: com/example/learning/controller/OperatorController.java
+    mapping: '@GetMapping("/short-circuit")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/operator/short-circuit
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+OverloadResolutionController:
+  selectionMatrix():
+    summary: Overload resolution phases
+    description: Runs a deterministic learning experiment for Overload resolution
+      phases. The response exposes concrete runtime evidence instead of only describing
+      the rule.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 11.Methods/Methods.md
+      anchor: overload-resolution-phases
+    methodName: selectionMatrix
+    params: [
+      ]
+    path: com/example/learning/controller/OverloadResolutionController.java
+    mapping: '@GetMapping("/selection-matrix")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/overload/selection-matrix
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+PassByValueController:
+  mutateAndReassign():
+    summary: Copied references and visible object mutation
+    description: Runs a deterministic learning experiment for Copied references and
+      visible object mutation. The response exposes concrete runtime evidence instead
+      of only describing the rule.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 13.PassByValue/PassByValue.md
+      anchor: reference-copy-mutation
+    methodName: mutateAndReassign
+    params: [
+      ]
+    path: com/example/learning/controller/PassByValueController.java
+    mapping: '@GetMapping("/mutate-and-reassign")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/pass-by-value/mutate-and-reassign
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+TypeSystemController:
+  inspectRuntimeType(Object):
+    summary: Compile-time type vs runtime type
+    description: Runs a deterministic learning experiment for Compile-time type vs
+      runtime type. The response exposes concrete runtime evidence instead of only
+      describing the rule.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: compile-time-vs-runtime-type
+    methodName: inspectRuntimeType
+    params:
+    - value
+    path: com/example/learning/controller/TypeSystemController.java
+    mapping: '@GetMapping("/runtime-type")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/type-system/runtime-type
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  conversionContexts():
+    summary: Conversion rules depend on context
+    description: Compares assignment conversion, numeric promotion, method-invocation
+      widening, and boxing through observable results in one endpoint.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: assignment-compatibility
+    methodName: conversionContexts
+    params: [
+      ]
+    path: com/example/learning/controller/TypeSystemController.java
+    mapping: '@GetMapping("/conversion-contexts")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/type-system/conversion-contexts
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+WrapperController:
+  wrapperIdentity():
+    summary: Wrapper caches and identity pitfalls
+    description: Runs a deterministic learning experiment for Wrapper caches and identity
+      pitfalls. The response exposes concrete runtime evidence instead of only describing
+      the rule.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 6.WrapperBoxing/WrapperBoxing.md
+      anchor: wrapper-caching
+    methodName: wrapperIdentity
+    params: [
+      ]
+    path: com/example/learning/controller/WrapperController.java
+    mapping: '@GetMapping("/identity")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/wrapper/identity
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+ControlFlowController:
+  patternSwitch():
+    summary: Java 21 pattern switch and case null
+    description: Runs one switch expression with Integer, String, null, and a fallback
+      type to expose type-pattern binding, case null, and the default branch.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 15.TypeSystemMentalModel/TypeSystemMentalModel.md
+      anchor: instanceof-safe-cast
+    methodName: patternSwitch
+    params: [
+      ]
+    path: com/example/learning/controller/ControlFlowController.java
+    mapping: '@GetMapping("/pattern-switch")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/language-basics/control-flow/pattern-switch
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true

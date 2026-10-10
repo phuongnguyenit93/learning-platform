@@ -1,0 +1,849 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_NATIVE_INTEROPERABILITY",
+    "language": "en",
+    "categoryCount": 12,
+    "sectionCount": 81,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "NativeInteroperability",
+                    "title": "Native Interoperability and the Java-to-Native Boundary",
+                    "sourcePath": "1.MentalModel/NativeInteroperability.md",
+                    "sections": [
+                        {
+                            "id": "native-interoperability-definition",
+                            "title": "What Is Native Interoperability?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeInteroperability/sections/native-interoperability-definition.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-interoperability-purpose",
+                            "title": "Why Does Java Need Native Interoperability?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeInteroperability/sections/native-interoperability-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "managed-native-boundary",
+                            "title": "Managed Runtime and the Native Boundary",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeInteroperability/sections/managed-native-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-interoperability-use-cases",
+                            "title": "When Does Java Need to Go Native?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeInteroperability/sections/native-interoperability-use-cases.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-boundary-costs",
+                            "title": "Costs and Risks of Crossing the Native Boundary",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeInteroperability/sections/native-boundary-costs.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeInteroperability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.NativeLibraryAbi",
+            "title": "2.NativeLibraryAbi",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "NativeLibraryAbi",
+                    "title": "Native Libraries, ABI, and Linkage",
+                    "sourcePath": "2.NativeLibraryAbi/NativeLibraryAbi.md",
+                    "sections": [
+                        {
+                            "id": "native-library-model",
+                            "title": "The Native Library Model in Java",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeLibraryAbi/sections/native-library-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-library-loading",
+                            "title": "Locating and Loading Native Libraries",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeLibraryAbi/sections/native-library-loading.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "system-load-vs-loadlibrary",
+                            "title": "System.load and System.loadLibrary",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeLibraryAbi/sections/system-load-vs-loadlibrary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-symbol-resolution",
+                            "title": "Symbols and Native Linkage",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeLibraryAbi/sections/native-symbol-resolution.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abi-calling-convention",
+                            "title": "ABI and Calling Conventions",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeLibraryAbi/sections/abi-calling-convention.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "platform-binary-compatibility",
+                            "title": "OS, CPU Architecture, and Binary Compatibility",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeLibraryAbi/sections/platform-binary-compatibility.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/NativeLibraryAbi/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.JNI",
+            "title": "3.JNI",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JNI",
+                    "title": "Java Native Interface",
+                    "sourcePath": "3.JNI/JNI.md",
+                    "sections": [
+                        {
+                            "id": "jni-definition-purpose",
+                            "title": "What Is JNI and Why Does It Exist?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/sections/jni-definition-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-native-method-binding",
+                            "title": "Native Method Declaration and Binding",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/sections/jni-native-method-binding.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-environment",
+                            "title": "JNIEnv and the JNI Function Interface",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/sections/jni-environment.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-types-data-boundary",
+                            "title": "Type Mapping and Data Access Across the JNI Boundary",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/sections/jni-types-data-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-references",
+                            "title": "Local References, Global References, and GC",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/sections/jni-references.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-exception-boundary",
+                            "title": "Java Exceptions and the Native Error Boundary",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/sections/jni-exception-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-thread-boundary",
+                            "title": "Native Threads and the JVM Thread Boundary",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/sections/jni-thread-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNI/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.JNIInvocation",
+            "title": "4.JNIInvocation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JNIInvocation",
+                    "title": "JNI Invocation API",
+                    "sourcePath": "4.JNIInvocation/JNIInvocation.md",
+                    "sections": [
+                        {
+                            "id": "jni-invocation-purpose",
+                            "title": "What Is the Invocation API For?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-invocation-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-vm-init-args",
+                            "title": "VM Initialization Options and Default Arguments",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-vm-init-args.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-create-jvm",
+                            "title": "Creating and Hosting a JVM from a Native Application",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-create-jvm.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-get-created-vms",
+                            "title": "Discovering JVMs Created in the Current Process",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-get-created-vms.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-attach-detach-thread",
+                            "title": "GetEnv, Thread Attachment/Detachment, and Daemon Attachment",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-attach-detach-thread.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-destroy-jvm",
+                            "title": "DestroyJavaVM and VM Termination",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-destroy-jvm.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-library-lifecycle",
+                            "title": "JNI_OnLoad, JNI_OnUnload, and Library/Version Management",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-library-lifecycle.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-invocation-lifecycle",
+                            "title": "Lifecycle and Responsibilities When Embedding a JVM",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/sections/jni-invocation-lifecycle.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/JNIInvocation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.FFM",
+            "title": "5.FFM",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FFM",
+                    "title": "Foreign Function & Memory API",
+                    "sourcePath": "5.FFM/FFM.md",
+                    "sections": [
+                        {
+                            "id": "ffm-definition-purpose",
+                            "title": "What Is FFM and Why Does It Exist?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/FFM/sections/ffm-definition-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ffm-jni-relationship",
+                            "title": "How Do FFM and JNI Divide the Problem Space?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/FFM/sections/ffm-jni-relationship.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ffm-java21-java22-boundary",
+                            "title": "Java 21 Preview and Java 22 Finalization",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/FFM/sections/ffm-java21-java22-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ffm-core-abstractions",
+                            "title": "MemorySegment, Arena, MemoryLayout, Linker, and SymbolLookup",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/FFM/sections/ffm-core-abstractions.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ffm-safety-model",
+                            "title": "The FFM Safety Model",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/FFM/sections/ffm-safety-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ffm-restricted-operations",
+                            "title": "Restricted Operations and Native Access",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/FFM/sections/ffm-restricted-operations.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/FFM/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.MemorySegment",
+            "title": "6.MemorySegment",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MemorySegment",
+                    "title": "MemorySegment",
+                    "sourcePath": "6.MemorySegment/MemorySegment.md",
+                    "sections": [
+                        {
+                            "id": "memory-segment-model",
+                            "title": "What Does MemorySegment Represent?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemorySegment/sections/memory-segment-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "heap-native-segments",
+                            "title": "Heap Segments and Native Segments",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemorySegment/sections/heap-native-segments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mapped-segments",
+                            "title": "Mapped Segments and File-Backed Native Memory",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemorySegment/sections/mapped-segments.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "segment-spatial-bounds",
+                            "title": "Spatial Bounds and Access Ranges",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemorySegment/sections/segment-spatial-bounds.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "segment-access",
+                            "title": "Reading and Writing Through MemorySegment",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemorySegment/sections/segment-access.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "segment-slicing",
+                            "title": "Slices and Views over the Same Memory Region",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemorySegment/sections/segment-slicing.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemorySegment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.ArenaLifetime",
+            "title": "7.ArenaLifetime",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ArenaLifetime",
+                    "title": "Arena, Ownership, and Lifetime",
+                    "sourcePath": "7.ArenaLifetime/ArenaLifetime.md",
+                    "sections": [
+                        {
+                            "id": "arena-purpose",
+                            "title": "What Is Arena For?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/ArenaLifetime/sections/arena-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "arena-lifetime",
+                            "title": "Arena and Native-Memory Lifetime",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/ArenaLifetime/sections/arena-lifetime.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "arena-kinds",
+                            "title": "Global, Automatic, Confined, and Shared Arenas",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/ArenaLifetime/sections/arena-kinds.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "arena-allocation",
+                            "title": "Allocation and Timely Deallocation",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/ArenaLifetime/sections/arena-allocation.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "temporal-safety",
+                            "title": "Temporal Safety and Segment Validity",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/ArenaLifetime/sections/temporal-safety.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "arena-thread-access",
+                            "title": "Thread Access and Confinement",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/ArenaLifetime/sections/arena-thread-access.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/ArenaLifetime/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.MemoryLayout",
+            "title": "8.MemoryLayout",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MemoryLayout",
+                    "title": "MemoryLayout and Native Data Representation",
+                    "sourcePath": "8.MemoryLayout/MemoryLayout.md",
+                    "sections": [
+                        {
+                            "id": "memory-layout-purpose",
+                            "title": "Why Does Native Data Need MemoryLayout?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/memory-layout-purpose.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "value-layouts",
+                            "title": "ValueLayout and Primitive Carriers",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/value-layouts.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "struct-layout",
+                            "title": "Struct Layouts",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/struct-layout.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sequence-layout",
+                            "title": "Sequence Layouts",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/sequence-layout.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "union-layout",
+                            "title": "Union Layouts",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/union-layout.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "address-layout",
+                            "title": "AddressLayout and Pointer-Shaped Data",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/address-layout.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "layout-alignment-offset",
+                            "title": "Alignment, Size, and Offset",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/layout-alignment-offset.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "layout-path-access",
+                            "title": "Layout Paths and Structured Memory Access",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/sections/layout-path-access.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/MemoryLayout/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.LinkerSymbolLookup",
+            "title": "9.LinkerSymbolLookup",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LinkerSymbolLookup",
+                    "title": "Linker, SymbolLookup, and Function Descriptors",
+                    "sourcePath": "9.LinkerSymbolLookup/LinkerSymbolLookup.md",
+                    "sections": [
+                        {
+                            "id": "linker-model",
+                            "title": "How Does Linker Connect Java to Native Functions?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/sections/linker-model.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "symbol-lookup",
+                            "title": "SymbolLookup and Native Symbol Resolution",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/sections/symbol-lookup.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "library-symbol-lookup",
+                            "title": "Library-Specific Symbol Lookup",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/sections/library-symbol-lookup.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "function-descriptor",
+                            "title": "FunctionDescriptor and Native Function Signatures",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/sections/function-descriptor.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "linker-abi-mapping",
+                            "title": "Linker and ABI Mapping",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/sections/linker-abi-mapping.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-handle-boundary",
+                            "title": "The MethodHandle Boundary with Dynamic Runtime",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/sections/method-handle-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jextract-generated-bindings",
+                            "title": "jextract and Generated Bindings",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/sections/jextract-generated-bindings.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/LinkerSymbolLookup/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.DowncallUpcall",
+            "title": "10.DowncallUpcall",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DowncallUpcall",
+                    "title": "Downcalls, Upcalls, and Callback Boundaries",
+                    "sourcePath": "10.DowncallUpcall/DowncallUpcall.md",
+                    "sections": [
+                        {
+                            "id": "downcall-model",
+                            "title": "Downcalls: Java Calling Foreign Functions",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/sections/downcall-model.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "downcall-handle",
+                            "title": "Creating and Using Downcall MethodHandles",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/sections/downcall-handle.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-argument-return",
+                            "title": "Arguments, Return Values, and Carrier Mapping",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/sections/native-argument-return.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "upcall-model",
+                            "title": "Upcalls: Native Code Calling Back into Java",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/sections/upcall-model.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "upcall-stub",
+                            "title": "Upcall Stubs and Executable Native Addresses",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/sections/upcall-stub.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "callback-lifetime",
+                            "title": "Callback Lifetime and Resource Ownership",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/sections/callback-lifetime.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "callback-thread-boundary",
+                            "title": "Thread Boundaries When Native Code Calls Back into Java",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/sections/callback-thread-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DowncallUpcall/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.SafetyPitfalls",
+            "title": "11.SafetyPitfalls",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SafetyPitfalls",
+                    "title": "Ownership, Safety, and Failure Boundaries",
+                    "sourcePath": "11.SafetyPitfalls/SafetyPitfalls.md",
+                    "sections": [
+                        {
+                            "id": "native-resource-ownership",
+                            "title": "Ownership and Cleanup of Native Resources",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/native-resource-ownership.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-loading-failures",
+                            "title": "Native Library Loading and Linkage Failures",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/native-loading-failures.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jni-reference-failures",
+                            "title": "JNI Reference Lifetime Failures",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/jni-reference-failures.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-access-control",
+                            "title": "Preview Enablement, Restricted Operations, and Native Access",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/native-access-control.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "layout-descriptor-mismatch",
+                            "title": "Layout, Descriptor, and ABI Mismatches",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/layout-descriptor-mismatch.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lifetime-failures",
+                            "title": "Use-After-Close and Temporal-Safety Failures",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/lifetime-failures.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-error-boundary",
+                            "title": "Java Exceptions, Native Error Codes, and Error Propagation",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/native-error-boundary.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-thread-safety",
+                            "title": "Thread Safety and Shared Native State",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/native-thread-safety.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-crash-corruption",
+                            "title": "JVM Crashes and Silent Memory Corruption",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/sections/native-crash-corruption.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/SafetyPitfalls/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.DecisionsSynthesis",
+            "title": "12.DecisionsSynthesis",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DecisionsSynthesis",
+                    "title": "Choosing JNI or FFM and Designing End to End",
+                    "sourcePath": "12.DecisionsSynthesis/DecisionsSynthesis.md",
+                    "sections": [
+                        {
+                            "id": "jni-vs-ffm",
+                            "title": "How Do JNI and FFM Differ?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DecisionsSynthesis/sections/jni-vs-ffm.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interop-selection-criteria",
+                            "title": "Criteria for Choosing an Interoperability Mechanism",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DecisionsSynthesis/sections/interop-selection-criteria.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "deployment-portability",
+                            "title": "Deployment, Portability, and Version Constraints",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DecisionsSynthesis/sections/deployment-portability.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "end-to-end-native-integration",
+                            "title": "Designing a Native Integration End to End",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DecisionsSynthesis/sections/end-to-end-native-integration.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "when-not-to-use-native",
+                            "title": "When Should Native Interoperability Not Be Used?",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DecisionsSynthesis/sections/when-not-to-use-native.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "native-interoperability-handoffs",
+                            "title": "Boundaries with JVM, Dynamic Runtime, and Java Version",
+                            "content": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DecisionsSynthesis/sections/native-interoperability-handoffs.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_NATIVE_INTEROPERABILITY/knowledge/en/content/DecisionsSynthesis/intro.md"
+                }
+            ]
+        }
+    ]
+}

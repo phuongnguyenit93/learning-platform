@@ -1,0 +1,529 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_DATE_TIME",
+    "language": "en",
+    "categoryCount": 12,
+    "sectionCount": 41,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MentalModel",
+                    "title": "What Date-Time Means and Why Multiple Models Exist",
+                    "sourcePath": "1.MentalModel/MentalModel.md",
+                    "sections": [
+                        {
+                            "id": "date-time-domains",
+                            "title": "What Is Date-Time and Why Are There Several Models?",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/MentalModel/sections/date-time-domains.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "immutable-date-time",
+                            "title": "Immutability in java.time",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/MentalModel/sections/immutable-date-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "choose-date-time-type",
+                            "title": "Choose the Type from Domain Meaning",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/MentalModel/sections/choose-date-time-type.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/MentalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.LocalDate",
+            "title": "2.LocalDate",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LocalDate",
+                    "title": "LocalDate",
+                    "sourcePath": "2.LocalDate/LocalDate.md",
+                    "sections": [
+                        {
+                            "id": "local-date-model",
+                            "title": "LocalDate Model",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDate/sections/local-date-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "local-date-arithmetic",
+                            "title": "LocalDate Arithmetic",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDate/sections/local-date-arithmetic.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "calendar-validity",
+                            "title": "Calendar Validity and Month-End Behavior",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDate/sections/calendar-validity.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDate/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.LocalTime",
+            "title": "3.LocalTime",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LocalTime",
+                    "title": "LocalTime",
+                    "sourcePath": "3.LocalTime/LocalTime.md",
+                    "sections": [
+                        {
+                            "id": "local-time-model",
+                            "title": "LocalTime Model",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalTime/sections/local-time-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "local-time-precision",
+                            "title": "Nanosecond Precision",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalTime/sections/local-time-precision.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "local-time-wrap",
+                            "title": "Arithmetic Wraps Within the Day",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalTime/sections/local-time-wrap.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalTime/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.LocalDateTime",
+            "title": "4.LocalDateTime",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LocalDateTime",
+                    "title": "LocalDateTime",
+                    "sourcePath": "4.LocalDateTime/LocalDateTime.md",
+                    "sections": [
+                        {
+                            "id": "local-date-time-model",
+                            "title": "LocalDateTime Model",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDateTime/sections/local-date-time-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "local-date-time-ambiguity",
+                            "title": "Why LocalDateTime Is Not an Instant",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDateTime/sections/local-date-time-ambiguity.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "local-date-time-use-cases",
+                            "title": "Appropriate LocalDateTime Use Cases",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDateTime/sections/local-date-time-use-cases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/LocalDateTime/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Instant",
+            "title": "5.Instant",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Instant",
+                    "title": "Instant and Global Timeline",
+                    "sourcePath": "5.Instant/Instant.md",
+                    "sections": [
+                        {
+                            "id": "instant-model",
+                            "title": "Instant Model",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/Instant/sections/instant-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "epoch-time",
+                            "title": "Epoch Time",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/Instant/sections/epoch-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "instant-use-cases",
+                            "title": "Instant Use Cases and Boundaries",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/Instant/sections/instant-use-cases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/Instant/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.ZoneOffsetZoneId",
+            "title": "6.ZoneOffsetZoneId",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ZoneOffsetZoneId",
+                    "title": "ZoneOffset, ZoneId, and Zone Rules",
+                    "sourcePath": "6.ZoneOffsetZoneId/ZoneOffsetZoneId.md",
+                    "sections": [
+                        {
+                            "id": "zone-offset",
+                            "title": "ZoneOffset \u2014 One Concrete Difference from UTC",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ZoneOffsetZoneId/sections/zone-offset.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "zone-id",
+                            "title": "ZoneId \u2014 A Time-Zone Identity",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ZoneOffsetZoneId/sections/zone-id.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "zone-rules",
+                            "title": "ZoneRules and Changing Offsets",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ZoneOffsetZoneId/sections/zone-rules.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/ZoneOffsetZoneId/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.ZonedOffsetDateTime",
+            "title": "7.ZonedOffsetDateTime",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ZonedOffsetDateTime",
+                    "title": "OffsetDateTime, ZonedDateTime, and Zone Conversion",
+                    "sourcePath": "7.ZonedOffsetDateTime/ZonedOffsetDateTime.md",
+                    "sections": [
+                        {
+                            "id": "zoned-date-time",
+                            "title": "ZonedDateTime \u2014 Local Fields + ZoneId + Resolved Offset",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ZonedOffsetDateTime/sections/zoned-date-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "offset-date-time",
+                            "title": "OffsetDateTime \u2014 Local Fields + One Concrete Offset",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ZonedOffsetDateTime/sections/offset-date-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "same-instant-vs-same-local",
+                            "title": "Same Instant vs Same Local Date-Time",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ZonedOffsetDateTime/sections/same-instant-vs-same-local.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "zone-conversion",
+                            "title": "Intentional Zone Conversion",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ZonedOffsetDateTime/sections/zone-conversion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/ZonedOffsetDateTime/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.DurationPeriod",
+            "title": "8.DurationPeriod",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DurationPeriod",
+                    "title": "Elapsed Time vs Calendar Amount",
+                    "sourcePath": "8.DurationPeriod/DurationPeriod.md",
+                    "sections": [
+                        {
+                            "id": "duration-time-based",
+                            "title": "Duration \u2014 Timeline-Based Amount",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/DurationPeriod/sections/duration-time-based.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "period-date-based",
+                            "title": "Period \u2014 Calendar-Based Amount",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/DurationPeriod/sections/period-date-based.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "duration-vs-period",
+                            "title": "Duration vs Period Semantics",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/DurationPeriod/sections/duration-vs-period.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/DurationPeriod/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.FormattingParsing",
+            "title": "9.FormattingParsing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FormattingParsing",
+                    "title": "Formatting and Parsing",
+                    "sourcePath": "9.FormattingParsing/FormattingParsing.md",
+                    "sections": [
+                        {
+                            "id": "date-time-formatter",
+                            "title": "DateTimeFormatter and Immutability",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/FormattingParsing/sections/date-time-formatter.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "format-patterns",
+                            "title": "Patterns vs Predefined Formatters",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/FormattingParsing/sections/format-patterns.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "strict-smart-lenient",
+                            "title": "ResolverStyle: STRICT, SMART, LENIENT",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/FormattingParsing/sections/strict-smart-lenient.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "parse-target-type",
+                            "title": "Parse into the Correct Temporal Type",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/FormattingParsing/sections/parse-target-type.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/FormattingParsing/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.ArithmeticComparison",
+            "title": "10.ArithmeticComparison",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ArithmeticComparison",
+                    "title": "Arithmetic, Comparison, and DST Boundaries",
+                    "sourcePath": "10.ArithmeticComparison/ArithmeticComparison.md",
+                    "sections": [
+                        {
+                            "id": "temporal-arithmetic",
+                            "title": "Temporal Arithmetic Semantics",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ArithmeticComparison/sections/temporal-arithmetic.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "between-semantics",
+                            "title": "Semantics of between",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ArithmeticComparison/sections/between-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "date-time-comparison",
+                            "title": "Compare Temporal Values by the Right Meaning",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ArithmeticComparison/sections/date-time-comparison.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dst-gap-overlap",
+                            "title": "DST Gaps and Overlaps",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ArithmeticComparison/sections/dst-gap-overlap.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "business-calendar-boundary",
+                            "title": "Business Calendars Are Separate Policy",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/ArithmeticComparison/sections/business-calendar-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/ArithmeticComparison/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.Clock",
+            "title": "11.Clock",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Clock",
+                    "title": "Clock and Testable Time",
+                    "sourcePath": "11.Clock/Clock.md",
+                    "sections": [
+                        {
+                            "id": "clock-abstraction",
+                            "title": "Clock as the Current-Time Abstraction",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/Clock/sections/clock-abstraction.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "fixed-clock-testing",
+                            "title": "Fixed Clock for Deterministic Tests",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/Clock/sections/fixed-clock-testing.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "clock-injection",
+                            "title": "Inject Clock Instead of Calling now Everywhere",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/Clock/sections/clock-injection.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/Clock/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.LegacyInteropPitfalls",
+            "title": "12.LegacyInteropPitfalls",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LegacyInteropPitfalls",
+                    "title": "Legacy Interop and Date-Time Synthesis",
+                    "sourcePath": "12.LegacyInteropPitfalls/LegacyInteropPitfalls.md",
+                    "sections": [
+                        {
+                            "id": "legacy-date-calendar",
+                            "title": "Legacy Date and Calendar Mental Model",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LegacyInteropPitfalls/sections/legacy-date-calendar.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "legacy-conversion",
+                            "title": "Intentional Legacy Conversion",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LegacyInteropPitfalls/sections/legacy-conversion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "system-default-zone-risk",
+                            "title": "System Default Time-Zone Risk",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LegacyInteropPitfalls/sections/system-default-zone-risk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "timestamp-storage-boundary",
+                            "title": "Choose Storage Semantics Deliberately",
+                            "content": "/module/JAVA_DATE_TIME/knowledge/en/content/LegacyInteropPitfalls/sections/timestamp-storage-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_DATE_TIME/knowledge/en/content/LegacyInteropPitfalls/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,58 @@
+{
+    "version": 1,
+    "moduleId": "HIKARI_CP",
+    "language": "vi",
+    "categoryCount": 2,
+    "sectionCount": 2,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "0.Preset",
+            "title": "0.Preset",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Configuration",
+                    "title": "Configuration",
+                    "sourcePath": "0.Preset/Configuration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIKARI_CP/knowledge/vi/content/Configuration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "1.Basic",
+            "title": "1.Basic",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Basic",
+                    "title": "HikariCP v\u00e0 c\u00e1c kh\u00e1i ni\u1ec7m li\u00ean quan",
+                    "sourcePath": "1.Basic/Basic.md",
+                    "sections": [
+                        {
+                            "id": "hikari-basic",
+                            "title": "HikariCP: \"Tia s\u00e1ng\" t\u1ed1i \u01b0u h\u00f3a k\u1ebft n\u1ed1i Database",
+                            "content": "/module/HIKARI_CP/knowledge/vi/content/Basic/sections/hikari-basic.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hikari-config",
+                            "title": "Tinh ch\u1ec9nh HikariCP: 4 th\u00f4ng s\u1ed1 \"v\u00e0ng\" cho hi\u1ec7u n\u0103ng t\u1ed1i \u0111a",
+                            "content": "/module/HIKARI_CP/knowledge/vi/content/Basic/sections/hikari-config.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/HIKARI_CP/knowledge/vi/content/Basic/intro.md"
+                }
+            ]
+        }
+    ]
+}

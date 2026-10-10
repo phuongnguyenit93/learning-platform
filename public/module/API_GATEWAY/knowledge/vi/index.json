@@ -1,0 +1,41 @@
+{
+    "version": 1,
+    "moduleId": "API_GATEWAY",
+    "language": "vi",
+    "categoryCount": 1,
+    "sectionCount": 2,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Config",
+            "title": "1.Config",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Config",
+                    "title": "Config Gateway",
+                    "sourcePath": "1.Config/Config.md",
+                    "sections": [
+                        {
+                            "id": "api-gateway-config",
+                            "title": "H\u01b0\u1edbng d\u1eabn c\u1ea5u h\u00ecnh API Gateway chuy\u00ean nghi\u1ec7p",
+                            "content": "/module/API_GATEWAY/knowledge/vi/content/Config/sections/api-gateway-config.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "route-config-gateway",
+                            "title": "C\u1ea5u h\u00ecnh Route b\u1eb1ng Code Java trong Spring Cloud Gateway",
+                            "content": "/module/API_GATEWAY/knowledge/vi/content/Config/sections/route-config-gateway.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/API_GATEWAY/knowledge/vi/content/Config/intro.md"
+                }
+            ]
+        }
+    ]
+}

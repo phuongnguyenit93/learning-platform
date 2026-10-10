@@ -1,0 +1,489 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_CLASSLOADER",
+    "language": "vi",
+    "categoryCount": 9,
+    "sectionCount": 42,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Lifecycle",
+            "title": "1.Lifecycle",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Lifecycle",
+                    "title": "ClassLoader l\u00e0 g\u00ec? T\u1eeb bytecode \u0111\u1ebfn class c\u00f3 th\u1ec3 s\u1eed d\u1ee5ng",
+                    "sourcePath": "1.Lifecycle/Lifecycle.md",
+                    "sections": [
+                        {
+                            "id": "loading-linking-initialization",
+                            "title": "ClassLoader l\u00e0 g\u00ec v\u00e0 class \u0111i v\u00e0o runtime nh\u01b0 th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Lifecycle/sections/loading-linking-initialization.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "linking-phases",
+                            "title": "Li\u00ean k\u1ebft (linking): ki\u1ec3m tra, chu\u1ea9n b\u1ecb v\u00e0 ph\u00e2n gi\u1ea3i",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Lifecycle/sections/linking-phases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "load-vs-initialize",
+                            "title": "N\u1ea1p class kh\u00f4ng \u0111\u1ed3ng ngh\u0129a v\u1edbi kh\u1edfi t\u1ea1o",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Lifecycle/sections/load-vs-initialize.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Lifecycle/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.BuiltInClassLoaders",
+            "title": "2.BuiltInClassLoaders",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BuiltInClassLoaders",
+                    "title": "C\u00e1c ClassLoader c\u00f3 s\u1eb5n trong JVM",
+                    "sourcePath": "2.BuiltInClassLoaders/BuiltInClassLoaders.md",
+                    "sections": [
+                        {
+                            "id": "bootstrap-loader",
+                            "title": "Bootstrap ClassLoader",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/BuiltInClassLoaders/sections/bootstrap-loader.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "platform-loader",
+                            "title": "Platform ClassLoader",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/BuiltInClassLoaders/sections/platform-loader.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "application-loader",
+                            "title": "Application/System ClassLoader",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/BuiltInClassLoaders/sections/application-loader.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "loader-chain",
+                            "title": "Chu\u1ed7i ClassLoader cha v\u00e0 c\u00e1ch bi\u1ec3u di\u1ec5n Bootstrap b\u1eb1ng null",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/BuiltInClassLoaders/sections/loader-chain.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/BuiltInClassLoaders/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ParentDelegation",
+            "title": "3.ParentDelegation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ParentDelegation",
+                    "title": "C\u01a1 ch\u1ebf \u1ee7y quy\u1ec1n cho ClassLoader cha",
+                    "sourcePath": "3.ParentDelegation/ParentDelegation.md",
+                    "sections": [
+                        {
+                            "id": "parent-delegation",
+                            "title": "C\u01a1 ch\u1ebf \u1ee7y quy\u1ec1n \u01b0u ti\u00ean cha (parent-first)",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ParentDelegation/sections/parent-delegation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "initiating-vs-defining-loader",
+                            "title": "Vai tr\u00f2 ClassLoader kh\u1edfi x\u01b0\u1edbng (initiating) v\u00e0 ClassLoader \u0111\u1ecbnh ngh\u0129a (defining)",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ParentDelegation/sections/initiating-vs-defining-loader.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "delegation-purpose",
+                            "title": "V\u00ec sao \u01b0u ti\u00ean cha (parent-first) b\u1ea3o v\u1ec7 t\u00ednh nh\u1ea5t qu\u00e1n?",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ParentDelegation/sections/delegation-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "child-first-boundary",
+                            "title": "Chi\u1ebfn l\u01b0\u1ee3c \u01b0u ti\u00ean con (child-first) v\u00e0 r\u1ee7i ro",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ParentDelegation/sections/child-first-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "protected-packages-boundary",
+                            "title": "Ranh gi\u1edbi \u0111\u1ecbnh ngh\u0129a class trong namespace java.*",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ParentDelegation/sections/protected-packages-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ParentDelegation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.CustomClassLoader",
+            "title": "4.CustomClassLoader",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CustomClassLoader",
+                    "title": "ClassLoader t\u00f9y ch\u1ec9nh v\u00e0 c\u00f4 l\u1eadp",
+                    "sourcePath": "4.CustomClassLoader/CustomClassLoader.md",
+                    "sections": [
+                        {
+                            "id": "classloader-contract",
+                            "title": "Quan h\u1ec7 gi\u1eefa loadClass v\u00e0 findClass",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/CustomClassLoader/sections/classloader-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "define-class",
+                            "title": "defineClass bi\u1ebfn byte[] th\u00e0nh Class nh\u01b0 th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/CustomClassLoader/sections/define-class.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "custom-source",
+                            "title": "N\u1ea1p bytecode t\u1eeb ngu\u1ed3n t\u00f9y ch\u1ec9nh",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/CustomClassLoader/sections/custom-source.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "custom-loader-safety",
+                            "title": "\u0110\u1ed3ng b\u1ed9, g\u00f3i (package) v\u00e0 ranh gi\u1edbi an to\u00e0n",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/CustomClassLoader/sections/custom-loader-safety.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/CustomClassLoader/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ClassIdentity",
+            "title": "5.ClassIdentity",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ClassIdentity",
+                    "title": "\u0110\u1ecbnh danh class qua nhi\u1ec1u ClassLoader",
+                    "sourcePath": "5.ClassIdentity/ClassIdentity.md",
+                    "sections": [
+                        {
+                            "id": "class-identity-rule",
+                            "title": "\u0110\u1ecbnh danh class khi ch\u1ea1y = t\u00ean nh\u1ecb ph\u00e2n (binary name) + ClassLoader \u0111\u1ecbnh ngh\u0129a (defining ClassLoader)",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ClassIdentity/sections/class-identity-rule.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "same-name-different-type",
+                            "title": "C\u00f9ng t\u00ean nh\u1ecb ph\u00e2n (binary name), c\u00f9ng bytecode, v\u1eabn c\u00f3 th\u1ec3 l\u00e0 hai ki\u1ec3u kh\u00e1c nhau",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ClassIdentity/sections/same-name-different-type.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-cast-loader-failure",
+                            "title": "V\u00ec sao ClassCastException c\u00f3 th\u1ec3 ghi c\u00f9ng m\u1ed9t t\u00ean class?",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ClassIdentity/sections/class-cast-loader-failure.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "loader-boundary-api",
+                            "title": "API d\u00f9ng chung ph\u1ea3i \u0111i qua ranh gi\u1edbi ClassLoader t\u01b0\u01a1ng th\u00edch",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ClassIdentity/sections/loader-boundary-api.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ClassIdentity/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.ContextClassLoader",
+            "title": "6.ContextClassLoader",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ContextClassLoader",
+                    "title": "ClassLoader ng\u1eef c\u1ea3nh c\u1ee7a lu\u1ed3ng (Thread Context ClassLoader - TCCL)",
+                    "sourcePath": "6.ContextClassLoader/ContextClassLoader.md",
+                    "sections": [
+                        {
+                            "id": "tccl-purpose",
+                            "title": "TCCL gi\u00fap khung ph\u1ea7n m\u1ec1m t\u00ecm th\u00e0nh ph\u1ea7n \u1edf ClassLoader t\u1ea7ng con",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ContextClassLoader/sections/tccl-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tccl-discovery",
+                            "title": "Khung ph\u1ea7n m\u1ec1m t\u00ecm th\u00e0nh ph\u1ea7n cung c\u1ea5p b\u1eb1ng TCCL",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ContextClassLoader/sections/tccl-discovery.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tccl-lifecycle",
+                            "title": "L\u01b0u, g\u00e1n v\u00e0 kh\u00f4i ph\u1ee5c TCCL \u0111\u00fang ph\u1ea1m vi",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ContextClassLoader/sections/tccl-lifecycle.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tccl-leak-risk",
+                            "title": "TCCL tr\u00ean lu\u1ed3ng s\u1ed1ng l\u00e2u c\u00f3 th\u1ec3 gi\u1eef ClassLoader kh\u00f4ng \u0111\u01b0\u1ee3c thu h\u1ed3i",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ContextClassLoader/sections/tccl-leak-risk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ContextClassLoader/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.ResourceLoading",
+            "title": "7.ResourceLoading",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ResourceLoading",
+                    "title": "N\u1ea1p t\u00e0i nguy\u00ean t\u1eeb classpath",
+                    "sourcePath": "7.ResourceLoading/ResourceLoading.md",
+                    "sections": [
+                        {
+                            "id": "class-resource",
+                            "title": "Class.getResource: \u0111\u01b0\u1eddng d\u1eabn t\u01b0\u01a1ng \u0111\u1ed1i theo g\u00f3i (package) ho\u1eb7c tuy\u1ec7t \u0111\u1ed1i t\u1eeb g\u1ed1c t\u00e0i nguy\u00ean",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ResourceLoading/sections/class-resource.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "loader-resource",
+                            "title": "ClassLoader.getResource: t\u00ean t\u00ednh t\u1eeb g\u1ed1c t\u00e0i nguy\u00ean c\u1ee7a ClassLoader",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ResourceLoading/sections/loader-resource.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "resource-enumeration",
+                            "title": "M\u1ed9t t\u00ean t\u00e0i nguy\u00ean c\u00f3 th\u1ec3 c\u00f3 nhi\u1ec1u k\u1ebft qu\u1ea3",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ResourceLoading/sections/resource-enumeration.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "resource-stream-lifecycle",
+                            "title": "Lu\u1ed3ng d\u1eef li\u1ec7u c\u1ee7a t\u00e0i nguy\u00ean c\u0169ng c\u1ea7n v\u00f2ng \u0111\u1eddi r\u00f5 r\u00e0ng",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ResourceLoading/sections/resource-stream-lifecycle.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "classpath-vs-filesystem",
+                            "title": "T\u00e0i nguy\u00ean tr\u00ean classpath kh\u00f4ng nh\u1ea5t thi\u1ebft l\u00e0 t\u1ec7p tr\u00ean h\u1ec7 th\u1ed1ng",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ResourceLoading/sections/classpath-vs-filesystem.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "resource-vs-class-loading",
+                            "title": "T\u00ecm t\u00e0i nguy\u00ean kh\u00e1c v\u1edbi n\u1ea1p v\u00e0 \u0111\u1ecbnh ngh\u0129a class",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ResourceLoading/sections/resource-vs-class-loading.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/ResourceLoading/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Initialization",
+            "title": "8.Initialization",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Initialization",
+                    "title": "\u0110i\u1ec1u ki\u1ec7n k\u00edch ho\u1ea1t v\u00e0 l\u1ed7i khi kh\u1edfi t\u1ea1o class",
+                    "sourcePath": "8.Initialization/Initialization.md",
+                    "sections": [
+                        {
+                            "id": "initialization-trigger",
+                            "title": "Thao t\u00e1c s\u1eed d\u1ee5ng ch\u1ee7 \u0111\u1ed9ng (active use) n\u00e0o k\u00edch ho\u1ea1t kh\u1edfi t\u1ea1o?",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Initialization/sections/initialization-trigger.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constant-no-init",
+                            "title": "H\u1eb1ng s\u1ed1 l\u00fac bi\u00ean d\u1ecbch c\u00f3 th\u1ec3 \u0111\u01b0\u1ee3c d\u00f9ng m\u00e0 kh\u00f4ng kh\u1edfi t\u1ea1o class",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Initialization/sections/constant-no-init.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "clinit-model",
+                            "title": "M\u00f4 h\u00ecnh t\u01b0 duy c\u1ee7a &lt;clinit&gt;",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Initialization/sections/clinit-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "initialization-once",
+                            "title": "M\u1ed7i class do m\u1ed9t ClassLoader \u0111\u1ecbnh ngh\u0129a ch\u1ec9 \u0111\u01b0\u1ee3c JVM kh\u1edfi t\u1ea1o m\u1ed9t l\u1ea7n",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Initialization/sections/initialization-once.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "initialization-locking",
+                            "title": "JVM \u0111\u1ed3ng b\u1ed9 vi\u1ec7c kh\u1edfi t\u1ea1o khi nhi\u1ec1u lu\u1ed3ng c\u00f9ng s\u1eed d\u1ee5ng class",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Initialization/sections/initialization-locking.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "initialization-failure",
+                            "title": "L\u1ed7i kh\u1edfi t\u1ea1o \u0111\u01b0a class v\u00e0o tr\u1ea1ng th\u00e1i l\u1ed7i (erroneous)",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Initialization/sections/initialization-failure.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/Initialization/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.UnloadingLeaks",
+            "title": "9.UnloadingLeaks",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "UnloadingLeaks",
+                    "title": "G\u1ee1 n\u1ea1p class v\u00e0 r\u00f2 r\u1ec9 ClassLoader",
+                    "sourcePath": "9.UnloadingLeaks/UnloadingLeaks.md",
+                    "sections": [
+                        {
+                            "id": "class-unloading",
+                            "title": "Class ch\u1ec9 c\u00f3 th\u1ec3 \u0111\u01b0\u1ee3c g\u1ee1 n\u1ea1p khi ClassLoader \u0111\u1ecbnh ngh\u0129a c\u00f3 th\u1ec3 \u0111\u01b0\u1ee3c thu h\u1ed3i",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/UnloadingLeaks/sections/class-unloading.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "loader-retention",
+                            "title": "Nh\u1eefng tham chi\u1ebfu n\u00e0o gi\u1eef m\u1ed9t ClassLoader s\u1ed1ng?",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/UnloadingLeaks/sections/loader-retention.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-threadlocal-leaks",
+                            "title": "Static, ThreadLocal, b\u1ed9 l\u1eafng nghe v\u00e0 c\u00e1c ki\u1ec3u r\u00f2 r\u1ec9 t\u1eeb b\u1ed9 nh\u1edb \u0111\u1ec7m",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/UnloadingLeaks/sections/static-threadlocal-leaks.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "redeploy-leak",
+                            "title": "R\u00f2 r\u1ec9 khi tri\u1ec3n khai l\u1ea1i (redeploy) plugin x\u1ea3y ra nh\u01b0 th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/UnloadingLeaks/sections/redeploy-leak.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "unloading-observation",
+                            "title": "Quan s\u00e1t vi\u1ec7c g\u1ee1 n\u1ea1p: ph\u1ee5 thu\u1ed9c GC, kh\u00f4ng mang t\u00ednh x\u00e1c \u0111\u1ecbnh",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/UnloadingLeaks/sections/unloading-observation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "end-to-end-synthesis",
+                            "title": "M\u00f4 h\u00ecnh t\u1ed5ng h\u1ee3p: t\u1eeb bytecode \u0111\u1ebfn g\u1ee1 n\u1ea1p ClassLoader",
+                            "content": "/module/JAVA_CLASSLOADER/knowledge/vi/content/UnloadingLeaks/sections/end-to-end-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CLASSLOADER/knowledge/vi/content/UnloadingLeaks/intro.md"
+                }
+            ]
+        }
+    ]
+}

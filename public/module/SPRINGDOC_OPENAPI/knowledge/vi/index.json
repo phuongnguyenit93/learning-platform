@@ -1,0 +1,19 @@
+{
+    "version": 1,
+    "moduleId": "SPRINGDOC_OPENAPI",
+    "language": "vi",
+    "categoryCount": 1,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "CATEGORY",
+            "id": "99.Q&A",
+            "title": "Ph\u00e2n bi\u1ec7t OperationCustomizer v\u00e0 OpenApiCustomizer trong SpringDoc",
+            "sourcePath": "99.Q&A.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/SPRINGDOC_OPENAPI/knowledge/vi/content/99.Q%26A/intro.md"
+        }
+    ]
+}

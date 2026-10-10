@@ -1,0 +1,213 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_BOOT_AUTO_CONFIGURATION",
+    "language": "en",
+    "categoryCount": 12,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AutoConfiguration",
+                    "title": "AutoConfiguration",
+                    "sourcePath": "1.Introduction/AutoConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/AutoConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.WhyAutoConfiguration",
+            "title": "2.WhyAutoConfiguration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "WhyAutoConfiguration",
+                    "title": "WhyAutoConfiguration",
+                    "sourcePath": "2.WhyAutoConfiguration/WhyAutoConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/WhyAutoConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.EnableAutoConfiguration",
+            "title": "3.EnableAutoConfiguration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EnableAutoConfiguration",
+                    "title": "EnableAutoConfiguration",
+                    "sourcePath": "3.EnableAutoConfiguration/EnableAutoConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/EnableAutoConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.ConditionalModel",
+            "title": "4.ConditionalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ConditionalModel",
+                    "title": "ConditionalModel",
+                    "sourcePath": "4.ConditionalModel/ConditionalModel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/ConditionalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ClasspathDriven",
+            "title": "5.ClasspathDriven",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ClasspathDriven",
+                    "title": "ClasspathDriven",
+                    "sourcePath": "5.ClasspathDriven/ClasspathDriven.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/ClasspathDriven/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.PropertyDriven",
+            "title": "6.PropertyDriven",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PropertyDriven",
+                    "title": "PropertyDriven",
+                    "sourcePath": "6.PropertyDriven/PropertyDriven.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/PropertyDriven/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Ordering",
+            "title": "7.Ordering",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Ordering",
+                    "title": "Ordering",
+                    "sourcePath": "7.Ordering/Ordering.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/Ordering/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Exclusion",
+            "title": "8.Exclusion",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Exclusion",
+                    "title": "Exclusion",
+                    "sourcePath": "8.Exclusion/Exclusion.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/Exclusion/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ConditionEvaluation",
+            "title": "9.ConditionEvaluation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ConditionEvaluation",
+                    "title": "ConditionEvaluation",
+                    "sourcePath": "9.ConditionEvaluation/ConditionEvaluation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/ConditionEvaluation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.CustomAutoConfiguration",
+            "title": "10.CustomAutoConfiguration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CustomAutoConfiguration",
+                    "title": "CustomAutoConfiguration",
+                    "sourcePath": "10.CustomAutoConfiguration/CustomAutoConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/CustomAutoConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.CustomStarter",
+            "title": "11.CustomStarter",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CustomStarter",
+                    "title": "CustomStarter",
+                    "sourcePath": "11.CustomStarter/CustomStarter.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/CustomStarter/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.Debugging",
+            "title": "12.Debugging",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Debugging",
+                    "title": "Debugging",
+                    "sourcePath": "12.Debugging/Debugging.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_AUTO_CONFIGURATION/knowledge/en/content/Debugging/intro.md"
+                }
+            ]
+        }
+    ]
+}

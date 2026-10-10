@@ -1,0 +1,133 @@
+{
+    "version": 1,
+    "moduleId": "OBJECT_ORIENTED_PROGRAMMING",
+    "language": "en",
+    "categoryCount": 5,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectOrientedProgramming",
+                    "title": "Object-Oriented Programming",
+                    "sourcePath": "1.Introduction/ObjectOrientedProgramming.md",
+                    "sections": [
+                        {
+                            "id": "oop-what",
+                            "title": "1. What is OOP?",
+                            "content": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/ObjectOrientedProgramming/sections/oop-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-why",
+                            "title": "2. Why does OOP exist?",
+                            "content": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/ObjectOrientedProgramming/sections/oop-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-before",
+                            "title": "3. What is the simpler alternative?",
+                            "content": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/ObjectOrientedProgramming/sections/oop-before.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-solution",
+                            "title": "4. How does OOP help?",
+                            "content": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/ObjectOrientedProgramming/sections/oop-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-boundary",
+                            "title": "5. Boundary with Java",
+                            "content": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/ObjectOrientedProgramming/sections/oop-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/ObjectOrientedProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Responsibility",
+            "title": "2.Responsibility",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Responsibility",
+                    "title": "Objects, Responsibility, and Collaboration",
+                    "sourcePath": "2.Responsibility/Responsibility.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/Responsibility/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.EncapsulationAbstraction",
+            "title": "3.EncapsulationAbstraction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EncapsulationAbstraction",
+                    "title": "Encapsulation and Abstraction",
+                    "sourcePath": "3.EncapsulationAbstraction/EncapsulationAbstraction.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/EncapsulationAbstraction/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.RelationshipsPolymorphism",
+            "title": "4.RelationshipsPolymorphism",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RelationshipsPolymorphism",
+                    "title": "Composition, Subtyping, and Polymorphism",
+                    "sourcePath": "4.RelationshipsPolymorphism/RelationshipsPolymorphism.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/RelationshipsPolymorphism/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Tradeoffs",
+            "title": "5.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "OOP Trade-offs",
+                    "sourcePath": "5.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

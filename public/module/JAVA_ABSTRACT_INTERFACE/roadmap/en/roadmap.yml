@@ -1,0 +1,119 @@
+# <roadmap-schema>
+# Module Roadmap Structure
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: High-level learning milestones for the current language roadmap.
+#
+# - id [string, required]: Stable and unique milestone identity within the current language roadmap.
+# - title [string, required]: Milestone title displayed to the learner.
+# - purpose [string, required]: What the learner should understand or achieve from this milestone.
+# - dependsOn [list, optional]: Prerequisite milestone ids when item order alone is not enough to express the dependency.
+# - objectives [list, optional]: Milestone-level learning objectives; do not use this to list every small fact/API/syntax item.
+# - relatedKnowledge [list, optional]: Knowledge category ids in the current module that support this milestone. Portal displays this list on the side opposite the milestone and clicking an item navigates to the matching Knowledge category.
+# - relatedModules [list, optional]: Related modules displayed as Portal Level 2 cards. Each item requires routeId and may provide localized label/note; this relation is navigation only and does not create child milestones or change learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - What is this topic/module?
+#   - Why does it exist?
+#   - What problem exists without it?
+# FOUNDATION
+#   - What prerequisite or mental model must the learner have first?
+# CORE MODEL
+#   - What major abstractions or building blocks make up this topic?
+# MECHANICS
+#   - How does it work at the language/runtime/API level appropriate for this module?
+# USAGE
+#   - How is it used in real code?
+# DECISION / TRADE-OFF
+#   - When should this mechanism be chosen over another?
+#   - When should it not be used?
+# FAILURE / PITFALL
+#   - What mistakes, compile-time failures, or runtime failures matter?
+# INTEGRATION
+#   - How does this topic connect to neighboring concepts/modules?
+# SYNTHESIS
+#   - What end-to-end mental model should the learner retain?
+#
+# Each language owns its own roadmap. Do not infer or synchronize its structure from another language roadmap.
+# Item order in roadmap is the default learning order. Use dependsOn only when a dependency needs to be expressed beyond the linear order.
+# The skeleton must not force every module to have the same number of nodes. It is a thinking framework, not a rigid template.
+# </roadmap-schema>
+
+roadmap:
+  - id: abstraction-mechanism-purpose
+    title: Why Java Needs Abstract Classes and Interfaces
+    purpose: Understand the design problem solved by abstract classes and interfaces before learning their detailed syntax and rules.
+    relatedKnowledge:
+      - AbstractionPurpose
+    relatedModules:
+      - routeId: JAVA_CLASS_OBJECT
+        label: Class and Object
+        note: Provides the class, object, member, and constructor foundations needed before studying types that cannot be instantiated directly.
+      - routeId: JAVA_OOP
+        label: OOP
+        note: Provides the abstraction, inheritance, polymorphism, and substitutability context for these mechanisms.
+    objectives:
+      - Distinguish the need to construct concrete objects from the need to program against a common type or contract.
+      - Understand why Java provides both abstract classes and interfaces instead of a single abstraction mechanism.
+  - id: abstract-classes
+    title: Abstract Classes — Shared State and Partial Implementation
+    purpose: Understand an abstract class as a partially implemented superclass that can hold shared state and behavior, use constructors to initialize the abstract/base-class portion of a subclass object, and require subclasses to complete missing behavior.
+    relatedKnowledge:
+      - AbstractClass
+    objectives:
+      - Distinguish abstract methods from methods that already provide implementation.
+      - Understand constructor behavior and the single-class-inheritance constraint.
+  - id: interfaces-as-contracts
+    title: Interfaces as Behavioral Contracts
+    purpose: Understand interfaces as capability or role contracts that unrelated classes can implement without sharing one class hierarchy.
+    relatedKnowledge:
+      - Interface
+    relatedModules:
+      - routeId: JAVA_FUNCTIONAL_PROGRAMMING
+        label: Functional Programming
+        note: Functional interfaces are the target types that make Java lambdas possible.
+    objectives:
+      - Model capabilities and roles through interfaces.
+      - Understand that a class can implement several interfaces without inheriting shared instance state from them.
+  - id: choosing-abstract-class-or-interface
+    title: Choosing an Abstract Class or an Interface
+    purpose: Build criteria for choosing shared state/implementation through an abstract class versus a flexible behavioral contract through an interface.
+    relatedKnowledge:
+      - AbstractVsInterface
+    objectives:
+      - Choose based on shared state/implementation needs, inheritance relationships, and the need to implement multiple contracts.
+      - Avoid selecting a mechanism merely because it is familiar or syntactically convenient.
+  - id: interface-hierarchies
+    title: Interface Inheritance and Contract Composition
+    purpose: Understand how an interface can extend one or more interfaces to compose behavioral contracts without inheriting object state.
+    relatedKnowledge:
+      - InterfaceInheritance
+    objectives:
+      - Build clear contract hierarchies without over-fragmenting APIs.
+      - Understand how interface methods are inherited, redeclared, or refined in child interfaces.
+  - id: interface-evolution
+    title: Default, Static, and Private Interface Methods
+    purpose: Understand the distinct role of each interface method kind; default methods provide inherited behavior and support compatible contract evolution, static methods belong to the interface itself rather than implementing instances, and private methods provide internal implementation reuse.
+    relatedKnowledge:
+      - DefaultStaticPrivate
+    objectives:
+      - Understand how default methods support compatible interface evolution without replacing class design.
+      - Distinguish the roles, visibility, and invocation rules of static and private interface methods.
+  - id: multiple-inheritance-conflicts
+    title: Multiple Interface Inheritance and Conflict Resolution
+    purpose: Understand what happens when a class implements several interfaces with overlapping default behavior and when Java can determine precedence or requires the implementing class to resolve the conflict explicitly.
+    relatedKnowledge:
+      - MultipleInheritance
+    objectives:
+      - Predict precedence between methods inherited from the class hierarchy and interface default methods.
+      - Resolve diamond-shaped interface conflicts without confusing them with multiple class inheritance.
+  - id: abstraction-mechanism-synthesis
+    title: Designing with Abstract Classes and Interfaces
+    purpose: Connect mechanism choice with interface inheritance, interface evolution, and conflict resolution into one overall design model.
+    relatedKnowledge:
+      - AbstractionSynthesis
+    objectives:
+      - Relate mechanism choice to contract inheritance, default methods, and conflict resolution.
+      - Explain how abstract classes and interfaces support polymorphism without treating them as the whole of OOP design.

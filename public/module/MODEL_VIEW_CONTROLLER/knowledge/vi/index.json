@@ -1,0 +1,125 @@
+{
+    "version": 1,
+    "moduleId": "MODEL_VIEW_CONTROLLER",
+    "language": "vi",
+    "categoryCount": 5,
+    "sectionCount": 4,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MVC",
+                    "title": "Model-View-Controller (MVC)",
+                    "sourcePath": "1.Introduction/MVC.md",
+                    "sections": [
+                        {
+                            "id": "mvc-what",
+                            "title": "1. MVC l\u00e0 g\u00ec?",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/MVC/sections/mvc-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mvc-why",
+                            "title": "2. T\u1ea1i sao MVC t\u1ed3n t\u1ea1i?",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/MVC/sections/mvc-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mvc-roles",
+                            "title": "3. Ba vai tr\u00f2 c\u01a1 b\u1ea3n",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/MVC/sections/mvc-roles.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mvc-boundary",
+                            "title": "4. MVC kh\u00f4ng \u0111\u1ed3ng ngh\u0129a v\u1edbi Spring MVC",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/MVC/sections/mvc-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/MVC/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Model",
+            "title": "2.Model",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Model",
+                    "title": "Model",
+                    "sourcePath": "2.Model/Model.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/Model/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.View",
+            "title": "3.View",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "View",
+                    "title": "View",
+                    "sourcePath": "3.View/View.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/View/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Controller",
+            "title": "4.Controller",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Controller",
+                    "title": "Controller",
+                    "sourcePath": "4.Controller/Controller.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/Controller/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.FlowBoundaries",
+            "title": "5.FlowBoundaries",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FlowBoundaries",
+                    "title": "Interaction Flow, Boundary v\u00e0 Trade-off",
+                    "sourcePath": "5.FlowBoundaries/FlowBoundaries.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/vi/content/FlowBoundaries/intro.md"
+                }
+            ]
+        }
+    ]
+}

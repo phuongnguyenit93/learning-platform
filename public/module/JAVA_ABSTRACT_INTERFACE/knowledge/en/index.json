@@ -1,0 +1,377 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_ABSTRACT_INTERFACE",
+    "language": "en",
+    "categoryCount": 8,
+    "sectionCount": 30,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.AbstractionPurpose",
+            "title": "1.AbstractionPurpose",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractionPurpose",
+                    "title": "Why Java Needs Abstract Classes and Interfaces",
+                    "sourcePath": "1.AbstractionPurpose/AbstractionPurpose.md",
+                    "sections": [
+                        {
+                            "id": "abstraction-mechanism-purpose",
+                            "title": "The Problem Abstract Classes and Interfaces Solve",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionPurpose/sections/abstraction-mechanism-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-mechanism-roles",
+                            "title": "Two Mechanisms, Different Roles",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionPurpose/sections/abstraction-mechanism-roles.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-running-example",
+                            "title": "Running Example",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionPurpose/sections/abstraction-running-example.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-learning-roadmap",
+                            "title": "Learning Roadmap",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionPurpose/sections/abstraction-learning-roadmap.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionPurpose/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.AbstractClass",
+            "title": "2.AbstractClass",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractClass",
+                    "title": "Abstract Classes \u2014 Shared State and Partial Implementation",
+                    "sourcePath": "2.AbstractClass/AbstractClass.md",
+                    "sections": [
+                        {
+                            "id": "abstract-class-model",
+                            "title": "What Is an Abstract Class?",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractClass/sections/abstract-class-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-method",
+                            "title": "Abstract Methods",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractClass/sections/abstract-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-constructor",
+                            "title": "Abstract Class Constructors",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractClass/sections/abstract-constructor.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-class-limits",
+                            "title": "Abstract Class Limits",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractClass/sections/abstract-class-limits.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractClass/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Interface",
+            "title": "3.Interface",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Interface",
+                    "title": "Interfaces as Behavioral Contracts",
+                    "sourcePath": "3.Interface/Interface.md",
+                    "sections": [
+                        {
+                            "id": "interface-contract",
+                            "title": "What Is an Interface?",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/Interface/sections/interface-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-fields",
+                            "title": "Interface Fields",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/Interface/sections/interface-fields.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-method-kinds",
+                            "title": "Interface Method Kinds",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/Interface/sections/interface-method-kinds.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-implementation",
+                            "title": "Implementing Multiple Contracts",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/Interface/sections/interface-implementation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/Interface/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.AbstractVsInterface",
+            "title": "4.AbstractVsInterface",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractVsInterface",
+                    "title": "Choosing an Abstract Class or an Interface",
+                    "sourcePath": "4.AbstractVsInterface/AbstractVsInterface.md",
+                    "sections": [
+                        {
+                            "id": "abstract-vs-interface-state",
+                            "title": "State and Constructors",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractVsInterface/sections/abstract-vs-interface-state.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstract-vs-interface-inheritance",
+                            "title": "One Parent Class, Many Interfaces",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractVsInterface/sections/abstract-vs-interface-inheritance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "selection-guidance",
+                            "title": "Selection Guidance",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractVsInterface/sections/selection-guidance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractVsInterface/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.InterfaceInheritance",
+            "title": "5.InterfaceInheritance",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "InterfaceInheritance",
+                    "title": "Interface Inheritance and Contract Composition",
+                    "sourcePath": "5.InterfaceInheritance/InterfaceInheritance.md",
+                    "sections": [
+                        {
+                            "id": "interface-extends-interface",
+                            "title": "Interface Inheritance",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/InterfaceInheritance/sections/interface-extends-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "multiple-interface-hierarchy",
+                            "title": "Multiple Parent Interfaces",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/InterfaceInheritance/sections/multiple-interface-hierarchy.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interface-redeclaration",
+                            "title": "Redeclaring Inherited Methods",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/InterfaceInheritance/sections/interface-redeclaration.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/InterfaceInheritance/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.DefaultStaticPrivate",
+            "title": "6.DefaultStaticPrivate",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DefaultStaticPrivate",
+                    "title": "Default, Static, and Private Interface Methods",
+                    "sourcePath": "6.DefaultStaticPrivate/DefaultStaticPrivate.md",
+                    "sections": [
+                        {
+                            "id": "default-method",
+                            "title": "Default Methods",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/DefaultStaticPrivate/sections/default-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-interface-method",
+                            "title": "Static Interface Methods",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/DefaultStaticPrivate/sections/static-interface-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "private-interface-method",
+                            "title": "Private Interface Helpers",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/DefaultStaticPrivate/sections/private-interface-method.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "default-method-evolution",
+                            "title": "Interface Evolution",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/DefaultStaticPrivate/sections/default-method-evolution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/DefaultStaticPrivate/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.MultipleInheritance",
+            "title": "7.MultipleInheritance",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MultipleInheritance",
+                    "title": "Multiple Interface Inheritance and Conflict Resolution",
+                    "sourcePath": "7.MultipleInheritance/MultipleInheritance.md",
+                    "sections": [
+                        {
+                            "id": "default-method-conflict",
+                            "title": "Default Method Conflicts",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/MultipleInheritance/sections/default-method-conflict.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "class-wins-rule",
+                            "title": "Class-Hierarchy Methods Take Precedence",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/MultipleInheritance/sections/class-wins-rule.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "explicit-super-interface",
+                            "title": "Calling InterfaceName.super",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/MultipleInheritance/sections/explicit-super-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "diamond-interface",
+                            "title": "Diamond-Shaped Interface Inheritance",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/MultipleInheritance/sections/diamond-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/MultipleInheritance/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.AbstractionSynthesis",
+            "title": "8.AbstractionSynthesis",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AbstractionSynthesis",
+                    "title": "Designing with Abstract Classes and Interfaces",
+                    "sourcePath": "8.AbstractionSynthesis/AbstractionSynthesis.md",
+                    "sections": [
+                        {
+                            "id": "abstraction-design-synthesis",
+                            "title": "End-to-End Decision Model",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionSynthesis/sections/abstraction-design-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-design-example",
+                            "title": "Putting the Payment Example Together",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionSynthesis/sections/abstraction-design-example.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-design-checklist",
+                            "title": "Design Checklist",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionSynthesis/sections/abstraction-design-checklist.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-final-mental-model",
+                            "title": "Final Mental Model",
+                            "content": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionSynthesis/sections/abstraction-final-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_ABSTRACT_INTERFACE/knowledge/en/content/AbstractionSynthesis/intro.md"
+                }
+            ]
+        }
+    ]
+}

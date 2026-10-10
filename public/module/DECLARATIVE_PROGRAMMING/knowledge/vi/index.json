@@ -1,0 +1,133 @@
+{
+    "version": 1,
+    "moduleId": "DECLARATIVE_PROGRAMMING",
+    "language": "vi",
+    "categoryCount": 5,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DeclarativeProgramming",
+                    "title": "Declarative Programming",
+                    "sourcePath": "1.Introduction/DeclarativeProgramming.md",
+                    "sections": [
+                        {
+                            "id": "declarative-what",
+                            "title": "1. Declarative Programming l\u00e0 g\u00ec?",
+                            "content": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/DeclarativeProgramming/sections/declarative-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "declarative-why",
+                            "title": "2. T\u1ea1i sao n\u00f3 t\u1ed3n t\u1ea1i?",
+                            "content": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/DeclarativeProgramming/sections/declarative-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "declarative-before",
+                            "title": "3. N\u1ebfu d\u00f9ng imperative th\u00ec sao?",
+                            "content": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/DeclarativeProgramming/sections/declarative-before.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "declarative-solution",
+                            "title": "4. Mental model",
+                            "content": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/DeclarativeProgramming/sections/declarative-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "declarative-relations",
+                            "title": "5. Quan h\u1ec7 v\u1edbi c\u00e1c style kh\u00e1c",
+                            "content": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/DeclarativeProgramming/sections/declarative-relations.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/DeclarativeProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.IntentVsProcedure",
+            "title": "2.IntentVsProcedure",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "IntentVsProcedure",
+                    "title": "Intent v\u00e0 Procedure",
+                    "sourcePath": "2.IntentVsProcedure/IntentVsProcedure.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/IntentVsProcedure/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.LogicProgramming",
+            "title": "3.LogicProgramming",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LogicProgramming",
+                    "title": "Logic Programming",
+                    "sourcePath": "3.LogicProgramming/LogicProgramming.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/LogicProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.QueryRuleStyles",
+            "title": "4.QueryRuleStyles",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "QueryRuleStyles",
+                    "title": "Query, Rule v\u00e0 Configuration Style",
+                    "sourcePath": "4.QueryRuleStyles/QueryRuleStyles.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/QueryRuleStyles/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Tradeoffs",
+            "title": "5.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Declarative Programming Trade-off",
+                    "sourcePath": "5.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DECLARATIVE_PROGRAMMING/knowledge/vi/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

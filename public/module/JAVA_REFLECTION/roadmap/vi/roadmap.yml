@@ -1,0 +1,131 @@
+# <roadmap-schema>
+# Cấu trúc Roadmap Module
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: Danh sách milestone cấp cao của roadmap cho language hiện tại.
+#
+# - id [string, required]: ID ổn định và duy nhất của milestone trong roadmap language hiện tại.
+# - title [string, required]: Tên milestone hiển thị cho learner.
+# - purpose [string, required]: Milestone này tồn tại để learner hiểu hoặc đạt được điều gì.
+# - dependsOn [list, optional]: Danh sách id milestone prerequisite khi dependency không thể hiện đủ chỉ bằng thứ tự item.
+# - objectives [list, optional]: Các learning objective cấp milestone; không dùng để liệt kê mọi fact/API/syntax nhỏ.
+# - relatedKnowledge [list, optional]: Danh sách Knowledge category id trong chính module hiện tại hỗ trợ milestone. Portal hiển thị danh sách này ở phía đối diện milestone và click item sẽ điều hướng sang Knowledge category tương ứng.
+# - relatedModules [list, optional]: Các module liên quan hiển thị ở Level 2 của Portal. Mỗi item dùng routeId bắt buộc và có thể có label/note localized; relation này chỉ để điều hướng, không tạo child milestone hoặc thay đổi learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - Topic/module này là gì?
+#   - Vì sao nó tồn tại?
+#   - Không có nó thì learner gặp vấn đề gì?
+# FOUNDATION
+#   - Learner cần prerequisite hoặc mental model nào trước?
+# CORE MODEL
+#   - Những abstraction hoặc building block lớn nào tạo nên chủ đề này?
+# MECHANICS
+#   - Nó hoạt động như thế nào ở mức language/runtime/API phù hợp với module?
+# USAGE
+#   - Nó được dùng như thế nào trong code thực tế?
+# DECISION / TRADE-OFF
+#   - Khi nào nên chọn cơ chế này thay vì cơ chế khác?
+#   - Khi nào không nên dùng?
+# FAILURE / PITFALL
+#   - Những sai lầm, compile-time failure hoặc runtime failure nào đáng biết?
+# INTEGRATION
+#   - Chủ đề này kết nối với những concept/module lân cận nào?
+# SYNTHESIS
+#   - Sau cùng learner phải giữ mental model end-to-end nào?
+#
+# Mỗi language tự chịu trách nhiệm cho roadmap của chính nó. Không suy luận hoặc đồng bộ cấu trúc từ roadmap của language khác.
+# Thứ tự item trong roadmap chính là thứ tự học mặc định. Chỉ dùng dependsOn khi cần biểu diễn dependency rõ hơn thứ tự tuyến tính.
+# Skeleton không nên ép mọi module có đúng bấy nhiêu node. Nó là framework suy nghĩ chứ không phải template cứng.
+# </roadmap-schema>
+
+roadmap:
+  - id: reflection-purpose
+    title: Reflection là gì và vì sao cần nó?
+    purpose: Hiểu Reflection cho phép chương trình quan sát cấu trúc và thao tác với kiểu hoặc thành phần khi thông tin chỉ được biết lúc chạy, thay vì phải gọi trực tiếp bằng mã đã biết từ lúc biên dịch.
+    relatedKnowledge:
+      - Basic
+    objectives:
+      - Giải thích bài toán mà Reflection giải quyết trong framework, thư viện và công cụ.
+      - Hiểu giới hạn của cách gọi trực tiếp, interface, factory hoặc đăng ký thủ công khi cấu trúc cần xử lý không thể biết trước lúc biên dịch.
+      - Phân biệt trường hợp cần tính linh hoạt lúc chạy với trường hợp gọi trực tiếp an toàn và rõ ràng hơn.
+  - id: class-metadata
+    title: Mô hình kiểu lúc chạy với Class<?>
+    purpose: Hiểu Class<?> là đối tượng mô tả một kiểu Java mà JVM biết tại lúc chạy và là điểm bắt đầu để khám phá siêu dữ liệu của kiểu đó bằng Reflection.
+    relatedKnowledge:
+      - ClassMetadata
+    relatedModules:
+      - routeId: JAVA_CLASSLOADER
+        label: ClassLoader
+        note: Với class và interface thông thường, ClassLoader tham gia nạp và định nghĩa định danh kiểu trong JVM; Reflection sử dụng đối tượng Class tương ứng để quan sát kiểu đó.
+      - routeId: JAVA_ANNOTATION
+        label: Annotation
+        note: Reflection có thể đọc annotation được giữ lại đến lúc chạy; cách khai báo và chính sách lưu giữ annotation thuộc mô-đun Annotation.
+    objectives:
+      - Hiểu cách lấy Class<?> và dùng nó để khám phá tên, loại, modifier, quan hệ kế thừa và thành phần của kiểu.
+      - Phân biệt siêu dữ liệu mô tả một kiểu với đối tượng được tạo từ kiểu đó.
+      - Nhận biết siêu dữ liệu đặc thù của mảng, enum, record và sealed type thay vì giả định mọi Class<?> có cùng một tập đặc điểm.
+      - Nhận biết annotation có chính sách lưu giữ RUNTIME là một dạng siêu dữ liệu mà Reflection có thể đọc trên kiểu và thành phần.
+  - id: reflective-members
+    title: Khám phá các thành phần của lớp
+    purpose: Xây dựng mô hình chung cho Field, Method và Constructor như các đối tượng mô tả thành phần mà Reflection có thể tìm kiếm và kiểm tra lúc chạy.
+    relatedKnowledge:
+      - ClassMetadata
+      - Fields
+      - Methods
+      - Constructors
+    objectives:
+      - Phân biệt thành phần được khai báo trực tiếp với thành phần public có thể được kế thừa.
+      - Hiểu vai trò chung của Member, Executable, AccessibleObject và AnnotatedElement thay vì xem Field, Method và Constructor là các API rời rạc.
+      - Đọc được thông tin quan trọng như modifier, kiểu dữ liệu, tham số, kiểu trả về và ngoại lệ được khai báo.
+  - id: reflective-operations
+    title: Thao tác động bằng siêu dữ liệu
+    purpose: Hiểu cách Reflection dùng Field, Method và Constructor đã khám phá để đọc hoặc ghi dữ liệu, gọi phương thức và tạo đối tượng khi quyết định chỉ có ở lúc chạy.
+    relatedKnowledge:
+      - DynamicInvocation
+    objectives:
+      - Liên hệ get/set, invoke và newInstance với thao tác Java trực tiếp tương ứng, kể cả chuyển đổi đối số và varargs.
+      - Hiểu cách tạo và truy cập mảng động khi kiểu phần tử chỉ được biết lúc chạy thông qua java.lang.reflect.Array.
+      - Phân biệt lỗi của chính cơ chế Reflection với ngoại lệ phát sinh bên trong mã đích, đặc biệt qua InvocationTargetException.
+  - id: reflective-access-control
+    title: Quyền truy cập, đóng gói và giới hạn mô-đun
+    purpose: Hiểu Reflection không xóa bỏ quy tắc truy cập của Java; việc truy cập sâu vẫn chịu kiểm soát của đóng gói và ranh giới mô-đun trong JPMS.
+    relatedKnowledge:
+      - AccessControl
+    objectives:
+      - Hiểu vai trò của canAccess, trySetAccessible và khi nào việc mở quyền truy cập có thể thất bại.
+      - Nhận biết rủi ro bảo trì và an toàn khi cố tình vượt qua ranh giới đóng gói thông thường.
+  - id: generic-signature-inspection
+    title: Siêu dữ liệu Generics còn lại sau xóa kiểu
+    purpose: Hiểu phần thông tin về kiểu tổng quát nào vẫn được lưu trong chữ ký khai báo và có thể đọc bằng Reflection sau khi xóa kiểu (type erasure) diễn ra.
+    relatedKnowledge:
+      - GenericTypeInspection
+    relatedModules:
+      - routeId: JAVA_GENERICS
+        label: Generics
+        note: Xóa kiểu (type erasure), giới hạn kiểu (bound), wildcard và quan hệ kiểu tại thời điểm biên dịch được học sâu trong mô-đun Generics.
+    objectives:
+      - Nhận biết vai trò của Class, ParameterizedType, TypeVariable, WildcardType và GenericArrayType trong mô hình Type.
+      - Phân biệt kiểu dùng để thực thi sau xóa kiểu với siêu dữ liệu chữ ký vẫn còn để công cụ kiểm tra.
+  - id: dynamic-proxies
+    title: Proxy động và chặn lời gọi
+    purpose: Hiểu JDK Dynamic Proxy có thể tạo lúc chạy một lớp triển khai interface và chuyển lời gọi qua InvocationHandler để bổ sung hành vi trung gian.
+    relatedKnowledge:
+      - DynamicProxy
+    relatedModules:
+      - routeId: JAVA_ABSTRACT_INTERFACE
+        label: Lớp trừu tượng & Interface
+        note: JDK Dynamic Proxy dựa trên interface làm hợp đồng cho đối tượng proxy được tạo lúc chạy.
+    objectives:
+      - Theo dõi luồng tạo proxy, InvocationHandler, chuyển tiếp lời gọi và xử lý các phương thức của Object.
+      - Hiểu giới hạn của JDK Dynamic Proxy khi cơ chế này chỉ tạo proxy dựa trên interface.
+  - id: reflection-risks-and-synthesis
+    title: Khi nào nên dùng Reflection?
+    purpose: Tổng hợp lợi ích và đánh đổi của Reflection để quyết định khi nào tính linh hoạt lúc chạy đáng với việc mất một phần kiểm tra lúc biên dịch, tăng liên kết ẩn và tăng độ phức tạp khi bảo trì.
+    relatedKnowledge:
+      - LimitationsRisks
+    objectives:
+      - Đánh giá ảnh hưởng đến hiệu năng, khả năng tái cấu trúc mã, native image và ranh giới truy cập; biết khi nào cần lưu đệm siêu dữ liệu.
+      - Phân biệt phạm vi phù hợp của Reflection với gọi trực tiếp và các cơ chế gọi động lân cận như MethodHandle.

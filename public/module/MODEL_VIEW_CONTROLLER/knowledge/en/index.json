@@ -1,0 +1,125 @@
+{
+    "version": 1,
+    "moduleId": "MODEL_VIEW_CONTROLLER",
+    "language": "en",
+    "categoryCount": 5,
+    "sectionCount": 4,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MVC",
+                    "title": "Model-View-Controller (MVC)",
+                    "sourcePath": "1.Introduction/MVC.md",
+                    "sections": [
+                        {
+                            "id": "mvc-what",
+                            "title": "1. What is MVC?",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/MVC/sections/mvc-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mvc-why",
+                            "title": "2. Why does MVC exist?",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/MVC/sections/mvc-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mvc-roles",
+                            "title": "3. The three basic roles",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/MVC/sections/mvc-roles.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mvc-boundary",
+                            "title": "4. MVC does not mean Spring MVC",
+                            "content": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/MVC/sections/mvc-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/MVC/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Model",
+            "title": "2.Model",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Model",
+                    "title": "Model",
+                    "sourcePath": "2.Model/Model.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/Model/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.View",
+            "title": "3.View",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "View",
+                    "title": "View",
+                    "sourcePath": "3.View/View.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/View/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Controller",
+            "title": "4.Controller",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Controller",
+                    "title": "Controller",
+                    "sourcePath": "4.Controller/Controller.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/Controller/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.FlowBoundaries",
+            "title": "5.FlowBoundaries",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FlowBoundaries",
+                    "title": "Interaction Flow, Boundaries, and Trade-offs",
+                    "sourcePath": "5.FlowBoundaries/FlowBoundaries.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MODEL_VIEW_CONTROLLER/knowledge/en/content/FlowBoundaries/intro.md"
+                }
+            ]
+        }
+    ]
+}

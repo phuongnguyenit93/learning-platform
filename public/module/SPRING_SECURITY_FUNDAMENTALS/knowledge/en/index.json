@@ -1,0 +1,281 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_SECURITY_FUNDAMENTALS",
+    "language": "en",
+    "categoryCount": 16,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringSecurity",
+                    "title": "SpringSecurity",
+                    "sourcePath": "1.Introduction/SpringSecurity.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/SpringSecurity/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Architecture",
+            "title": "2.Architecture",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SecurityArchitecture",
+                    "title": "SecurityArchitecture",
+                    "sourcePath": "2.Architecture/SecurityArchitecture.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/SecurityArchitecture/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.SecurityFilterChain",
+            "title": "3.SecurityFilterChain",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SecurityFilterChain",
+                    "title": "SecurityFilterChain",
+                    "sourcePath": "3.SecurityFilterChain/SecurityFilterChain.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/SecurityFilterChain/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.SecurityContext",
+            "title": "4.SecurityContext",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SecurityContext",
+                    "title": "SecurityContext",
+                    "sourcePath": "4.SecurityContext/SecurityContext.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/SecurityContext/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Authentication",
+            "title": "5.Authentication",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Authentication",
+                    "title": "Authentication",
+                    "sourcePath": "5.Authentication/Authentication.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/Authentication/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.AuthenticationProvider",
+            "title": "6.AuthenticationProvider",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AuthenticationProvider",
+                    "title": "AuthenticationProvider",
+                    "sourcePath": "6.AuthenticationProvider/AuthenticationProvider.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/AuthenticationProvider/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.UserDetailsPasswordEncoder",
+            "title": "7.UserDetailsPasswordEncoder",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "UserDetailsPasswordEncoder",
+                    "title": "UserDetailsPasswordEncoder",
+                    "sourcePath": "7.UserDetailsPasswordEncoder/UserDetailsPasswordEncoder.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/UserDetailsPasswordEncoder/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.BasicAuthentication",
+            "title": "8.BasicAuthentication",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BasicAuthentication",
+                    "title": "BasicAuthentication",
+                    "sourcePath": "8.BasicAuthentication/BasicAuthentication.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/BasicAuthentication/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Authorization",
+            "title": "9.Authorization",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Authorization",
+                    "title": "Authorization",
+                    "sourcePath": "9.Authorization/Authorization.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/Authorization/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.RequestAuthorization",
+            "title": "10.RequestAuthorization",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RequestAuthorization",
+                    "title": "RequestAuthorization",
+                    "sourcePath": "10.RequestAuthorization/RequestAuthorization.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/RequestAuthorization/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.MethodSecurity",
+            "title": "11.MethodSecurity",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MethodSecurity",
+                    "title": "MethodSecurity",
+                    "sourcePath": "11.MethodSecurity/MethodSecurity.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/MethodSecurity/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.RolePermission",
+            "title": "12.RolePermission",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RolePermission",
+                    "title": "RolePermission",
+                    "sourcePath": "12.RolePermission/RolePermission.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/RolePermission/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "13.SessionManagement",
+            "title": "13.SessionManagement",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SessionManagement",
+                    "title": "SessionManagement",
+                    "sourcePath": "13.SessionManagement/SessionManagement.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/SessionManagement/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "14.CSRF",
+            "title": "14.CSRF",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CSRF",
+                    "title": "CSRF",
+                    "sourcePath": "14.CSRF/CSRF.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/CSRF/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "15.CORS",
+            "title": "15.CORS",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CORS",
+                    "title": "CORS",
+                    "sourcePath": "15.CORS/CORS.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/CORS/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "16.ExceptionHandling",
+            "title": "16.ExceptionHandling",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ExceptionHandling",
+                    "title": "ExceptionHandling",
+                    "sourcePath": "16.ExceptionHandling/ExceptionHandling.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_FUNDAMENTALS/knowledge/en/content/ExceptionHandling/intro.md"
+                }
+            ]
+        }
+    ]
+}

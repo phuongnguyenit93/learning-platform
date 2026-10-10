@@ -1,0 +1,179 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_SESSION",
+    "language": "en",
+    "categoryCount": 10,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringSession",
+                    "title": "SpringSession",
+                    "sourcePath": "1.Introduction/SpringSession.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/SpringSession/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.WhyExternalSession",
+            "title": "2.WhyExternalSession",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "WhyExternalSession",
+                    "title": "WhyExternalSession",
+                    "sourcePath": "2.WhyExternalSession/WhyExternalSession.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/WhyExternalSession/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.SessionRepository",
+            "title": "3.SessionRepository",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SessionRepository",
+                    "title": "SessionRepository",
+                    "sourcePath": "3.SessionRepository/SessionRepository.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/SessionRepository/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.HttpSessionIntegration",
+            "title": "4.HttpSessionIntegration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "HttpSessionIntegration",
+                    "title": "HttpSessionIntegration",
+                    "sourcePath": "4.HttpSessionIntegration/HttpSessionIntegration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/HttpSessionIntegration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.RedisBackedSession",
+            "title": "5.RedisBackedSession",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RedisBackedSession",
+                    "title": "RedisBackedSession",
+                    "sourcePath": "5.RedisBackedSession/RedisBackedSession.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/RedisBackedSession/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.JdbcBackedSession",
+            "title": "6.JdbcBackedSession",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JdbcBackedSession",
+                    "title": "JdbcBackedSession",
+                    "sourcePath": "6.JdbcBackedSession/JdbcBackedSession.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/JdbcBackedSession/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.SecurityIntegration",
+            "title": "7.SecurityIntegration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SecurityIntegration",
+                    "title": "SecurityIntegration",
+                    "sourcePath": "7.SecurityIntegration/SecurityIntegration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/SecurityIntegration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.CookieAndIdResolution",
+            "title": "8.CookieAndIdResolution",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CookieAndIdResolution",
+                    "title": "CookieAndIdResolution",
+                    "sourcePath": "8.CookieAndIdResolution/CookieAndIdResolution.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/CookieAndIdResolution/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ExpirationConcurrency",
+            "title": "9.ExpirationConcurrency",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ExpirationConcurrency",
+                    "title": "ExpirationConcurrency",
+                    "sourcePath": "9.ExpirationConcurrency/ExpirationConcurrency.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/ExpirationConcurrency/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.TestingOperations",
+            "title": "10.TestingOperations",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TestingOperations",
+                    "title": "TestingOperations",
+                    "sourcePath": "10.TestingOperations/TestingOperations.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SESSION/knowledge/en/content/TestingOperations/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,226 @@
+{
+    "version": 1,
+    "moduleId": "JACKSON",
+    "language": "vi",
+    "categoryCount": 10,
+    "sectionCount": 6,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Jackson",
+                    "title": "Jackson",
+                    "sourcePath": "1.Introduction/Jackson.md",
+                    "sections": [
+                        {
+                            "id": "jackson-what",
+                            "title": "1. Jackson l\u00e0 g\u00ec?",
+                            "content": "/module/JACKSON/knowledge/vi/content/Jackson/sections/jackson-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jackson-why",
+                            "title": "2. T\u1ea1i sao Jackson t\u1ed3n t\u1ea1i?",
+                            "content": "/module/JACKSON/knowledge/vi/content/Jackson/sections/jackson-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jackson-before",
+                            "title": "3. N\u1ebfu kh\u00f4ng c\u00f3 Jackson th\u00ec sao?",
+                            "content": "/module/JACKSON/knowledge/vi/content/Jackson/sections/jackson-before.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jackson-model",
+                            "title": "4. Mental model",
+                            "content": "/module/JACKSON/knowledge/vi/content/Jackson/sections/jackson-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jackson-object-mapping-boundary",
+                            "title": "5. Jackson kh\u00e1c Object Mapping nh\u01b0 th\u1ebf n\u00e0o?",
+                            "content": "/module/JACKSON/knowledge/vi/content/Jackson/sections/jackson-object-mapping-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jackson-spring-boundary",
+                            "title": "6. Boundary v\u1edbi Spring",
+                            "content": "/module/JACKSON/knowledge/vi/content/Jackson/sections/jackson-spring-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/Jackson/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ObjectMapper",
+            "title": "2.ObjectMapper",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectMapper",
+                    "title": "ObjectMapper Mental Model",
+                    "sourcePath": "2.ObjectMapper/ObjectMapper.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/ObjectMapper/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Serialization",
+            "title": "3.Serialization",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Serialization",
+                    "title": "Serialization",
+                    "sourcePath": "3.Serialization/Serialization.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/Serialization/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Deserialization",
+            "title": "4.Deserialization",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Deserialization",
+                    "title": "Deserialization",
+                    "sourcePath": "4.Deserialization/Deserialization.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/Deserialization/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.PropertyBinding",
+            "title": "5.PropertyBinding",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PropertyBinding",
+                    "title": "Property Binding, Naming v\u00e0 Annotation",
+                    "sourcePath": "5.PropertyBinding/PropertyBinding.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/PropertyBinding/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.GenericTypes",
+            "title": "6.GenericTypes",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "GenericTypes",
+                    "title": "Generic Type v\u00e0 TypeReference",
+                    "sourcePath": "6.GenericTypes/GenericTypes.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/GenericTypes/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Customization",
+            "title": "7.Customization",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Customization",
+                    "title": "Custom Serializer, Deserializer v\u00e0 Module",
+                    "sourcePath": "7.Customization/Customization.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/Customization/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.TreeStreaming",
+            "title": "8.TreeStreaming",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TreeStreaming",
+                    "title": "Tree Model v\u00e0 Streaming API",
+                    "sourcePath": "8.TreeStreaming/TreeStreaming.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/TreeStreaming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.CompatibilitySecurity",
+            "title": "9.CompatibilitySecurity",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CompatibilitySecurity",
+                    "title": "Compatibility, Versioning v\u00e0 Security",
+                    "sourcePath": "9.CompatibilitySecurity/CompatibilitySecurity.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/CompatibilitySecurity/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Tradeoffs",
+            "title": "10.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Jackson Trade-off v\u00e0 Pitfall",
+                    "sourcePath": "10.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JACKSON/knowledge/vi/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

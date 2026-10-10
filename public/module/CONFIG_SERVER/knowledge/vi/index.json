@@ -1,0 +1,73 @@
+{
+    "version": 1,
+    "moduleId": "CONFIG_SERVER",
+    "language": "vi",
+    "categoryCount": 1,
+    "sectionCount": 6,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "0.Preset",
+            "title": "0.Preset",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Definition",
+                    "title": "Spring Cloud Config v\u00e0 c\u00e1c kh\u00e1i ni\u1ec7m li\u00ean quan",
+                    "sourcePath": "0.Preset/Definition.md",
+                    "sections": [
+                        {
+                            "id": "cloud-config-trade-off",
+                            "title": "S\u1ef1 \u0111\u00e1nh \u0111\u1ed5i (Trade-off) c\u1ee7a Config Server trong Microservices",
+                            "content": "/module/CONFIG_SERVER/knowledge/vi/content/Definition/sections/cloud-config-trade-off.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "gradle-task-and-spring-cloud-config",
+                            "title": "So s\u00e1nh Gradle Task (Static) vs. Spring Cloud Config (Dynamic)",
+                            "content": "/module/CONFIG_SERVER/knowledge/vi/content/Definition/sections/gradle-task-and-spring-cloud-config.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spof-config-server",
+                            "title": "\u0110\u1ed1i m\u1eb7t v\u1edbi r\u1ee7i ro Single Point of Failure (SPOF) c\u1ee7a Config Server",
+                            "content": "/module/CONFIG_SERVER/knowledge/vi/content/Definition/sections/spof-config-server.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-cloud-server-config",
+                            "title": "H\u01b0\u1edbng d\u1eabn c\u1ea5u h\u00ecnh Spring Cloud Config (Server & Client)",
+                            "content": "/module/CONFIG_SERVER/knowledge/vi/content/Definition/sections/spring-cloud-server-config.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hot-reload-spring-cloud-config",
+                            "title": "Quy tr\u00ecnh c\u1eadp nh\u1eadt c\u1ea5u h\u00ecnh (Hot Reload) trong Spring Cloud",
+                            "content": "/module/CONFIG_SERVER/knowledge/vi/content/Definition/sections/hot-reload-spring-cloud-config.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-cloud-server-precedence",
+                            "title": "Th\u1ee9 t\u1ef1 \u01b0u ti\u00ean c\u1ea5u h\u00ecnh (Precedence) trong Spring Cloud",
+                            "content": "/module/CONFIG_SERVER/knowledge/vi/content/Definition/sections/spring-cloud-server-precedence.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/CONFIG_SERVER/knowledge/vi/content/Definition/intro.md"
+                }
+            ]
+        }
+    ]
+}

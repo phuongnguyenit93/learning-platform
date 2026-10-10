@@ -1,0 +1,41 @@
+{
+    "version": 1,
+    "moduleId": "ADMIN_SERVER",
+    "language": "vi",
+    "categoryCount": 1,
+    "sectionCount": 2,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "0.Preset",
+            "title": "0.Preset",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Definition",
+                    "title": "Spring Boot Admin",
+                    "sourcePath": "0.Preset/Definition.md",
+                    "sections": [
+                        {
+                            "id": "spring-boot-admin",
+                            "title": "Spring Boot Admin (SBA): \"Ph\u00f2ng gi\u00e1m s\u00e1t camera\" c\u1ee7a Microservices",
+                            "content": "/module/ADMIN_SERVER/knowledge/vi/content/Definition/sections/spring-boot-admin.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "admin-server-config",
+                            "title": "H\u01b0\u1edbng d\u1eabn d\u1ef1ng Admin Server (Ph\u00f2ng gi\u00e1m s\u00e1t)",
+                            "content": "/module/ADMIN_SERVER/knowledge/vi/content/Definition/sections/admin-server-config.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ADMIN_SERVER/knowledge/vi/content/Definition/intro.md"
+                }
+            ]
+        }
+    ]
+}

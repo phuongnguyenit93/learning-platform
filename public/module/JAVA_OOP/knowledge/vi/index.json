@@ -1,0 +1,361 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_OOP",
+    "language": "vi",
+    "categoryCount": 7,
+    "sectionCount": 30,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MentalModel",
+                    "title": "L\u1eadp tr\u00ecnh h\u01b0\u1edbng \u0111\u1ed1i t\u01b0\u1ee3ng (OOP) l\u00e0 g\u00ec v\u00e0 v\u00ec sao c\u1ea7n?",
+                    "sourcePath": "1.MentalModel/MentalModel.md",
+                    "sections": [
+                        {
+                            "id": "oop-object-collaboration",
+                            "title": "OOP l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/MentalModel/sections/oop-object-collaboration.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-boundaries",
+                            "title": "Ranh gi\u1edbi tr\u00e1ch nhi\u1ec7m",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/MentalModel/sections/oop-boundaries.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-vs-procedural",
+                            "title": "OOP v\u00e0 l\u1eadp tr\u00ecnh th\u1ee7 t\u1ee5c",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/MentalModel/sections/oop-vs-procedural.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/vi/content/MentalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Encapsulation",
+            "title": "2.Encapsulation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Encapsulation",
+                    "title": "\u0110\u00f3ng g\u00f3i v\u00e0 b\u1ea3o v\u1ec7 tr\u1ea1ng th\u00e1i h\u1ee3p l\u1ec7",
+                    "sourcePath": "2.Encapsulation/Encapsulation.md",
+                    "sections": [
+                        {
+                            "id": "encapsulation-model",
+                            "title": "\u0110\u00f3ng g\u00f3i l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Encapsulation/sections/encapsulation-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "encapsulation-access-modifiers",
+                            "title": "T\u1eeb kh\u00f3a ki\u1ec3m so\u00e1t truy c\u1eadp v\u00e0 \u0111\u00f3ng g\u00f3i",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Encapsulation/sections/encapsulation-access-modifiers.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "invariant-protection",
+                            "title": "B\u1ea3o v\u1ec7 \u0111i\u1ec1u ki\u1ec7n b\u1ea5t bi\u1ebfn",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Encapsulation/sections/invariant-protection.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tell-dont-ask-boundary",
+                            "title": "Tell, Don't Ask",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Encapsulation/sections/tell-dont-ask-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/vi/content/Encapsulation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Inheritance",
+            "title": "3.Inheritance",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Inheritance",
+                    "title": "K\u1ebf th\u1eeba v\u00e0 quan h\u1ec7 ki\u1ec3u con",
+                    "sourcePath": "3.Inheritance/Inheritance.md",
+                    "sections": [
+                        {
+                            "id": "is-a-subtyping",
+                            "title": "K\u1ebf th\u1eeba v\u00e0 ki\u1ec3u con",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Inheritance/sections/is-a-subtyping.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inherited-state-behavior",
+                            "title": "Th\u00e0nh ph\u1ea7n \u0111\u01b0\u1ee3c k\u1ebf th\u1eeba",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Inheritance/sections/inherited-state-behavior.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inheritance-coupling",
+                            "title": "R\u1ee7i ro c\u1ee7a k\u1ebf th\u1eeba",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Inheritance/sections/inheritance-coupling.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/vi/content/Inheritance/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Polymorphism",
+            "title": "4.Polymorphism",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Polymorphism",
+                    "title": "\u0110a h\u00ecnh v\u00e0 ph\u00e2n ph\u1ed1i \u0111\u1ed9ng",
+                    "sourcePath": "4.Polymorphism/Polymorphism.md",
+                    "sections": [
+                        {
+                            "id": "subtype-polymorphism",
+                            "title": "\u0110a h\u00ecnh ki\u1ec3u con",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Polymorphism/sections/subtype-polymorphism.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dynamic-dispatch",
+                            "title": "Ph\u00e2n ph\u1ed1i \u0111\u1ed9ng (Dynamic Dispatch)",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Polymorphism/sections/dynamic-dispatch.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "substitutability",
+                            "title": "Kh\u1ea3 n\u0103ng thay th\u1ebf",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Polymorphism/sections/substitutability.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/vi/content/Polymorphism/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.OverloadingOverriding",
+            "title": "5.OverloadingOverriding",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OverloadingOverriding",
+                    "title": "C\u00e1ch Java ch\u1ecdn ph\u01b0\u01a1ng th\u1ee9c",
+                    "sourcePath": "5.OverloadingOverriding/OverloadingOverriding.md",
+                    "sections": [
+                        {
+                            "id": "overloading-compile-time",
+                            "title": "N\u1ea1p ch\u1ed3ng (Overloading)",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/sections/overloading-compile-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "overriding-runtime",
+                            "title": "Ghi \u0111\u00e8 (Overriding)",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/sections/overriding-runtime.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "covariant-return",
+                            "title": "Ki\u1ec3u tr\u1ea3 v\u1ec1 hi\u1ec7p bi\u1ebfn (Covariant Return Type)",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/sections/covariant-return.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "override-rules",
+                            "title": "Quy t\u1eafc ghi \u0111\u00e8",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/sections/override-rules.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-method-hiding",
+                            "title": "Che khu\u1ea5t ph\u01b0\u01a1ng th\u1ee9c `static`",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/sections/static-method-hiding.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "field-hiding",
+                            "title": "Che khu\u1ea5t tr\u01b0\u1eddng d\u1eef li\u1ec7u",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/sections/field-hiding.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "dispatch-vs-hiding",
+                            "title": "Ph\u00e2n ph\u1ed1i \u0111\u1ed9ng v\u00e0 che khu\u1ea5t th\u00e0nh vi\u00ean",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/sections/dispatch-vs-hiding.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/vi/content/OverloadingOverriding/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Composition",
+            "title": "6.Composition",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Composition",
+                    "title": "C\u1ed9ng t\u00e1c gi\u1eefa c\u00e1c \u0111\u1ed1i t\u01b0\u1ee3ng b\u1eb1ng k\u1ebft h\u1ee3p v\u00e0 \u1ee7y quy\u1ec1n",
+                    "sourcePath": "6.Composition/Composition.md",
+                    "sections": [
+                        {
+                            "id": "composition-has-a",
+                            "title": "K\u1ebft h\u1ee3p \u0111\u1ed1i t\u01b0\u1ee3ng (Composition)",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Composition/sections/composition-has-a.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-relationships",
+                            "title": "Quan h\u1ec7 gi\u1eefa c\u00e1c \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Composition/sections/object-relationships.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "association-dependency",
+                            "title": "Ph\u1ee5 thu\u1ed9c (Dependency) v\u00e0 li\u00ean k\u1ebft (Association)",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Composition/sections/association-dependency.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ownership-lifecycle",
+                            "title": "Quy\u1ec1n s\u1edf h\u1eefu v\u00e0 v\u00f2ng \u0111\u1eddi",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Composition/sections/ownership-lifecycle.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "composition-vs-inheritance",
+                            "title": "K\u1ebft h\u1ee3p \u0111\u1ed1i t\u01b0\u1ee3ng v\u00e0 k\u1ebf th\u1eeba",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Composition/sections/composition-vs-inheritance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "delegation",
+                            "title": "\u1ee6y quy\u1ec1n (Delegation)",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Composition/sections/delegation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/vi/content/Composition/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Abstraction",
+            "title": "7.Abstraction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Abstraction",
+                    "title": "Tr\u1eebu t\u01b0\u1ee3ng h\u00f3a v\u00e0 h\u1ee3p \u0111\u1ed3ng h\u00e0nh vi",
+                    "sourcePath": "7.Abstraction/Abstraction.md",
+                    "sections": [
+                        {
+                            "id": "abstraction-model",
+                            "title": "Tr\u1eebu t\u01b0\u1ee3ng h\u00f3a l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Abstraction/sections/abstraction-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "program-to-abstraction",
+                            "title": "L\u1eadp tr\u00ecnh d\u1ef1a tr\u00ean tr\u1eebu t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Abstraction/sections/program-to-abstraction.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "abstraction-leak",
+                            "title": "R\u00f2 r\u1ec9 tr\u1eebu t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Abstraction/sections/abstraction-leak.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "oop-synthesis",
+                            "title": "T\u1ed5ng h\u1ee3p t\u01b0 duy thi\u1ebft k\u1ebf h\u01b0\u1edbng \u0111\u1ed1i t\u01b0\u1ee3ng",
+                            "content": "/module/JAVA_OOP/knowledge/vi/content/Abstraction/sections/oop-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OOP/knowledge/vi/content/Abstraction/intro.md"
+                }
+            ]
+        }
+    ]
+}

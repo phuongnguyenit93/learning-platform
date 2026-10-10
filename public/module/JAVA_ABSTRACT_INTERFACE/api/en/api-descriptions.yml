@@ -1,0 +1,142 @@
+AbstractClassController:
+  templateBehavior():
+    summary: Shared state + template behavior + abstract hook
+    description: Processor owns prefix state and the concrete process(...) template,
+      while UpperProcessor completes the abstract transform(...) hook. The response
+      shows a Processor reference dispatching to runtime subtype UpperProcessor and
+      producing result:JAVA.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 2.AbstractClass/AbstractClass.md
+      anchor: abstract-class-model
+    methodName: templateBehavior
+    params: [
+      ]
+    path: com/example/learning/controller/AbstractClassController.java
+    mapping: '@GetMapping("/template")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/abstract-class/template
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+DefaultMethodController:
+  dispatch():
+    summary: Inheriting a default method without overriding it
+    description: DefaultGreeting declares no greet() implementation, yet the object
+      can invoke Greeting.greet() and returns hello-default. The experiment makes
+      inherited default instance behavior observable.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 6.DefaultStaticPrivate/DefaultStaticPrivate.md
+      anchor: default-method
+    methodName: dispatch
+    params: [
+      ]
+    path: com/example/learning/controller/DefaultMethodController.java
+    mapping: '@GetMapping("/dispatch")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/default-method/dispatch
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  resolveConflict():
+    summary: Resolving two unrelated default methods
+    description: Left and Right both provide value(). In this experiment no compatible
+      concrete class-side method already resolves the signature, so Both must override the method
+      and explicitly invoke Left.super.value() and Right.super.value(). The left+right
+      result shows that Java does not arbitrarily choose between unrelated defaults.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 7.MultipleInheritance/MultipleInheritance.md
+      anchor: default-method-conflict
+    methodName: resolveConflict
+    params: [
+      ]
+    path: com/example/learning/controller/DefaultMethodController.java
+    mapping: '@GetMapping("/resolve-conflict")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/default-method/resolve-conflict
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+InterfaceController:
+  multipleContracts():
+    summary: One object satisfying multiple interface contracts
+    description: Feature implements both Named and Enabled. References typed as the
+      two different interfaces still point to the same Feature object; the response
+      shows sameObject=true while both name() and enabled() remain available.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 3.Interface/Interface.md
+      anchor: interface-implementation
+    methodName: multipleContracts
+    params: [
+      ]
+    path: com/example/learning/controller/InterfaceController.java
+    mapping: '@GetMapping("/multiple-contracts")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/interface/multiple-contracts
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+InterfaceEvolutionController:
+  defaultCompatibility():
+    summary: Existing implementation inheriting newly added default behavior
+    description: OldStyleImplementation defines only id(), while Versioned supplies
+      display() as a default method. The response shows display() executing and calling
+      the implementation's id() to produce id=legacy; this demonstrates the evolution
+      mechanism without claiming that every interface change is compatible.
+    enableVideoYoutube: false
+    videoYoutubeId: ID of youtube video add to API description
+    videoYoutubeTitle: Title of video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 6.DefaultStaticPrivate/DefaultStaticPrivate.md
+      anchor: default-method-evolution
+    methodName: defaultCompatibility
+    params: [
+      ]
+    path: com/example/learning/controller/InterfaceEvolutionController.java
+    mapping: '@GetMapping("/default-compatibility")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/abstract-interface/evolution/default-compatibility
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true

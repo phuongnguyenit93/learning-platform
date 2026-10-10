@@ -1,0 +1,131 @@
+# <roadmap-schema>
+# Module Roadmap Structure
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: High-level learning milestones for the current language roadmap.
+#
+# - id [string, required]: Stable and unique milestone identity within the current language roadmap.
+# - title [string, required]: Milestone title displayed to the learner.
+# - purpose [string, required]: What the learner should understand or achieve from this milestone.
+# - dependsOn [list, optional]: Prerequisite milestone ids when item order alone is not enough to express the dependency.
+# - objectives [list, optional]: Milestone-level learning objectives; do not use this to list every small fact/API/syntax item.
+# - relatedKnowledge [list, optional]: Knowledge category ids in the current module that support this milestone. Portal displays this list on the side opposite the milestone and clicking an item navigates to the matching Knowledge category.
+# - relatedModules [list, optional]: Related modules displayed as Portal Level 2 cards. Each item requires routeId and may provide localized label/note; this relation is navigation only and does not create child milestones or change learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - What is this topic/module?
+#   - Why does it exist?
+#   - What problem exists without it?
+# FOUNDATION
+#   - What prerequisite or mental model must the learner have first?
+# CORE MODEL
+#   - What major abstractions or building blocks make up this topic?
+# MECHANICS
+#   - How does it work at the language/runtime/API level appropriate for this module?
+# USAGE
+#   - How is it used in real code?
+# DECISION / TRADE-OFF
+#   - When should this mechanism be chosen over another?
+#   - When should it not be used?
+# FAILURE / PITFALL
+#   - What mistakes, compile-time failures, or runtime failures matter?
+# INTEGRATION
+#   - How does this topic connect to neighboring concepts/modules?
+# SYNTHESIS
+#   - What end-to-end mental model should the learner retain?
+#
+# Each language owns its own roadmap. Do not infer or synchronize its structure from another language roadmap.
+# Item order in roadmap is the default learning order. Use dependsOn only when a dependency needs to be expressed beyond the linear order.
+# The skeleton must not force every module to have the same number of nodes. It is a thinking framework, not a rigid template.
+# </roadmap-schema>
+
+roadmap:
+  - id: object-contract-purpose
+    title: What Is an Object Contract?
+    purpose: Build a mental model of an object contract as a set of behavioral promises that Java APIs rely on, why those promises exist, and what can break when a class violates them.
+    relatedKnowledge:
+      - ObjectContractPurpose
+    relatedModules:
+      - routeId: JAVA_CLASS_OBJECT
+        label: Class & Object
+        note: Object Contract builds on the universal Object methods and the object identity model introduced in Class & Object.
+    objectives:
+      - Explain why library and framework code needs objects to keep documented behavioral promises.
+      - Identify equality, hashing, text representation, and ordering as separate but connected contracts.
+      - Explain why the compiler cannot fully enforce these semantic contracts and why violations can surface far away from the class that caused them.
+  - id: identity-and-logical-equality
+    title: Object Identity vs Logical Equality
+    purpose: Distinguish the question "are these references the same object?" from "should these objects be considered the same logical value?".
+    relatedKnowledge:
+      - IdentityEquality
+    objectives:
+      - Separate reference identity with == from logical equality with equals.
+      - Recognize domain values where distinct instances should still compare as logically equal.
+  - id: equals-contract
+    title: The equals Contract
+    purpose: Understand the behavioral laws a correct equals implementation must preserve so callers can reason about logical equality consistently.
+    relatedKnowledge:
+      - Equals
+    objectives:
+      - Reason about reflexive, symmetric, transitive, consistent, and null behavior.
+      - Recognize inheritance and mutable-state designs that can make equality unreliable.
+  - id: hashcode-contract
+    title: hashCode and Hash-Based Lookup
+    purpose: Understand what hashCode contributes to efficient hash-based lookup before combining it with the equals contract.
+    relatedKnowledge:
+      - HashCode
+    objectives:
+      - Explain what hashCode guarantees and what it does not guarantee.
+      - Distinguish a hash code from object identity or a unique identifier.
+  - id: equals-hashcode-consistency
+    title: The equals/hashCode Contract
+    purpose: Connect logical equality and hashing so equal objects remain findable and consistent in hash-based APIs.
+    relatedKnowledge:
+      - EqualsHashCode
+    relatedModules:
+      - routeId: JAVA_COLLECTION
+        label: Collections
+        note: HashSet and HashMap make equals/hashCode contracts directly observable.
+    objectives:
+      - Explain why objects that are equal according to equals must produce the same hash code.
+      - Predict lookup failures caused by inconsistent implementations or by mutating key state after insertion.
+  - id: human-readable-representation
+    title: Text Representation with toString
+    purpose: Understand toString as a diagnostic text-representation contract for humans and tools, not as a persistence or serialization format.
+    relatedKnowledge:
+      - ToString
+    objectives:
+      - Produce meaningful representations for logs, debugging, assertions, and tooling.
+      - Avoid leaking sensitive state or treating ordinary toString output as a stable data format.
+  - id: natural-ordering
+    title: Natural Ordering with Comparable
+    purpose: Understand how a type defines one natural order and which behavioral properties compareTo must preserve for callers and sorted APIs.
+    relatedKnowledge:
+      - Comparable
+    objectives:
+      - Interpret negative/zero/positive comparison results correctly.
+      - Preserve a transitive and internally consistent natural order.
+      - Reason about when compareTo returning zero should agree with logical equality.
+  - id: alternate-ordering
+    title: Alternate Ordering with Comparator
+    purpose: Understand caller-defined ordering as a separate strategy when a type has no single suitable natural order or a use case needs another view.
+    relatedKnowledge:
+      - Comparator
+    objectives:
+      - Compose and reverse comparators without changing domain equality.
+      - Preserve a transitive and internally consistent comparison relation in custom orderings.
+      - Choose between Comparable and Comparator based on who owns the ordering policy and how many orderings are needed.
+  - id: contract-synthesis
+    title: Putting the Object Contracts Together
+    purpose: Connect identity, equality, hashing, text representation, mutability, and ordering into one model for objects that behave predictably across Java APIs.
+    relatedKnowledge:
+      - ContractSynthesis
+    relatedModules:
+      - routeId: JAVA_NUMBERS
+        label: Numbers
+        note: BigDecimal is a useful example of equality and ordering answering different questions.
+    objectives:
+      - Predict how a class behaves in hash-based and sorted data structures.
+      - Recognize domain-specific cases such as BigDecimal where equality and ordering intentionally differ.

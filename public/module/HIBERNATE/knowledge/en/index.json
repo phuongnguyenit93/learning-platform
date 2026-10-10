@@ -1,0 +1,184 @@
+{
+    "version": 1,
+    "moduleId": "HIBERNATE",
+    "language": "en",
+    "categoryCount": 8,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Hibernate",
+                    "title": "Hibernate ORM",
+                    "sourcePath": "1.Introduction/Hibernate.md",
+                    "sections": [
+                        {
+                            "id": "hibernate-what",
+                            "title": "1. What is Hibernate?",
+                            "content": "/module/HIBERNATE/knowledge/en/content/Hibernate/sections/hibernate-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hibernate-why",
+                            "title": "2. Why does Hibernate exist?",
+                            "content": "/module/HIBERNATE/knowledge/en/content/Hibernate/sections/hibernate-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hibernate-model",
+                            "title": "3. Mental model",
+                            "content": "/module/HIBERNATE/knowledge/en/content/Hibernate/sections/hibernate-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hibernate-jpa",
+                            "title": "4. Hibernate and JPA",
+                            "content": "/module/HIBERNATE/knowledge/en/content/Hibernate/sections/hibernate-jpa.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hibernate-boundary",
+                            "title": "5. Boundary",
+                            "content": "/module/HIBERNATE/knowledge/en/content/Hibernate/sections/hibernate-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/Hibernate/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.SessionContext",
+            "title": "2.SessionContext",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SessionContext",
+                    "title": "Session and Persistence Context",
+                    "sourcePath": "2.SessionContext/SessionContext.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/SessionContext/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.EntityState",
+            "title": "3.EntityState",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EntityState",
+                    "title": "Entity State and Lifecycle",
+                    "sourcePath": "3.EntityState/EntityState.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/EntityState/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.DirtyCheckingFlush",
+            "title": "4.DirtyCheckingFlush",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DirtyCheckingFlush",
+                    "title": "Dirty Checking and Flush",
+                    "sourcePath": "4.DirtyCheckingFlush/DirtyCheckingFlush.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/DirtyCheckingFlush/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.FetchingMapping",
+            "title": "5.FetchingMapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FetchingMapping",
+                    "title": "Mapping, Fetching, and Proxies",
+                    "sourcePath": "5.FetchingMapping/FetchingMapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/FetchingMapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Caching",
+            "title": "6.Caching",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Caching",
+                    "title": "First-Level and Second-Level Cache",
+                    "sourcePath": "6.Caching/Caching.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/Caching/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.JpaNative",
+            "title": "7.JpaNative",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JpaNative",
+                    "title": "JPA Contracts and Hibernate Native APIs",
+                    "sourcePath": "7.JpaNative/JpaNative.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/JpaNative/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Tradeoffs",
+            "title": "8.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Hibernate Trade-offs and Pitfalls",
+                    "sourcePath": "8.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/HIBERNATE/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

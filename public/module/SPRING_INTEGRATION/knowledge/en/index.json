@@ -1,0 +1,213 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_INTEGRATION",
+    "language": "en",
+    "categoryCount": 12,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringIntegration",
+                    "title": "SpringIntegration",
+                    "sourcePath": "1.Introduction/SpringIntegration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/SpringIntegration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.MessagingModel",
+            "title": "2.MessagingModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MessagingModel",
+                    "title": "MessagingModel",
+                    "sourcePath": "2.MessagingModel/MessagingModel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/MessagingModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.MessageChannel",
+            "title": "3.MessageChannel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MessageChannel",
+                    "title": "MessageChannel",
+                    "sourcePath": "3.MessageChannel/MessageChannel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/MessageChannel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.MessageEndpoint",
+            "title": "4.MessageEndpoint",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MessageEndpoint",
+                    "title": "MessageEndpoint",
+                    "sourcePath": "4.MessageEndpoint/MessageEndpoint.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/MessageEndpoint/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Gateway",
+            "title": "5.Gateway",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Gateway",
+                    "title": "Gateway",
+                    "sourcePath": "5.Gateway/Gateway.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/Gateway/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.RouterFilter",
+            "title": "6.RouterFilter",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RouterFilter",
+                    "title": "RouterFilter",
+                    "sourcePath": "6.RouterFilter/RouterFilter.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/RouterFilter/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Transformer",
+            "title": "7.Transformer",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Transformer",
+                    "title": "Transformer",
+                    "sourcePath": "7.Transformer/Transformer.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/Transformer/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.SplitterAggregator",
+            "title": "8.SplitterAggregator",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SplitterAggregator",
+                    "title": "SplitterAggregator",
+                    "sourcePath": "8.SplitterAggregator/SplitterAggregator.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/SplitterAggregator/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ServiceActivator",
+            "title": "9.ServiceActivator",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ServiceActivator",
+                    "title": "ServiceActivator",
+                    "sourcePath": "9.ServiceActivator/ServiceActivator.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/ServiceActivator/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Adapters",
+            "title": "10.Adapters",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Adapters",
+                    "title": "Adapters",
+                    "sourcePath": "10.Adapters/Adapters.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/Adapters/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.ErrorHandling",
+            "title": "11.ErrorHandling",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ErrorHandling",
+                    "title": "ErrorHandling",
+                    "sourcePath": "11.ErrorHandling/ErrorHandling.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/ErrorHandling/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.TestingOperations",
+            "title": "12.TestingOperations",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TestingOperations",
+                    "title": "TestingOperations",
+                    "sourcePath": "12.TestingOperations/TestingOperations.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_INTEGRATION/knowledge/en/content/TestingOperations/intro.md"
+                }
+            ]
+        }
+    ]
+}

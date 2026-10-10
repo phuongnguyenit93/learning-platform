@@ -1,0 +1,133 @@
+{
+    "version": 1,
+    "moduleId": "DEPENDENCY_INJECTION",
+    "language": "en",
+    "categoryCount": 5,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DependencyInjection",
+                    "title": "Inversion of Control and Dependency Injection",
+                    "sourcePath": "1.Introduction/DependencyInjection.md",
+                    "sections": [
+                        {
+                            "id": "ioc-di-what",
+                            "title": "1. What are IoC and DI?",
+                            "content": "/module/DEPENDENCY_INJECTION/knowledge/en/content/DependencyInjection/sections/ioc-di-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ioc-di-why",
+                            "title": "2. Why are they useful?",
+                            "content": "/module/DEPENDENCY_INJECTION/knowledge/en/content/DependencyInjection/sections/ioc-di-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ioc-di-before",
+                            "title": "3. What is the simpler approach?",
+                            "content": "/module/DEPENDENCY_INJECTION/knowledge/en/content/DependencyInjection/sections/ioc-di-before.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ioc-di-solution",
+                            "title": "4. How does DI help?",
+                            "content": "/module/DEPENDENCY_INJECTION/knowledge/en/content/DependencyInjection/sections/ioc-di-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ioc-di-framework",
+                            "title": "5. DI does not mean Spring",
+                            "content": "/module/DEPENDENCY_INJECTION/knowledge/en/content/DependencyInjection/sections/ioc-di-framework.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/DEPENDENCY_INJECTION/knowledge/en/content/DependencyInjection/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.InjectionStyles",
+            "title": "2.InjectionStyles",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "InjectionStyles",
+                    "title": "Constructor, Setter, and Field Injection",
+                    "sourcePath": "2.InjectionStyles/InjectionStyles.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DEPENDENCY_INJECTION/knowledge/en/content/InjectionStyles/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.CompositionRoot",
+            "title": "3.CompositionRoot",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CompositionRoot",
+                    "title": "Composition Root and Object Graph",
+                    "sourcePath": "3.CompositionRoot/CompositionRoot.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DEPENDENCY_INJECTION/knowledge/en/content/CompositionRoot/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.ServiceLocator",
+            "title": "4.ServiceLocator",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ServiceLocator",
+                    "title": "Dependency Injection and Service Locator",
+                    "sourcePath": "4.ServiceLocator/ServiceLocator.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DEPENDENCY_INJECTION/knowledge/en/content/ServiceLocator/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Tradeoffs",
+            "title": "5.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Dependency Injection Trade-offs",
+                    "sourcePath": "5.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DEPENDENCY_INJECTION/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

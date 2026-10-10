@@ -1,0 +1,85 @@
+{
+    "version": 1,
+    "moduleId": "KAFKA",
+    "language": "vi",
+    "categoryCount": 7,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "0.Preset",
+            "title": "0.Preset",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Documentation",
+                    "title": "Documentation",
+                    "sourcePath": "0.Preset/Documentation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/KAFKA/knowledge/vi/content/Documentation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "1.T\u1ed5ng quan",
+            "title": "1.T\u1ed5ng quan",
+            "sourcePath": "1.T\u1ed5ng quan.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/vi/content/1.T%E1%BB%95ng%20quan/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "2.C\u00e0i \u0111\u1eb7t",
+            "title": "2.C\u00e0i \u0111\u1eb7t",
+            "sourcePath": "2.C\u00e0i \u0111\u1eb7t.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/vi/content/2.C%C3%A0i%20%C4%91%E1%BA%B7t/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "3.Tu\u1ef3 ch\u1ec9nh",
+            "title": "3.Tu\u1ef3 ch\u1ec9nh",
+            "sourcePath": "3.Tu\u1ef3 ch\u1ec9nh.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/vi/content/3.Tu%E1%BB%B3%20ch%E1%BB%89nh/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "4.N\u00e2ng cao",
+            "title": "C\u00e1c ki\u1ebfn th\u1ee9c n\u00e2ng cao c\u1ee7a Kafka",
+            "sourcePath": "4.N\u00e2ng cao.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/vi/content/4.N%C3%A2ng%20cao/intro.md"
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "5.B\u1ea3o m\u1eadt",
+            "title": "5.B\u1ea3o m\u1eadt",
+            "sourcePath": "5.B\u1ea3o m\u1eadt.md",
+            "sections": [
+                
+            ]
+        },
+        {
+            "kind": "CATEGORY",
+            "id": "6.H\u1ecfi \u0111\u00e1p",
+            "title": "6.H\u1ecfi \u0111\u00e1p",
+            "sourcePath": "6.H\u1ecfi \u0111\u00e1p.md",
+            "sections": [
+                
+            ],
+            "intro": "/module/KAFKA/knowledge/vi/content/6.H%E1%BB%8Fi%20%C4%91%C3%A1p/intro.md"
+        }
+    ]
+}

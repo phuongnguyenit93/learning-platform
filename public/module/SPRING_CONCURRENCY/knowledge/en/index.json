@@ -1,0 +1,233 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_CONCURRENCY",
+    "language": "en",
+    "categoryCount": 9,
+    "sectionCount": 9,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringConcurrency",
+                    "title": "Spring Concurrency Mental Model",
+                    "sourcePath": "1.MentalModel/SpringConcurrency.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringConcurrency/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Spring_Task_Executor",
+            "title": "2.Spring_Task_Executor",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringExecutor",
+                    "title": "Spring TaskExecutor, ThreadPoolTaskExecutor, and @Async",
+                    "sourcePath": "2.Spring_Task_Executor/SpringExecutor.md",
+                    "sections": [
+                        {
+                            "id": "task-executor",
+                            "title": "1. What is TaskExecutor?",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/task-executor.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "async-annotation",
+                            "title": "2. @Async works via Spring proxies",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/async-annotation.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "async-return-type",
+                            "title": "3. Return type of @Async",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/async-return-type.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-executor-config",
+                            "title": "4. Configure ThreadPoolTaskExecutor",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/spring-executor-config.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "task-decorator",
+                            "title": "5. TaskDecorator and context propagation",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/task-decorator.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-async-demo",
+                            "title": "6. Demo @Async + custom executor + context",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/spring-async-demo.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-boot-auto-config",
+                            "title": "7. Spring Framework and Spring Boot to distinguish",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/spring-boot-auto-config.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "executor-lifecycle",
+                            "title": "8. Lifecycle and shutdown",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/executor-lifecycle.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-executor-experiments",
+                            "title": "9. Experiment by Spring Task Executor",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/sections/spring-executor-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/SpringExecutor/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Scheduling",
+            "title": "3.Scheduling",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Scheduling",
+                    "title": "Spring Scheduling and @Scheduled",
+                    "sourcePath": "3.Scheduling/Scheduling.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/Scheduling/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.TaskScheduler",
+            "title": "4.TaskScheduler",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TaskScheduler",
+                    "title": "TaskScheduler",
+                    "sourcePath": "4.TaskScheduler/TaskScheduler.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/TaskScheduler/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ContextPropagation",
+            "title": "5.ContextPropagation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ContextPropagation",
+                    "title": "Context Propagation in Spring Concurrency",
+                    "sourcePath": "5.ContextPropagation/ContextPropagation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/ContextPropagation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.VirtualThreadIntegration",
+            "title": "6.VirtualThreadIntegration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "VirtualThreadIntegration",
+                    "title": "Virtual Thread Integration in Spring",
+                    "sourcePath": "6.VirtualThreadIntegration/VirtualThreadIntegration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/VirtualThreadIntegration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.BootAutoConfiguration",
+            "title": "7.BootAutoConfiguration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BootAutoConfiguration",
+                    "title": "Spring Boot Auto-Configuration for Task Execution and Scheduling",
+                    "sourcePath": "7.BootAutoConfiguration/BootAutoConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/BootAutoConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.LifecycleObservability",
+            "title": "8.LifecycleObservability",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LifecycleObservability",
+                    "title": "Lifecycle, Shutdown and Observability",
+                    "sourcePath": "8.LifecycleObservability/LifecycleObservability.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/LifecycleObservability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Pitfalls",
+            "title": "9.Pitfalls",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Pitfalls",
+                    "title": "Pitfalls and Common Mistakes",
+                    "sourcePath": "9.Pitfalls/Pitfalls.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/en/content/Pitfalls/intro.md"
+                }
+            ]
+        }
+    ]
+}

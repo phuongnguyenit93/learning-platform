@@ -1,0 +1,241 @@
+{
+    "version": 1,
+    "moduleId": "ASPECT_ORIENTED_PROGRAMMING",
+    "language": "en",
+    "categoryCount": 4,
+    "sectionCount": 21,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AOP",
+                    "title": "Aspect-Oriented Programming (AOP)",
+                    "sourcePath": "1.Introduction/AOP.md",
+                    "sections": [
+                        {
+                            "id": "aop-what",
+                            "title": "1. What is AOP?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/AOP/sections/aop-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-why",
+                            "title": "2. Why does AOP exist?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/AOP/sections/aop-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-without",
+                            "title": "3. How is the problem solved without AOP?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/AOP/sections/aop-without.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-limit",
+                            "title": "4. Why can the simpler approach become insufficient?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/AOP/sections/aop-limit.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-solution",
+                            "title": "5. How does AOP solve it?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/AOP/sections/aop-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-when",
+                            "title": "6. When should it be used?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/AOP/sections/aop-when.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/AOP/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Terminology",
+            "title": "2.Terminology",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Terminology",
+                    "title": "Core AOP Terminology",
+                    "sourcePath": "2.Terminology/Terminology.md",
+                    "sections": [
+                        {
+                            "id": "aop-aspect",
+                            "title": "1. Aspect",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Terminology/sections/aop-aspect.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-join-point",
+                            "title": "2. Join Point",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Terminology/sections/aop-join-point.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-pointcut",
+                            "title": "3. Pointcut",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Terminology/sections/aop-pointcut.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-advice",
+                            "title": "4. Advice",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Terminology/sections/aop-advice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-target",
+                            "title": "5. Target",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Terminology/sections/aop-target.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-weaving",
+                            "title": "6. Weaving",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Terminology/sections/aop-weaving.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Terminology/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ImplementationModels",
+            "title": "3.ImplementationModels",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ImplementationModels",
+                    "title": "AOP Implementation Models",
+                    "sourcePath": "3.ImplementationModels/ImplementationModels.md",
+                    "sections": [
+                        {
+                            "id": "aop-compile-time",
+                            "title": "1. Compile-time weaving",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/ImplementationModels/sections/aop-compile-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-load-time",
+                            "title": "2. Load-time weaving",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/ImplementationModels/sections/aop-load-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-runtime",
+                            "title": "3. Runtime interception",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/ImplementationModels/sections/aop-runtime.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-model-boundary",
+                            "title": "4. Why distinguish these models?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/ImplementationModels/sections/aop-model-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/ImplementationModels/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Tradeoffs",
+            "title": "4.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "AOP Trade-offs",
+                    "sourcePath": "4.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        {
+                            "id": "aop-benefits",
+                            "title": "1. Benefits",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Tradeoffs/sections/aop-benefits.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-cost",
+                            "title": "2. Costs",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Tradeoffs/sections/aop-cost.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-good-fit",
+                            "title": "3. Good-fit concerns",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Tradeoffs/sections/aop-good-fit.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-bad-fit",
+                            "title": "4. Poor-fit concerns",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Tradeoffs/sections/aop-bad-fit.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-boundary",
+                            "title": "5. Boundary with concrete implementations",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Tradeoffs/sections/aop-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

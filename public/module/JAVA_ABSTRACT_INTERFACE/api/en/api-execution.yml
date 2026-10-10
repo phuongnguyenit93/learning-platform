@@ -1,0 +1,100 @@
+AbstractClassController:
+  templateBehavior():
+    execution: |-
+      <p><strong>Concept:</strong> an abstract class can own shared state and concrete behavior while leaving an abstract hook for a subtype to complete.</p>
+      <ol>
+        <li><strong>Flow:</strong> <code>Processor</code> owns <code>prefix</code>, the concrete <code>process(...)</code> template, and the abstract <code>transform(...)</code> hook. <code>UpperProcessor</code> only completes that hook.</li>
+        <li><strong>Code evidence:</strong><pre><code>static abstract class Processor {
+          private final String prefix;
+          final String process(String value) {
+              return prefix + transform(value);
+          }
+          abstract String transform(String value);
+      }
+
+      static final class UpperProcessor extends Processor {
+          String transform(String v) {
+              return v.toUpperCase(Locale.ROOT);
+          }
+      }</code></pre></li>
+        <li><strong>Observation:</strong> the response reports <code>declaredType=Processor</code>, <code>runtimeType=UpperProcessor</code>, and <code>result=result:JAVA</code>.</li>
+        <li><strong>Meaning:</strong> shared algorithm/state remains in the abstract class, while the varying step dispatches to the runtime subtype.</li>
+      </ol>
+      <p><strong>Conclusion:</strong> an abstract class fits a hierarchy that genuinely shares state and implementation while still requiring subtype extension points.</p>
+    usage: true
+DefaultMethodController:
+  dispatch():
+    execution: |-
+      <p><strong>Concept:</strong> a default method is instance behavior supplied by an interface and inherited when an implementation does not override it.</p>
+      <ol>
+        <li><strong>Flow:</strong> <code>Greeting</code> defines <code>greet()</code> as a default method; <code>DefaultGreeting</code> declares no such method.</li>
+        <li><strong>Code evidence:</strong><pre><code>interface Greeting {
+          default String greet() {
+              return "hello-default";
+          }
+      }
+
+      static final class DefaultGreeting implements Greeting {}</code></pre></li>
+        <li><strong>Observation:</strong> calling <code>g.greet()</code> returns <code>hello-default</code> while the runtime type is still <code>DefaultGreeting</code>.</li>
+        <li><strong>Meaning:</strong> the implementation inherits usable default instance behavior without adding a new body.</li>
+      </ol>
+      <p><strong>Conclusion:</strong> default methods add reusable contract-side behavior while remaining overridable instance methods.</p>
+    usage: true
+  resolveConflict():
+    execution: |-
+      <p><strong>Concept:</strong> when unrelated interfaces provide the same default signature and no applicable class-side method already resolves it, the implementing class must resolve the ambiguity explicitly.</p>
+      <ol>
+        <li><strong>Flow:</strong> <code>Left</code> and <code>Right</code> both define <code>value()</code>; <code>Both</code> implements both interfaces and has no class-side method that resolves the signature first.</li>
+        <li><strong>Code evidence:</strong><pre><code>interface Left  { default String value() { return "left";  } }
+      interface Right { default String value() { return "right"; } }
+
+      static final class Both implements Left, Right {
+          public String value() {
+              return Left.super.value() + "+" + Right.super.value();
+          }
+      }</code></pre></li>
+        <li><strong>Observation:</strong> the response returns <code>resolved=left+right</code>; <code>Both</code> resolves the unrelated defaults with an explicit override.</li>
+        <li><strong>Meaning:</strong> Java does not randomly choose a default; the class override determines final behavior and may explicitly invoke each parent default with <code>InterfaceName.super.method()</code>.</li>
+      </ol>
+      <p><strong>Conclusion:</strong> multiple interface inheritance is allowed; competing defaults need explicit resolution when no class-side or more-specific interface rule has already selected one behavior.</p>
+    usage: true
+InterfaceController:
+  multipleContracts():
+    execution: |-
+      <p><strong>Concept:</strong> one object can satisfy multiple interface contracts without multiple superclasses.</p>
+      <ol>
+        <li><strong>Flow:</strong> <code>Feature</code> implements both <code>Named</code> and <code>Enabled</code>; the same object is viewed through two different interface reference types.</li>
+        <li><strong>Code evidence:</strong><pre><code>static final class Feature implements Named, Enabled {
+          public String name() { return "search"; }
+          public boolean enabled() { return true; }
+      }
+
+      Feature f = new Feature();
+      Named n = f;
+      Enabled e = f;</code></pre></li>
+        <li><strong>Observation:</strong> <code>sameObject=true</code>, with <code>name=search</code>, <code>enabled=true</code>, and runtime type <code>Feature</code>.</li>
+        <li><strong>Meaning:</strong> the two interface references represent different roles of the same object; they do not create duplicate objects or state.</li>
+      </ol>
+      <p><strong>Conclusion:</strong> interfaces are well suited for composing independent roles/capabilities on one concrete type.</p>
+    usage: true
+InterfaceEvolutionController:
+  defaultCompatibility():
+    execution: |-
+      <p><strong>Concept:</strong> a default method lets an interface add behavior with a default implementation without immediately forcing existing implementations to write a new method.</p>
+      <ol>
+        <li><strong>Flow:</strong> <code>Versioned</code> has abstract <code>id()</code> plus default <code>display()</code>; <code>OldStyleImplementation</code> defines only <code>id()</code>.</li>
+        <li><strong>Code evidence:</strong><pre><code>interface Versioned {
+          String id();
+          default String display() {
+              return "id=" + id();
+          }
+      }
+
+      static final class OldStyleImplementation implements Versioned {
+          public String id() { return "legacy"; }
+      }</code></pre></li>
+        <li><strong>Observation:</strong> the response says <code>implementationOnlyDefines=id()</code> while <code>newDefaultMethodResult=id=legacy</code>.</li>
+        <li><strong>Meaning:</strong> inherited default <code>display()</code> executes and its call to <code>id()</code> still dispatches to the implementation.</li>
+      </ol>
+      <p><strong>Conclusion:</strong> the experiment demonstrates the interface-evolution mechanism enabled by default methods; it does not claim every interface change is source-, binary-, or behavior-compatible.</p>
+    usage: true

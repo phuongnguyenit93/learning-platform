@@ -1,0 +1,570 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_CONCURRENCY_FUNDAMENTALS",
+    "language": "en",
+    "categoryCount": 6,
+    "sectionCount": 58,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Basic",
+            "title": "1.Basic",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Basic",
+                    "title": "Basic Threads in Java",
+                    "sourcePath": "1.Basic/Basic.md",
+                    "sections": [
+                        {
+                            "id": "process-and-thread",
+                            "title": "1. Process and Thread",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/sections/process-and-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-task",
+                            "title": "2. Distinguish Thread, Runnable, Callable and Executor",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/sections/thread-task.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "start-vs-run",
+                            "title": "3. What is the difference between start() and run()?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/sections/start-vs-run.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "create-thread",
+                            "title": "4. Create and Run Live Threads",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/sections/create-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-state",
+                            "title": "5. Thread lifecycle and Thread.State",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/sections/thread-state.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "daemon-thread",
+                            "title": "6. Daemon Thread and JVM lifecycle",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/sections/daemon-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "basic-endpoints",
+                            "title": "7. Experiments of the Basic section",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/sections/basic-endpoints.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Basic/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Interruption",
+            "title": "2.Interruption",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Interruption",
+                    "title": "Interruption & Cooperative Cancellation in Java",
+                    "sourcePath": "2.Interruption/Interruption.md",
+                    "sections": [
+                        {
+                            "id": "interrupt-mental-model",
+                            "title": "1. Interrupt is a signal, not a kill order",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interrupt-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-flag",
+                            "title": "2. interrupt(), isInterrupted() and Thread.interrupted()",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interrupt-flag.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupted-exception",
+                            "title": "3. InterruptedException and blocking operation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interrupted-exception.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-cleanup",
+                            "title": "4. Cleanup when the task is canceled",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interrupt-cleanup.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-limitations",
+                            "title": "5. interrupt() doesn't make every standby state interruptible",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interrupt-limitations.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-vs-stop-flag",
+                            "title": "6. What is the difference between interrupt() and volatile stop flag?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interrupt-vs-stop-flag.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-rules",
+                            "title": "7. Code of Practice",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interrupt-rules.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interruption-experiments",
+                            "title": "8. Experiments of the Interruption section",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/sections/interruption-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Interruption/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Concurrency_Problems",
+            "title": "3.Concurrency_Problems",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ConcurrencyProblem",
+                    "title": "Concurrency Problems & Java Memory Model",
+                    "sourcePath": "3.Concurrency_Problems/ConcurrencyProblem.md",
+                    "sections": [
+                        {
+                            "id": "shared-state-race-condition",
+                            "title": "1. Shared Mutable State, Atomicity, and Race Condition",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/shared-state-race-condition.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jmm-visibility",
+                            "title": "2. Visibility and Java Memory Model",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/jmm-visibility.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "happens-before",
+                            "title": "3. Happens-Before: guarantee to transmit visibility",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/happens-before.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "safe-publication-final",
+                            "title": "4. Safe Publication, final field and this escape",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/safe-publication-final.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "volatile-publication",
+                            "title": "5. Voatile: Visibility + Ordering, not Atomicity",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/volatile-publication.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ordering-reordering",
+                            "title": "6. Ordering and Reordering Instruction",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/ordering-reordering.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "progress-problems",
+                            "title": "7. Deadlock, Livelock, and Starvation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/progress-problems.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "deadlock-prevention",
+                            "title": "8. Coffman conditions and Deadlock prevention by lock ordering",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/deadlock-prevention.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "problem-summary",
+                            "title": "9. Synthesizing Atomicity, Visibility, Ordering and Progress",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/problem-summary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "problem-experiments",
+                            "title": "10. Experiments of the Concurrency Problems section",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/sections/problem-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ConcurrencyProblem/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.JavaMemoryModel",
+            "title": "4.JavaMemoryModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JavaMemoryModel",
+                    "title": "Java Memory Model",
+                    "sourcePath": "4.JavaMemoryModel/JavaMemoryModel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/JavaMemoryModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Context",
+            "title": "5.Context",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ThreadLocal",
+                    "title": "ThreadLocal & Context Propagation",
+                    "sourcePath": "5.Context/ThreadLocal.md",
+                    "sections": [
+                        {
+                            "id": "thread-local-isolation",
+                            "title": "1. ThreadLocal isolation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/thread-local-isolation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-local-cleanup",
+                            "title": "2. remove() and lifecycle of worker Thread",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/thread-local-cleanup.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inheritable-thread-local",
+                            "title": "3. InheritableThreadLocal",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/inheritable-thread-local.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-pool-problem",
+                            "title": "4. Why Does InheritableThreadLocal Fail with Thread Pool?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/thread-pool-problem.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "context-propagation",
+                            "title": "5. Context propagation: capture \u2192 restore \u2192 cleanup",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/context-propagation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-bean-thread-safety",
+                            "title": "6. Spring singleton bean and thread safety",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/spring-bean-thread-safety.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-memory",
+                            "title": "7. Stack/Heap and context isolation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/object-memory.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-local-usage",
+                            "title": "8. When to Use ThreadLocal?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/thread-local-usage.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "context-experiments",
+                            "title": "9. Context experiments",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/sections/context-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/ThreadLocal/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Q&A",
+            "title": "6.Q&A",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Q&A",
+                    "title": "Thread & Concurrency - Q&A / General",
+                    "sourcePath": "6.Q&A/Q&A.md",
+                    "sections": [
+                        {
+                            "id": "mental-map",
+                            "title": "1. Overall Knowledge Map",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/mental-map.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-vs-task",
+                            "title": "2. What is the difference between Thread, Runnable, Callable, and Executor?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/thread-vs-task.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "run-vs-start",
+                            "title": "3. What is the difference between run() and start()?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/run-vs-start.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-question",
+                            "title": "4. Does interrupt() kill Thread?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/interrupt-question.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stack-heap-thread-safety",
+                            "title": "5. What is the relationship between Stack, Heap and thread safety?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/stack-heap-thread-safety.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "effectively-final",
+                            "title": "6. Why does local variable capture in lambda have to be final/effectively final?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/effectively-final.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "volatile-atomic-sync",
+                            "title": "7. How to choose volatile, atomic and synchronized?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/volatile-atomic-sync.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "race-vs-visibility",
+                            "title": "8. What is the difference between race condition and visibility bug?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/race-vs-visibility.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "happens-before-question",
+                            "title": "9. Does Happens-before mean that A runs before B on the clock?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/happens-before-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "synchronization-vs-coordination",
+                            "title": "10. What is the difference between synchronization and coordination?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/synchronization-vs-coordination.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wait-notify-question",
+                            "title": "11. Why does wait() have to be in while?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/wait-notify-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "blocking-queue-question",
+                            "title": "12. How is BlockingQueue different from ConcurrentLinkedQueue?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/blocking-queue-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-pool-question",
+                            "title": "13. If the Queue of ThreadPoolExecutor is full, will the caller block it by itself?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/thread-pool-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "async-question",
+                            "title": "14. Is Async Non-blocking?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/async-question.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "future-question",
+                            "title": "15. What is the difference between Future and CompletableFuture?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/future-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-local-question",
+                            "title": "16. Does ThreadLocal make thread-safe code?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/thread-local-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-async-question",
+                            "title": "17. Do @Async create new Threads yourself each time?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/spring-async-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "leak-question",
+                            "title": "18. When is a Thread/Pool considered a leak?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/leak-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "virtual-thread-question",
+                            "title": "19. Will Virtual Thread replace Thread Pool?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/virtual-thread-question.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "schedule-thread",
+                            "title": "20. What does Schedule have to do with Thread?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/schedule-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "schedule-interrupt",
+                            "title": "21. Is schedule wake-up interrupted?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/schedule-interrupt.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "batch-schedule",
+                            "title": "22. What is the difference between Batch and Schedule?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/batch-schedule.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "final-checklist",
+                            "title": "23. Checklist before writing concurrency code",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/final-checklist.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "module-conclusion",
+                            "title": "24. Module Conclusion",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/sections/module-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/en/content/Q%26A/intro.md"
+                }
+            ]
+        }
+    ]
+}

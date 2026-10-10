@@ -1,0 +1,94 @@
+{
+    "version": 1,
+    "moduleId": "DRIVEN_DEVELOPMENT_METHODOLOGIES",
+    "language": "en",
+    "categoryCount": 5,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.TDD",
+            "title": "1.TDD",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TestDrivenDevelopment",
+                    "title": "Test-Driven Development (TDD)",
+                    "sourcePath": "1.TDD/TestDrivenDevelopment.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DRIVEN_DEVELOPMENT_METHODOLOGIES/knowledge/en/content/TestDrivenDevelopment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.BDD",
+            "title": "2.BDD",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BehaviorDrivenDevelopment",
+                    "title": "Behavior-Driven Development (BDD)",
+                    "sourcePath": "2.BDD/BehaviorDrivenDevelopment.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DRIVEN_DEVELOPMENT_METHODOLOGIES/knowledge/en/content/BehaviorDrivenDevelopment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ATDD",
+            "title": "3.ATDD",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AcceptanceTestDrivenDevelopment",
+                    "title": "Acceptance Test-Driven Development (ATDD)",
+                    "sourcePath": "3.ATDD/AcceptanceTestDrivenDevelopment.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DRIVEN_DEVELOPMENT_METHODOLOGIES/knowledge/en/content/AcceptanceTestDrivenDevelopment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.FDD",
+            "title": "4.FDD",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FeatureDrivenDevelopment",
+                    "title": "Feature-Driven Development (FDD)",
+                    "sourcePath": "4.FDD/FeatureDrivenDevelopment.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DRIVEN_DEVELOPMENT_METHODOLOGIES/knowledge/en/content/FeatureDrivenDevelopment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.MDD",
+            "title": "5.MDD",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ModelDrivenDevelopment",
+                    "title": "Model-Driven Development (MDD)",
+                    "sourcePath": "5.MDD/ModelDrivenDevelopment.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DRIVEN_DEVELOPMENT_METHODOLOGIES/knowledge/en/content/ModelDrivenDevelopment/intro.md"
+                }
+            ]
+        }
+    ]
+}

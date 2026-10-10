@@ -1,0 +1,161 @@
+# <roadmap-schema>
+# Module Roadmap Structure
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: High-level learning milestones for the current language roadmap.
+#
+# - id [string, required]: Stable and unique milestone identity within the current language roadmap.
+# - title [string, required]: Milestone title displayed to the learner.
+# - purpose [string, required]: What the learner should understand or achieve from this milestone.
+# - dependsOn [list, optional]: Prerequisite milestone ids when item order alone is not enough to express the dependency.
+# - objectives [list, optional]: Milestone-level learning objectives; do not use this to list every small fact/API/syntax item.
+# - relatedKnowledge [list, optional]: Knowledge category ids in the current module that support this milestone. Portal displays this list on the side opposite the milestone and clicking an item navigates to the matching Knowledge category.
+# - relatedModules [list, optional]: Related modules displayed as Portal Level 2 cards. Each item requires routeId and may provide localized label/note; this relation is navigation only and does not create child milestones or change learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - What is this topic/module?
+#   - Why does it exist?
+#   - What problem exists without it?
+# FOUNDATION
+#   - What prerequisite or mental model must the learner have first?
+# CORE MODEL
+#   - What major abstractions or building blocks make up this topic?
+# MECHANICS
+#   - How does it work at the language/runtime/API level appropriate for this module?
+# USAGE
+#   - How is it used in real code?
+# DECISION / TRADE-OFF
+#   - When should this mechanism be chosen over another?
+#   - When should it not be used?
+# FAILURE / PITFALL
+#   - What mistakes, compile-time failures, or runtime failures matter?
+# INTEGRATION
+#   - How does this topic connect to neighboring concepts/modules?
+# SYNTHESIS
+#   - What end-to-end mental model should the learner retain?
+#
+# Each language owns its own roadmap. Do not infer or synchronize its structure from another language roadmap.
+# Item order in roadmap is the default learning order. Use dependsOn only when a dependency needs to be expressed beyond the linear order.
+# The skeleton must not force every module to have the same number of nodes. It is a thinking framework, not a rigid template.
+# </roadmap-schema>
+
+roadmap:
+  - id: functional-programming-purpose
+    title: What Functional Programming in Java Is and Why It Matters
+    purpose: Understand why Java needs a way to pass and reuse behavior instead of hard-coding every variation or relying on verbose anonymous classes, then see how functional interfaces provide the typed contract for that style.
+    relatedKnowledge:
+      - FunctionalProgrammingPurpose
+    relatedModules:
+      - routeId: FUNCTIONAL_PROGRAMMING
+        label: Functional Programming Paradigm
+        note: Language-neutral topics such as pure functions, immutability, referential transparency, and paradigm-level trade-offs are owned by the Functional Programming paradigm module.
+    objectives:
+      - Explain the problem solved by passing behavior as an argument instead of embedding every decision directly in control flow.
+      - Recognize functional style as an additional Java programming style, not a replacement for object-oriented or imperative programming.
+  - id: functional-interface-contracts
+    title: Functional Interfaces and SAM Contracts
+    purpose: Understand a functional interface as an interface with a single abstract-method contract under Java's functional-interface rules, giving lambdas and method references a concrete target type.
+    relatedKnowledge:
+      - FunctionalInterfaceContracts
+    relatedModules:
+      - routeId: JAVA_ABSTRACT_INTERFACE
+        label: Abstract Class & Interface
+        note: Functional interfaces build directly on Java interface contracts, including abstract, default, and static methods.
+      - routeId: JAVA_8_FUNCTIONAL_INTERFACES
+        label: Functional Interfaces (Java 8)
+        note: The Java 8 module provides release-specific context for functional interfaces as lambda target types and for @FunctionalInterface; this Java Core module owns the stable mechanics used in current Java.
+    objectives:
+      - Explain the Single Abstract Method (SAM) contract and why @FunctionalInterface provides compile-time validation without being required for an interface to be functional.
+      - Distinguish the functional contract from additional default/static methods that do not create extra abstract behavior.
+      - Recognize that Java determines the single abstract-method contract by functional-interface rules rather than by naively counting declared abstract methods, including Object-equivalent and override-equivalent inherited methods.
+  - id: lambdas-and-target-typing
+    title: Lambda Expressions and Target Typing
+    purpose: Understand a lambda as an expression that requires a target functional-interface type, with its parameter and result forms checked against that target function type and parameter types often inferred from context; the lambda describes behavior rather than executing it when declared.
+    relatedKnowledge:
+      - LambdaAndTargetTyping
+    relatedModules:
+      - routeId: JAVA_8_LAMBDA_EXPRESSIONS
+        label: Lambda Expressions (Java 8)
+        note: The Java 8 module covers the release-specific introduction of lambda expressions; this Java Core module focuses on their stable language mechanics and usage.
+    objectives:
+      - Read expression and block lambda forms and match them to compatible functional-interface signatures.
+      - Explain target typing, parameter/return compatibility, and why the same lambda text can mean different types in different contexts.
+  - id: capture-scope-and-state
+    title: Variable Capture, Scope, and State
+    purpose: Understand what surrounding state a lambda can access, why captured local variables must be final or effectively final, and how captured references differ from mutating the objects they point to.
+    relatedKnowledge:
+      - CaptureScopeAndState
+    objectives:
+      - Distinguish local-variable capture from instance/static state access and understand the lambda meaning of this.
+      - Recognize that effectively-final bindings do not make the referenced object immutable.
+  - id: standard-functional-interfaces
+    title: Standard Functional Interfaces
+    purpose: Understand the main java.util.function interface families as reusable contracts for predicates, transformations, consumers, suppliers, operators, and common arity/primitive variations.
+    relatedKnowledge:
+      - StandardFunctionalInterfaces
+    relatedModules:
+      - routeId: JAVA_GENERICS
+        label: Generics
+        note: Generic input/output relationships make java.util.function contracts reusable while preserving type information.
+    objectives:
+      - Choose Predicate, Function, Consumer, Supplier, UnaryOperator, BinaryOperator, and the BiFunction/BiConsumer/BiPredicate families from the behavior contract they represent.
+      - Recognize primitive specializations as a performance-oriented variation rather than a different functional model.
+      - Prefer a standard functional interface when its contract communicates the behavior clearly, and define a domain-specific functional interface when the domain meaning or contract needs to be explicit.
+  - id: method-references
+    title: Method and Constructor References
+    purpose: Understand method and constructor references as a concise way to reuse existing behavior when Java can adapt the referenced member to the target function type, including receiver/argument mapping and compatible result handling.
+    relatedKnowledge:
+      - MethodReferences
+    relatedModules:
+      - routeId: JAVA_8_METHOD_REFERENCES
+        label: Method References (Java 8)
+        note: The Java 8 module provides release-specific context for method references; this Java Core module owns their stable typing and usage model.
+    objectives:
+      - Distinguish static, bound, unbound, and constructor references.
+      - Prefer method references only when they improve readability over equivalent lambdas.
+  - id: behavior-composition-and-higher-order-use
+    title: Behavior Composition and Higher-Order Use
+    purpose: Understand how Java APIs can accept and return functional-interface values, then combine small behaviors through operations such as compose, andThen, and predicate composition.
+    relatedKnowledge:
+      - BehaviorCompositionAndHigherOrderUse
+    objectives:
+      - Pass and return behavior through functional-interface types without losing the underlying type contract.
+      - Compose reusable behavior while keeping execution order and side effects understandable.
+  - id: optional-and-absence
+    title: Optional and Explicit Absence
+    purpose: Understand Optional as a type for making possible absence explicit at selected API boundaries and for chaining absence-aware transformations without turning it into a universal replacement for null.
+    relatedKnowledge:
+      - OptionalAndAbsence
+    relatedModules:
+      - routeId: JAVA_8_OPTIONAL
+        label: Optional (Java 8)
+        note: The Java 8 module provides release-specific context for Optional; this Java Core module owns its stable usage model and functional composition boundary.
+    objectives:
+      - Use map, flatMap, filter, and ifPresent for absence-aware flow, and choose eager versus lazy fallback deliberately with orElse versus orElseGet/or.
+      - Recognize inappropriate uses such as blanket field/parameter replacement and unnecessary wrapping/unwrapping.
+  - id: stream-api-boundary
+    title: Functional Programming and the Stream API Boundary
+    purpose: Understand how Stream APIs consume lambdas and functional interfaces for declarative data processing while keeping Stream pipeline semantics, laziness, reduction, collectors, and parallel-stream behavior in the dedicated Stream API module.
+    relatedKnowledge:
+      - StreamApiBoundary
+    relatedModules:
+      - routeId: JAVA_STREAM_API
+        label: Stream API (Java 8)
+        note: Stream creation, intermediate and terminal operations, reduction, collectors, laziness, ordering, and parallel-stream mechanics are owned by the Stream API module.
+    objectives:
+      - Recognize that a Stream operation receives behavior through functional-interface contracts learned in this module.
+      - Know when to follow the relation to the Stream API module instead of treating Stream as part of lambda syntax itself.
+  - id: tradeoffs-failures-and-synthesis
+    title: Side Effects, Exceptions, Trade-offs, and Practical Style
+    purpose: Synthesize Java functional mechanics into practical design decisions, especially when mutation, checked exceptions, debugging, hidden work, or excessive chaining makes functional code harder to understand than an imperative or object-oriented alternative.
+    relatedKnowledge:
+      - TradeoffsFailuresAndSynthesis
+    relatedModules:
+      - routeId: JAVA_EXCEPTION
+        label: Exceptions
+        note: Checked/unchecked exception semantics and exception-design fundamentals remain owned by the Exception module.
+    objectives:
+      - Explain why a lambda or method reference cannot propagate a checked exception that its target function type does not permit, and keep any wrapping, translation, or custom-interface adaptation explicit.
+      - Choose functional style when behavior parameterization and composition improve clarity, and choose imperative/object-oriented structure when stateful workflow or debugging clarity benefits from it.

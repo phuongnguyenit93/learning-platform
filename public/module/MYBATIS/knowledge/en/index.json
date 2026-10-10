@@ -1,0 +1,150 @@
+{
+    "version": 1,
+    "moduleId": "MYBATIS",
+    "language": "en",
+    "categoryCount": 6,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MyBatis",
+                    "title": "MyBatis",
+                    "sourcePath": "1.Introduction/MyBatis.md",
+                    "sections": [
+                        {
+                            "id": "mybatis-what",
+                            "title": "1. What is MyBatis?",
+                            "content": "/module/MYBATIS/knowledge/en/content/MyBatis/sections/mybatis-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mybatis-why",
+                            "title": "2. Why does MyBatis exist?",
+                            "content": "/module/MYBATIS/knowledge/en/content/MyBatis/sections/mybatis-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mybatis-model",
+                            "title": "3. Mental model",
+                            "content": "/module/MYBATIS/knowledge/en/content/MyBatis/sections/mybatis-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mybatis-vs-orm",
+                            "title": "4. How is MyBatis different from ORM?",
+                            "content": "/module/MYBATIS/knowledge/en/content/MyBatis/sections/mybatis-vs-orm.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mybatis-boundary",
+                            "title": "5. Boundary",
+                            "content": "/module/MYBATIS/knowledge/en/content/MyBatis/sections/mybatis-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/MYBATIS/knowledge/en/content/MyBatis/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.MapperSQL",
+            "title": "2.MapperSQL",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MapperSQL",
+                    "title": "Mappers and SQL Mapping",
+                    "sourcePath": "2.MapperSQL/MapperSQL.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MYBATIS/knowledge/en/content/MapperSQL/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ResultMapping",
+            "title": "3.ResultMapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ResultMapping",
+                    "title": "Result Mapping",
+                    "sourcePath": "3.ResultMapping/ResultMapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MYBATIS/knowledge/en/content/ResultMapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.DynamicSQL",
+            "title": "4.DynamicSQL",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DynamicSQL",
+                    "title": "Dynamic SQL",
+                    "sourcePath": "4.DynamicSQL/DynamicSQL.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MYBATIS/knowledge/en/content/DynamicSQL/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.TransactionIntegration",
+            "title": "5.TransactionIntegration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TransactionIntegration",
+                    "title": "Transactions and Integration Boundaries",
+                    "sourcePath": "5.TransactionIntegration/TransactionIntegration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MYBATIS/knowledge/en/content/TransactionIntegration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Tradeoffs",
+            "title": "6.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "MyBatis Trade-offs",
+                    "sourcePath": "6.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/MYBATIS/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

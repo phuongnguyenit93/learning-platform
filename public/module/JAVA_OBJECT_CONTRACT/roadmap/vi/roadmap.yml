@@ -1,0 +1,131 @@
+# <roadmap-schema>
+# Cấu trúc Roadmap Module
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: Danh sách milestone cấp cao của roadmap cho language hiện tại.
+#
+# - id [string, required]: ID ổn định và duy nhất của milestone trong roadmap language hiện tại.
+# - title [string, required]: Tên milestone hiển thị cho learner.
+# - purpose [string, required]: Milestone này tồn tại để learner hiểu hoặc đạt được điều gì.
+# - dependsOn [list, optional]: Danh sách id milestone prerequisite khi dependency không thể hiện đủ chỉ bằng thứ tự item.
+# - objectives [list, optional]: Các learning objective cấp milestone; không dùng để liệt kê mọi fact/API/syntax nhỏ.
+# - relatedKnowledge [list, optional]: Danh sách Knowledge category id trong chính module hiện tại hỗ trợ milestone. Portal hiển thị danh sách này ở phía đối diện milestone và click item sẽ điều hướng sang Knowledge category tương ứng.
+# - relatedModules [list, optional]: Các module liên quan hiển thị ở Level 2 của Portal. Mỗi item dùng routeId bắt buộc và có thể có label/note localized; relation này chỉ để điều hướng, không tạo child milestone hoặc thay đổi learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - Topic/module này là gì?
+#   - Vì sao nó tồn tại?
+#   - Không có nó thì learner gặp vấn đề gì?
+# FOUNDATION
+#   - Learner cần prerequisite hoặc mental model nào trước?
+# CORE MODEL
+#   - Những abstraction hoặc building block lớn nào tạo nên chủ đề này?
+# MECHANICS
+#   - Nó hoạt động như thế nào ở mức language/runtime/API phù hợp với module?
+# USAGE
+#   - Nó được dùng như thế nào trong code thực tế?
+# DECISION / TRADE-OFF
+#   - Khi nào nên chọn cơ chế này thay vì cơ chế khác?
+#   - Khi nào không nên dùng?
+# FAILURE / PITFALL
+#   - Những sai lầm, compile-time failure hoặc runtime failure nào đáng biết?
+# INTEGRATION
+#   - Chủ đề này kết nối với những concept/module lân cận nào?
+# SYNTHESIS
+#   - Sau cùng learner phải giữ mental model end-to-end nào?
+#
+# Mỗi language tự chịu trách nhiệm cho roadmap của chính nó. Không suy luận hoặc đồng bộ cấu trúc từ roadmap của language khác.
+# Thứ tự item trong roadmap chính là thứ tự học mặc định. Chỉ dùng dependsOn khi cần biểu diễn dependency rõ hơn thứ tự tuyến tính.
+# Skeleton không nên ép mọi module có đúng bấy nhiêu node. Nó là framework suy nghĩ chứ không phải template cứng.
+# </roadmap-schema>
+
+roadmap:
+  - id: object-contract-purpose
+    title: Quy ước của Object là gì và vì sao cần nó?
+    purpose: Hiểu quy ước của Object (Object Contract) là tập các cam kết về hành vi mà API Java dựa vào, vì sao các cam kết đó tồn tại và điều gì có thể hỏng khi một class vi phạm chúng; đây không phải một từ khóa hay một interface cụ thể.
+    relatedKnowledge:
+      - ObjectContractPurpose
+    relatedModules:
+      - routeId: JAVA_CLASS_OBJECT
+        label: Lớp và đối tượng
+        note: Quy ước của Object kế thừa nền tảng về các phương thức chung của Object và định danh đối tượng từ mô-đun Lớp và đối tượng.
+    objectives:
+      - Giải thích vì sao thư viện và framework cần đối tượng tuân thủ những cam kết về hành vi đã được quy định.
+      - Nhận biết phép so sánh bằng nhau, mã băm, biểu diễn văn bản và thứ tự là các nhóm quy tắc riêng nhưng có liên hệ với nhau.
+      - Giải thích vì sao trình biên dịch không thể kiểm tra đầy đủ các quy tắc về ngữ nghĩa này và vì sao lỗi có thể xuất hiện ở nơi khác với class gây ra vi phạm.
+  - id: identity-and-logical-equality
+    title: Định danh đối tượng và bằng nhau về mặt logic
+    purpose: Phân biệt câu hỏi "hai biến tham chiếu có cùng trỏ đến một đối tượng không?" với "hai đối tượng có nên được xem là cùng một giá trị logic không?".
+    relatedKnowledge:
+      - IdentityEquality
+    objectives:
+      - Phân biệt định danh tham chiếu bằng == với phép so sánh bằng nhau về mặt logic bằng equals.
+      - Nhận biết các giá trị miền nghiệp vụ mà hai đối tượng được tạo riêng biệt vẫn cần được xem là bằng nhau.
+  - id: equals-contract
+    title: Quy tắc của equals
+    purpose: Hiểu các quy tắc hành vi mà một cách cài đặt equals đúng phải tuân thủ để mã nguồn sử dụng có thể suy luận nhất quán về phép so sánh bằng nhau.
+    relatedKnowledge:
+      - Equals
+    objectives:
+      - Hiểu các tính chất phản xạ, đối xứng, bắc cầu, nhất quán và cách equals xử lý null.
+      - Nhận biết các thiết kế kế thừa hoặc trạng thái có thể thay đổi khiến phép so sánh bằng nhau trở nên không đáng tin cậy.
+  - id: hashcode-contract
+    title: hashCode và tra cứu dựa trên mã băm
+    purpose: Hiểu vai trò của hashCode trong việc hỗ trợ tra cứu dựa trên mã băm trước khi kết nối nó với các quy tắc của equals.
+    relatedKnowledge:
+      - HashCode
+    objectives:
+      - Giải thích hashCode đảm bảo điều gì và không đảm bảo điều gì.
+      - Phân biệt mã băm với định danh đối tượng hoặc một mã duy nhất.
+  - id: equals-hashcode-consistency
+    title: Sự nhất quán giữa equals và hashCode
+    purpose: Kết nối phép so sánh bằng nhau về mặt logic với mã băm để đối tượng vẫn được tìm thấy và hoạt động nhất quán trong các API dựa trên mã băm.
+    relatedKnowledge:
+      - EqualsHashCode
+    relatedModules:
+      - routeId: JAVA_COLLECTION
+        label: Collection
+        note: HashSet và HashMap giúp quan sát trực tiếp hậu quả của việc tuân thủ hoặc phá vỡ quy tắc liên kết giữa equals và hashCode.
+    objectives:
+      - Giải thích vì sao hai đối tượng bằng nhau theo equals bắt buộc phải có cùng mã băm.
+      - Dự đoán lỗi tra cứu khi cách cài đặt không nhất quán hoặc khi trạng thái của khóa bị thay đổi sau lúc đưa vào cấu trúc dữ liệu.
+  - id: human-readable-representation
+    title: Biểu diễn văn bản với toString
+    purpose: Hiểu toString là quy ước biểu diễn văn bản phục vụ con người và công cụ chẩn đoán, không phải định dạng lưu trữ hay tuần tự hóa dữ liệu.
+    relatedKnowledge:
+      - ToString
+    objectives:
+      - Tạo chuỗi có ý nghĩa cho log, gỡ lỗi, thông báo kiểm thử và công cụ phát triển.
+      - Tránh làm lộ dữ liệu nhạy cảm hoặc xem kết quả toString thông thường như một định dạng dữ liệu ổn định.
+  - id: natural-ordering
+    title: Thứ tự tự nhiên với Comparable
+    purpose: Hiểu cách một kiểu dữ liệu định nghĩa một thứ tự tự nhiên và những quy tắc compareTo phải giữ để mã nguồn sử dụng và các API sắp xếp hoạt động đúng.
+    relatedKnowledge:
+      - Comparable
+    objectives:
+      - Hiểu đúng ý nghĩa của kết quả so sánh âm, bằng 0 hoặc dương.
+      - Giữ cho thứ tự tự nhiên có tính bắc cầu và nhất quán nội tại.
+      - Phân tích khi nào kết quả compareTo bằng 0 nên nhất quán với phép so sánh bằng nhau về mặt logic.
+  - id: alternate-ordering
+    title: Thứ tự tùy biến với Comparator
+    purpose: Hiểu cách mã nguồn sử dụng có thể định nghĩa một thứ tự riêng khi kiểu dữ liệu không có một thứ tự tự nhiên phù hợp hoặc khi cần nhiều cách sắp xếp khác nhau.
+    relatedKnowledge:
+      - Comparator
+    objectives:
+      - Kết hợp hoặc đảo chiều Comparator mà không làm thay đổi quy tắc bằng nhau của miền nghiệp vụ.
+      - Giữ cho quan hệ so sánh tùy biến có tính bắc cầu và nhất quán nội tại.
+      - Chọn giữa Comparable và Comparator dựa trên nơi sở hữu quy tắc sắp xếp và số lượng cách sắp xếp cần hỗ trợ.
+  - id: contract-synthesis
+    title: Tổng hợp các quy ước của Object
+    purpose: Kết nối định danh, phép so sánh bằng nhau, mã băm, biểu diễn văn bản, trạng thái có thể thay đổi và thứ tự thành một mô hình giúp dự đoán đối tượng sẽ hoạt động ra sao trong các API Java.
+    relatedKnowledge:
+      - ContractSynthesis
+    relatedModules:
+      - routeId: JAVA_NUMBERS
+        label: Kiểu số
+        note: BigDecimal là ví dụ rõ ràng cho trường hợp phép so sánh bằng nhau và thứ tự sắp xếp trả lời hai câu hỏi khác nhau.
+    objectives:
+      - Dự đoán hành vi của một class trong cấu trúc dữ liệu dựa trên mã băm và cấu trúc dữ liệu có thứ tự.
+      - Nhận biết các trường hợp đặc thù như BigDecimal, nơi phép so sánh bằng nhau và thứ tự sắp xếp được thiết kế khác nhau có chủ đích.

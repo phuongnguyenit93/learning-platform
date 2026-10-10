@@ -1,0 +1,150 @@
+{
+    "version": 1,
+    "moduleId": "JDBC",
+    "language": "en",
+    "categoryCount": 6,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JDBC",
+                    "title": "JDBC",
+                    "sourcePath": "1.Introduction/JDBC.md",
+                    "sections": [
+                        {
+                            "id": "jdbc-what",
+                            "title": "1. What is JDBC?",
+                            "content": "/module/JDBC/knowledge/en/content/JDBC/sections/jdbc-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jdbc-why",
+                            "title": "2. Why does JDBC exist?",
+                            "content": "/module/JDBC/knowledge/en/content/JDBC/sections/jdbc-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jdbc-before",
+                            "title": "3. What happens without JDBC?",
+                            "content": "/module/JDBC/knowledge/en/content/JDBC/sections/jdbc-before.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jdbc-model",
+                            "title": "4. Mental model",
+                            "content": "/module/JDBC/knowledge/en/content/JDBC/sections/jdbc-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jdbc-boundary",
+                            "title": "5. Boundary",
+                            "content": "/module/JDBC/knowledge/en/content/JDBC/sections/jdbc-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JDBC/knowledge/en/content/JDBC/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ConnectionDataSource",
+            "title": "2.ConnectionDataSource",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ConnectionDataSource",
+                    "title": "Connections, Drivers, and DataSource",
+                    "sourcePath": "2.ConnectionDataSource/ConnectionDataSource.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JDBC/knowledge/en/content/ConnectionDataSource/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.StatementQuery",
+            "title": "3.StatementQuery",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StatementQuery",
+                    "title": "Statement, PreparedStatement, and Queries",
+                    "sourcePath": "3.StatementQuery/StatementQuery.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JDBC/knowledge/en/content/StatementQuery/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.ResultMapping",
+            "title": "4.ResultMapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ResultMapping",
+                    "title": "ResultSet and Mapping",
+                    "sourcePath": "4.ResultMapping/ResultMapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JDBC/knowledge/en/content/ResultMapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.TransactionResources",
+            "title": "5.TransactionResources",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TransactionResources",
+                    "title": "Transactions and Resource Management",
+                    "sourcePath": "5.TransactionResources/TransactionResources.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JDBC/knowledge/en/content/TransactionResources/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Tradeoffs",
+            "title": "6.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "JDBC Trade-offs and Pitfalls",
+                    "sourcePath": "6.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JDBC/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

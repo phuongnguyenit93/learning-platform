@@ -1,0 +1,131 @@
+# <roadmap-schema>
+# Module Roadmap Structure
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: High-level learning milestones for the current language roadmap.
+#
+# - id [string, required]: Stable and unique milestone identity within the current language roadmap.
+# - title [string, required]: Milestone title displayed to the learner.
+# - purpose [string, required]: What the learner should understand or achieve from this milestone.
+# - dependsOn [list, optional]: Prerequisite milestone ids when item order alone is not enough to express the dependency.
+# - objectives [list, optional]: Milestone-level learning objectives; do not use this to list every small fact/API/syntax item.
+# - relatedKnowledge [list, optional]: Knowledge category ids in the current module that support this milestone. Portal displays this list on the side opposite the milestone and clicking an item navigates to the matching Knowledge category.
+# - relatedModules [list, optional]: Related modules displayed as Portal Level 2 cards. Each item requires routeId and may provide localized label/note; this relation is navigation only and does not create child milestones or change learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - What is this topic/module?
+#   - Why does it exist?
+#   - What problem exists without it?
+# FOUNDATION
+#   - What prerequisite or mental model must the learner have first?
+# CORE MODEL
+#   - What major abstractions or building blocks make up this topic?
+# MECHANICS
+#   - How does it work at the language/runtime/API level appropriate for this module?
+# USAGE
+#   - How is it used in real code?
+# DECISION / TRADE-OFF
+#   - When should this mechanism be chosen over another?
+#   - When should it not be used?
+# FAILURE / PITFALL
+#   - What mistakes, compile-time failures, or runtime failures matter?
+# INTEGRATION
+#   - How does this topic connect to neighboring concepts/modules?
+# SYNTHESIS
+#   - What end-to-end mental model should the learner retain?
+#
+# Each language owns its own roadmap. Do not infer or synchronize its structure from another language roadmap.
+# Item order in roadmap is the default learning order. Use dependsOn only when a dependency needs to be expressed beyond the linear order.
+# The skeleton must not force every module to have the same number of nodes. It is a thinking framework, not a rigid template.
+# </roadmap-schema>
+
+roadmap:
+  - id: reflection-purpose
+    title: What Reflection Is and Why It Exists
+    purpose: Understand reflection as a way to inspect structure and operate on types or members when the required information is known only at runtime instead of being referenced directly at compile time.
+    relatedKnowledge:
+      - Basic
+    objectives:
+      - Explain the problem reflection solves for frameworks, libraries, and tooling.
+      - Understand where direct calls, interfaces, factories, or manual registration stop being sufficient when the structure to handle cannot be known at compile time.
+      - Distinguish runtime flexibility needs from cases where direct Java code is safer and clearer.
+  - id: class-metadata
+    title: Runtime Type Model with Class<?>
+    purpose: Understand Class<?> as the runtime representation of a Java type known to the JVM and the entry point for discovering that type's metadata through reflection.
+    relatedKnowledge:
+      - ClassMetadata
+    relatedModules:
+      - routeId: JAVA_CLASSLOADER
+        label: ClassLoader
+        note: For ordinary classes and interfaces, ClassLoader participates in loading and defining runtime type identity; reflection consumes the corresponding Class metadata.
+      - routeId: JAVA_ANNOTATION
+        label: Annotations
+        note: Reflection can read annotations retained at runtime; declaration and retention semantics belong to the Annotation module.
+    objectives:
+      - Obtain Class<?> values and use them to discover names, kinds, modifiers, inheritance relationships, and members.
+      - Distinguish metadata about a type from instances of that type.
+      - Recognize metadata specific to arrays, enums, records, and sealed types instead of assuming every Class<?> exposes the same meaningful characteristics.
+      - Recognize RUNTIME-retained annotations as metadata that reflection can inspect on types and members.
+  - id: reflective-members
+    title: Discovering Class Members
+    purpose: Build a common mental model for Field, Method, and Constructor as runtime member descriptors that reflection can discover and inspect.
+    relatedKnowledge:
+      - ClassMetadata
+      - Fields
+      - Methods
+      - Constructors
+    objectives:
+      - Distinguish directly declared members from public members that may be inherited.
+      - Understand the shared roles of Member, Executable, AccessibleObject, and AnnotatedElement instead of treating Field, Method, and Constructor as unrelated APIs.
+      - Read important member metadata such as modifiers, types, parameters, return types, and declared exceptions.
+  - id: reflective-operations
+    title: Acting Dynamically from Metadata
+    purpose: Understand how discovered fields, methods, and constructors drive reads, writes, method calls, and object creation when the choice is made at runtime.
+    relatedKnowledge:
+      - DynamicInvocation
+    objectives:
+      - Relate get/set, invoke, and newInstance to their direct Java counterparts, including argument conversion and varargs behavior.
+      - Understand dynamic array creation and access when the component type is known only at runtime through java.lang.reflect.Array.
+      - Separate reflection-protocol failures from exceptions thrown by target code, especially through InvocationTargetException.
+  - id: reflective-access-control
+    title: Access, Encapsulation, and Module Boundaries
+    purpose: Understand that reflection does not erase Java access rules; deep access still interacts with encapsulation and JPMS module boundaries.
+    relatedKnowledge:
+      - AccessControl
+    objectives:
+      - Understand canAccess, trySetAccessible, and why attempts to open access can fail.
+      - Recognize maintenance and security risks when bypassing ordinary encapsulation boundaries.
+  - id: generic-signature-inspection
+    title: Generic Signature Metadata after Erasure
+    purpose: Understand which generic type information remains in declaration signatures and can still be inspected after type erasure.
+    relatedKnowledge:
+      - GenericTypeInspection
+    relatedModules:
+      - routeId: JAVA_GENERICS
+        label: Generics
+        note: Type erasure, bounds, wildcards, and compile-time type relationships are owned by the Generics module.
+    objectives:
+      - Recognize the roles of Class, ParameterizedType, TypeVariable, WildcardType, and GenericArrayType in the Type model.
+      - Separate erased execution types from retained generic signature metadata used by tools.
+  - id: dynamic-proxies
+    title: Dynamic Proxies and Call Interception
+    purpose: Understand how JDK Dynamic Proxy can create an interface implementation at runtime and route calls through an InvocationHandler to add intermediary behavior.
+    relatedKnowledge:
+      - DynamicProxy
+    relatedModules:
+      - routeId: JAVA_ABSTRACT_INTERFACE
+        label: Abstract Class & Interface
+        note: JDK Dynamic Proxy relies on interfaces as the contracts for runtime-generated proxy objects.
+    objectives:
+      - Trace proxy creation, InvocationHandler execution, delegation, and handling of Object methods.
+      - Understand the interface-based limitation of JDK Dynamic Proxy.
+  - id: reflection-risks-and-synthesis
+    title: When Should Reflection Be Used?
+    purpose: Synthesize reflection's benefits and trade-offs so runtime flexibility can be weighed against reduced compile-time checking, hidden coupling, and maintenance complexity.
+    relatedKnowledge:
+      - LimitationsRisks
+    objectives:
+      - Evaluate performance, refactorability, native-image, and access-boundary concerns, including when metadata caching is useful.
+      - Distinguish appropriate reflection use from direct calls and neighboring dynamic-invocation mechanisms such as MethodHandle.

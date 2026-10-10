@@ -1,0 +1,241 @@
+{
+    "version": 1,
+    "moduleId": "ASPECT_ORIENTED_PROGRAMMING",
+    "language": "vi",
+    "categoryCount": 4,
+    "sectionCount": 21,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AOP",
+                    "title": "Aspect-Oriented Programming (AOP)",
+                    "sourcePath": "1.Introduction/AOP.md",
+                    "sections": [
+                        {
+                            "id": "aop-what",
+                            "title": "1. AOP l\u00e0 g\u00ec?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/AOP/sections/aop-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-why",
+                            "title": "2. T\u1ea1i sao AOP t\u1ed3n t\u1ea1i?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/AOP/sections/aop-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-without",
+                            "title": "3. N\u1ebfu kh\u00f4ng c\u00f3 AOP th\u00ec gi\u1ea3i quy\u1ebft th\u1ebf n\u00e0o?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/AOP/sections/aop-without.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-limit",
+                            "title": "4. T\u1ea1i sao c\u00e1ch \u0111\u01a1n gi\u1ea3n \u0111\u00f4i khi ch\u01b0a \u0111\u1ee7?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/AOP/sections/aop-limit.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-solution",
+                            "title": "5. AOP gi\u1ea3i quy\u1ebft v\u1ea5n \u0111\u1ec1 ra sao?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/AOP/sections/aop-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-when",
+                            "title": "6. Khi n\u00e0o n\u00ean d\u00f9ng?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/AOP/sections/aop-when.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/AOP/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Terminology",
+            "title": "2.Terminology",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Terminology",
+                    "title": "Thu\u1eadt ng\u1eef c\u1ed1t l\u00f5i c\u1ee7a AOP",
+                    "sourcePath": "2.Terminology/Terminology.md",
+                    "sections": [
+                        {
+                            "id": "aop-aspect",
+                            "title": "1. Aspect",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Terminology/sections/aop-aspect.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-join-point",
+                            "title": "2. Join Point",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Terminology/sections/aop-join-point.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-pointcut",
+                            "title": "3. Pointcut",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Terminology/sections/aop-pointcut.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-advice",
+                            "title": "4. Advice",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Terminology/sections/aop-advice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-target",
+                            "title": "5. Target",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Terminology/sections/aop-target.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-weaving",
+                            "title": "6. Weaving",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Terminology/sections/aop-weaving.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Terminology/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ImplementationModels",
+            "title": "3.ImplementationModels",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ImplementationModels",
+                    "title": "C\u00e1c m\u00f4 h\u00ecnh hi\u1ec7n th\u1ef1c AOP",
+                    "sourcePath": "3.ImplementationModels/ImplementationModels.md",
+                    "sections": [
+                        {
+                            "id": "aop-compile-time",
+                            "title": "1. Compile-time weaving",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/ImplementationModels/sections/aop-compile-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-load-time",
+                            "title": "2. Load-time weaving",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/ImplementationModels/sections/aop-load-time.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-runtime",
+                            "title": "3. Runtime interception",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/ImplementationModels/sections/aop-runtime.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-model-boundary",
+                            "title": "4. V\u00ec sao ph\u1ea3i ph\u00e2n bi\u1ec7t c\u00e1c model?",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/ImplementationModels/sections/aop-model-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/ImplementationModels/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Tradeoffs",
+            "title": "4.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Trade-off khi s\u1eed d\u1ee5ng AOP",
+                    "sourcePath": "4.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        {
+                            "id": "aop-benefits",
+                            "title": "1. L\u1ee3i \u00edch",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Tradeoffs/sections/aop-benefits.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-cost",
+                            "title": "2. Chi ph\u00ed",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Tradeoffs/sections/aop-cost.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-good-fit",
+                            "title": "3. Concern ph\u00f9 h\u1ee3p",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Tradeoffs/sections/aop-good-fit.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-bad-fit",
+                            "title": "4. Concern kh\u00f4ng ph\u00f9 h\u1ee3p",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Tradeoffs/sections/aop-bad-fit.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "aop-boundary",
+                            "title": "5. Boundary v\u1edbi implementation c\u1ee5 th\u1ec3",
+                            "content": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Tradeoffs/sections/aop-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/ASPECT_ORIENTED_PROGRAMMING/knowledge/vi/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,213 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_BATCH",
+    "language": "en",
+    "categoryCount": 12,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringBatch",
+                    "title": "SpringBatch",
+                    "sourcePath": "1.Introduction/SpringBatch.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/SpringBatch/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.DomainModel",
+            "title": "2.DomainModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DomainModel",
+                    "title": "DomainModel",
+                    "sourcePath": "2.DomainModel/DomainModel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/DomainModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.JobRepository",
+            "title": "3.JobRepository",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JobRepository",
+                    "title": "JobRepository",
+                    "sourcePath": "3.JobRepository/JobRepository.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/JobRepository/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.ChunkProcessing",
+            "title": "4.ChunkProcessing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ChunkProcessing",
+                    "title": "ChunkProcessing",
+                    "sourcePath": "4.ChunkProcessing/ChunkProcessing.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/ChunkProcessing/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ItemReader",
+            "title": "5.ItemReader",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ItemReader",
+                    "title": "ItemReader",
+                    "sourcePath": "5.ItemReader/ItemReader.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/ItemReader/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.ItemProcessor",
+            "title": "6.ItemProcessor",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ItemProcessor",
+                    "title": "ItemProcessor",
+                    "sourcePath": "6.ItemProcessor/ItemProcessor.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/ItemProcessor/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.ItemWriter",
+            "title": "7.ItemWriter",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ItemWriter",
+                    "title": "ItemWriter",
+                    "sourcePath": "7.ItemWriter/ItemWriter.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/ItemWriter/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Tasklet",
+            "title": "8.Tasklet",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tasklet",
+                    "title": "Tasklet",
+                    "sourcePath": "8.Tasklet/Tasklet.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/Tasklet/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Restartability",
+            "title": "9.Restartability",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Restartability",
+                    "title": "Restartability",
+                    "sourcePath": "9.Restartability/Restartability.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/Restartability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.FaultTolerance",
+            "title": "10.FaultTolerance",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FaultTolerance",
+                    "title": "FaultTolerance",
+                    "sourcePath": "10.FaultTolerance/FaultTolerance.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/FaultTolerance/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.ParallelScaling",
+            "title": "11.ParallelScaling",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ParallelScaling",
+                    "title": "ParallelScaling",
+                    "sourcePath": "11.ParallelScaling/ParallelScaling.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/ParallelScaling/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.TestingOperations",
+            "title": "12.TestingOperations",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TestingOperations",
+                    "title": "TestingOperations",
+                    "sourcePath": "12.TestingOperations/TestingOperations.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BATCH/knowledge/en/content/TestingOperations/intro.md"
+                }
+            ]
+        }
+    ]
+}

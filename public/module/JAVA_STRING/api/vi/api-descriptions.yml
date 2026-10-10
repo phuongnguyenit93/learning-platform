@@ -1,0 +1,229 @@
+EncodingController:
+  roundTrip():
+    summary: Vòng mã hóa/giải mã UTF-8
+    description: Mã hóa "Xin chào ☕" thành byte bằng UTF-8 rồi giải mã chính dãy byte
+      đó bằng UTF-8. So sánh text, utf8Bytes, decoded và roundTrip để quan sát một
+      vòng chuyển đổi giữ nguyên nội dung khi hai phía dùng cùng Charset và dữ liệu
+      đều biểu diễn được.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 10.Encoding/Encoding.md
+      anchor: charset-encode-decode
+    methodName: roundTrip
+    params: [
+      ]
+    path: com/example/learning/controller/EncodingController.java
+    mapping: '@GetMapping("/round-trip")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/encoding/round-trip
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  wrongCharset():
+    summary: Mojibake khi hai phía dùng khác Charset
+    description: Mã hóa "café" bằng UTF-8 nhưng cố ý giải mã cùng byte bằng ISO-8859-1.
+      Quan sát original, decodedAsLatin1 và same=false để thấy byte có thể được truyền
+      nguyên vẹn nhưng văn bản vẫn sai nếu hợp đồng diễn giải Charset không thống
+      nhất.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 10.Encoding/Encoding.md
+      anchor: charset-encode-decode
+    methodName: wrongCharset
+    params: [
+      ]
+    path: com/example/learning/controller/EncodingController.java
+    mapping: '@GetMapping("/wrong-charset")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/encoding/wrong-charset
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+RegexController:
+  groups():
+    summary: Nhóm bắt giữ có tên
+    description: So khớp toàn bộ "ada@example.com" bằng Pattern có hai nhóm có tên
+      user/domain. Phản hồi chỉ lấy group sau khi matches() thành công, giúp quan
+      sát quan hệ giữa Pattern, Matcher, trạng thái so khớp và dữ liệu bắt giữ.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 11.Regex/Regex.md
+      anchor: regex-groups
+    methodName: groups
+    params: [
+      ]
+    path: com/example/learning/controller/RegexController.java
+    mapping: '@GetMapping("/groups")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/regex/groups
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  backtracking():
+    summary: Quay lui và chi phí Regex
+    description: Chạy mẫu rủi ro "(a+)+$" trên đầu vào có giới hạn gồm nhiều ký tự
+      a rồi thất bại ở dấu ! cuối. Quan sát matched=false, boundedSample=true và elapsedNanos
+      như bằng chứng minh họa cho chi phí quay lui. elapsedNanos không phải phép đo
+      benchmark hay SLA hay ngưỡng hiệu năng ổn định.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 11.Regex/Regex.md
+      anchor: regex-performance
+    methodName: backtracking
+    params: [
+      ]
+    path: com/example/learning/controller/RegexController.java
+    mapping: '@GetMapping("/backtracking")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/regex/backtracking
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+StringConcatController:
+  constructionTrace():
+    summary: Chi phí nối String lặp lại
+    description: Xây cùng kết quả "0123" bằng phép nối String lặp lại và bằng StringBuilder.
+      concatResult và builderResult chứng minh hai cách cho cùng nội dung; concatIntermediateIdentities
+      chỉ giúp quan sát các kết quả String trung gian, không phải bộ đếm cấp phát
+      và không nên dùng để suy ra chính xác số object đã cấp phát.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 5.Concatenation/Concatenation.md
+      anchor: loop-concat-cost
+    methodName: constructionTrace
+    params: [
+      ]
+    path: com/example/learning/controller/StringConcatController.java
+    mapping: '@GetMapping("/construction")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/concat/construction
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+StringPoolController:
+  identity():
+    summary: String Pool và định danh tham chiếu
+    description: Đặt literal "java", biểu thức hằng "ja"+"va", new String("java")
+      và intern() cạnh nhau. literalIdentity=true cho thấy hằng String dùng chung
+      tham chiếu chuẩn hóa; newStringIdentity=false nhưng contentEquals=true tách
+      định danh tham chiếu khỏi nội dung; internIdentity=true cho thấy intern() trả
+      tham chiếu chuẩn hóa tương ứng.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 2.StringPool/StringPool.md
+      anchor: pool-identity
+    methodName: identity
+    params: [
+      ]
+    path: com/example/learning/controller/StringPoolController.java
+    mapping: '@GetMapping("/identity")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/pool/identity
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+UnicodeController:
+  charVsCodePoint():
+    summary: Đơn vị mã UTF-16 và điểm mã Unicode
+    description: Dùng "A😀" để so utf16Length=3 với codePointCount=2 và danh sách
+      codePoints. Experiment chứng minh length() đếm đơn vị mã UTF-16; emoji ngoài
+      BMP chiếm hai đơn vị mã nhưng chỉ một điểm mã. Nó chưa đo số grapheme cluster
+      của giao diện người dùng.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 9.UnicodeCodePoint/UnicodeCodePoint.md
+      anchor: surrogate-pairs
+    methodName: charVsCodePoint
+    params: [
+      ]
+    path: com/example/learning/controller/UnicodeController.java
+    mapping: '@GetMapping("/char-vs-code-point")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/unicode/char-vs-code-point
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true
+  normalization():
+    summary: Tương đương chuẩn tắc và equals()
+    description: So sánh "é" dựng sẵn với "e\u0301" phân rã. equalsBefore=false và
+      hai danh sách code point khác nhau cho thấy hình thức hiển thị không quyết định
+      String equality; sau khi chuẩn hóa cả hai về NFC, equalsAfterNfc=true. Endpoint
+      chỉ minh họa NFC, không chạy NFD/NFKC/NFKD.
+    enableVideoYoutube: false
+    videoYoutubeId: ID của video youtube chèn vào description trong API
+    videoYoutubeTitle: Tiêu đề của video
+    aiGenerated: true
+    reviewed: false
+    readmeRelated:
+      file: 9.UnicodeCodePoint/UnicodeCodePoint.md
+      anchor: canonical-equivalence
+    methodName: normalization
+    params: [
+      ]
+    path: com/example/learning/controller/UnicodeController.java
+    mapping: '@GetMapping("/normalization")'
+    httpMethods:
+    - GET
+    mappingPaths:
+    - /java/core/string/unicode/normalization
+    produces: [
+      ]
+    consumes: [
+      ]
+    usage: true

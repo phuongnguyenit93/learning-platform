@@ -1,0 +1,196 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_BOOT_TESTING",
+    "language": "en",
+    "categoryCount": 11,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BootTesting",
+                    "title": "BootTesting",
+                    "sourcePath": "1.Introduction/BootTesting.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/BootTesting/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.SpringBootTest",
+            "title": "2.SpringBootTest",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringBootTest",
+                    "title": "SpringBootTest",
+                    "sourcePath": "2.SpringBootTest/SpringBootTest.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/SpringBootTest/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.WebEnvironment",
+            "title": "3.WebEnvironment",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "WebEnvironment",
+                    "title": "WebEnvironment",
+                    "sourcePath": "3.WebEnvironment/WebEnvironment.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/WebEnvironment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.TestSlices",
+            "title": "4.TestSlices",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TestSlices",
+                    "title": "TestSlices",
+                    "sourcePath": "4.TestSlices/TestSlices.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/TestSlices/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.WebLayerTesting",
+            "title": "5.WebLayerTesting",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "WebLayerTesting",
+                    "title": "WebLayerTesting",
+                    "sourcePath": "5.WebLayerTesting/WebLayerTesting.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/WebLayerTesting/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.DataLayerTesting",
+            "title": "6.DataLayerTesting",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DataLayerTesting",
+                    "title": "DataLayerTesting",
+                    "sourcePath": "6.DataLayerTesting/DataLayerTesting.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/DataLayerTesting/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.TestAutoConfiguration",
+            "title": "7.TestAutoConfiguration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TestAutoConfiguration",
+                    "title": "TestAutoConfiguration",
+                    "sourcePath": "7.TestAutoConfiguration/TestAutoConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/TestAutoConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.PropertyOverrides",
+            "title": "8.PropertyOverrides",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PropertyOverrides",
+                    "title": "PropertyOverrides",
+                    "sourcePath": "8.PropertyOverrides/PropertyOverrides.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/PropertyOverrides/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.MockReplacement",
+            "title": "9.MockReplacement",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MockReplacement",
+                    "title": "MockReplacement",
+                    "sourcePath": "9.MockReplacement/MockReplacement.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/MockReplacement/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Testcontainers",
+            "title": "10.Testcontainers",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Testcontainers",
+                    "title": "Testcontainers",
+                    "sourcePath": "10.Testcontainers/Testcontainers.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/Testcontainers/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.IntegrationTestingStrategy",
+            "title": "11.IntegrationTestingStrategy",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "IntegrationTestingStrategy",
+                    "title": "IntegrationTestingStrategy",
+                    "sourcePath": "11.IntegrationTestingStrategy/IntegrationTestingStrategy.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_TESTING/knowledge/en/content/IntegrationTestingStrategy/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,196 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_DATA_MONGODB",
+    "language": "en",
+    "categoryCount": 11,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringDataMongoDB",
+                    "title": "SpringDataMongoDB",
+                    "sourcePath": "1.Introduction/SpringDataMongoDB.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/SpringDataMongoDB/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ObjectMapping",
+            "title": "2.ObjectMapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectMapping",
+                    "title": "ObjectMapping",
+                    "sourcePath": "2.ObjectMapping/ObjectMapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/ObjectMapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Repositories",
+            "title": "3.Repositories",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Repositories",
+                    "title": "Repositories",
+                    "sourcePath": "3.Repositories/Repositories.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/Repositories/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.QueryMethods",
+            "title": "4.QueryMethods",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "QueryMethods",
+                    "title": "QueryMethods",
+                    "sourcePath": "4.QueryMethods/QueryMethods.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/QueryMethods/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.MongoTemplate",
+            "title": "5.MongoTemplate",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MongoTemplate",
+                    "title": "MongoTemplate",
+                    "sourcePath": "5.MongoTemplate/MongoTemplate.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/MongoTemplate/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Aggregation",
+            "title": "6.Aggregation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Aggregation",
+                    "title": "Aggregation",
+                    "sourcePath": "6.Aggregation/Aggregation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/Aggregation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Indexes",
+            "title": "7.Indexes",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Indexes",
+                    "title": "Indexes",
+                    "sourcePath": "7.Indexes/Indexes.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/Indexes/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Transactions",
+            "title": "8.Transactions",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Transactions",
+                    "title": "Transactions",
+                    "sourcePath": "8.Transactions/Transactions.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/Transactions/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Auditing",
+            "title": "9.Auditing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Auditing",
+                    "title": "Auditing",
+                    "sourcePath": "9.Auditing/Auditing.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/Auditing/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.ReactiveMongoDB",
+            "title": "10.ReactiveMongoDB",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ReactiveMongoDB",
+                    "title": "ReactiveMongoDB",
+                    "sourcePath": "10.ReactiveMongoDB/ReactiveMongoDB.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/ReactiveMongoDB/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.Testing",
+            "title": "11.Testing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Testing",
+                    "title": "Testing",
+                    "sourcePath": "11.Testing/Testing.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_MONGODB/knowledge/en/content/Testing/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,230 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_STREAM_API",
+    "language": "vi",
+    "categoryCount": 13,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MentalModel",
+                    "title": "M\u00f4 h\u00ecnh Stream API",
+                    "sourcePath": "1.MentalModel/MentalModel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/MentalModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Pipeline",
+            "title": "2.Pipeline",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Pipeline",
+                    "title": "Stream Pipeline",
+                    "sourcePath": "2.Pipeline/Pipeline.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/Pipeline/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Operations",
+            "title": "3.Operations",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Operations",
+                    "title": "Source, Intermediate v\u00e0 Terminal Operation",
+                    "sourcePath": "3.Operations/Operations.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/Operations/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.LazyEvaluation",
+            "title": "4.LazyEvaluation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LazyEvaluation",
+                    "title": "Lazy Evaluation",
+                    "sourcePath": "4.LazyEvaluation/LazyEvaluation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/LazyEvaluation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.MapFilter",
+            "title": "5.MapFilter",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MapFilter",
+                    "title": "map v\u00e0 filter",
+                    "sourcePath": "5.MapFilter/MapFilter.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/MapFilter/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.FlatMap",
+            "title": "6.FlatMap",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FlatMap",
+                    "title": "flatMap",
+                    "sourcePath": "6.FlatMap/FlatMap.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/FlatMap/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Reduction",
+            "title": "7.Reduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Reduction",
+                    "title": "Reduction",
+                    "sourcePath": "7.Reduction/Reduction.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/Reduction/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Collectors",
+            "title": "8.Collectors",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Collectors",
+                    "title": "Collectors",
+                    "sourcePath": "8.Collectors/Collectors.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/Collectors/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.PrimitiveStreams",
+            "title": "9.PrimitiveStreams",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PrimitiveStreams",
+                    "title": "Primitive Stream",
+                    "sourcePath": "9.PrimitiveStreams/PrimitiveStreams.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/PrimitiveStreams/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.OrderingShortCircuit",
+            "title": "10.OrderingShortCircuit",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OrderingShortCircuit",
+                    "title": "Ordering v\u00e0 Short-Circuit",
+                    "sourcePath": "10.OrderingShortCircuit/OrderingShortCircuit.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/OrderingShortCircuit/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.ParallelStreams",
+            "title": "11.ParallelStreams",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ParallelStreams",
+                    "title": "Parallel Stream",
+                    "sourcePath": "11.ParallelStreams/ParallelStreams.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/ParallelStreams/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.Spliterator",
+            "title": "12.Spliterator",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Spliterator",
+                    "title": "Spliterator v\u00e0 Characteristics",
+                    "sourcePath": "12.Spliterator/Spliterator.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/Spliterator/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "13.SideEffectsPitfalls",
+            "title": "13.SideEffectsPitfalls",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SideEffectsPitfalls",
+                    "title": "Side Effect v\u00e0 c\u00e1c l\u1ed7i Stream th\u01b0\u1eddng g\u1eb7p",
+                    "sourcePath": "13.SideEffectsPitfalls/SideEffectsPitfalls.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_STREAM_API/knowledge/vi/content/SideEffectsPitfalls/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_11_EPSILON_GC",
+    "language": "vi",
+    "categoryCount": 1,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Overview",
+            "title": "1.Overview",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Overview",
+                    "title": "Overview",
+                    "sourcePath": "1.Overview/Overview.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_11_EPSILON_GC/knowledge/vi/content/Overview/intro.md"
+                }
+            ]
+        }
+    ]
+}

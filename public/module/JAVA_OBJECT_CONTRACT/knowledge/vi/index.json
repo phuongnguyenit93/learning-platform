@@ -1,0 +1,345 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_OBJECT_CONTRACT",
+    "language": "vi",
+    "categoryCount": 9,
+    "sectionCount": 24,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.ObjectContractPurpose",
+            "title": "1.ObjectContractPurpose",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectContractPurpose",
+                    "title": "Quy \u01b0\u1edbc c\u1ee7a Object l\u00e0 g\u00ec v\u00e0 v\u00ec sao c\u1ea7n n\u00f3?",
+                    "sourcePath": "1.ObjectContractPurpose/ObjectContractPurpose.md",
+                    "sections": [
+                        {
+                            "id": "object-contract-purpose",
+                            "title": "Quy \u01b0\u1edbc c\u1ee7a Object l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ObjectContractPurpose/sections/object-contract-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ObjectContractPurpose/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.IdentityEquality",
+            "title": "2.IdentityEquality",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "IdentityEquality",
+                    "title": "\u0110\u1ecbnh danh \u0111\u1ed1i t\u01b0\u1ee3ng v\u00e0 b\u1eb1ng nhau v\u1ec1 m\u1eb7t logic",
+                    "sourcePath": "2.IdentityEquality/IdentityEquality.md",
+                    "sections": [
+                        {
+                            "id": "identity-vs-equality",
+                            "title": "\u0110\u1ecbnh danh \u0111\u1ed1i t\u01b0\u1ee3ng v\u00e0 b\u1eb1ng nhau v\u1ec1 m\u1eb7t logic",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/IdentityEquality/sections/identity-vs-equality.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "reference-equality",
+                            "title": "So s\u00e1nh tham chi\u1ebfu b\u1eb1ng ==",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/IdentityEquality/sections/reference-equality.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "value-object-equality",
+                            "title": "Ph\u00e9p b\u1eb1ng nhau c\u1ee7a \u0111\u1ed1i t\u01b0\u1ee3ng gi\u00e1 tr\u1ecb",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/IdentityEquality/sections/value-object-equality.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/IdentityEquality/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Equals",
+            "title": "3.Equals",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Equals",
+                    "title": "Quy t\u1eafc c\u1ee7a equals",
+                    "sourcePath": "3.Equals/Equals.md",
+                    "sections": [
+                        {
+                            "id": "equals-contract",
+                            "title": "Quy t\u1eafc c\u1ee7a equals",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Equals/sections/equals-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "equals-implementation",
+                            "title": "C\u00e1ch tri\u1ec3n khai equals",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Equals/sections/equals-implementation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "equals-inheritance-risk",
+                            "title": "Ph\u00e9p b\u1eb1ng nhau v\u00e0 r\u1ee7i ro khi k\u1ebf th\u1eeba",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Equals/sections/equals-inheritance-risk.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Equals/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.HashCode",
+            "title": "4.HashCode",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "HashCode",
+                    "title": "hashCode v\u00e0 tra c\u1ee9u d\u1ef1a tr\u00ean m\u00e3 b\u0103m",
+                    "sourcePath": "4.HashCode/HashCode.md",
+                    "sections": [
+                        {
+                            "id": "hashcode-contract",
+                            "title": "Quy t\u1eafc c\u1ee7a hashCode",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/HashCode/sections/hashcode-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hash-distribution",
+                            "title": "Ph\u00e2n b\u1ed1 m\u00e3 b\u0103m",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/HashCode/sections/hash-distribution.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/HashCode/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.EqualsHashCode",
+            "title": "5.EqualsHashCode",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EqualsHashCode",
+                    "title": "S\u1ef1 nh\u1ea5t qu\u00e1n gi\u1eefa equals v\u00e0 hashCode",
+                    "sourcePath": "5.EqualsHashCode/EqualsHashCode.md",
+                    "sections": [
+                        {
+                            "id": "equals-hashcode-consistency",
+                            "title": "S\u1ef1 nh\u1ea5t qu\u00e1n gi\u1eefa equals v\u00e0 hashCode",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/EqualsHashCode/sections/equals-hashcode-consistency.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hash-collection-lookup",
+                            "title": "C\u00e1ch c\u1ea5u tr\u00fac d\u1eef li\u1ec7u d\u1ef1a tr\u00ean m\u00e3 b\u0103m t\u00ecm ph\u1ea7n t\u1eed",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/EqualsHashCode/sections/hash-collection-lookup.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "broken-contract-effects",
+                            "title": "H\u1ec7 qu\u1ea3 khi quy \u01b0\u1edbc b\u1ecb ph\u00e1 v\u1ee1",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/EqualsHashCode/sections/broken-contract-effects.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "mutable-key-risk",
+                            "title": "R\u1ee7i ro c\u1ee7a kh\u00f3a c\u00f3 th\u1ec3 thay \u0111\u1ed5i",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/EqualsHashCode/sections/mutable-key-risk.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/EqualsHashCode/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.ToString",
+            "title": "6.ToString",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ToString",
+                    "title": "Bi\u1ec3u di\u1ec5n v\u0103n b\u1ea3n v\u1edbi toString",
+                    "sourcePath": "6.ToString/ToString.md",
+                    "sections": [
+                        {
+                            "id": "tostring-purpose",
+                            "title": "M\u1ee5c \u0111\u00edch c\u1ee7a toString",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ToString/sections/tostring-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tostring-design",
+                            "title": "Thi\u1ebft k\u1ebf bi\u1ec3u di\u1ec5n h\u1eefu \u00edch",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ToString/sections/tostring-design.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "tostring-sensitive-data",
+                            "title": "D\u1eef li\u1ec7u nh\u1ea1y c\u1ea3m v\u00e0 ghi log",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ToString/sections/tostring-sensitive-data.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ToString/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Comparable",
+            "title": "7.Comparable",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Comparable",
+                    "title": "Th\u1ee9 t\u1ef1 t\u1ef1 nhi\u00ean v\u1edbi Comparable",
+                    "sourcePath": "7.Comparable/Comparable.md",
+                    "sections": [
+                        {
+                            "id": "natural-order",
+                            "title": "Th\u1ee9 t\u1ef1 t\u1ef1 nhi\u00ean",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparable/sections/natural-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "compareto-contract",
+                            "title": "Quy t\u1eafc c\u1ee7a compareTo",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparable/sections/compareto-contract.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "compareto-equals-consistency",
+                            "title": "compareTo v\u00e0 equals",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparable/sections/compareto-equals-consistency.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparable/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Comparator",
+            "title": "8.Comparator",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Comparator",
+                    "title": "Th\u1ee9 t\u1ef1 t\u00f9y bi\u1ebfn v\u1edbi Comparator",
+                    "sourcePath": "8.Comparator/Comparator.md",
+                    "sections": [
+                        {
+                            "id": "external-order",
+                            "title": "Th\u1ee9 t\u1ef1 t\u00f9y ch\u1ec9nh",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparator/sections/external-order.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "comparator-composition",
+                            "title": "K\u1ebft h\u1ee3p Comparator",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparator/sections/comparator-composition.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "comparator-contract",
+                            "title": "Quy t\u1eafc c\u1ee7a Comparator",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparator/sections/comparator-contract.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sorting-stability-boundary",
+                            "title": "T\u00ednh \u1ed5n \u0111\u1ecbnh khi s\u1eafp x\u1ebfp",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparator/sections/sorting-stability-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/Comparator/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ContractSynthesis",
+            "title": "9.ContractSynthesis",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ContractSynthesis",
+                    "title": "T\u1ed5ng h\u1ee3p c\u00e1c quy \u01b0\u1edbc c\u1ee7a Object",
+                    "sourcePath": "9.ContractSynthesis/ContractSynthesis.md",
+                    "sections": [
+                        {
+                            "id": "contract-synthesis",
+                            "title": "T\u1ed5ng h\u1ee3p c\u00e1c quy \u01b0\u1edbc c\u1ee7a Object",
+                            "content": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ContractSynthesis/sections/contract-synthesis.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_OBJECT_CONTRACT/knowledge/vi/content/ContractSynthesis/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,120 @@
+# <roadmap-schema>
+# Cấu trúc Roadmap Module
+# schema-version: 1
+#
+# YAML CONTRACT
+# roadmap: Danh sách milestone cấp cao của roadmap cho language hiện tại.
+#
+# - id [string, required]: ID ổn định và duy nhất của milestone trong roadmap language hiện tại.
+# - title [string, required]: Tên milestone hiển thị cho learner.
+# - purpose [string, required]: Milestone này tồn tại để learner hiểu hoặc đạt được điều gì.
+# - dependsOn [list, optional]: Danh sách id milestone prerequisite khi dependency không thể hiện đủ chỉ bằng thứ tự item.
+# - objectives [list, optional]: Các learning objective cấp milestone; không dùng để liệt kê mọi fact/API/syntax nhỏ.
+# - relatedKnowledge [list, optional]: Danh sách Knowledge category id trong chính module hiện tại hỗ trợ milestone. Portal hiển thị danh sách này ở phía đối diện milestone và click item sẽ điều hướng sang Knowledge category tương ứng.
+# - relatedModules [list, optional]: Các module liên quan hiển thị ở Level 2 của Portal. Mỗi item dùng routeId bắt buộc và có thể có label/note localized; relation này chỉ để điều hướng, không tạo child milestone hoặc thay đổi learning order.
+#
+# ROADMAP THINKING FRAMEWORK
+# PURPOSE
+#   - Topic/module này là gì?
+#   - Vì sao nó tồn tại?
+#   - Không có nó thì learner gặp vấn đề gì?
+# FOUNDATION
+#   - Learner cần prerequisite hoặc mental model nào trước?
+# CORE MODEL
+#   - Những abstraction hoặc building block lớn nào tạo nên chủ đề này?
+# MECHANICS
+#   - Nó hoạt động như thế nào ở mức language/runtime/API phù hợp với module?
+# USAGE
+#   - Nó được dùng như thế nào trong code thực tế?
+# DECISION / TRADE-OFF
+#   - Khi nào nên chọn cơ chế này thay vì cơ chế khác?
+#   - Khi nào không nên dùng?
+# FAILURE / PITFALL
+#   - Những sai lầm, compile-time failure hoặc runtime failure nào đáng biết?
+# INTEGRATION
+#   - Chủ đề này kết nối với những concept/module lân cận nào?
+# SYNTHESIS
+#   - Sau cùng learner phải giữ mental model end-to-end nào?
+#
+# Mỗi language tự chịu trách nhiệm cho roadmap của chính nó. Không suy luận hoặc đồng bộ cấu trúc từ roadmap của language khác.
+# Thứ tự item trong roadmap chính là thứ tự học mặc định. Chỉ dùng dependsOn khi cần biểu diễn dependency rõ hơn thứ tự tuyến tính.
+# Skeleton không nên ép mọi module có đúng bấy nhiêu node. Nó là framework suy nghĩ chứ không phải template cứng.
+# </roadmap-schema>
+
+roadmap:
+  - id: annotation-purpose
+    title: Annotation là gì và vì sao Java cần nó?
+    purpose: Hiểu Annotation là thông tin có cấu trúc gắn trực tiếp vào mã nguồn để trình biên dịch, công cụ hoặc framework đọc và xử lý; đồng thời hiểu vấn đề mà chú thích trong mã, quy ước đặt tên hoặc đăng ký thủ công không giải quyết tốt.
+    relatedKnowledge:
+      - Basic
+    objectives:
+      - Giải thích vì sao Annotation tồn tại và vì sao Annotation không tự tạo hành vi nếu không có thành phần đọc nó.
+      - Đọc được cú pháp cơ bản @Name(...), phần tử Annotation và giá trị của chúng trước khi đi vào các cơ chế nâng cao.
+  - id: built-in-annotations
+    title: Các Annotation có sẵn và cách trình biên dịch/công cụ sử dụng chúng
+    purpose: Hiểu cách các Annotation chuẩn như @Override, @Deprecated, @SuppressWarnings, @SafeVarargs và @FunctionalInterface truyền thông tin có cấu trúc cho trình biên dịch, tài liệu và công cụ.
+    relatedKnowledge:
+      - BuiltIn
+    objectives:
+      - Phân biệt quy tắc được trình biên dịch kiểm tra với thông tin chỉ phục vụ tài liệu hoặc công cụ.
+      - Chọn Annotation có sẵn phù hợp và đặt nó ở phạm vi nhỏ nhất nhưng vẫn đúng ý nghĩa.
+  - id: custom-annotation-schema
+    title: Định nghĩa Annotation tùy chỉnh
+    purpose: Hiểu cách khai báo kiểu Annotation riêng bằng @interface với các phần tử có kiểu, giá trị mặc định và ý nghĩa rõ ràng.
+    relatedKnowledge:
+      - CustomAnnotation
+    objectives:
+      - Thiết kế Annotation để mô tả siêu dữ liệu ổn định thay vì che giấu logic xử lý.
+      - Hiểu Annotation tùy chỉnh cần một cấu trúc dữ liệu rõ ràng và có thể kiểm tra được.
+  - id: retention-lifecycle
+    title: Vòng đời của Annotation với @Retention
+    purpose: Hiểu @Retention quyết định Annotation tồn tại đến giai đoạn nào và thành phần nào còn có thể đọc được nó.
+    relatedKnowledge:
+      - Retention
+    relatedModules:
+      - routeId: JAVA_REFLECTION
+        label: Reflection
+        note: Reflection là cơ chế Java Core chính để đọc Annotation được lưu giữ đến RUNTIME tại thời gian chạy.
+    objectives:
+      - Chọn SOURCE, CLASS hoặc RUNTIME dựa trên thành phần thực sự cần đọc Annotation thay vì chọn theo thói quen.
+      - Hiểu vì sao Annotation không còn tồn tại ở thời gian chạy thì Reflection không thể đọc được nó.
+  - id: targets-and-use-sites
+    title: Phạm vi áp dụng và vị trí sử dụng Annotation
+    purpose: Hiểu @Target quyết định Annotation được phép xuất hiện ở đâu và vì sao phải giới hạn nó vào những vị trí có ý nghĩa.
+    relatedKnowledge:
+      - Target
+    objectives:
+      - Phân biệt Annotation gắn trên khai báo với Annotation áp dụng tại vị trí sử dụng kiểu như TYPE_USE.
+      - Thiết kế phạm vi sử dụng đủ chặt để tránh Annotation xuất hiện ở ngữ cảnh không phù hợp.
+  - id: meta-annotations-and-composition
+    title: Meta-Annotation và cách cấu hình kiểu Annotation
+    purpose: Hiểu Meta-Annotation dùng để mô tả quy tắc của chính một kiểu Annotation thông qua @Retention, @Target, @Documented, @Inherited và @Repeatable.
+    relatedKnowledge:
+      - MetaAnnotation
+    objectives:
+      - Hiểu các Meta-Annotation quyết định cách Annotation được lưu giữ, sử dụng, tài liệu hóa và tra cứu.
+      - Phân biệt cơ chế Meta-Annotation của Java với cơ chế kết hợp Annotation do framework tự định nghĩa.
+  - id: repeatable-and-inherited-semantics
+    title: Annotation lặp lại và kế thừa
+    purpose: Hiểu @Repeatable cho phép cùng một Annotation xuất hiện nhiều lần nhờ một Annotation dùng để chứa các giá trị lặp, còn @Inherited chỉ cung cấp hành vi kế thừa trong phạm vi class rất cụ thể.
+    relatedKnowledge:
+      - RepeatableInherited
+    objectives:
+      - Hiểu cách Annotation lặp lại được biểu diễn và tra cứu ở mức khái niệm.
+      - Nhận biết @Inherited không làm Annotation trên method hoặc interface tự động được kế thừa như Annotation trên class.
+  - id: compile-time-processing
+    title: Xử lý Annotation tại thời điểm biên dịch
+    purpose: Hiểu bộ xử lý Annotation (annotation processor) là thành phần chạy khi biên dịch, đọc mô hình mã nguồn và có thể sinh mã hoặc tài nguyên qua nhiều vòng xử lý.
+    relatedKnowledge:
+      - AnnotationProcessing
+    objectives:
+      - Hiểu vòng đời xử lý Annotation tại thời điểm biên dịch và khả năng kiểm tra hoặc sinh thêm mã/tài nguyên.
+      - Phân biệt xử lý Annotation tại thời điểm biên dịch với Reflection tại thời gian chạy.
+  - id: annotation-design-and-synthesis
+    title: Khi nào nên dùng Annotation?
+    purpose: Tổng hợp toàn bộ mô hình Annotation để quyết định khi nào nên mô tả thông tin bằng Annotation và khi nào API, interface hoặc cấu hình tường minh sẽ dễ hiểu hơn.
+    relatedKnowledge:
+      - AnnotationDesign
+    objectives:
+      - Theo dõi được luồng từ khai báo Annotation, gắn Annotation vào mã nguồn, lưu giữ Annotation đến thành phần đọc và tạo ra hành vi tương ứng mà không nhầm Annotation tự chứa hành vi.
+      - Nhận biết rủi ro khi lạm dụng Annotation như luồng xử lý bị ẩn, phụ thuộc chặt vào framework, cấu hình khó tìm hoặc chọn sai phạm vi và vòng đời.

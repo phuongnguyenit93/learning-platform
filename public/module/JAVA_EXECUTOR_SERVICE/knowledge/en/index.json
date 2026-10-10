@@ -1,0 +1,201 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_EXECUTOR_SERVICE",
+    "language": "en",
+    "categoryCount": 2,
+    "sectionCount": 20,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Thread_Pool_Executor",
+            "title": "1.Thread_Pool_Executor",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ThreadPoolExecutor",
+                    "title": "Thread Pools & Executors in Java",
+                    "sourcePath": "1.Thread_Pool_Executor/ThreadPoolExecutor.md",
+                    "sections": [
+                        {
+                            "id": "executor-abstraction",
+                            "title": "1. Executor and ExecutorService",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/executor-abstraction.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-pool-flow",
+                            "title": "2. ThreadPoolExecutor's Processing Process",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/thread-pool-flow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pool-properties",
+                            "title": "3. corePoolSize, maximumPoolSize, queue and keepAlive",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/pool-properties.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pool-sizing",
+                            "title": "4. Pool sizing: heuristic is not an absolute formula",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/pool-sizing.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "executors-factories",
+                            "title": "5. Factories in Executors",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/executors-factories.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "scheduled-execution",
+                            "title": "6. Delayed and periodic scheduling",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/scheduled-execution.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "rejection-policy",
+                            "title": "7. RejectedExecutionHandler and overload",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/rejection-policy.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "custom-rejection-handler",
+                            "title": "8. Custom RejectedExecutionHandler: overload is observable event",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/custom-rejection-handler.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "graceful-shutdown",
+                            "title": "9. Lifecycle and graceful shutdown",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/graceful-shutdown.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-factory-observability",
+                            "title": "10. ThreadFactory and observability",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/thread-factory-observability.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-pool-experiments",
+                            "title": "11. Thread Pool Experiments",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/sections/thread-pool-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/ThreadPoolExecutor/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Leak",
+            "title": "2.Leak",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Leak",
+                    "title": "Thread/Pool Lifecycle & Leak",
+                    "sourcePath": "2.Leak/Leak.md",
+                    "sections": [
+                        {
+                            "id": "thread-leak",
+                            "title": "1. Thread leak",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/thread-leak.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pool-leak",
+                            "title": "2. Pool leak",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/pool-leak.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "queue-growth",
+                            "title": "3. Queue growth is also resource pressure",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/queue-growth.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "cached-pool-risk",
+                            "title": "4. Cached pool and native thread pressure",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/cached-pool-risk.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "scheduled-leak",
+                            "title": "5. Scheduled task duplication",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/scheduled-leak.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-local-leak",
+                            "title": "6. ThreadLocal and worker reuse",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/thread-local-leak.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "observability",
+                            "title": "7. Observe leaks in production",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/observability.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lifecycle-rule",
+                            "title": "8. Ownership rule",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/lifecycle-rule.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "leak-experiments",
+                            "title": "9. Experiments of the Leak section",
+                            "content": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/sections/leak-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_EXECUTOR_SERVICE/knowledge/en/content/Leak/intro.md"
+                }
+            ]
+        }
+    ]
+}

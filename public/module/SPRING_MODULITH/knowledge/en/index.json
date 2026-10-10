@@ -1,0 +1,179 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_MODULITH",
+    "language": "en",
+    "categoryCount": 10,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringModulith",
+                    "title": "SpringModulith",
+                    "sourcePath": "1.Introduction/SpringModulith.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/SpringModulith/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ApplicationModules",
+            "title": "2.ApplicationModules",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ApplicationModules",
+                    "title": "ApplicationModules",
+                    "sourcePath": "2.ApplicationModules/ApplicationModules.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/ApplicationModules/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.ModuleDetection",
+            "title": "3.ModuleDetection",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ModuleDetection",
+                    "title": "ModuleDetection",
+                    "sourcePath": "3.ModuleDetection/ModuleDetection.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/ModuleDetection/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.StructuralVerification",
+            "title": "4.StructuralVerification",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StructuralVerification",
+                    "title": "StructuralVerification",
+                    "sourcePath": "4.StructuralVerification/StructuralVerification.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/StructuralVerification/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ModuleEvents",
+            "title": "5.ModuleEvents",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ModuleEvents",
+                    "title": "ModuleEvents",
+                    "sourcePath": "5.ModuleEvents/ModuleEvents.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/ModuleEvents/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.EventPublicationRegistry",
+            "title": "6.EventPublicationRegistry",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "EventPublicationRegistry",
+                    "title": "EventPublicationRegistry",
+                    "sourcePath": "6.EventPublicationRegistry/EventPublicationRegistry.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/EventPublicationRegistry/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.ModuleTesting",
+            "title": "7.ModuleTesting",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ModuleTesting",
+                    "title": "ModuleTesting",
+                    "sourcePath": "7.ModuleTesting/ModuleTesting.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/ModuleTesting/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Observability",
+            "title": "8.Observability",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Observability",
+                    "title": "Observability",
+                    "sourcePath": "8.Observability/Observability.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/Observability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Documentation",
+            "title": "9.Documentation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Documentation",
+                    "title": "Documentation",
+                    "sourcePath": "9.Documentation/Documentation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/Documentation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.ModularMonolithVsMicroservices",
+            "title": "10.ModularMonolithVsMicroservices",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ModularMonolithVsMicroservices",
+                    "title": "ModularMonolithVsMicroservices",
+                    "sourcePath": "10.ModularMonolithVsMicroservices/ModularMonolithVsMicroservices.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_MODULITH/knowledge/en/content/ModularMonolithVsMicroservices/intro.md"
+                }
+            ]
+        }
+    ]
+}

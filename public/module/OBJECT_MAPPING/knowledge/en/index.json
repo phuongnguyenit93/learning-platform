@@ -1,0 +1,226 @@
+{
+    "version": 1,
+    "moduleId": "OBJECT_MAPPING",
+    "language": "en",
+    "categoryCount": 10,
+    "sectionCount": 6,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObjectMapping",
+                    "title": "Object Mapping",
+                    "sourcePath": "1.Introduction/ObjectMapping.md",
+                    "sections": [
+                        {
+                            "id": "object-mapping-what",
+                            "title": "1. What is Object Mapping?",
+                            "content": "/module/OBJECT_MAPPING/knowledge/en/content/ObjectMapping/sections/object-mapping-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-mapping-why",
+                            "title": "2. Why is Object Mapping needed?",
+                            "content": "/module/OBJECT_MAPPING/knowledge/en/content/ObjectMapping/sections/object-mapping-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-mapping-without",
+                            "title": "3. What happens without a mapper?",
+                            "content": "/module/OBJECT_MAPPING/knowledge/en/content/ObjectMapping/sections/object-mapping-without.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-mapping-model",
+                            "title": "4. Mental model",
+                            "content": "/module/OBJECT_MAPPING/knowledge/en/content/ObjectMapping/sections/object-mapping-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-mapping-tools",
+                            "title": "5. Where do MapStruct and ModelMapper fit?",
+                            "content": "/module/OBJECT_MAPPING/knowledge/en/content/ObjectMapping/sections/object-mapping-tools.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-mapping-boundary",
+                            "title": "6. Boundary",
+                            "content": "/module/OBJECT_MAPPING/knowledge/en/content/ObjectMapping/sections/object-mapping-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/ObjectMapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ManualMapping",
+            "title": "2.ManualMapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ManualMapping",
+                    "title": "Manual Mapping",
+                    "sourcePath": "2.ManualMapping/ManualMapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/ManualMapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.MappingBoundaries",
+            "title": "3.MappingBoundaries",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MappingBoundaries",
+                    "title": "DTO, Domain, Entity, and Mapping Boundaries",
+                    "sourcePath": "3.MappingBoundaries/MappingBoundaries.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/MappingBoundaries/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.TypeConversion",
+            "title": "4.TypeConversion",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TypeConversion",
+                    "title": "Type Conversion and Semantic Mapping",
+                    "sourcePath": "4.TypeConversion/TypeConversion.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/TypeConversion/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.NestedCollection",
+            "title": "5.NestedCollection",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "NestedCollection",
+                    "title": "Nested Objects and Collection Mapping",
+                    "sourcePath": "5.NestedCollection/NestedCollection.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/NestedCollection/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.NullUpdateMapping",
+            "title": "6.NullUpdateMapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "NullUpdateMapping",
+                    "title": "Null Handling, Update Mapping, and Partial Mapping",
+                    "sourcePath": "6.NullUpdateMapping/NullUpdateMapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/NullUpdateMapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.CompileTimeVsRuntime",
+            "title": "7.CompileTimeVsRuntime",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CompileTimeVsRuntime",
+                    "title": "Compile-time and Runtime Mapping",
+                    "sourcePath": "7.CompileTimeVsRuntime/CompileTimeVsRuntime.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/CompileTimeVsRuntime/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.MapStruct",
+            "title": "8.MapStruct",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MapStruct",
+                    "title": "MapStruct",
+                    "sourcePath": "8.MapStruct/MapStruct.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/MapStruct/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ModelMapper",
+            "title": "9.ModelMapper",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ModelMapper",
+                    "title": "ModelMapper",
+                    "sourcePath": "9.ModelMapper/ModelMapper.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/ModelMapper/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Tradeoffs",
+            "title": "10.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Object Mapping Trade-offs and Anti-patterns",
+                    "sourcePath": "10.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/OBJECT_MAPPING/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

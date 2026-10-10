@@ -1,0 +1,617 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_STRING",
+    "language": "vi",
+    "categoryCount": 12,
+    "sectionCount": 52,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Immutability",
+            "title": "1.Immutability",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Immutability",
+                    "title": "String: kh\u00e1i ni\u1ec7m v\u00e0 t\u00ednh b\u1ea5t bi\u1ebfn",
+                    "sourcePath": "1.Immutability/Immutability.md",
+                    "sections": [
+                        {
+                            "id": "string-purpose",
+                            "title": "String l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Immutability/sections/string-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-immutability",
+                            "title": "V\u00ec sao String b\u1ea5t bi\u1ebfn?",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Immutability/sections/string-immutability.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "immutability-consequences",
+                            "title": "H\u1ec7 qu\u1ea3 c\u1ee7a t\u00ednh b\u1ea5t bi\u1ebfn",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Immutability/sections/immutability-consequences.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-operation-new-value",
+                            "title": "K\u1ebft qu\u1ea3 c\u1ee7a thao t\u00e1c String",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Immutability/sections/string-operation-new-value.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/Immutability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.StringPool",
+            "title": "2.StringPool",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StringPool",
+                    "title": "String Pool",
+                    "sourcePath": "2.StringPool/StringPool.md",
+                    "sections": [
+                        {
+                            "id": "string-pool-model",
+                            "title": "String Pool l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringPool/sections/string-pool-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "literal-vs-new",
+                            "title": "Literal v\u00e0 new String",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringPool/sections/literal-vs-new.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pool-identity",
+                            "title": "String Pool v\u00e0 \u0111\u1ecbnh danh tham chi\u1ebfu",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringPool/sections/pool-identity.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/StringPool/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Equality",
+            "title": "3.Equality",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Equality",
+                    "title": "So s\u00e1nh String",
+                    "sourcePath": "3.Equality/Equality.md",
+                    "sections": [
+                        {
+                            "id": "string-equals",
+                            "title": "So s\u00e1nh n\u1ed9i dung b\u1eb1ng equals",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Equality/sections/string-equals.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-reference-equality",
+                            "title": "== ki\u1ec3m tra \u0111\u1ecbnh danh tham chi\u1ebfu",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Equality/sections/string-reference-equality.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "case-insensitive-boundary",
+                            "title": "So s\u00e1nh kh\u00f4ng ph\u00e2n bi\u1ec7t hoa th\u01b0\u1eddng",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Equality/sections/case-insensitive-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/Equality/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.CoreStringOperations",
+            "title": "4.CoreStringOperations",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CoreStringOperations",
+                    "title": "C\u00e1c thao t\u00e1c String c\u1ed1t l\u00f5i",
+                    "sourcePath": "4.CoreStringOperations/CoreStringOperations.md",
+                    "sections": [
+                        {
+                            "id": "string-char-sequence",
+                            "title": "String v\u00e0 CharSequence",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/sections/string-char-sequence.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-inspection",
+                            "title": "Ki\u1ec3m tra n\u1ed9i dung String",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/sections/string-inspection.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-search",
+                            "title": "T\u00ecm ki\u1ebfm trong String",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/sections/string-search.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-extraction",
+                            "title": "Tr\u00edch xu\u1ea5t b\u1eb1ng ch\u1ec9 s\u1ed1 v\u00e0 substring",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/sections/string-extraction.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-transformation",
+                            "title": "Bi\u1ebfn \u0111\u1ed5i v\u0103n b\u1ea3n",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/sections/string-transformation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-split-join",
+                            "title": "T\u00e1ch v\u00e0 gh\u00e9p nhi\u1ec1u ph\u1ea7n v\u0103n b\u1ea3n",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/sections/string-split-join.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-conversion-formatting",
+                            "title": "Chuy\u1ec3n gi\u00e1 tr\u1ecb th\u00e0nh String v\u00e0 \u0111\u1ecbnh d\u1ea1ng",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/sections/string-conversion-formatting.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/CoreStringOperations/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Concatenation",
+            "title": "5.Concatenation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Concatenation",
+                    "title": "N\u1ed1i chu\u1ed7i String",
+                    "sourcePath": "5.Concatenation/Concatenation.md",
+                    "sections": [
+                        {
+                            "id": "concat-semantics",
+                            "title": "N\u1ed1i String b\u1eb1ng +",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Concatenation/sections/concat-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "compile-time-concat",
+                            "title": "N\u1ed1i chu\u1ed7i t\u1ea1i th\u1eddi \u0111i\u1ec3m bi\u00ean d\u1ecbch",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Concatenation/sections/compile-time-concat.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "runtime-concat",
+                            "title": "N\u1ed1i chu\u1ed7i khi ch\u01b0\u01a1ng tr\u00ecnh ch\u1ea1y",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Concatenation/sections/runtime-concat.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "loop-concat-cost",
+                            "title": "Chi ph\u00ed khi n\u1ed1i l\u1eb7p l\u1ea1i",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Concatenation/sections/loop-concat-cost.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/Concatenation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.StringBuilder",
+            "title": "6.StringBuilder",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StringBuilder",
+                    "title": "StringBuilder",
+                    "sourcePath": "6.StringBuilder/StringBuilder.md",
+                    "sections": [
+                        {
+                            "id": "builder-mutable-buffer",
+                            "title": "B\u1ed9 \u0111\u1ec7m c\u00f3 th\u1ec3 thay \u0111\u1ed5i",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringBuilder/sections/builder-mutable-buffer.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "builder-usage",
+                            "title": "X\u00e2y chu\u1ed7i t\u0103ng d\u1ea7n",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringBuilder/sections/builder-usage.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "builder-capacity",
+                            "title": "\u0110\u1ed9 d\u00e0i v\u00e0 dung l\u01b0\u1ee3ng (capacity)",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringBuilder/sections/builder-capacity.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/StringBuilder/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.StringBuffer",
+            "title": "7.StringBuffer",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StringBuffer",
+                    "title": "StringBuffer",
+                    "sourcePath": "7.StringBuffer/StringBuffer.md",
+                    "sections": [
+                        {
+                            "id": "buffer-synchronization",
+                            "title": "C\u01a1 ch\u1ebf \u0111\u1ed3ng b\u1ed9 trong StringBuffer",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringBuffer/sections/buffer-synchronization.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "builder-vs-buffer",
+                            "title": "StringBuilder hay StringBuffer?",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringBuffer/sections/builder-vs-buffer.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-safety-boundary",
+                            "title": "Gi\u1edbi h\u1ea1n c\u1ee7a an to\u00e0n lu\u1ed3ng",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/StringBuffer/sections/thread-safety-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/StringBuffer/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Intern",
+            "title": "8.Intern",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Intern",
+                    "title": "String.intern",
+                    "sourcePath": "8.Intern/Intern.md",
+                    "sections": [
+                        {
+                            "id": "intern-semantics",
+                            "title": "String.intern l\u00e0m g\u00ec?",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Intern/sections/intern-semantics.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "intern-identity",
+                            "title": "Tham chi\u1ebfu chu\u1ea9n h\u00f3a",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Intern/sections/intern-identity.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "intern-tradeoffs",
+                            "title": "\u0110\u00e1nh \u0111\u1ed5i khi d\u00f9ng intern()",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Intern/sections/intern-tradeoffs.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/Intern/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.UnicodeCodePoint",
+            "title": "9.UnicodeCodePoint",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "UnicodeCodePoint",
+                    "title": "Unicode, \u0111i\u1ec3m m\u00e3 v\u00e0 k\u00fd t\u1ef1 ng\u01b0\u1eddi d\u00f9ng nh\u00ecn th\u1ea5y",
+                    "sourcePath": "9.UnicodeCodePoint/UnicodeCodePoint.md",
+                    "sections": [
+                        {
+                            "id": "utf16-char-model",
+                            "title": "Java char v\u00e0 UTF-16",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/sections/utf16-char-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "code-point",
+                            "title": "\u0110i\u1ec3m m\u00e3 Unicode (code point)",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/sections/code-point.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "surrogate-pairs",
+                            "title": "C\u1eb7p surrogate",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/sections/surrogate-pairs.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "unicode-iteration",
+                            "title": "Duy\u1ec7t theo \u0111i\u1ec3m m\u00e3 Unicode",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/sections/unicode-iteration.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "code-unit-code-point-grapheme",
+                            "title": "\u0110\u01a1n v\u1ecb m\u00e3, \u0111i\u1ec3m m\u00e3 v\u00e0 c\u1ee5m k\u00fd t\u1ef1",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/sections/code-unit-code-point-grapheme.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "unicode-normalization",
+                            "title": "Chu\u1ea9n h\u00f3a Unicode",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/sections/unicode-normalization.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "canonical-equivalence",
+                            "title": "T\u01b0\u01a1ng \u0111\u01b0\u01a1ng chu\u1ea9n t\u1eafc v\u00e0 equals",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/sections/canonical-equivalence.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/UnicodeCodePoint/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Encoding",
+            "title": "10.Encoding",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Encoding",
+                    "title": "M\u00e3 h\u00f3a v\u0103n b\u1ea3n v\u00e0 Charset",
+                    "sourcePath": "10.Encoding/Encoding.md",
+                    "sections": [
+                        {
+                            "id": "text-vs-bytes",
+                            "title": "V\u0103n b\u1ea3n v\u00e0 byte",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Encoding/sections/text-vs-bytes.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "charset-encode-decode",
+                            "title": "M\u00e3 h\u00f3a v\u00e0 gi\u1ea3i m\u00e3 b\u1eb1ng Charset",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Encoding/sections/charset-encode-decode.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "default-charset-risk",
+                            "title": "R\u1ee7i ro c\u1ee7a Charset m\u1eb7c \u0111\u1ecbnh",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Encoding/sections/default-charset-risk.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "malformed-input",
+                            "title": "\u0110\u1ea7u v\u00e0o sai \u0111\u1ecbnh d\u1ea1ng v\u00e0 k\u00fd t\u1ef1 kh\u00f4ng th\u1ec3 \u00e1nh x\u1ea1",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Encoding/sections/malformed-input.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/Encoding/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.Regex",
+            "title": "11.Regex",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Regex",
+                    "title": "Bi\u1ec3u th\u1ee9c ch\u00ednh quy (Regex)",
+                    "sourcePath": "11.Regex/Regex.md",
+                    "sections": [
+                        {
+                            "id": "regex-purpose",
+                            "title": "Regex l\u00e0 g\u00ec v\u00e0 khi n\u00e0o n\u00ean d\u00f9ng?",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Regex/sections/regex-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "pattern-matcher",
+                            "title": "Pattern v\u00e0 Matcher",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Regex/sections/pattern-matcher.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "regex-syntax-boundary",
+                            "title": "C\u00fa ph\u00e1p Regex v\u00e0 ranh gi\u1edbi s\u1eed d\u1ee5ng",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Regex/sections/regex-syntax-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "regex-groups",
+                            "title": "Nh\u00f3m v\u00e0 ph\u1ea7n \u0111\u01b0\u1ee3c b\u1eaft gi\u1eef",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Regex/sections/regex-groups.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "regex-quantifiers",
+                            "title": "L\u01b0\u1ee3ng t\u1eeb tham lam v\u00e0 kh\u00f4ng tham lam",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Regex/sections/regex-quantifiers.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "regex-performance",
+                            "title": "Quay lui (backtracking) v\u00e0 hi\u1ec7u n\u0103ng",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/Regex/sections/regex-performance.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/Regex/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.TextBlocks",
+            "title": "12.TextBlocks",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TextBlocks",
+                    "title": "Text Block v\u00e0 t\u1ed5ng h\u1ee3p m\u00f4 h\u00ecnh x\u1eed l\u00fd String",
+                    "sourcePath": "12.TextBlocks/TextBlocks.md",
+                    "sections": [
+                        {
+                            "id": "text-block-syntax",
+                            "title": "C\u00fa ph\u00e1p Text Block",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/TextBlocks/sections/text-block-syntax.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "incidental-whitespace",
+                            "title": "Th\u1ee5t l\u1ec1 ph\u00e1t sinh trong m\u00e3 ngu\u1ed3n",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/TextBlocks/sections/incidental-whitespace.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "escape-processing",
+                            "title": "K\u00fd t\u1ef1 tho\u00e1t v\u00e0 k\u00fd t\u1ef1 k\u1ebft th\u00fac d\u00f2ng",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/TextBlocks/sections/escape-processing.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "text-block-not-template",
+                            "title": "Text Block v\u00e0 n\u1ed9i suy chu\u1ed7i",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/TextBlocks/sections/text-block-not-template.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "string-synthesis",
+                            "title": "T\u1ed5ng h\u1ee3p m\u00f4 h\u00ecnh x\u1eed l\u00fd String",
+                            "content": "/module/JAVA_STRING/knowledge/vi/content/TextBlocks/sections/string-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_STRING/knowledge/vi/content/TextBlocks/intro.md"
+                }
+            ]
+        }
+    ]
+}

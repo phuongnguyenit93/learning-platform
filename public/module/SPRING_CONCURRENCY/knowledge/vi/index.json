@@ -1,0 +1,233 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_CONCURRENCY",
+    "language": "vi",
+    "categoryCount": 9,
+    "sectionCount": 9,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.MentalModel",
+            "title": "1.MentalModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringConcurrency",
+                    "title": "M\u00f4 h\u00ecnh Spring Concurrency",
+                    "sourcePath": "1.MentalModel/SpringConcurrency.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringConcurrency/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Spring_Task_Executor",
+            "title": "2.Spring_Task_Executor",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringExecutor",
+                    "title": "Spring TaskExecutor, ThreadPoolTaskExecutor v\u00e0 @Async",
+                    "sourcePath": "2.Spring_Task_Executor/SpringExecutor.md",
+                    "sections": [
+                        {
+                            "id": "task-executor",
+                            "title": "1. TaskExecutor l\u00e0 g\u00ec?",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/task-executor.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "async-annotation",
+                            "title": "2. @Async ho\u1ea1t \u0111\u1ed9ng qua Spring proxy",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/async-annotation.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "async-return-type",
+                            "title": "3. Return type c\u1ee7a @Async",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/async-return-type.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-executor-config",
+                            "title": "4. C\u1ea5u h\u00ecnh ThreadPoolTaskExecutor",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/spring-executor-config.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "task-decorator",
+                            "title": "5. TaskDecorator v\u00e0 context propagation",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/task-decorator.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-async-demo",
+                            "title": "6. Demo @Async + custom executor + context",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/spring-async-demo.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-boot-auto-config",
+                            "title": "7. Spring Framework v\u00e0 Spring Boot c\u1ea7n ph\u00e2n bi\u1ec7t",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/spring-boot-auto-config.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "executor-lifecycle",
+                            "title": "8. Lifecycle v\u00e0 shutdown",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/executor-lifecycle.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-executor-experiments",
+                            "title": "9. Experiment c\u1ee7a Spring Task Executor",
+                            "content": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/sections/spring-executor-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/SpringExecutor/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Scheduling",
+            "title": "3.Scheduling",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Scheduling",
+                    "title": "Spring Scheduling v\u00e0 @Scheduled",
+                    "sourcePath": "3.Scheduling/Scheduling.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/Scheduling/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.TaskScheduler",
+            "title": "4.TaskScheduler",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TaskScheduler",
+                    "title": "TaskScheduler",
+                    "sourcePath": "4.TaskScheduler/TaskScheduler.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/TaskScheduler/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ContextPropagation",
+            "title": "5.ContextPropagation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ContextPropagation",
+                    "title": "Context Propagation trong Spring Concurrency",
+                    "sourcePath": "5.ContextPropagation/ContextPropagation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/ContextPropagation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.VirtualThreadIntegration",
+            "title": "6.VirtualThreadIntegration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "VirtualThreadIntegration",
+                    "title": "T\u00edch h\u1ee3p Virtual Thread trong Spring",
+                    "sourcePath": "6.VirtualThreadIntegration/VirtualThreadIntegration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/VirtualThreadIntegration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.BootAutoConfiguration",
+            "title": "7.BootAutoConfiguration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BootAutoConfiguration",
+                    "title": "Spring Boot Auto-Configuration cho Task Execution v\u00e0 Scheduling",
+                    "sourcePath": "7.BootAutoConfiguration/BootAutoConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/BootAutoConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.LifecycleObservability",
+            "title": "8.LifecycleObservability",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LifecycleObservability",
+                    "title": "Lifecycle, Shutdown v\u00e0 Observability",
+                    "sourcePath": "8.LifecycleObservability/LifecycleObservability.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/LifecycleObservability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.Pitfalls",
+            "title": "9.Pitfalls",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Pitfalls",
+                    "title": "R\u1ee7i ro v\u00e0 b\u1eaby th\u01b0\u1eddng g\u1eb7p",
+                    "sourcePath": "9.Pitfalls/Pitfalls.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_CONCURRENCY/knowledge/vi/content/Pitfalls/intro.md"
+                }
+            ]
+        }
+    ]
+}

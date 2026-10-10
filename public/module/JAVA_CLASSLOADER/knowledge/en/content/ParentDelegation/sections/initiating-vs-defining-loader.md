@@ -1,0 +1,3 @@
+This is why the phrase **defining loader** matters more than merely asking which loader received the original `loadClass` call. A child may receive the request and delegate to its parent. If the parent returns the class, the parent is still the defining loader.
+
+For an ordinary named class/interface, an **initiating loader** is a loader recorded as having initiated loading directly or through delegation. The JVM can record multiple initiating loaders for the same ordinary named type, while that type has one defining loader. For runtime type identity, the defining-loader role is the crucial part.

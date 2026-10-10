@@ -1,0 +1,179 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_DATA_JDBC",
+    "language": "en",
+    "categoryCount": 10,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SpringDataJDBC",
+                    "title": "SpringDataJDBC",
+                    "sourcePath": "1.Introduction/SpringDataJDBC.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/SpringDataJDBC/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.AggregateModel",
+            "title": "2.AggregateModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AggregateModel",
+                    "title": "AggregateModel",
+                    "sourcePath": "2.AggregateModel/AggregateModel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/AggregateModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Mapping",
+            "title": "3.Mapping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Mapping",
+                    "title": "Mapping",
+                    "sourcePath": "3.Mapping/Mapping.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/Mapping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Repositories",
+            "title": "4.Repositories",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Repositories",
+                    "title": "Repositories",
+                    "sourcePath": "4.Repositories/Repositories.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/Repositories/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.QueryMethods",
+            "title": "5.QueryMethods",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "QueryMethods",
+                    "title": "QueryMethods",
+                    "sourcePath": "5.QueryMethods/QueryMethods.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/QueryMethods/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.CustomQueries",
+            "title": "6.CustomQueries",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CustomQueries",
+                    "title": "CustomQueries",
+                    "sourcePath": "6.CustomQueries/CustomQueries.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/CustomQueries/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Transactions",
+            "title": "7.Transactions",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Transactions",
+                    "title": "Transactions",
+                    "sourcePath": "7.Transactions/Transactions.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/Transactions/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.Auditing",
+            "title": "8.Auditing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Auditing",
+                    "title": "Auditing",
+                    "sourcePath": "8.Auditing/Auditing.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/Auditing/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.JdbcVsJpa",
+            "title": "9.JdbcVsJpa",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JdbcVsJpa",
+                    "title": "JdbcVsJpa",
+                    "sourcePath": "9.JdbcVsJpa/JdbcVsJpa.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/JdbcVsJpa/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.Testing",
+            "title": "10.Testing",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Testing",
+                    "title": "Testing",
+                    "sourcePath": "10.Testing/Testing.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_DATA_JDBC/knowledge/en/content/Testing/intro.md"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "version": 1,
+    "moduleId": "DOMAIN_DRIVEN_DESIGN",
+    "language": "en",
+    "categoryCount": 1,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.DomainDrivenDesign",
+            "title": "1.DomainDrivenDesign",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "DomainDrivenDesign",
+                    "title": "Domain-Driven Design (DDD)",
+                    "sourcePath": "1.DomainDrivenDesign/DomainDrivenDesign.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/DOMAIN_DRIVEN_DESIGN/knowledge/en/content/DomainDrivenDesign/intro.md"
+                }
+            ]
+        }
+    ]
+}

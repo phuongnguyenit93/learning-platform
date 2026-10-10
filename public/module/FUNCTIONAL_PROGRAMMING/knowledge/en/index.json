@@ -1,0 +1,150 @@
+{
+    "version": 1,
+    "moduleId": "FUNCTIONAL_PROGRAMMING",
+    "language": "en",
+    "categoryCount": 6,
+    "sectionCount": 5,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FunctionalProgramming",
+                    "title": "Functional Programming",
+                    "sourcePath": "1.Introduction/FunctionalProgramming.md",
+                    "sections": [
+                        {
+                            "id": "functional-what",
+                            "title": "1. What is Functional Programming?",
+                            "content": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/FunctionalProgramming/sections/functional-what.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-why",
+                            "title": "2. Why does it exist?",
+                            "content": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/FunctionalProgramming/sections/functional-why.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-without",
+                            "title": "3. What happens without it?",
+                            "content": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/FunctionalProgramming/sections/functional-without.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-solution",
+                            "title": "4. How does Functional Programming help?",
+                            "content": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/FunctionalProgramming/sections/functional-solution.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-when",
+                            "title": "5. When is it useful?",
+                            "content": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/FunctionalProgramming/sections/functional-when.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/FunctionalProgramming/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.PureFunctions",
+            "title": "2.PureFunctions",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "PureFunctions",
+                    "title": "Pure Functions and Referential Transparency",
+                    "sourcePath": "2.PureFunctions/PureFunctions.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/PureFunctions/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Immutability",
+            "title": "3.Immutability",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Immutability",
+                    "title": "Immutability and State",
+                    "sourcePath": "3.Immutability/Immutability.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/Immutability/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.FunctionsComposition",
+            "title": "4.FunctionsComposition",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FunctionsComposition",
+                    "title": "First-Class Functions, Higher-Order Functions, and Composition",
+                    "sourcePath": "4.FunctionsComposition/FunctionsComposition.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/FunctionsComposition/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.SideEffects",
+            "title": "5.SideEffects",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SideEffects",
+                    "title": "Side Effects and Effect Boundaries",
+                    "sourcePath": "5.SideEffects/SideEffects.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/SideEffects/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Tradeoffs",
+            "title": "6.Tradeoffs",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Tradeoffs",
+                    "title": "Functional Programming Trade-offs",
+                    "sourcePath": "6.Tradeoffs/Tradeoffs.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/FUNCTIONAL_PROGRAMMING/knowledge/en/content/Tradeoffs/intro.md"
+                }
+            ]
+        }
+    ]
+}

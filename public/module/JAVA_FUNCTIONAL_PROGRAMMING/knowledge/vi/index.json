@@ -1,0 +1,873 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_FUNCTIONAL_PROGRAMMING",
+    "language": "vi",
+    "categoryCount": 10,
+    "sectionCount": 88,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.FunctionalProgrammingPurpose",
+            "title": "1.FunctionalProgrammingPurpose",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FunctionalProgrammingPurpose",
+                    "title": "L\u1eadp tr\u00ecnh h\u00e0m trong Java l\u00e0 g\u00ec v\u00e0 v\u00ec sao c\u1ea7n?",
+                    "sourcePath": "1.FunctionalProgrammingPurpose/FunctionalProgrammingPurpose.md",
+                    "sections": [
+                        {
+                            "id": "functional-programming-purpose",
+                            "title": "L\u1eadp tr\u00ecnh h\u00e0m trong Java l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/functional-programming-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hard-coded-behavior-problem",
+                            "title": "V\u1ea5n \u0111\u1ec1 c\u1ee7a h\u00e0nh vi b\u1ecb g\u1eafn c\u1ee9ng",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/hard-coded-behavior-problem.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "behavior-before-lambdas",
+                            "title": "Tr\u01b0\u1edbc lambda: l\u1edbp v\u00f4 danh \u0111\u1ec3 \u0111\u00f3ng g\u00f3i h\u00e0nh vi",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/behavior-before-lambdas.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "behavior-parameterization",
+                            "title": "Truy\u1ec1n h\u00e0nh vi nh\u01b0 m\u1ed9t tham s\u1ed1",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/behavior-parameterization.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-interface-bridge",
+                            "title": "Giao di\u1ec7n h\u00e0m cung c\u1ea5p ki\u1ec3u cho h\u00e0nh vi",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/functional-interface-bridge.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-multi-paradigm-boundary",
+                            "title": "Phong c\u00e1ch h\u00e0m b\u00ean c\u1ea1nh c\u00e1c m\u00f4 h\u00ecnh kh\u00e1c trong Java",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/functional-multi-paradigm-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-style-use-cases",
+                            "title": "Khi n\u00e0o phong c\u00e1ch h\u00e0m gi\u00fap m\u00e3 r\u00f5 h\u01a1n?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/functional-style-use-cases.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-programming-module-boundary",
+                            "title": "Ranh gi\u1edbi c\u1ee7a m\u00f4-\u0111un L\u1eadp tr\u00ecnh h\u00e0m",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/sections/functional-programming-module-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalProgrammingPurpose/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.FunctionalInterfaceContracts",
+            "title": "2.FunctionalInterfaceContracts",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "FunctionalInterfaceContracts",
+                    "title": "Giao di\u1ec7n h\u00e0m v\u00e0 quy t\u1eafc m\u1ed9t ph\u01b0\u01a1ng th\u1ee9c tr\u1eebu t\u01b0\u1ee3ng (SAM)",
+                    "sourcePath": "2.FunctionalInterfaceContracts/FunctionalInterfaceContracts.md",
+                    "sections": [
+                        {
+                            "id": "functional-interface-purpose",
+                            "title": "\u0110i\u1ec1u g\u00ec l\u00e0m m\u1ed9t giao di\u1ec7n tr\u1edf th\u00e0nh giao di\u1ec7n h\u00e0m?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/functional-interface-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sam-contract",
+                            "title": "H\u1ee3p \u0111\u1ed3ng m\u1ed9t ph\u01b0\u01a1ng th\u1ee9c tr\u1eebu t\u01b0\u1ee3ng (SAM)",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/sam-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-interface-function-type",
+                            "title": "Ki\u1ec3u h\u00e0m c\u1ee7a giao di\u1ec7n h\u00e0m",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/functional-interface-function-type.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sam-object-method-rule",
+                            "title": "C\u00e1c ch\u1eef k\u00fd ph\u01b0\u01a1ng th\u1ee9c c\u1ee7a Object trong quy t\u1eafc SAM",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/sam-object-method-rule.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "sam-inherited-method-rule",
+                            "title": "C\u00e1c ph\u01b0\u01a1ng th\u1ee9c tr\u1eebu t\u01b0\u1ee3ng k\u1ebf th\u1eeba t\u01b0\u01a1ng \u0111\u01b0\u01a1ng nhau",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/sam-inherited-method-rule.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-interface-annotation",
+                            "title": "@FunctionalInterface",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/functional-interface-annotation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "non-abstract-interface-methods",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c default, static v\u00e0 private trong giao di\u1ec7n",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/non-abstract-interface-methods.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "custom-functional-interface",
+                            "title": "T\u1ef1 \u0111\u1ecbnh ngh\u0129a giao di\u1ec7n h\u00e0m",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/custom-functional-interface.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-interface-contract-violations",
+                            "title": "Khi h\u1ee3p \u0111\u1ed3ng giao di\u1ec7n h\u00e0m kh\u00f4ng c\u00f2n h\u1ee3p l\u1ec7",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/sections/functional-interface-contract-violations.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/FunctionalInterfaceContracts/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.LambdaAndTargetTyping",
+            "title": "3.LambdaAndTargetTyping",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "LambdaAndTargetTyping",
+                    "title": "Bi\u1ec3u th\u1ee9c lambda v\u00e0 ki\u1ec3u \u0111\u00edch",
+                    "sourcePath": "3.LambdaAndTargetTyping/LambdaAndTargetTyping.md",
+                    "sections": [
+                        {
+                            "id": "lambda-expression-model",
+                            "title": "Bi\u1ec3u th\u1ee9c lambda l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/lambda-expression-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-syntax-forms",
+                            "title": "C\u00e1c d\u1ea1ng c\u00fa ph\u00e1p lambda",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/lambda-syntax-forms.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "target-typing",
+                            "title": "C\u01a1 ch\u1ebf x\u00e1c \u0111\u1ecbnh ki\u1ec3u theo ng\u1eef c\u1ea3nh (Target Typing)",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/target-typing.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-parameter-typing",
+                            "title": "Ki\u1ec3u tham s\u1ed1 t\u01b0\u1eddng minh v\u00e0 ki\u1ec3u \u0111\u01b0\u1ee3c suy lu\u1eadn",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/lambda-parameter-typing.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-body-result-compatibility",
+                            "title": "T\u00ednh t\u01b0\u01a1ng th\u00edch c\u1ee7a th\u00e2n lambda v\u00e0 k\u1ebft qu\u1ea3",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/lambda-body-result-compatibility.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-target-contexts",
+                            "title": "Ki\u1ec3u \u0111\u00edch c\u1ee7a lambda \u0111\u1ebfn t\u1eeb \u0111\u00e2u?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/lambda-target-contexts.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-execution-timing",
+                            "title": "Khai b\u00e1o h\u00e0nh vi v\u00e0 th\u1ef1c thi h\u00e0nh vi",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/lambda-execution-timing.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-overload-ambiguity",
+                            "title": "M\u01a1 h\u1ed3 khi n\u1ea1p ch\u1ed3ng v\u1edbi lambda",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/sections/lambda-overload-ambiguity.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/LambdaAndTargetTyping/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.CaptureScopeAndState",
+            "title": "4.CaptureScopeAndState",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CaptureScopeAndState",
+                    "title": "B\u1eaft gi\u1eef bi\u1ebfn, ph\u1ea1m vi v\u00e0 tr\u1ea1ng th\u00e1i",
+                    "sourcePath": "4.CaptureScopeAndState/CaptureScopeAndState.md",
+                    "sections": [
+                        {
+                            "id": "lambda-lexical-scope",
+                            "title": "Ph\u1ea1m vi c\u1ee7a lambda theo v\u1ecb tr\u00ed khai b\u00e1o",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/lambda-lexical-scope.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "captured-local-variables",
+                            "title": "B\u1eaft gi\u1eef bi\u1ebfn c\u1ee5c b\u1ed9",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/captured-local-variables.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "captured-local-values",
+                            "title": "Lambda gi\u1eef l\u1ea1i g\u00ec t\u1eeb bi\u1ebfn c\u1ee5c b\u1ed9?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/captured-local-values.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "effectively-final",
+                            "title": "final v\u00e0 effectively final",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/effectively-final.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "instance-static-state-access",
+                            "title": "Truy c\u1eadp tr\u1ea1ng th\u00e1i c\u1ee7a \u0111\u1ed1i t\u01b0\u1ee3ng v\u00e0 th\u00e0nh vi\u00ean static",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/instance-static-state-access.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-this",
+                            "title": "\u00dd ngh\u0129a c\u1ee7a this b\u00ean trong lambda",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/lambda-this.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "lambda-vs-anonymous-class-scope",
+                            "title": "Ph\u1ea1m vi c\u1ee7a lambda v\u00e0 l\u1edbp v\u00f4 danh kh\u00e1c nhau th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/lambda-vs-anonymous-class-scope.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "captured-reference-mutation",
+                            "title": "Tham chi\u1ebfu \u0111\u01b0\u1ee3c b\u1eaft gi\u1eef v\u00e0 \u0111\u1ed1i t\u01b0\u1ee3ng c\u00f3 th\u1ec3 thay \u0111\u1ed5i",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/sections/captured-reference-mutation.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/CaptureScopeAndState/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.StandardFunctionalInterfaces",
+            "title": "5.StandardFunctionalInterfaces",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StandardFunctionalInterfaces",
+                    "title": "C\u00e1c giao di\u1ec7n h\u00e0m chu\u1ea9n",
+                    "sourcePath": "5.StandardFunctionalInterfaces/StandardFunctionalInterfaces.md",
+                    "sections": [
+                        {
+                            "id": "java-util-function-overview",
+                            "title": "C\u00e1c nh\u00f3m giao di\u1ec7n trong java.util.function",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/java-util-function-overview.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "function-contract",
+                            "title": "Function&lt;T, R&gt;",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/function-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "predicate-contract",
+                            "title": "Predicate&lt;T&gt;",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/predicate-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "consumer-contract",
+                            "title": "Consumer&lt;T&gt;",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/consumer-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "supplier-contract",
+                            "title": "Supplier&lt;T&gt;",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/supplier-contract.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "operator-contracts",
+                            "title": "UnaryOperator&lt;T&gt; v\u00e0 BinaryOperator&lt;T&gt;",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/operator-contracts.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bi-functional-interfaces",
+                            "title": "BiFunction, BiConsumer v\u00e0 BiPredicate",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/bi-functional-interfaces.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "primitive-specializations",
+                            "title": "C\u00e1c bi\u1ebfn th\u1ec3 chuy\u00ean bi\u1ec7t cho ki\u1ec3u nguy\u00ean th\u1ee7y",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/primitive-specializations.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "generic-input-output-flow",
+                            "title": "Quan h\u1ec7 ki\u1ec3u \u0111\u1ea7u v\u00e0o v\u00e0 \u0111\u1ea7u ra v\u1edbi Generics",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/generic-input-output-flow.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-interfaces-outside-java-util-function",
+                            "title": "Giao di\u1ec7n h\u00e0m b\u00ean ngo\u00e0i java.util.function",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/functional-interfaces-outside-java-util-function.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "standard-vs-custom-functional-interface",
+                            "title": "Giao di\u1ec7n h\u00e0m chu\u1ea9n hay giao di\u1ec7n theo mi\u1ec1n nghi\u1ec7p v\u1ee5?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/sections/standard-vs-custom-functional-interface.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StandardFunctionalInterfaces/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.MethodReferences",
+            "title": "6.MethodReferences",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "MethodReferences",
+                    "title": "Tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c v\u00e0 h\u00e0m t\u1ea1o",
+                    "sourcePath": "6.MethodReferences/MethodReferences.md",
+                    "sections": [
+                        {
+                            "id": "method-reference-model",
+                            "title": "Tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c l\u00e0 g\u00ec?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/method-reference-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "static-method-reference",
+                            "title": "Tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c static",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/static-method-reference.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "bound-instance-method-reference",
+                            "title": "Tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c c\u1ee7a m\u1ed9t \u0111\u1ed1i t\u01b0\u1ee3ng c\u1ee5 th\u1ec3",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/bound-instance-method-reference.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "unbound-instance-method-reference",
+                            "title": "Tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c c\u1ee7a \u0111\u1ed1i t\u01b0\u1ee3ng ch\u01b0a x\u00e1c \u0111\u1ecbnh",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/unbound-instance-method-reference.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "constructor-reference",
+                            "title": "Tham chi\u1ebfu h\u00e0m t\u1ea1o",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/constructor-reference.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-reference-target-adaptation",
+                            "title": "C\u00e1ch tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c kh\u1edbp v\u1edbi ki\u1ec3u h\u00e0m \u0111\u00edch",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/method-reference-target-adaptation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-reference-result-adaptation",
+                            "title": "T\u00ednh t\u01b0\u01a1ng th\u00edch c\u1ee7a k\u1ebft qu\u1ea3 v\u00e0 tr\u01b0\u1eddng h\u1ee3p b\u1ecf qua gi\u00e1 tr\u1ecb tr\u1ea3 v\u1ec1",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/method-reference-result-adaptation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "overloaded-method-reference",
+                            "title": "Tham chi\u1ebfu t\u1edbi ph\u01b0\u01a1ng th\u1ee9c \u0111\u01b0\u1ee3c n\u1ea1p ch\u1ed3ng",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/overloaded-method-reference.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "method-reference-vs-lambda",
+                            "title": "D\u00f9ng tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c hay lambda?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/sections/method-reference-vs-lambda.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/MethodReferences/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.BehaviorCompositionAndHigherOrderUse",
+            "title": "7.BehaviorCompositionAndHigherOrderUse",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "BehaviorCompositionAndHigherOrderUse",
+                    "title": "Truy\u1ec1n, tr\u1ea3 v\u1ec1 v\u00e0 k\u1ebft h\u1ee3p h\u00e0nh vi",
+                    "sourcePath": "7.BehaviorCompositionAndHigherOrderUse/BehaviorCompositionAndHigherOrderUse.md",
+                    "sections": [
+                        {
+                            "id": "higher-order-methods",
+                            "title": "Ph\u01b0\u01a1ng th\u1ee9c nh\u1eadn ho\u1eb7c tr\u1ea3 v\u1ec1 h\u00e0nh vi",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/higher-order-methods.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "passing-behavior",
+                            "title": "Truy\u1ec1n h\u00e0nh vi v\u00e0o ph\u01b0\u01a1ng th\u1ee9c",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/passing-behavior.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "returning-behavior",
+                            "title": "Tr\u1ea3 h\u00e0nh vi t\u1eeb ph\u01b0\u01a1ng th\u1ee9c",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/returning-behavior.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "returned-behavior-capture",
+                            "title": "Tr\u1ea3 v\u1ec1 h\u00e0nh vi c\u00f3 b\u1eaft gi\u1eef gi\u00e1 tr\u1ecb t\u1eeb ph\u1ea1m vi b\u00ean ngo\u00e0i",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/returned-behavior-capture.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "function-composition",
+                            "title": "K\u1ebft h\u1ee3p Function v\u1edbi compose v\u00e0 andThen",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/function-composition.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "predicate-composition",
+                            "title": "K\u1ebft h\u1ee3p Predicate",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/predicate-composition.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "consumer-composition",
+                            "title": "Consumer.andThen",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/consumer-composition.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "composition-order",
+                            "title": "Th\u1ee9 t\u1ef1 k\u1ebft h\u1ee3p v\u00e0 chi\u1ec1u d\u1eef li\u1ec7u",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/composition-order.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "composition-side-effects",
+                            "title": "T\u00e1c d\u1ee5ng ph\u1ee5 b\u00ean trong h\u00e0nh vi \u0111\u01b0\u1ee3c k\u1ebft h\u1ee3p",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/sections/composition-side-effects.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/BehaviorCompositionAndHigherOrderUse/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.OptionalAndAbsence",
+            "title": "8.OptionalAndAbsence",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OptionalAndAbsence",
+                    "title": "Optional v\u00e0 bi\u1ec3u di\u1ec5n s\u1ef1 v\u1eafng m\u1eb7t",
+                    "sourcePath": "8.OptionalAndAbsence/OptionalAndAbsence.md",
+                    "sections": [
+                        {
+                            "id": "optional-purpose",
+                            "title": "V\u00ec sao Optional t\u1ed3n t\u1ea1i?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-purpose.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-creation",
+                            "title": "T\u1ea1o gi\u00e1 tr\u1ecb Optional",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-creation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-null-boundary",
+                            "title": "Optional v\u00e0 ranh gi\u1edbi null",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-null-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-presence",
+                            "title": "C\u00f3 gi\u00e1 tr\u1ecb v\u00e0 kh\u00f4ng c\u00f3 gi\u00e1 tr\u1ecb",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-presence.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-transform-filter",
+                            "title": "Bi\u1ebfn \u0111\u1ed5i v\u00e0 l\u1ecdc gi\u00e1 tr\u1ecb Optional",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-transform-filter.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-consumption",
+                            "title": "X\u1eed l\u00fd khi gi\u00e1 tr\u1ecb t\u1ed3n t\u1ea1i",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-consumption.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-fallback-and-failure",
+                            "title": "Chi\u1ebfn l\u01b0\u1ee3c d\u00f9ng gi\u00e1 tr\u1ecb thay th\u1ebf v\u00e0 b\u00e1o th\u1ea5t b\u1ea1i",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-fallback-and-failure.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-api-design",
+                            "title": "Optional t\u1ea1i ranh gi\u1edbi API",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-api-design.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "optional-misuse",
+                            "title": "C\u00e1c c\u00e1ch d\u00f9ng Optional kh\u00f4ng ph\u00f9 h\u1ee3p",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/sections/optional-misuse.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/OptionalAndAbsence/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.StreamApiBoundary",
+            "title": "9.StreamApiBoundary",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "StreamApiBoundary",
+                    "title": "Ranh gi\u1edbi v\u1edbi Stream API",
+                    "sourcePath": "9.StreamApiBoundary/StreamApiBoundary.md",
+                    "sections": [
+                        {
+                            "id": "stream-functional-interface-bridge",
+                            "title": "V\u00ec sao Stream API nh\u1eadn giao di\u1ec7n h\u00e0m?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StreamApiBoundary/sections/stream-functional-interface-bridge.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stream-behavior-contracts",
+                            "title": "C\u00e1c h\u1ee3p \u0111\u1ed3ng h\u00e0nh vi th\u01b0\u1eddng \u0111\u01b0\u1ee3c Stream s\u1eed d\u1ee5ng",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StreamApiBoundary/sections/stream-behavior-contracts.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stream-lambda-method-reference",
+                            "title": "Lambda v\u00e0 tham chi\u1ebfu ph\u01b0\u01a1ng th\u1ee9c trong m\u00e3 Stream",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StreamApiBoundary/sections/stream-lambda-method-reference.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "collection-vs-stream-boundary",
+                            "title": "D\u1eef li\u1ec7u Collection v\u00e0 qu\u00e1 tr\u00ecnh x\u1eed l\u00fd Stream",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StreamApiBoundary/sections/collection-vs-stream-boundary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stream-mechanics-boundary",
+                            "title": "Ph\u1ea7n n\u00e0o thu\u1ed9c m\u00f4-\u0111un Stream API?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StreamApiBoundary/sections/stream-mechanics-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stream-learning-handoff",
+                            "title": "Khi n\u00e0o n\u00ean chuy\u1ec3n sang h\u1ecdc m\u00f4-\u0111un Stream API?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StreamApiBoundary/sections/stream-learning-handoff.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/StreamApiBoundary/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.TradeoffsFailuresAndSynthesis",
+            "title": "10.TradeoffsFailuresAndSynthesis",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TradeoffsFailuresAndSynthesis",
+                    "title": "T\u00e1c d\u1ee5ng ph\u1ee5, ngo\u1ea1i l\u1ec7, \u0111\u00e1nh \u0111\u1ed5i v\u00e0 c\u00e1ch l\u1ef1a ch\u1ecdn",
+                    "sourcePath": "10.TradeoffsFailuresAndSynthesis/TradeoffsFailuresAndSynthesis.md",
+                    "sections": [
+                        {
+                            "id": "side-effects-in-lambdas",
+                            "title": "T\u00e1c d\u1ee5ng ph\u1ee5 b\u00ean trong lambda",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/side-effects-in-lambdas.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "hidden-mutation-state",
+                            "title": "Thay \u0111\u1ed5i tr\u1ea1ng th\u00e1i b\u1ecb che gi\u1ea5u",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/hidden-mutation-state.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "checked-exception-constraint",
+                            "title": "Ngo\u1ea1i l\u1ec7 \u0111\u01b0\u1ee3c ki\u1ec3m tra v\u00e0 ki\u1ec3u h\u00e0m \u0111\u00edch",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/checked-exception-constraint.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "checked-exception-adaptation",
+                            "title": "X\u1eed l\u00fd r\u00f5 r\u00e0ng ngo\u1ea1i l\u1ec7 \u0111\u01b0\u1ee3c ki\u1ec3m tra khi ki\u1ec3u h\u00e0m kh\u00f4ng cho ph\u00e9p",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/checked-exception-adaptation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "debugging-composed-behavior",
+                            "title": "G\u1ee1 l\u1ed7i h\u00e0nh vi \u0111\u01b0\u1ee3c k\u1ebft h\u1ee3p",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/debugging-composed-behavior.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "readability-vs-chaining",
+                            "title": "Kh\u1ea3 n\u0103ng \u0111\u1ecdc v\u00e0 chu\u1ed7i x\u1eed l\u00fd qu\u00e1 d\u00e0i",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/readability-vs-chaining.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-vs-imperative-choice",
+                            "title": "Ch\u1ecdn phong c\u00e1ch h\u00e0m hay c\u00e1ch vi\u1ebft m\u1ec7nh l\u1ec7nh?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/functional-vs-imperative-choice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-vs-oop-choice",
+                            "title": "K\u1ebft h\u1ee3p h\u00e0nh vi hay t\u1ed5 ch\u1ee9c b\u1eb1ng h\u01b0\u1edbng \u0111\u1ed1i t\u01b0\u1ee3ng?",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/functional-vs-oop-choice.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "purity-immutability-boundary",
+                            "title": "H\u00e0m thu\u1ea7n t\u00fay v\u00e0 t\u00ednh b\u1ea5t bi\u1ebfn: ranh gi\u1edbi v\u1edbi m\u00f4 h\u00ecnh l\u1eadp tr\u00ecnh h\u00e0m",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/purity-immutability-boundary.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "common-functional-pitfalls",
+                            "title": "C\u00e1c l\u1ed7i th\u01b0\u1eddng g\u1eb7p khi vi\u1ebft Java theo phong c\u00e1ch h\u00e0m",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/common-functional-pitfalls.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "functional-programming-synthesis",
+                            "title": "T\u1ed5ng h\u1ee3p m\u00f4 h\u00ecnh t\u01b0 duy v\u1ec1 l\u1eadp tr\u00ecnh h\u00e0m trong Java",
+                            "content": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/sections/functional-programming-synthesis.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_FUNCTIONAL_PROGRAMMING/knowledge/vi/content/TradeoffsFailuresAndSynthesis/intro.md"
+                }
+            ]
+        }
+    ]
+}

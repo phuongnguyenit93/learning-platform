@@ -1,0 +1,213 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_BOOT_ACTUATOR",
+    "language": "en",
+    "categoryCount": 12,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Actuator",
+                    "title": "Actuator",
+                    "sourcePath": "1.Introduction/Actuator.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/Actuator/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.ProductionReadyFeatures",
+            "title": "2.ProductionReadyFeatures",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ProductionReadyFeatures",
+                    "title": "ProductionReadyFeatures",
+                    "sourcePath": "2.ProductionReadyFeatures/ProductionReadyFeatures.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/ProductionReadyFeatures/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Endpoints",
+            "title": "3.Endpoints",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Endpoints",
+                    "title": "Endpoints",
+                    "sourcePath": "3.Endpoints/Endpoints.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/Endpoints/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.Health",
+            "title": "4.Health",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Health",
+                    "title": "Health",
+                    "sourcePath": "4.Health/Health.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/Health/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.InfoEnvironment",
+            "title": "5.InfoEnvironment",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "InfoEnvironment",
+                    "title": "InfoEnvironment",
+                    "sourcePath": "5.InfoEnvironment/InfoEnvironment.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/InfoEnvironment/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Metrics",
+            "title": "6.Metrics",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Metrics",
+                    "title": "Metrics",
+                    "sourcePath": "6.Metrics/Metrics.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/Metrics/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.Loggers",
+            "title": "7.Loggers",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Loggers",
+                    "title": "Loggers",
+                    "sourcePath": "7.Loggers/Loggers.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/Loggers/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.RuntimeDiagnostics",
+            "title": "8.RuntimeDiagnostics",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "RuntimeDiagnostics",
+                    "title": "RuntimeDiagnostics",
+                    "sourcePath": "8.RuntimeDiagnostics/RuntimeDiagnostics.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/RuntimeDiagnostics/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.ExposureConfiguration",
+            "title": "9.ExposureConfiguration",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ExposureConfiguration",
+                    "title": "ExposureConfiguration",
+                    "sourcePath": "9.ExposureConfiguration/ExposureConfiguration.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/ExposureConfiguration/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.CustomEndpoint",
+            "title": "10.CustomEndpoint",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "CustomEndpoint",
+                    "title": "CustomEndpoint",
+                    "sourcePath": "10.CustomEndpoint/CustomEndpoint.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/CustomEndpoint/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.Security",
+            "title": "11.Security",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Security",
+                    "title": "Security",
+                    "sourcePath": "11.Security/Security.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/Security/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "12.ObservabilityRelation",
+            "title": "12.ObservabilityRelation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ObservabilityRelation",
+                    "title": "ObservabilityRelation",
+                    "sourcePath": "12.ObservabilityRelation/ObservabilityRelation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_BOOT_ACTUATOR/knowledge/en/content/ObservabilityRelation/intro.md"
+                }
+            ]
+        }
+    ]
+}

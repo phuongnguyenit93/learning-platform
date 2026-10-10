@@ -1,0 +1,196 @@
+{
+    "version": 1,
+    "moduleId": "SPRING_SECURITY_OAUTH2",
+    "language": "en",
+    "categoryCount": 11,
+    "sectionCount": 0,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Introduction",
+            "title": "1.Introduction",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OAuth2",
+                    "title": "OAuth2",
+                    "sourcePath": "1.Introduction/OAuth2.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/OAuth2/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Roles",
+            "title": "2.Roles",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OAuth2Roles",
+                    "title": "OAuth2Roles",
+                    "sourcePath": "2.Roles/OAuth2Roles.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/OAuth2Roles/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.AuthorizationGrant",
+            "title": "3.AuthorizationGrant",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AuthorizationGrant",
+                    "title": "AuthorizationGrant",
+                    "sourcePath": "3.AuthorizationGrant/AuthorizationGrant.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/AuthorizationGrant/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.OAuth2Client",
+            "title": "4.OAuth2Client",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OAuth2Client",
+                    "title": "OAuth2Client",
+                    "sourcePath": "4.OAuth2Client/OAuth2Client.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/OAuth2Client/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.ResourceServer",
+            "title": "5.ResourceServer",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ResourceServer",
+                    "title": "ResourceServer",
+                    "sourcePath": "5.ResourceServer/ResourceServer.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/ResourceServer/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.JWT",
+            "title": "6.JWT",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JWT",
+                    "title": "JWT",
+                    "sourcePath": "6.JWT/JWT.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/JWT/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "7.ScopeAuthority",
+            "title": "7.ScopeAuthority",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ScopeAuthority",
+                    "title": "ScopeAuthority",
+                    "sourcePath": "7.ScopeAuthority/ScopeAuthority.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/ScopeAuthority/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "8.TokenValidation",
+            "title": "8.TokenValidation",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "TokenValidation",
+                    "title": "TokenValidation",
+                    "sourcePath": "8.TokenValidation/TokenValidation.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/TokenValidation/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "9.OpenIDConnect",
+            "title": "9.OpenIDConnect",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "OpenIDConnect",
+                    "title": "OpenIDConnect",
+                    "sourcePath": "9.OpenIDConnect/OpenIDConnect.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/OpenIDConnect/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "10.AuthorizationServer",
+            "title": "10.AuthorizationServer",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "AuthorizationServer",
+                    "title": "AuthorizationServer",
+                    "sourcePath": "10.AuthorizationServer/AuthorizationServer.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/AuthorizationServer/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "11.SecurityPatterns",
+            "title": "11.SecurityPatterns",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "SecurityPatterns",
+                    "title": "SecurityPatterns",
+                    "sourcePath": "11.SecurityPatterns/SecurityPatterns.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/SPRING_SECURITY_OAUTH2/knowledge/en/content/SecurityPatterns/intro.md"
+                }
+            ]
+        }
+    ]
+}

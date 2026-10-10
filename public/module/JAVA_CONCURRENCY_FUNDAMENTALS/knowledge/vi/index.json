@@ -1,0 +1,570 @@
+{
+    "version": 1,
+    "moduleId": "JAVA_CONCURRENCY_FUNDAMENTALS",
+    "language": "vi",
+    "categoryCount": 6,
+    "sectionCount": 58,
+    "tree": [
+        {
+            "kind": "FOLDER",
+            "id": "1.Basic",
+            "title": "1.Basic",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Basic",
+                    "title": "Thread c\u01a1 b\u1ea3n trong Java",
+                    "sourcePath": "1.Basic/Basic.md",
+                    "sections": [
+                        {
+                            "id": "process-and-thread",
+                            "title": "1. Process v\u00e0 Thread",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/sections/process-and-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-task",
+                            "title": "2. Ph\u00e2n bi\u1ec7t Thread, Runnable, Callable v\u00e0 Executor",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/sections/thread-task.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "start-vs-run",
+                            "title": "3. start() v\u00e0 run() kh\u00e1c nhau nh\u01b0 th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/sections/start-vs-run.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "create-thread",
+                            "title": "4. T\u1ea1o v\u00e0 ch\u1ea1y Thread tr\u1ef1c ti\u1ebfp",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/sections/create-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-state",
+                            "title": "5. Thread lifecycle v\u00e0 Thread.State",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/sections/thread-state.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "daemon-thread",
+                            "title": "6. Daemon Thread v\u00e0 JVM lifecycle",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/sections/daemon-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "basic-endpoints",
+                            "title": "7. C\u00e1c experiment c\u1ee7a ph\u1ea7n Basic",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/sections/basic-endpoints.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Basic/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "2.Interruption",
+            "title": "2.Interruption",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Interruption",
+                    "title": "Interruption & Cooperative Cancellation trong Java",
+                    "sourcePath": "2.Interruption/Interruption.md",
+                    "sections": [
+                        {
+                            "id": "interrupt-mental-model",
+                            "title": "1. Interrupt l\u00e0 t\u00edn hi\u1ec7u, kh\u00f4ng ph\u1ea3i l\u1ec7nh kill",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interrupt-mental-model.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-flag",
+                            "title": "2. interrupt(), isInterrupted() v\u00e0 Thread.interrupted()",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interrupt-flag.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupted-exception",
+                            "title": "3. InterruptedException v\u00e0 blocking operation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interrupted-exception.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-cleanup",
+                            "title": "4. Cleanup khi task b\u1ecb cancel",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interrupt-cleanup.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-limitations",
+                            "title": "5. interrupt() kh\u00f4ng l\u00e0m m\u1ecdi tr\u1ea1ng th\u00e1i ch\u1edd tr\u1edf n\u00ean interruptible",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interrupt-limitations.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-vs-stop-flag",
+                            "title": "6. interrupt() v\u00e0 volatile stop flag kh\u00e1c nhau th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interrupt-vs-stop-flag.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-rules",
+                            "title": "7. Quy t\u1eafc th\u1ef1c h\u00e0nh",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interrupt-rules.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interruption-experiments",
+                            "title": "8. C\u00e1c experiment c\u1ee7a ph\u1ea7n Interruption",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/sections/interruption-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Interruption/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "3.Concurrency_Problems",
+            "title": "3.Concurrency_Problems",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ConcurrencyProblem",
+                    "title": "Concurrency Problems & Java Memory Model",
+                    "sourcePath": "3.Concurrency_Problems/ConcurrencyProblem.md",
+                    "sections": [
+                        {
+                            "id": "shared-state-race-condition",
+                            "title": "1. Shared Mutable State, Atomicity v\u00e0 Race Condition",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/shared-state-race-condition.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "jmm-visibility",
+                            "title": "2. Visibility v\u00e0 Java Memory Model",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/jmm-visibility.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "happens-before",
+                            "title": "3. Happens-Before: guarantee \u0111\u1ec3 truy\u1ec1n visibility",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/happens-before.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "safe-publication-final",
+                            "title": "4. Safe Publication, final field v\u00e0 this escape",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/safe-publication-final.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "volatile-publication",
+                            "title": "5. volatile: Visibility + Ordering, kh\u00f4ng ph\u1ea3i Atomicity",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/volatile-publication.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "ordering-reordering",
+                            "title": "6. Ordering v\u00e0 Instruction Reordering",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/ordering-reordering.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "progress-problems",
+                            "title": "7. Deadlock, Livelock v\u00e0 Starvation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/progress-problems.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "deadlock-prevention",
+                            "title": "8. Coffman conditions v\u00e0 ph\u00f2ng tr\u00e1nh Deadlock b\u1eb1ng lock ordering",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/deadlock-prevention.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "problem-summary",
+                            "title": "9. T\u1ed5ng h\u1ee3p Atomicity, Visibility, Ordering v\u00e0 Progress",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/problem-summary.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "problem-experiments",
+                            "title": "10. C\u00e1c experiment c\u1ee7a ph\u1ea7n Concurrency Problems",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/sections/problem-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ConcurrencyProblem/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "4.JavaMemoryModel",
+            "title": "4.JavaMemoryModel",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "JavaMemoryModel",
+                    "title": "Java Memory Model",
+                    "sourcePath": "4.JavaMemoryModel/JavaMemoryModel.md",
+                    "sections": [
+                        
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/JavaMemoryModel/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "5.Context",
+            "title": "5.Context",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "ThreadLocal",
+                    "title": "ThreadLocal & Context Propagation",
+                    "sourcePath": "5.Context/ThreadLocal.md",
+                    "sections": [
+                        {
+                            "id": "thread-local-isolation",
+                            "title": "1. ThreadLocal isolation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/thread-local-isolation.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-local-cleanup",
+                            "title": "2. remove() v\u00e0 lifecycle c\u1ee7a worker Thread",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/thread-local-cleanup.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "inheritable-thread-local",
+                            "title": "3. InheritableThreadLocal",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/inheritable-thread-local.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-pool-problem",
+                            "title": "4. V\u00ec sao InheritableThreadLocal th\u1ea5t b\u1ea1i v\u1edbi Thread Pool?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/thread-pool-problem.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "context-propagation",
+                            "title": "5. Context propagation: capture \u2192 restore \u2192 cleanup",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/context-propagation.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-bean-thread-safety",
+                            "title": "6. Spring singleton bean v\u00e0 thread safety",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/spring-bean-thread-safety.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "object-memory",
+                            "title": "7. Stack/Heap v\u00e0 context isolation",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/object-memory.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-local-usage",
+                            "title": "8. Khi n\u00e0o n\u00ean d\u00f9ng ThreadLocal?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/thread-local-usage.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "context-experiments",
+                            "title": "9. C\u00e1c experiment c\u1ee7a ph\u1ea7n Context",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/sections/context-experiments.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/ThreadLocal/intro.md"
+                }
+            ]
+        },
+        {
+            "kind": "FOLDER",
+            "id": "6.Q&A",
+            "title": "6.Q&A",
+            "children": [
+                {
+                    "kind": "CATEGORY",
+                    "id": "Q&A",
+                    "title": "Thread & Concurrency - Q&A / T\u1ed5ng h\u1ee3p",
+                    "sourcePath": "6.Q&A/Q&A.md",
+                    "sections": [
+                        {
+                            "id": "mental-map",
+                            "title": "1. B\u1ea3n \u0111\u1ed3 ki\u1ebfn th\u1ee9c t\u1ed5ng th\u1ec3",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/mental-map.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-vs-task",
+                            "title": "2. Thread, Runnable, Callable v\u00e0 Executor kh\u00e1c nhau th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/thread-vs-task.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "run-vs-start",
+                            "title": "3. run() v\u00e0 start() kh\u00e1c nhau th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/run-vs-start.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "interrupt-question",
+                            "title": "4. interrupt() c\u00f3 kill Thread kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/interrupt-question.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "stack-heap-thread-safety",
+                            "title": "5. Stack, Heap v\u00e0 thread safety c\u00f3 quan h\u1ec7 th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/stack-heap-thread-safety.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "effectively-final",
+                            "title": "6. V\u00ec sao local variable capture trong lambda ph\u1ea3i final/effectively final?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/effectively-final.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "volatile-atomic-sync",
+                            "title": "7. volatile, Atomic v\u00e0 synchronized ch\u1ecdn th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/volatile-atomic-sync.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "race-vs-visibility",
+                            "title": "8. Race condition v\u00e0 visibility bug kh\u00e1c nhau th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/race-vs-visibility.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "happens-before-question",
+                            "title": "9. Happens-before c\u00f3 ngh\u0129a A ch\u1ea1y tr\u01b0\u1edbc B theo \u0111\u1ed3ng h\u1ed3 kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/happens-before-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "synchronization-vs-coordination",
+                            "title": "10. Synchronization v\u00e0 Coordination kh\u00e1c nhau th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/synchronization-vs-coordination.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "wait-notify-question",
+                            "title": "11. V\u00ec sao wait() ph\u1ea3i n\u1eb1m trong while?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/wait-notify-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "blocking-queue-question",
+                            "title": "12. BlockingQueue kh\u00e1c ConcurrentLinkedQueue th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/blocking-queue-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-pool-question",
+                            "title": "13. Queue c\u1ee7a ThreadPoolExecutor \u0111\u1ea7y th\u00ec caller c\u00f3 t\u1ef1 block kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/thread-pool-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "async-question",
+                            "title": "14. Async c\u00f3 ph\u1ea3i Non-blocking kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/async-question.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "future-question",
+                            "title": "15. Future v\u00e0 CompletableFuture kh\u00e1c nhau \u1edf \u0111\u00e2u?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/future-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "thread-local-question",
+                            "title": "16. ThreadLocal c\u00f3 l\u00e0m code thread-safe kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/thread-local-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "spring-async-question",
+                            "title": "17. @Async c\u00f3 t\u1ef1 t\u1ea1o Thread m\u1edbi m\u1ed7i l\u1ea7n kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/spring-async-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "leak-question",
+                            "title": "18. Khi n\u00e0o m\u1ed9t Thread/Pool \u0111\u01b0\u1ee3c coi l\u00e0 leak?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/leak-question.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "virtual-thread-question",
+                            "title": "19. Virtual Thread c\u00f3 thay Thread Pool kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/virtual-thread-question.md",
+                            "difficulty": "ADVANCED",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "schedule-thread",
+                            "title": "20. Schedule c\u00f3 quan h\u1ec7 g\u00ec v\u1edbi Thread?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/schedule-thread.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "schedule-interrupt",
+                            "title": "21. Schedule wake-up c\u00f3 ph\u1ea3i interrupt kh\u00f4ng?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/schedule-interrupt.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "batch-schedule",
+                            "title": "22. Batch v\u00e0 Schedule kh\u00e1c nhau th\u1ebf n\u00e0o?",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/batch-schedule.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "final-checklist",
+                            "title": "23. Checklist tr\u01b0\u1edbc khi vi\u1ebft code concurrency",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/final-checklist.md",
+                            "difficulty": "INTERMEDIATE",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        },
+                        {
+                            "id": "module-conclusion",
+                            "title": "24. K\u1ebft lu\u1eadn module",
+                            "content": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/sections/module-conclusion.md",
+                            "difficulty": "BASIC",
+                            "aiGenerated": true,
+                            "reviewed": false
+                        }
+                    ],
+                    "intro": "/module/JAVA_CONCURRENCY_FUNDAMENTALS/knowledge/vi/content/Q%26A/intro.md"
+                }
+            ]
+        }
+    ]
+}

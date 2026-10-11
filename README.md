@@ -116,6 +116,13 @@ Workflow: `.github/workflows/verify-and-preview.yml`
   Release manifest's source commit and downloaded ZIP SHA-256 match the
   producer's dispatched payload. Missing or stale release data fails the build
   rather than silently using another version.
+- The `java-learning` publisher sends this event only after uploading and
+  re-downloading the verified Release. Configure its Actions secret
+  `LEARNING_PLATFORM_DISPATCH_TOKEN` with a fine-grained GitHub token scoped
+  **only** to the `learning-platform` repository, with **Contents: Read and
+  write** (required for `repository_dispatch`). The producer's `GITHUB_TOKEN`
+  is repo-scoped and cannot send an event to another repo. Without this
+  secret, the publisher may succeed but its separate dispatch job fails visibly.
 - Configure repository or `preview` environment secrets named
   `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` first. The API token
   needs Cloudflare Workers editing privileges for the intended account.

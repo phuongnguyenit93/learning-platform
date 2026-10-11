@@ -1,1 +1,0 @@
-https://checkstyle.sourceforge.io/getting_started.html

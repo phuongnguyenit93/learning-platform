@@ -1,1 +1,0 @@
-# ObjectMapper Mental Model

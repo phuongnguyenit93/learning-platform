@@ -1,1 +1,0 @@
-﻿# Testcontainers and service connections

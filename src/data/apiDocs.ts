@@ -1,5 +1,6 @@
 import { parse } from 'yaml';
 import { collectKnowledgeCategories } from './knowledge';
+import { fetchJavaAsset } from './javaAsset';
 import type {
   ApiDocController,
   ApiKnowledgeRelation,
@@ -44,7 +45,7 @@ function normalizeBasePath(basePath: string): string {
 }
 
 async function fetchText(path: string): Promise<string> {
-  const response = await fetch(path, { cache: 'no-cache' });
+  const response = await fetchJavaAsset(path);
 
   if (!response.ok) {
     throw new Error(`Unable to load API metadata: ${response.status} ${response.statusText}`);

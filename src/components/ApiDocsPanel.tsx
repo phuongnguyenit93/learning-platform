@@ -3,6 +3,7 @@ import DOMPurify from 'dompurify';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { loadApiDocs, resolveOperationKnowledgeKey } from '../data/apiDocs';
+import { fetchJavaAsset } from '../data/javaAsset';
 import {
   collectKnowledgeCategories,
   collectKnowledgeSections,
@@ -209,7 +210,7 @@ export function ApiDocsPanel({
       return next;
     });
 
-    fetch(section.content, { cache: 'no-cache' })
+    fetchJavaAsset(section.content)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Unable to load section: ${response.status} ${response.statusText}`);

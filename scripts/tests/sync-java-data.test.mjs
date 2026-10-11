@@ -109,23 +109,27 @@ test('stages Java data and preserves unrelated files and sibling language direct
     const { rm } = await import('node:fs/promises');
     await rm(root, { recursive: true, force: true });
   });
-  const dataDir = join(root, 'data-knowledge', 'java');
-  const siblingDir = join(root, 'data-knowledge', 'python');
+  const dataDir = join(root, 'dist', 'language', 'java');
+  const siblingDir = join(root, 'dist', 'language', 'golang');
+  const buildAsset = join(root, 'dist', 'assets', 'app.js');
   await mkdir(join(dataDir, 'module', 'OLD'), { recursive: true });
   await mkdir(siblingDir);
+  await mkdir(join(root, 'dist', 'assets'), { recursive: true });
   await writeFile(join(dataDir, 'module', 'OLD', 'stale.md'), 'stale');
   await writeFile(join(dataDir, 'module-catalog.json'), '{"old":true}');
   await writeFile(join(dataDir, 'notes.md'), '# Separate notes');
   await writeFile(join(siblingDir, 'keep.md'), '# Other language');
+  await writeFile(buildAsset, 'console.log("keep")');
   const { zip, checksum } = fixture();
   const validated = validateArchive(zip, checksum);
   await syncJavaData(dataDir, validated);
   assert.equal(await readFile(join(dataDir, 'notes.md'), 'utf8'), '# Separate notes');
   assert.equal(await readFile(join(siblingDir, 'keep.md'), 'utf8'), '# Other language');
+  assert.equal(await readFile(buildAsset, 'utf8'), 'console.log("keep")');
   assert.equal(await readFile(join(dataDir, 'module', 'DEMO', 'overview', 'vi.md'), 'utf8'), '# Demo\n');
   assert.equal(JSON.parse(await readFile(join(dataDir, 'module-catalog.json'), 'utf8')).version, 1);
   assert.deepEqual(await readdir(join(dataDir, 'module')), ['DEMO']);
-  assert.deepEqual((await readdir(join(root, 'data-knowledge'))).sort(), ['java', 'python'], 'staging and backup directories removed');
+  assert.deepEqual((await readdir(join(root, 'dist', 'language'))).sort(), ['golang', 'java'], 'staging and backup directories removed');
 });
 
 test('a failed validation cannot change the existing Java data directory', async (t) => {
@@ -134,7 +138,7 @@ test('a failed validation cannot change the existing Java data directory', async
     const { rm } = await import('node:fs/promises');
     await rm(root, { recursive: true, force: true });
   });
-  const dataDir = join(root, 'data-knowledge', 'java');
+  const dataDir = join(root, 'dist', 'language', 'java');
   await mkdir(dataDir, { recursive: true });
   await writeFile(join(dataDir, 'module-catalog.json'), '{"original":true}');
   const { zip } = fixture();

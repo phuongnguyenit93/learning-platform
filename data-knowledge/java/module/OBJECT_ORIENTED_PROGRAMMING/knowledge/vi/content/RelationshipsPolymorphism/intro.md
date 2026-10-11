@@ -1,1 +1,0 @@
-# Composition, Subtyping và Polymorphism

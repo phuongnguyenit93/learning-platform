@@ -2,7 +2,8 @@
  * Consume only the static Java data published by java-learning.
  *
  * STEP 3.1: Run explicitly with --check (download/verify only) or --sync
- * (replace the managed data-knowledge/java snapshot). Not wired into Vite or Cloudflare.
+ * (replace only dist/language/java). The dev/build npm scripts download first
+ * and verify before serving or deploying; the generated ZIP stays unchanged.
  */
 import { createHash } from 'node:crypto';
 import { cp, mkdir, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
@@ -191,9 +192,9 @@ async function exists(path) {
 }
 
 /**
- * Construct a complete replacement directory before touching data-knowledge/java.
- * Preserve any unrelated files within the Java directory, then swap with a
- * backup/rollback. Sibling language directories are not touched.
+ * Construct a complete replacement directory before touching dist/language/java.
+ * Preserve any unrelated files within that directory, then swap with a
+ * backup/rollback. Other languages and dist/assets stay untouched.
  */
 export async function syncJavaData(dataDirectory, validated) {
   const dataDir = resolve(dataDirectory);
@@ -248,7 +249,7 @@ export async function syncJavaData(dataDirectory, validated) {
 function parseArgs(args) {
   const usage = 'Usage: node scripts/sync-java-data.mjs --check | --sync [--data-dir PATH]';
   let mode = null;
-  let dataDir = resolve('data-knowledge/java');
+  let dataDir = resolve('dist/language/java');
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--check' || args[i] === '--sync') {
       assert(!mode, usage);
@@ -272,7 +273,7 @@ async function main() {
     await syncJavaData(dataDir, result);
     console.log(`Updated managed Java data under ${dataDir}`);
   } else {
-    console.log('Check-only mode: data-knowledge/java was not modified');
+    console.log('Check-only mode: dist/language/java was not modified');
   }
 }
 

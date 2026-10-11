@@ -4,6 +4,7 @@ import type {
   KnowledgeSearchResult,
   Language,
 } from '../types/learning';
+import { fetchJavaAsset } from './javaAsset';
 
 const searchIndexCache = new Map<Language, Promise<KnowledgeSearchIndex>>();
 
@@ -14,7 +15,7 @@ export async function loadKnowledgeSearchIndex(language: Language): Promise<Know
     return cached;
   }
 
-  const request = fetch(`/search/knowledge-search.${language}.json`, { cache: 'no-cache' })
+  const request = fetchJavaAsset(`/search/knowledge-search.${language}.json`)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Unable to load Knowledge search index: ${response.status} ${response.statusText}`);

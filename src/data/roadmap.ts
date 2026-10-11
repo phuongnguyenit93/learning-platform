@@ -1,5 +1,6 @@
 import { parse } from 'yaml';
 import type { Language, RoadmapDocument, RoadmapMilestone, RoadmapRelatedModule } from '../types/learning';
+import { fetchJavaAsset } from './javaAsset';
 
 const roadmapCache = new Map<string, Promise<RoadmapDocument>>();
 
@@ -18,7 +19,7 @@ export async function loadRoadmapDocument(
     return cached;
   }
 
-  const request = fetch(path, { cache: 'no-cache' })
+  const request = fetchJavaAsset(path)
     .then(async (response) => {
       if (!response.ok) {
         throw new Error(`Unable to load Roadmap: ${response.status} ${response.statusText}`);

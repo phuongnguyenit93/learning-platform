@@ -1,1 +1,0 @@
-﻿# Chiến lược Integration Testing

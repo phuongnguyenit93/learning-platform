@@ -1,1 +1,0 @@
-Computers execute instructions in sequence and often update memory or state while running. Imperative Programming maps naturally to that execution model, making step-by-step algorithms straightforward to express.

@@ -1,8 +1,9 @@
 import { parse } from 'yaml';
+import { fetchJavaAsset } from './javaAsset';
 import type { InterviewDocument, InterviewQuestion } from '../types/learning';
 
 export async function loadInterviewDocument(path: string): Promise<InterviewDocument> {
-  const response = await fetch(path, { cache: 'no-cache' });
+  const response = await fetchJavaAsset(path);
 
   if (!response.ok) {
     throw new Error(`Unable to load Interview: ${response.status} ${response.statusText}`);

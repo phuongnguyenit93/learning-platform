@@ -1,4 +1,5 @@
 import type { VideoIndex, VideoScriptDocument } from '../types/learning';
+import { fetchJavaAsset } from './javaAsset';
 
 const videoIndexCache = new Map<string, Promise<VideoIndex>>();
 const videoScriptCache = new Map<string, Promise<VideoScriptDocument>>();
@@ -10,7 +11,7 @@ export async function loadVideoIndex(path: string): Promise<VideoIndex> {
     return cached;
   }
 
-  const request = fetch(path, { cache: 'no-cache' })
+  const request = fetchJavaAsset(path)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Unable to load video index: ${response.status} ${response.statusText}`);
@@ -34,7 +35,7 @@ export async function loadVideoScript(path: string): Promise<VideoScriptDocument
     return cached;
   }
 
-  const request = fetch(path, { cache: 'no-cache' })
+  const request = fetchJavaAsset(path)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Unable to load video script: ${response.status} ${response.statusText}`);

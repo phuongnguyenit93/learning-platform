@@ -1,1 +1,0 @@
-# Planning, Feedback và Adaptation

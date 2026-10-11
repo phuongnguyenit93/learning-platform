@@ -1,1 +1,0 @@
-# Entity State and Lifecycle

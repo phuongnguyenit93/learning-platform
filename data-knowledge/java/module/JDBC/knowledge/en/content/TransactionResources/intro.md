@@ -1,1 +1,0 @@
-# Transactions and Resource Management

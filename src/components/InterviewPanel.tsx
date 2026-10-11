@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { loadApiDocs } from '../data/apiDocs';
 import { loadInterviewDocument } from '../data/interview';
+import { fetchJavaAsset } from '../data/javaAsset';
 import { collectKnowledgeSections, formatKnowledgeDisplayTitle } from '../data/knowledge';
 import { useLanguage } from '../state/LanguageContext';
 import type {
@@ -164,7 +165,7 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
     });
     setKnowledgeLoadingPaths((current) => new Set(current).add(section.content));
 
-    fetch(section.content, { cache: 'no-cache' })
+    fetchJavaAsset(section.content)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Unable to load Knowledge: ${response.status} ${response.statusText}`);

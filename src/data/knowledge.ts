@@ -4,6 +4,7 @@ import type {
   KnowledgeSectionRef,
   KnowledgeTreeNode,
 } from '../types/learning';
+import { fetchJavaAsset } from './javaAsset';
 
 const knowledgeIndexCache = new Map<string, Promise<KnowledgeIndex>>();
 
@@ -14,7 +15,7 @@ export async function loadKnowledgeIndex(path: string): Promise<KnowledgeIndex> 
     return cached;
   }
 
-  const request = fetch(path, { cache: 'no-cache' })
+  const request = fetchJavaAsset(path)
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Unable to load knowledge index: ${response.status} ${response.statusText}`);

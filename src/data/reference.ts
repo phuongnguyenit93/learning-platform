@@ -1,5 +1,6 @@
 import { parse } from 'yaml';
 import type { ReferenceDocument, ReferenceItem } from '../types/learning';
+import { fetchJavaAsset } from './javaAsset';
 
 const referenceCache = new Map<string, Promise<ReferenceDocument>>();
 
@@ -10,7 +11,7 @@ export async function loadReferenceDocument(path: string): Promise<ReferenceDocu
     return cached;
   }
 
-  const request = fetch(path, { cache: 'no-cache' })
+  const request = fetchJavaAsset(path)
     .then(async (response) => {
       if (!response.ok) {
         throw new Error(`Unable to load Reference: ${response.status} ${response.statusText}`);

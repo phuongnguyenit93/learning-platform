@@ -1,1 +1,0 @@
-# Runtime Extensibility Mental Model

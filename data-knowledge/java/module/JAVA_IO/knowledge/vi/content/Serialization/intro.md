@@ -1,5 +1,0 @@
-# Ranh giới của tuần tự hóa đối tượng Java
-
-Đến đây ta đã chủ yếu di chuyển byte hoặc văn bản. Java còn có một cơ chế khác: biến trạng thái của một **đồ thị đối tượng (object graph)** thành luồng byte rồi dựng lại đồ thị đó sau này. Đồ thị đối tượng gồm đối tượng gốc cùng các đối tượng có thể đi tới thông qua trường/tham chiếu; nó có thể chứa tham chiếu dùng chung và cả chu trình. Cơ chế này là **tuần tự hóa đối tượng nguyên bản của Java (`Java Object Serialization`)**.
-
-Tên gọi dễ khiến người mới suy ra rằng đây là cách mặc định để lưu đối tượng vào cơ sở dữ liệu, bộ nhớ đệm hoặc gửi đối tượng qua mạng. Đó là suy luận nguy hiểm. Java Object Serialization gắn chặt với lớp Java, khả năng tương thích phiên bản, **classpath** — tập các lớp/tài nguyên mà JVM có thể tìm và nạp khi chạy — và quá trình **giải tuần tự hóa (deserialization)**, tức đọc các byte đã tuần tự hóa để dựng lại đồ thị đối tượng. Vì thế đây là một cơ chế có ranh giới lớn, không phải định dạng lưu trữ hay trao đổi qua mạng dùng chung cho mọi trường hợp.

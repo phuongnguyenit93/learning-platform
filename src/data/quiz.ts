@@ -1,4 +1,5 @@
 import { parse } from 'yaml';
+import { fetchJavaAsset } from './javaAsset';
 import type {
   QuizAnswer,
   QuizAnswerId,
@@ -9,7 +10,7 @@ import type {
 const answerIds: QuizAnswerId[] = ['A', 'B', 'C', 'D'];
 
 export async function loadQuizDocument(path: string): Promise<QuizDocument> {
-  const response = await fetch(path, { cache: 'no-cache' });
+  const response = await fetchJavaAsset(path);
 
   if (!response.ok) {
     throw new Error(`Unable to load Quiz: ${response.status} ${response.statusText}`);

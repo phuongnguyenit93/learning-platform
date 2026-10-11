@@ -12,11 +12,14 @@ of the Java/Spring/Gradle sources that produce Java learning content.
 
 ```bash
 npm ci
+npm run test:data
 npm run dev
 ```
 
-Open the local URL printed by Vite. No Java, Gradle, or Spring Boot application is
-required.
+The dev command downloads and verifies the latest Java release into
+`dist/language/java/` before starting Vite. Vite serves this directory as
+static assets while React supports Hot Module Replacement. Open the URL Vite
+prints. No Java, Gradle or Spring Boot application is required.
 
 ## Build and preview
 
@@ -25,7 +28,11 @@ npm run build
 npm run preview
 ```
 
-The production site is in `dist/`, including the static Learning dataset.
+The build runs TypeScript + Vite first (which clears `dist/`), then downloads
+and validates the Java dataset. If the download, SHA-256, manifest or ZIP checks
+fail, the command fails and the site must **not** be deployed. `dist/` is the
+only runtime copy of learning data; it is ignored by Git. The production site
+is the resulting `dist/` directory.
 Cloudflare Pages can serve this directory and automatically falls back to
 `index.html` for SPA navigation when no top-level `404.html` exists.
 For **Cloudflare Workers Static Assets**, `wrangler.jsonc` configures
@@ -34,30 +41,30 @@ For **Cloudflare Workers Static Assets**, `wrangler.jsonc` configures
 Do not add a catch-all `/* /index.html 200` rule to the Vite static assets:
 Cloudflare may reject it as an infinite redirect loop during deployment.
 
-## Learning data snapshot
+## Learning data: per-language build artifacts
 
-The initial Java learning data was copied from the producer repository when
-`learning-platform` was separated. Its snapshot is now stored at
-`data-knowledge/java/`:
+Java is produced exclusively by `java-learning`, not authored or committed in
+this frontend repository. Its static dataset is downloaded into the generated
+`dist/` folder alongside any future languages:
 
 ```text
-data-knowledge/
-  java/
-    module-catalog.json
-    module/
-    search/
+dist/
+  index.html
+  assets/                      # Vite's JS/CSS, unrelated to Java sync
+  language/
+    java/
+      module-catalog.json
+      module/
+      search/
+    node/                      # future independent producer
+    golang/                    # future independent producer
 ```
 
-It contains the current Java module catalog and generated Knowledge, Roadmap,
-Video, Quiz, Interview, Reference, and API metadata projections. It is a
-standalone **static snapshot**; editing Java source does not update this
-repository yet.
-
-Only modules present in this generated snapshot are available in the new
-website. For example, the snapshot copied during this migration contains
-`HIKARI_CP`, but does not contain `THREAD`; the app falls back to an available
-module when a requested module is missing. Refresh the snapshot from the Java
-content builder later to include newly generated modules.
+The content of the Java ZIP still uses producer-relative paths such as
+`/module/FOO/knowledge/vi/index.json`; the frontend routes those requests to
+`/language/java/module/FOO/knowledge/vi/index.json` at fetch time. The
+React application routes and the Java release's original content do not need
+to change. Other languages will have their own URL prefixes and consumers.
 
 The Java repository now publishes validated data to the **rolling GitHub
 Release tag `java-data`**. A standalone consumer is available for explicit
@@ -67,7 +74,7 @@ use, without requiring Gradle or Java:
 npm ci
 npm run test:data
 npm run data:check    # download + validate ZIP, SHA-256 and manifest; no writes
-npm run data:sync     # replace managed Java data in data-knowledge/java/ after validation
+npm run data:sync     # replace only dist/language/java after verification
 ```
 
 The consumer downloads `java-learning-data.zip` and
@@ -76,37 +83,27 @@ The consumer downloads `java-learning-data.zip` and
 ZIP checksum, source commit and manifest schema, catalog hash, file counts,
 allowed static-data paths/extensions, and both language search indexes. It
 retries up to three times if a rolling Release is briefly inconsistent while
-assets are replaced. Any persistent failure aborts without changing `data-knowledge/java/`.
+assets are replaced. Any persistent failure aborts without changing `dist/language/java/`.
 
-`data:sync` stages a complete replacement beside `data-knowledge/java/`
-before switching the directory. It keeps unrelated files within this Java
-directory, removes stale Java module files, and does not touch sibling language
-directories. It attempts rollback if switching folders fails. If a previous
-process crashed and left `data-knowledge/.java-data-stage/` or
-`data-knowledge/.java-data-backup/`,
-inspect and recover these directories rather than deleting them blindly.
-**The Java snapshot is Git-tracked**, so syncing it locally can create
-thousands of changes in `git status`. Use `data:check` to validate without
-updating the snapshot.
+`data:sync` stages a complete replacement beside `dist/language/java/`
+before switching that directory. It removes stale Java module data, keeps
+unrelated Java-root files, and does **not** modify `dist/index.html`,
+`dist/assets/` or future `dist/language/{other}/` directories. If a process
+crashes leaving `dist/language/.java-data-stage/` or
+`dist/language/.java-data-backup/`, inspect them before another sync.
 
-Vite sets `publicDir: 'data-knowledge/java'` and copies the contents
-directly to `dist/`, so React's public data URLs remain
-`/module-catalog.json`, `/module/**` and `/search/**` (without a
-`/data-knowledge/java` prefix). `npm run data:sync` changes only the local
-snapshot and is **not** automatically invoked by `npm run build`.
-Use `node scripts/sync-java-data.mjs --sync --data-dir PATH` to test in
-a separate directory without modifying the Git-tracked snapshot.
-
-This is **STEP 3.1 only**: synchronization is not yet added to `npm run build`,
-GitHub Actions or the Cloudflare deployment. The production snapshot remains
-unchanged until the later integration step.
+The build/development scripts now use the same `dist/language/java/` output.
+Vite serves it via `publicDir: 'dist'` during `npm run dev`, but disables
+`publicDir` for production builds to avoid copying `dist/` into itself.
+The Cloudflare configuration still deploys `./dist`; deploying is a separate
+action and is **not** automatically triggered by this change.
 
 ## Scope and limitations
 
 - Frontend only: no Spring Boot application, Java sources, Gradle wrapper, or
   Java build plugins are included.
-- Learning content is read from `/module-catalog.json`, `/module/**`, and
-  `/search/**`.
+- Java data is served from `/language/java/module-catalog.json`,
+  `/language/java/module/**` and `/language/java/search/**`.
 - **Local Run (build/download JAR)** needs an external backend. It is disabled
   by default in this standalone build. Do not set `VITE_ENABLE_LOCAL_RUN=true`
   until a compatible API is available at `/api/local-run/**`.

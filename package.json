@@ -4,8 +4,9 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit -p tsconfig.app.json && vite build",
+    "dev": "npm run data:sync && vite",
+    "build": "npm run build:frontend && npm run data:sync",
+    "build:frontend": "tsc --noEmit -p tsconfig.app.json && vite build",
     "preview": "vite preview",
     "data:check": "node scripts/sync-java-data.mjs --check",
     "data:sync": "node scripts/sync-java-data.mjs --sync",

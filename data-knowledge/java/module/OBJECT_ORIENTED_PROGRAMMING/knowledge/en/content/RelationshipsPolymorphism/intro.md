@@ -1,1 +1,0 @@
-# Composition, Subtyping, and Polymorphism

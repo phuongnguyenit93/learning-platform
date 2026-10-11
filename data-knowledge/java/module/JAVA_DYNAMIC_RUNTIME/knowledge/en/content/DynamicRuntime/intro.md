@@ -1,1 +1,0 @@
-# Dynamic Runtime Mental Model

@@ -1,4 +1,5 @@
 import type { LearningModule, ModuleCatalog, ModuleCatalogNode, ModuleStats } from '../types/learning';
+import { fetchJavaAsset } from './javaAsset';
 
 const acronymLabels: Record<string, string> = {
   aop: 'AOP',
@@ -24,7 +25,7 @@ const acronymLabels: Record<string, string> = {
 };
 
 export async function loadModuleCatalog(): Promise<ModuleCatalog> {
-  const response = await fetch('/module-catalog.json', { cache: 'no-cache' });
+  const response = await fetchJavaAsset('/module-catalog.json');
 
   if (!response.ok) {
     throw new Error(`Unable to load module catalog: ${response.status} ${response.statusText}`);

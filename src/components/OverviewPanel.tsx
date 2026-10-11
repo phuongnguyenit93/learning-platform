@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { fetchJavaAsset } from '../data/javaAsset';
 import { useLanguage } from '../state/LanguageContext';
 import type { LearningModule } from '../types/learning';
 
@@ -30,7 +31,7 @@ export function OverviewPanel({ module }: OverviewPanelProps) {
     setLoading(true);
     setError(null);
 
-    fetch(overviewPath, { cache: 'no-cache' })
+    fetchJavaAsset(overviewPath)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Unable to load overview: ${response.status} ${response.statusText}`);

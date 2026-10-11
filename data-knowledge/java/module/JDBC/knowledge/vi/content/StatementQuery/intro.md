@@ -1,1 +1,0 @@
-# Statement, PreparedStatement và Query

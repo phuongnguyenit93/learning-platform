@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 import { loadApiDocs } from '../data/apiDocs';
 import { collectKnowledgeSections, formatKnowledgeDisplayTitle } from '../data/knowledge';
 import { loadQuizDocument } from '../data/quiz';
+import { fetchJavaAsset } from '../data/javaAsset';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   ApiDocController,
@@ -190,7 +191,7 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
     });
     setKnowledgeLoadingPaths((current) => new Set(current).add(section.content));
 
-    fetch(section.content, { cache: 'no-cache' })
+    fetchJavaAsset(section.content)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Unable to load Knowledge: ${response.status} ${response.statusText}`);

@@ -2,7 +2,7 @@
  * Consume only the static Java data published by java-learning.
  *
  * STEP 3.1: Run explicitly with --check (download/verify only) or --sync
- * (replace the managed public snapshot). Not wired into Vite or Cloudflare.
+ * (replace the managed data-knowledge/java snapshot). Not wired into Vite or Cloudflare.
  */
 import { createHash } from 'node:crypto';
 import { cp, mkdir, readdir, rename, rm, stat, writeFile } from 'node:fs/promises';
@@ -68,7 +68,7 @@ function countModules(node) {
 
 /**
  * Verify the sidecar SHA-256 and complete manifest before returning files.
- * Manifest is intentionally not copied into the public website.
+ * Manifest is intentionally not copied into the Vite static assets.
  */
 export function validateArchive(zipBytes, checksumText) {
   const expected = parseChecksum(checksumText);
@@ -191,29 +191,31 @@ async function exists(path) {
 }
 
 /**
- * Construct a complete replacement directory before touching public/.
- * Preserve any unrelated static assets, then swap with a backup/rollback.
+ * Construct a complete replacement directory before touching data-knowledge/java.
+ * Preserve any unrelated files within the Java directory, then swap with a
+ * backup/rollback. Sibling language directories are not touched.
  */
-export async function syncPublicData(publicDirectory, validated) {
-  const publicDir = resolve(publicDirectory);
-  const parent = dirname(publicDir);
-  const name = basename(publicDir);
-  assert(publicDir !== parent, 'Refusing to replace a filesystem root');
-  const stage = join(parent, `.${name}.java-data-stage`);
-  const backup = join(parent, `.${name}.java-data-backup`);
+export async function syncJavaData(dataDirectory, validated) {
+  const dataDir = resolve(dataDirectory);
+  const parent = dirname(dataDir);
+  const name = basename(dataDir);
+  assert(dataDir !== parent, 'Refusing to replace a filesystem root');
+  const stage = join(parent, `.${name}-data-stage`);
+  const backup = join(parent, `.${name}-data-backup`);
   assert(!(await exists(stage)) && !(await exists(backup)), `Previous data sync requires inspection: ${stage} or ${backup}`);
-  if (await exists(publicDir)) {
-    assert((await stat(publicDir)).isDirectory(), `Not a public directory: ${publicDir}`);
+  if (await exists(dataDir)) {
+    assert((await stat(dataDir)).isDirectory(), `Not a data directory: ${dataDir}`);
   }
 
+  await mkdir(parent, { recursive: true });
   await mkdir(stage);
   let oldMoved = false;
   let installed = false;
   try {
-    if (await exists(publicDir)) {
-      for (const item of await readdir(publicDir, { withFileTypes: true })) {
+    if (await exists(dataDir)) {
+      for (const item of await readdir(dataDir, { withFileTypes: true })) {
         if (!MANAGED_NAMES.has(item.name)) {
-          await cp(join(publicDir, item.name), join(stage, item.name), { recursive: true, errorOnExist: true });
+          await cp(join(dataDir, item.name), join(stage, item.name), { recursive: true, errorOnExist: true });
         }
       }
     }
@@ -223,54 +225,54 @@ export async function syncPublicData(publicDirectory, validated) {
       await writeFile(target, content, { flag: 'wx' });
     }
 
-    if (await exists(publicDir)) {
-      await rename(publicDir, backup);
+    if (await exists(dataDir)) {
+      await rename(dataDir, backup);
       oldMoved = true;
     }
     try {
-      await rename(stage, publicDir);
+      await rename(stage, dataDir);
       installed = true;
     } catch (error) {
-      if (oldMoved) await rename(backup, publicDir);
+      if (oldMoved) await rename(backup, dataDir);
       oldMoved = false;
       throw error;
     }
     // If cleanup fails, retain the backup rather than silently losing data.
     if (oldMoved) await rm(backup, { recursive: true });
-    return { publicDir, ...validated.manifest };
+    return { dataDir, ...validated.manifest };
   } finally {
     if (!installed && (await exists(stage))) await rm(stage, { recursive: true });
   }
 }
 
 function parseArgs(args) {
-  const usage = 'Usage: node scripts/sync-java-data.mjs --check | --sync [--public-dir PATH]';
+  const usage = 'Usage: node scripts/sync-java-data.mjs --check | --sync [--data-dir PATH]';
   let mode = null;
-  let publicDir = resolve('public');
+  let dataDir = resolve('data-knowledge/java');
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--check' || args[i] === '--sync') {
       assert(!mode, usage);
       mode = args[i];
-    } else if (args[i] === '--public-dir') {
+    } else if (args[i] === '--data-dir') {
       assert(i + 1 < args.length, usage);
-      publicDir = resolve(args[++i]);
+      dataDir = resolve(args[++i]);
     } else {
       throw new Error(`${usage}; unknown argument: ${args[i]}`);
     }
   }
   assert(mode, usage);
-  return { mode, publicDir };
+  return { mode, dataDir };
 }
 
 async function main() {
-  const { mode, publicDir } = parseArgs(process.argv.slice(2));
+  const { mode, dataDir } = parseArgs(process.argv.slice(2));
   const result = await downloadAndValidate();
   console.log(`Verified Java data ${result.manifest.sourceCommit}: ${result.files.size} files, SHA-256 ${result.sha256}`);
   if (mode === '--sync') {
-    await syncPublicData(publicDir, result);
-    console.log(`Updated managed Java data under ${publicDir}`);
+    await syncJavaData(dataDir, result);
+    console.log(`Updated managed Java data under ${dataDir}`);
   } else {
-    console.log('Check-only mode: public/ was not modified');
+    console.log('Check-only mode: data-knowledge/java was not modified');
   }
 }
 

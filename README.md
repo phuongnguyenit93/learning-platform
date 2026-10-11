@@ -31,20 +31,21 @@ Cloudflare Pages can serve this directory and automatically falls back to
 For **Cloudflare Workers Static Assets**, `wrangler.jsonc` configures
 `assets.not_found_handling: single-page-application` for deep links such as
 `/learning`, `/learning/java/knowledge/HIKARI_CP`, `/project`, and `/about-me`.
-Do not add a catch-all `/* /index.html 200` rule to `public/_redirects`:
+Do not add a catch-all `/* /index.html 200` rule to the Vite static assets:
 Cloudflare may reject it as an infinite redirect loop during deployment.
 
 ## Learning data snapshot
 
-The initial `public/` directory is a **copy** of the generated Portal data from
-`java-learning/project-portal/build/generated/portal-data` at the time this
-repository was separated:
+The initial Java learning data was copied from the producer repository when
+`learning-platform` was separated. Its snapshot is now stored at
+`data-knowledge/java/`:
 
 ```text
-public/
-  module-catalog.json
-  module/
-  search/
+data-knowledge/
+  java/
+    module-catalog.json
+    module/
+    search/
 ```
 
 It contains the current Java module catalog and generated Knowledge, Roadmap,
@@ -66,7 +67,7 @@ use, without requiring Gradle or Java:
 npm ci
 npm run test:data
 npm run data:check    # download + validate ZIP, SHA-256 and manifest; no writes
-npm run data:sync     # replace managed data under public/ after validation
+npm run data:sync     # replace managed Java data in data-knowledge/java/ after validation
 ```
 
 The consumer downloads `java-learning-data.zip` and
@@ -75,16 +76,26 @@ The consumer downloads `java-learning-data.zip` and
 ZIP checksum, source commit and manifest schema, catalog hash, file counts,
 allowed static-data paths/extensions, and both language search indexes. It
 retries up to three times if a rolling Release is briefly inconsistent while
-assets are replaced. Any persistent failure aborts without changing `public/`.
+assets are replaced. Any persistent failure aborts without changing `data-knowledge/java/`.
 
-`data:sync` stages a complete replacement beside `public/` before switching
-the directory. It keeps unrelated public assets, removes stale Java module
-files, and attempts rollback if switching folders fails. If a previous process
-crashed and left `.public.java-data-stage/` or `.public.java-data-backup/`,
+`data:sync` stages a complete replacement beside `data-knowledge/java/`
+before switching the directory. It keeps unrelated files within this Java
+directory, removes stale Java module files, and does not touch sibling language
+directories. It attempts rollback if switching folders fails. If a previous
+process crashed and left `data-knowledge/.java-data-stage/` or
+`data-knowledge/.java-data-backup/`,
 inspect and recover these directories rather than deleting them blindly.
-**The current public data is Git-tracked**, so syncing it locally can create
+**The Java snapshot is Git-tracked**, so syncing it locally can create
 thousands of changes in `git status`. Use `data:check` to validate without
 updating the snapshot.
+
+Vite sets `publicDir: 'data-knowledge/java'` and copies the contents
+directly to `dist/`, so React's public data URLs remain
+`/module-catalog.json`, `/module/**` and `/search/**` (without a
+`/data-knowledge/java` prefix). `npm run data:sync` changes only the local
+snapshot and is **not** automatically invoked by `npm run build`.
+Use `node scripts/sync-java-data.mjs --sync --data-dir PATH` to test in
+a separate directory without modifying the Git-tracked snapshot.
 
 This is **STEP 3.1 only**: synchronization is not yet added to `npm run build`,
 GitHub Actions or the Cloudflare deployment. The production snapshot remains

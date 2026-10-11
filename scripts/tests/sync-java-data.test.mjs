@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { zipSync } from 'fflate';
-import { downloadAndValidate, parseChecksum, syncPublicData, validateArchive } from '../sync-java-data.mjs';
+import { downloadAndValidate, parseChecksum, syncJavaData, validateArchive } from '../sync-java-data.mjs';
 
 const utf8 = (text) => new TextEncoder().encode(text);
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
@@ -103,40 +103,44 @@ test('fails closed after retries if checksum remains invalid', async () => {
   );
 });
 
-test('stages new data and preserves unrelated public assets', async (t) => {
+test('stages Java data and preserves unrelated files and sibling language directories', async (t) => {
   const root = await mkdtemp(join(tmpdir(), 'learning-platform-consumer-'));
   t.after(async () => {
     const { rm } = await import('node:fs/promises');
     await rm(root, { recursive: true, force: true });
   });
-  const publicDir = join(root, 'public');
-  await mkdir(join(publicDir, 'module', 'OLD'), { recursive: true });
-  await writeFile(join(publicDir, 'module', 'OLD', 'stale.md'), 'stale');
-  await writeFile(join(publicDir, 'module-catalog.json'), '{"old":true}');
-  await writeFile(join(publicDir, 'favicon.svg'), '<svg></svg>');
+  const dataDir = join(root, 'data-knowledge', 'java');
+  const siblingDir = join(root, 'data-knowledge', 'python');
+  await mkdir(join(dataDir, 'module', 'OLD'), { recursive: true });
+  await mkdir(siblingDir);
+  await writeFile(join(dataDir, 'module', 'OLD', 'stale.md'), 'stale');
+  await writeFile(join(dataDir, 'module-catalog.json'), '{"old":true}');
+  await writeFile(join(dataDir, 'notes.md'), '# Separate notes');
+  await writeFile(join(siblingDir, 'keep.md'), '# Other language');
   const { zip, checksum } = fixture();
   const validated = validateArchive(zip, checksum);
-  await syncPublicData(publicDir, validated);
-  assert.equal(await readFile(join(publicDir, 'favicon.svg'), 'utf8'), '<svg></svg>');
-  assert.equal(await readFile(join(publicDir, 'module', 'DEMO', 'overview', 'vi.md'), 'utf8'), '# Demo\n');
-  assert.equal(JSON.parse(await readFile(join(publicDir, 'module-catalog.json'), 'utf8')).version, 1);
-  assert.deepEqual(await readdir(join(publicDir, 'module')), ['DEMO']);
-  assert.equal((await readdir(root)).length, 1, 'staging and backup directories removed');
+  await syncJavaData(dataDir, validated);
+  assert.equal(await readFile(join(dataDir, 'notes.md'), 'utf8'), '# Separate notes');
+  assert.equal(await readFile(join(siblingDir, 'keep.md'), 'utf8'), '# Other language');
+  assert.equal(await readFile(join(dataDir, 'module', 'DEMO', 'overview', 'vi.md'), 'utf8'), '# Demo\n');
+  assert.equal(JSON.parse(await readFile(join(dataDir, 'module-catalog.json'), 'utf8')).version, 1);
+  assert.deepEqual(await readdir(join(dataDir, 'module')), ['DEMO']);
+  assert.deepEqual((await readdir(join(root, 'data-knowledge'))).sort(), ['java', 'python'], 'staging and backup directories removed');
 });
 
-test('a failed validation cannot change the existing public directory', async (t) => {
+test('a failed validation cannot change the existing Java data directory', async (t) => {
   const root = await mkdtemp(join(tmpdir(), 'learning-platform-consumer-'));
   t.after(async () => {
     const { rm } = await import('node:fs/promises');
     await rm(root, { recursive: true, force: true });
   });
-  const publicDir = join(root, 'public');
-  await mkdir(publicDir);
-  await writeFile(join(publicDir, 'module-catalog.json'), '{"original":true}');
+  const dataDir = join(root, 'data-knowledge', 'java');
+  await mkdir(dataDir, { recursive: true });
+  await writeFile(join(dataDir, 'module-catalog.json'), '{"original":true}');
   const { zip } = fixture();
   assert.throws(
     () => validateArchive(zip, `${'0'.repeat(64)}  java-learning-data.zip\n`),
     /SHA-256 mismatch/,
   );
-  assert.equal(await readFile(join(publicDir, 'module-catalog.json'), 'utf8'), '{"original":true}');
+  assert.equal(await readFile(join(dataDir, 'module-catalog.json'), 'utf8'), '{"original":true}');
 });

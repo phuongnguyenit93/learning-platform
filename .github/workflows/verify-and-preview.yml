@@ -1,7 +1,8 @@
-name: Verify and Preview Learning Platform
+name: Build and Deploy Learning Platform
 
-# Build/test on source changes. Cloudflare Preview requires explicit manual
-# opt-in AND credentials; neither push nor PR ever deploys anything.
+# Pushes to main and Java-data publisher dispatches deploy production only
+# after the complete artifact has passed verification. PRs never deploy.
+# Manual runs can opt into Preview but never deploy production.
 on:
   push:
     branches: [main]
@@ -119,3 +120,64 @@ jobs:
         run: |
           echo "### Cloudflare Workers Preview (not production)" >> "$GITHUB_STEP_SUMMARY"
           echo "${PREVIEW_URL}" >> "$GITHUB_STEP_SUMMARY"
+
+  production:
+    name: Deploy production Worker and verify live Knowledge
+    needs: build
+    # Production is NEVER deployed from PRs or manual Preview runs. Both the
+    # Java publisher and normal frontend main pushes use exactly this gate.
+    if: ${{ github.repository == 'phuongnguyenit93/learning-platform' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'repository_dispatch') }}
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 30
+    steps:
+      - name: Checkout deployment configuration and verification scripts
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Download exactly the verified build artifact
+        uses: actions/download-artifact@v7
+        with:
+          name: learning-platform-dist
+          path: dist/
+
+      - name: Verify deployable artifact again
+        run: node scripts/verify-dist.mjs
+
+      - name: Require production Cloudflare credentials and expected Worker
+        shell: bash
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${CF_API_TOKEN}" || -z "${CF_ACCOUNT_ID}" ]]; then
+            echo "::error::Missing Cloudflare credentials. Production was NOT deployed."
+            exit 1
+          fi
+          node -e 'const fs = require("node:fs"); const config = JSON.parse(fs.readFileSync("wrangler.jsonc", "utf8")); if (config.name !== "learning-platform" || config.assets?.directory !== "./dist") process.exit(1)'
+
+      - name: Deploy to existing Cloudflare Worker learning-platform
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.136.3'
+          command: deploy
+
+      - name: Verify deployed production content equals the built artifact
+        run: |
+          node scripts/check-production.mjs https://learning-platform.phuongnguyenit93.workers.dev
+          node scripts/check-production.mjs https://nguyendodinhphuong.name.vn
+
+      - name: Summarize production publication
+        run: |
+          echo "### Production deployment verified" >> "$GITHUB_STEP_SUMMARY"
+          echo "Worker: learning-platform" >> "$GITHUB_STEP_SUMMARY"
+          echo "Public site: https://nguyendodinhphuong.name.vn" >> "$GITHUB_STEP_SUMMARY"
+          echo "Both Worker and custom domain serve the verified build's Java catalog, VI/EN search and OOP Knowledge bytes." >> "$GITHUB_STEP_SUMMARY"

@@ -95,10 +95,11 @@ crashes leaving `dist/language/.java-data-stage/` or
 The build/development scripts now use the same `dist/language/java/` output.
 Vite serves it via `publicDir: 'dist'` during `npm run dev`, but disables
 `publicDir` for production builds to avoid copying `dist/` into itself.
-The Cloudflare configuration still deploys `./dist`; deploying is a separate
-action and is **not** automatically triggered by this change.
+Cloudflare deploys `./dist`. GitHub Actions now uses only the **fully
+verified** artifact for production; no rebuilding or re-downloading occurs
+inside the deploy job.
 
-## STEP 3.3 — GitHub Actions build and Cloudflare Workers Preview
+## GitHub Actions — build, Preview and production
 
 Workflow: `.github/workflows/verify-and-preview.yml`
 
@@ -107,11 +108,18 @@ Workflow: `.github/workflows/verify-and-preview.yml`
   `npm run test:data`, `npm run build`, and `node scripts/verify-dist.mjs`.
   A missing/corrupt/incomplete Java dataset fails the workflow, and the verified
   `dist/` folder is uploaded as a short-lived GitHub Actions artifact.
-- **Neither push nor pull request deploys anything.** Cloudflare Preview
-  requires manually running this workflow on `main` with
-  `deploy_preview = true`. It uses `wrangler preview --name step-3-3`, never
-  `wrangler deploy`, and checks the live HTML, Java catalog, VI/EN search and
-  a real Knowledge index before reporting the Preview URL.
+- **Pushes to frontend `main` and verified Java `java-data-published`
+  events auto-deploy production** after the build job succeeds. Both paths
+  use `wrangler deploy` against the existing `learning-platform` Worker
+  (with `wrangler.jsonc` unchanged), followed by HTTP smoke tests and
+  SHA-256 byte-for-byte comparison of Java Knowledge, Catalog/Search and
+  built Vite JS/CSS against the just-built artifact on both
+  `https://learning-platform.phuongnguyenit93.workers.dev` and
+  `https://nguyendodinhphuong.name.vn`. A mismatch fails the workflow.
+- **Pull requests NEVER deploy.** Manual runs also never deploy production;
+  they may deploy an isolated Preview only when `deploy_preview = true`.
+  Preview uses `wrangler preview --name step-3-3` and checks live HTML,
+  Java catalog, VI/EN search and a real Knowledge index.
 - On `java-data-published`, the build additionally checks that the Java
   Release manifest's source commit and downloaded ZIP SHA-256 match the
   producer's dispatched payload. Missing or stale release data fails the build
@@ -123,7 +131,7 @@ Workflow: `.github/workflows/verify-and-preview.yml`
   write** (required for `repository_dispatch`). The producer's `GITHUB_TOKEN`
   is repo-scoped and cannot send an event to another repo. Without this
   secret, the publisher may succeed but its separate dispatch job fails visibly.
-- Configure repository or `preview` environment secrets named
+- Configure repository secrets named
   `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` first. The API token
   needs Cloudflare Workers editing privileges for the intended account.
   These secrets must never be committed to source.
@@ -132,8 +140,10 @@ Workflow: `.github/workflows/verify-and-preview.yml`
   Worker as `learning-platform`; verify this matches the intended Cloudflare
   Worker before manually activating Preview. The static asset folder is
   `./dist` in either case.
-- **STEP 4 (producer-to-consumer trigger), production deployment, and
-  automatic Cloudflare promotion are intentionally not enabled.**
+- The Java publisher-to-consumer trigger and production promotion are
+  enabled. If ZIP verification, build, or artifact validation fails, no
+  deployment job runs. If a live endpoint differs from the artifact after
+  publication, the production job fails visibly for investigation.
 
 You can run the same last-mile artifact check locally after a full build:
 

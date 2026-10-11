@@ -3,4 +3,6 @@ dist/
 .env.local
 .env.*.local
 .wrangler/
+/.public.java-data-stage/
+/.public.java-data-backup/
 .DS_Store

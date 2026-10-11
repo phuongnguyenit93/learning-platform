@@ -58,10 +58,37 @@ website. For example, the snapshot copied during this migration contains
 module when a requested module is missing. Refresh the snapshot from the Java
 content builder later to include newly generated modules.
 
-Later, an independent Java workflow can generate and validate the same files,
-publish a versioned data artifact, and let this repository download it before
-`npm run build`. Until that automation is implemented, update this data
-snapshot explicitly; do not require Gradle from the Portal build.
+The Java repository now publishes validated data to the **rolling GitHub
+Release tag `java-data`**. A standalone consumer is available for explicit
+use, without requiring Gradle or Java:
+
+```bash
+npm ci
+npm run test:data
+npm run data:check    # download + validate ZIP, SHA-256 and manifest; no writes
+npm run data:sync     # replace managed data under public/ after validation
+```
+
+The consumer downloads `java-learning-data.zip` and
+`java-learning-data.zip.sha256` from
+`phuongnguyenit93/java-learning/releases/tag/java-data`. It checks the full
+ZIP checksum, source commit and manifest schema, catalog hash, file counts,
+allowed static-data paths/extensions, and both language search indexes. It
+retries up to three times if a rolling Release is briefly inconsistent while
+assets are replaced. Any persistent failure aborts without changing `public/`.
+
+`data:sync` stages a complete replacement beside `public/` before switching
+the directory. It keeps unrelated public assets, removes stale Java module
+files, and attempts rollback if switching folders fails. If a previous process
+crashed and left `.public.java-data-stage/` or `.public.java-data-backup/`,
+inspect and recover these directories rather than deleting them blindly.
+**The current public data is Git-tracked**, so syncing it locally can create
+thousands of changes in `git status`. Use `data:check` to validate without
+updating the snapshot.
+
+This is **STEP 3.1 only**: synchronization is not yet added to `npm run build`,
+GitHub Actions or the Cloudflare deployment. The production snapshot remains
+unchanged until the later integration step.
 
 ## Scope and limitations
 

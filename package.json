@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit -p tsconfig.app.json && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "data:check": "node scripts/sync-java-data.mjs --check",
+    "data:sync": "node scripts/sync-java-data.mjs --sync",
+    "test:data": "node --test scripts/tests/*.test.mjs"
   },
   "dependencies": {
     "dompurify": "^3.4.15",
@@ -21,6 +24,7 @@
     "@types/react": "19.0.8",
     "@types/react-dom": "19.0.3",
     "@vitejs/plugin-react": "4.3.4",
+    "fflate": "^0.8.2",
     "typescript": "5.7.3",
     "vite": "6.4.3"
   }

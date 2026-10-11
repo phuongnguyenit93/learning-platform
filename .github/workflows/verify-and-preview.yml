@@ -1,0 +1,113 @@
+name: Verify and Preview Learning Platform
+
+# Build/test on source changes. Cloudflare Preview requires explicit manual
+# opt-in AND credentials; neither push nor PR ever deploys anything.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      deploy_preview:
+        description: 'Deploy an isolated Cloudflare Workers Preview (never production)'
+        type: boolean
+        default: false
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: learning-platform-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Test and verify finished dist artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install exact dependencies
+        run: npm ci
+
+      - name: Test Java Data Consumer and URL mapping
+        run: npm run test:data
+
+      - name: Build frontend and consume verified Java Release
+        run: npm run build
+
+      - name: Verify complete deployable assets
+        run: node scripts/verify-dist.mjs
+
+      - name: Upload verified dist for review and optional preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: learning-platform-dist
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  preview:
+    name: Deploy isolated Cloudflare Preview and smoke-test
+    needs: build
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy_preview == true }}
+    runs-on: ubuntu-latest
+    environment: preview
+    timeout-minutes: 30
+    steps:
+      - name: Checkout only the deploy configuration and checks
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Download the already-verified dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: learning-platform-dist
+          path: dist/
+
+      - name: Require Cloudflare credentials
+        shell: bash
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [[ -z "${CF_API_TOKEN}" || -z "${CF_ACCOUNT_ID}" ]]; then
+            echo "::error::Set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID in GitHub Actions secrets before opting into Preview."
+            exit 1
+          fi
+
+      # Cloudflare Workers Previews are isolated from production deployments.
+      # Do NOT change this command to "deploy" in this workflow.
+      - name: Create Cloudflare Workers Preview only
+        id: preview
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.136.3'
+          command: preview --name step-3-3
+
+      - name: Validate live preview endpoints
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+        run: node scripts/check-preview.mjs "${PREVIEW_URL}"
+
+      - name: Show the preview URL
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+        run: |
+          echo "### Cloudflare Workers Preview (not production)" >> "$GITHUB_STEP_SUMMARY"
+          echo "${PREVIEW_URL}" >> "$GITHUB_STEP_SUMMARY"

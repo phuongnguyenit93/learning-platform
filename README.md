@@ -98,6 +98,38 @@ Vite serves it via `publicDir: 'dist'` during `npm run dev`, but disables
 The Cloudflare configuration still deploys `./dist`; deploying is a separate
 action and is **not** automatically triggered by this change.
 
+## STEP 3.3 — GitHub Actions build and Cloudflare Workers Preview
+
+Workflow: `.github/workflows/verify-and-preview.yml`
+
+- Pushes to `main`, pull requests, and manual workflow dispatch run `npm ci`,
+  `npm run test:data`, `npm run build`, and `node scripts/verify-dist.mjs`.
+  A missing/corrupt/incomplete Java dataset fails the workflow, and the verified
+  `dist/` folder is uploaded as a short-lived GitHub Actions artifact.
+- **Neither push nor pull request deploys anything.** Cloudflare Preview
+  requires manually running this workflow on `main` with
+  `deploy_preview = true`. It uses `wrangler preview --name step-3-3`, never
+  `wrangler deploy`, and checks the live HTML, Java catalog, VI/EN search and
+  a real Knowledge index before reporting the Preview URL.
+- Configure repository or `preview` environment secrets named
+  `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` first. The API token
+  needs Cloudflare Workers editing privileges for the intended account.
+  These secrets must never be committed to source.
+- Cloudflare Workers Previews use an isolated URL and do not replace the
+  production Worker deployment. This repo's `wrangler.jsonc` identifies the
+  Worker as `learning-platform`; verify this matches the intended Cloudflare
+  Worker before manually activating Preview. The static asset folder is
+  `./dist` in either case.
+- **STEP 4 (producer-to-consumer trigger), production deployment, and
+  automatic Cloudflare promotion are intentionally not enabled.**
+
+You can run the same last-mile artifact check locally after a full build:
+
+```bash
+npm run build
+node scripts/verify-dist.mjs
+```
+
 ## Scope and limitations
 
 - Frontend only: no Spring Boot application, Java sources, Gradle wrapper, or

@@ -181,6 +181,23 @@ export async function downloadAndValidate({
   throw new Error(`Java data verification failed after ${attempts} attempt(s): ${lastError.message}`, { cause: lastError });
 }
 
+/**
+ * A producer-triggered build must consume precisely the Release that was
+ * verified before dispatch. Ordinary push / manual builds use the latest
+ * verified Release without an expectation.
+ */
+export function assertExpectedRelease(result, environment = process.env) {
+  const required = environment.JAVA_DATA_DISPATCH_REQUIRED === 'true';
+  const commit = environment.JAVA_DATA_EXPECTED_SOURCE_COMMIT || '';
+  const checksum = environment.JAVA_DATA_EXPECTED_SHA256 || '';
+  if (required) {
+    assert(/^[0-9a-f]{40}$/.test(commit), 'Producer dispatch missing valid source_commit');
+    assert(/^[0-9a-f]{64}$/.test(checksum), 'Producer dispatch missing valid data_sha256');
+  }
+  if (commit) assert(result.manifest.sourceCommit === commit, `Java Release source commit mismatch: expected ${commit}, got ${result.manifest.sourceCommit}`);
+  if (checksum) assert(result.sha256 === checksum, `Java Release ZIP checksum mismatch: expected ${checksum}, got ${result.sha256}`);
+}
+
 async function exists(path) {
   try {
     await stat(path);
@@ -268,6 +285,7 @@ function parseArgs(args) {
 async function main() {
   const { mode, dataDir } = parseArgs(process.argv.slice(2));
   const result = await downloadAndValidate();
+  assertExpectedRelease(result);
   console.log(`Verified Java data ${result.manifest.sourceCommit}: ${result.files.size} files, SHA-256 ${result.sha256}`);
   if (mode === '--sync') {
     await syncJavaData(dataDir, result);

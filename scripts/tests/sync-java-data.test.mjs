@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { zipSync } from 'fflate';
-import { downloadAndValidate, parseChecksum, syncJavaData, validateArchive } from '../sync-java-data.mjs';
+import { assertExpectedRelease, downloadAndValidate, parseChecksum, syncJavaData, validateArchive } from '../sync-java-data.mjs';
 
 const utf8 = (text) => new TextEncoder().encode(text);
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
@@ -101,6 +101,22 @@ test('fails closed after retries if checksum remains invalid', async () => {
     downloadAndValidate({ fetchImpl: fakeFetch, attempts: 2, retryDelayMs: 0 }),
     /verification failed after 2 attempt/,
   );
+});
+
+test('repository dispatch enforces the exact producer commit and ZIP checksum', () => {
+  const { zip, checksum } = fixture();
+  const result = validateArchive(zip, checksum);
+  const expected = {
+    JAVA_DATA_DISPATCH_REQUIRED: 'true',
+    JAVA_DATA_EXPECTED_SOURCE_COMMIT: result.manifest.sourceCommit,
+    JAVA_DATA_EXPECTED_SHA256: result.sha256,
+  };
+  assert.doesNotThrow(() => assertExpectedRelease(result, expected));
+  assert.throws(() => assertExpectedRelease(result, { ...expected, JAVA_DATA_EXPECTED_SOURCE_COMMIT: 'b'.repeat(40) }), /source commit mismatch/);
+  assert.throws(() => assertExpectedRelease(result, { ...expected, JAVA_DATA_EXPECTED_SHA256: 'b'.repeat(64) }), /ZIP checksum mismatch/);
+  assert.throws(() => assertExpectedRelease(result, { ...expected, JAVA_DATA_EXPECTED_SHA256: '' }), /missing valid data_sha256/);
+  assert.throws(() => assertExpectedRelease(result, { JAVA_DATA_DISPATCH_REQUIRED: 'true' }), /missing valid source_commit/);
+  assert.doesNotThrow(() => assertExpectedRelease(result, {}), 'regular builds may consume latest Java Release');
 });
 
 test('stages Java data and preserves unrelated files and sibling language directories', async (t) => {

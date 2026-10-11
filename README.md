@@ -102,7 +102,8 @@ action and is **not** automatically triggered by this change.
 
 Workflow: `.github/workflows/verify-and-preview.yml`
 
-- Pushes to `main`, pull requests, and manual workflow dispatch run `npm ci`,
+- Pushes to `main`, pull requests, Java publisher `repository_dispatch`
+  events (`java-data-published`), and manual workflow dispatch run `npm ci`,
   `npm run test:data`, `npm run build`, and `node scripts/verify-dist.mjs`.
   A missing/corrupt/incomplete Java dataset fails the workflow, and the verified
   `dist/` folder is uploaded as a short-lived GitHub Actions artifact.
@@ -111,6 +112,10 @@ Workflow: `.github/workflows/verify-and-preview.yml`
   `deploy_preview = true`. It uses `wrangler preview --name step-3-3`, never
   `wrangler deploy`, and checks the live HTML, Java catalog, VI/EN search and
   a real Knowledge index before reporting the Preview URL.
+- On `java-data-published`, the build additionally checks that the Java
+  Release manifest's source commit and downloaded ZIP SHA-256 match the
+  producer's dispatched payload. Missing or stale release data fails the build
+  rather than silently using another version.
 - Configure repository or `preview` environment secrets named
   `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` first. The API token
   needs Cloudflare Workers editing privileges for the intended account.

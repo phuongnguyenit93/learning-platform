@@ -163,10 +163,11 @@ node scripts/verify-dist.mjs
   application, Java source, Gradle wrapper, or Java build plugin here.
 - Java data is served from `/language/java/module-catalog.json`,
   `/language/java/module/**` and `/language/java/search/**`.
-- **Local Run (build/download JAR)** is enabled on Production: the frontend
-  build sets `VITE_ENABLE_LOCAL_RUN=true`, and `wrangler.jsonc` sets
-  `LOCAL_RUN_ENABLED=true` only for Production. Preview keeps its own
-  `LOCAL_RUN_ENABLED=false` kill switch. Never expose the GitHub token to Vite.
+- **Local Run (build/download JAR)** is available for runnable modules without
+  a legacy feature flag. Dispatch remains protected by the Cloudflare Worker:
+  a server-side GitHub secret, published module/fingerprint validation, same-origin
+  requests, Durable Object deduplication and rate limiting. Never expose the
+  GitHub token to Vite or browser code.
 - The About Me PDF/DOC buttons and Google Docs viewer still link to the
   external Google document as before.
 - The original `java-learning` source remains untouched by the copy.
@@ -262,8 +263,10 @@ npm run build
 npx wrangler dev --local
 ```
 
-Production builds are enabled; Preview remains disabled. `GITHUB_ACTION_TOKEN`
-is a Cloudflare Worker secret (never source, config or `VITE_`). For long-term
+Production Local Run requires `GITHUB_ACTION_TOKEN`, stored as a Cloudflare
+Worker secret (never source, config or `VITE_`). Any Preview with a GitHub
+secret can also dispatch builds; Preview URLs and credentials must therefore be
+controlled. Missing credentials fail closed with HTTP 503. For long-term
 operation, prefer a dedicated fine-grained GitHub token restricted to
 `java-learning` (Actions Read/Write, Contents Read); rotate any broader
 temporary token promptly. `wrangler secret put` without Preview scoping
@@ -271,16 +274,17 @@ changes Production: do not use it during Preview testing.
 
 `wrangler.jsonc` uses declarative SQLite Durable Object `exports` plus Worker
 Rate Limiting bindings; it does not require manually creating a namespace in
-the Dashboard. The `LOCAL_RUN_ENABLED` server kill switch is independent
-of the frontend `VITE_ENABLE_LOCAL_RUN` feature flag.
+the Dashboard. No runtime build-enable variable or frontend feature flag is required.
+Worker authorization and credential checks are independent of UI visibility.
 
-### Cloudflare Preview (isolated; builds still disabled)
+### Cloudflare Preview (isolated bindings)
 
 `previews.durable_objects.bindings` is **required** because the Worker accesses
 the Coordinator through `env.LOCAL_RUN_COORDINATOR`: Cloudflare Preview does
 not inherit production bindings. Preview SQLite state is automatically
 isolated; Preview rate limit `namespace_id` is different from production to
-avoid shared counters. The Preview's server-side build flag is also `false`.
+avoid shared counters. The Preview must not be assumed to be build-disabled:
+when its Worker has GitHub credentials, the same guarded API applies.
 
 After authenticating via `npx wrangler login`, create/update the Preview only:
 
@@ -295,17 +299,17 @@ The remote static/SPA smoke check passed. A separate temporary Preview with
 a deliberately invalid token confirmed SQLite Coordinator RPC returns 404
 for a missing build; that temporary Preview was deleted.
 
-**Real one-build Preview smoke (2026-10-12):** Using the Preview secret, the
-server build switch was enabled temporarily for `DATABASE_MYSQL` with published
+**Historical one-build Preview smoke (2026-10-12):** Using a Preview secret
+and an earlier temporary switch (since removed), `DATABASE_MYSQL` used published
 fingerprint `15531e9071aef973942915c10d5757ac75c98f09`, matching the
 repository's `main` Git tree. `POST /build` returned `DISPATCHED` and created
 GitHub Actions [run 38203320041](https://github.com/phuongnguyenit93/java-learning/actions/runs/38203320041).
 A second request returned `REUSED` with the **same** run ID, status polling
 progressed `BUILDING` to `SUCCESS`, GitHub Release published `database_mysql.jar`
 (22,547,875 bytes, HEAD HTTP 200), and a follow-up Build request returned
-`AVAILABLE` without a new dispatch. Afterwards the Preview was deployed with
-`LOCAL_RUN_ENABLED=false` again (HTTP 503 verified); read-only artifact lookup
-still returns `available=true, stale=false`. Rate Limit bindings and logic are
+`AVAILABLE` without a new dispatch. The previous Preview build toggle is
+no longer part of the architecture; this historical test does not imply that
+new previews are disabled. Rate Limit bindings and logic are
 tested locally but a multi-dispatch HTTP 429 was **not** tested against remote
 Cloudflare, to avoid triggering unnecessary GitHub builds. No production
 deployment or source commit/push was performed.

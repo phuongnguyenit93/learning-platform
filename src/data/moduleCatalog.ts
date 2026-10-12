@@ -143,10 +143,8 @@ export function toLearningModule(node: ModuleCatalogNode, stats: ModuleStats): L
       quiz: true,
       interview: true,
       apiDocs: true,
-      // Local Run is served by this site's Cloudflare Worker/DO backend.
-      // Keep hidden until production API secrets and build switches are enabled.
-      execution: import.meta.env.VITE_ENABLE_LOCAL_RUN === 'true'
-        && (node.moduleType === 'SERVLET' || node.moduleType === 'REACTIVE'),
+      // Only runnable module types offer Local Run; the Worker validates again.
+      execution: node.moduleType === 'SERVLET' || node.moduleType === 'REACTIVE',
       download: true,
     },
   };

@@ -58,9 +58,6 @@ async function respond(request: Request, env: WorkerEnv): Promise<Response> {
   }
 
   if (path === '/api/local-run/build') {
-    if (env.LOCAL_RUN_ENABLED !== 'true') {
-      return json({ message: 'Local Run builds are not enabled on this environment.' }, 503);
-    }
     const origin = request.headers.get('origin');
     if (origin && origin !== url.origin) throw new LocalRunError(403, 'Cross-origin builds are not allowed.');
     if (!request.headers.get('content-type')?.toLowerCase().includes('application/json')) {

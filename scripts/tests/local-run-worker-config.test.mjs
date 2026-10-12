@@ -4,13 +4,13 @@ import { test } from 'node:test';
 
 const config = JSON.parse(readFileSync(new URL('../../wrangler.jsonc', import.meta.url), 'utf8'));
 
-test('production enables Local Run while Preview remains disabled with isolated bindings', () => {
+test('Local Run needs no runtime kill switch and keeps isolated Preview bindings', () => {
   assert.equal(config.name, 'learning-platform');
   assert.equal(config.main, './worker/index.ts');
   assert.equal(config.assets.binding, 'ASSETS');
   assert.deepEqual(config.assets.run_worker_first, ['/api/*']);
-  assert.equal(config.vars.LOCAL_RUN_ENABLED, 'true');
-  assert.equal(config.previews.vars.LOCAL_RUN_ENABLED, 'false');
+  assert.equal('vars' in config, false);
+  assert.equal('vars' in config.previews, false);
   assert.deepEqual(config.exports.LocalRunCoordinator, { type: 'durable-object', storage: 'sqlite' });
 
   const productionDo = config.durable_objects.bindings.find((binding) => binding.name === 'LOCAL_RUN_COORDINATOR');

@@ -55,10 +55,6 @@ jobs:
 
       - name: Build frontend and consume verified Java Release
         env:
-          # Enable the Local Run tab in the Vite bundle only after Worker tests
-          # and the published Java catalog/fingerprint validation are available.
-          # Preview still has LOCAL_RUN_ENABLED=false on the server.
-          VITE_ENABLE_LOCAL_RUN: 'true'
           # The producer dispatched the exact uploaded ZIP/manifest. A newer
           # rolling Release must not silently replace the expected version.
           JAVA_DATA_DISPATCH_REQUIRED: ${{ github.event_name == 'repository_dispatch' }}

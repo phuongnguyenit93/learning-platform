@@ -65,7 +65,7 @@ Semantic color convention: Overview gray, Knowledge blue, Quiz amber, Interview 
 
 - Learning pages, Knowledge, Roadmap, Quiz, Interview và API reference đọc static assets, không cần application server của module.
 - Cloudflare Static Assets xử lý SPA deep links bằng `not_found_handling: single-page-application`.
-- **Local Run đã được bật trên standalone Production:** frontend flag `VITE_ENABLE_LOCAL_RUN=true`, Worker `LOCAL_RUN_ENABLED=true` và Cloudflare secret `GITHUB_ACTION_TOKEN` được provision. `worker/index.ts` tiếp nhận `/api/local-run/*`; mỗi module có một SQLite Durable Object coordinator để chống dispatch trùng, kết hợp Cloudflare Rate Limiting. Preview vẫn có server flag `LOCAL_RUN_ENABLED=false`. Cấu hình/secret của Worker và code React là hai boundary riêng; hiện diện của tab không thay thế validation backend.
+- Local Run is available for published runnable SERVLET/REACTIVE modules without frontend/backend enable toggles. The Cloudflare Worker validates GitHub credentials, same-origin requests, published fingerprint, Durable Object deduplication and rate limits. Preview keeps isolated DO and limiter bindings; with a GitHub secret it can also dispatch. UI visibility is not API authorization.
 - Các ngôn ngữ khác ngoài Java có thể có producer/dataset riêng về sau; không giả định tất cả source đều là Java.
 
 ---
@@ -247,12 +247,12 @@ Knowledge / Roadmap / Quiz / Interview / API Docs
 → dựa trên localized paths, metadata và static asset thực tế
 
 Local Run
-→ cần runnable module (`SERVLET`/`REACTIVE`) + published sourceFingerprint + frontend flag
-→ Worker Production tiếp tục xác minh module/fingerprint, server flag, secret và quyền dispatch
+-> requires runnable SERVLET/REACTIVE module and published sourceFingerprint
+-> Worker independently validates fingerprint, GitHub secret, origin and permissions before dispatch
 → JAR download chỉ Ready khi GitHub Release có đúng asset label/fingerprint
 ```
 
-`src/data/moduleCatalog.ts` chỉ bật `execution` nếu `VITE_ENABLE_LOCAL_RUN === 'true'` và module type phù hợp. Production bundle hiện có flag này; `wrangler.jsonc` cấu hình Worker flag `LOCAL_RUN_ENABLED=true`, Preview `false`. Flag không phải authorization; `worker/index.ts` thực hiện validation độc lập. `download` trong capability object không đồng nghĩa với JAR luôn sẵn có: UI kiểm tra public Release và fingerprint trước khi cho Download.
+`src/data/moduleCatalog.ts` enables `execution` for SERVLET/REACTIVE, without a Vite environment toggle. `worker/index.ts` validates the published module, fingerprint and credential independently. `download` alone does not mean a matching JAR exists; the browser verifies public Release.
 
 ---
 
@@ -390,7 +390,7 @@ Governance (`aiGenerated`, `reviewed`) là data-owned, frontend chỉ render bad
 
 ## 13. Local Run — Production flow, Worker/Durable Object và GitHub Actions
 
-Local Run hiện **đã được triển khai trên Production** (2026-10-12). Frontend `src/components/LocalRunPanel.tsx` dùng `src/data/localRun.ts`, `src/data/githubPublicRelease.ts` và `src/data/localRunMonitor.ts`; backend là `worker/index.ts`, `worker/local-run/*`, SQLite Durable Object và Cloudflare Rate Limiting. Production dùng `VITE_ENABLE_LOCAL_RUN=true` khi Vite build, `LOCAL_RUN_ENABLED=true` trong Worker và Cloudflare **Worker secret** `GITHUB_ACTION_TOKEN` (không đưa vào source, `VITE_` hoặc browser). Preview vẫn **khóa dispatch** server-side bằng `LOCAL_RUN_ENABLED=false`.
+Local Run is deployed to Production without runtime feature toggles. Frontend: `LocalRunPanel.tsx`, `localRun.ts`, `githubPublicRelease.ts`, `localRunMonitor.ts`. Backend: `worker/index.ts` and `worker/local-run/*` with SQLite Durable Object and Cloudflare Rate Limiting. The `GITHUB_ACTION_TOKEN` is a Worker secret (never in Vite/browser). Preview uses isolated bindings and can dispatch only when it has credentials and passes validation.
 
 Những mốc xác thực riêng biệt: Preview đã chạy thật `DATABASE_MYSQL` qua GitHub Actions run [38203320041](https://github.com/phuongnguyenit93/java-learning/actions/runs/38203320041) với `DISPATCHED` → `REUSED` → `BUILDING` → `SUCCESS`; sau đó trả Preview về disabled. Production đã deploy website/Worker, kiểm tra Public Release và Durable Object read-only; workflow `java-learning` chạy thật cho fingerprint V2 ở run [38240307249](https://github.com/phuongnguyenit93/java-learning/actions/runs/38240307249), JAR `database_mysql.jar` (22.547.875 bytes, public HTTP 200) có nhãn fingerprint V2 đúng. Những case lỗi/đồng thời khó kiểm chứng bằng React component tests + Worker engine tests; **không tuyên bố mọi lỗi đã được cố tình kích hoạt end-to-end trên Production**.
 
@@ -449,13 +449,13 @@ Rate Limiting binding chỉ được tiêu thụ khi chuẩn bị gửi **dispat
 
 React đọc lại `GET /status?runId=job-<fingerprint>&moduleId=...` mỗi lần mở tab Local Run hoặc reload để nối lại job từ DO, không dùng dữ liệu cache cục bộ làm authority và không tự dispatch lại Build. Polling có request timeout 12 giây, network backoff và mặc định 90 giây grace period với job đã biết (lúc kiểm tra trạng thái lần đầu, chưa biết job, dùng ngưỡng 12 giây); mất kết nối dài chuyển trạng thái cho người dùng bấm `Reconnect Build Status` mà vẫn giữ job trong DO. Frontend giới hạn theo dõi 47 phút, backend giới hạn tuổi job 45 phút. Sau SUCCESS/AVAILABLE, client retry Release asset với cache bypass tối đa khoảng 45 giây để xử lý upload visibility lag; hết cửa sổ retry vẫn ghi nhận Build thành công nhưng artifact đang chờ. Public-first artifact lookup độc lập với status Worker, nên Worker outage không cản đọc Release public.
 
-GitHub Release JAR gắn với module + fingerprint và rolling asset có thể overwrite phiên bản trước. **Fingerprint V2** đã publish lên `java-learning/main` (commit `bcb4aaa7`): SHA-256 64 hex tính từ manifest Git object IDs có version marker, gồm module chính, các module dependency tường minh (qua `properties.json`/`build.gradle`), Gradle root/wrapper, plugin orchestration, shared Spring Boot runtime và `internal/` (conservative). `learning-platform` không tự tính hash: dùng `sourceFingerprint` từ catalog đã publish và so khớp chính xác asset label như trước. V1 (Git tree SHA-1 40 ký tự) không thể khớp nhãn V2, nên artifact cũ tự động STALE. V2 chưa bao phủ thay đổi binary external dependencies ngoài Git nếu Gradle dependency không được lock; input shared rộng có thể invalidate nhiều module hơn mức cần thiết. Production Local Run được bật riêng qua `VITE_ENABLE_LOCAL_RUN` và `LOCAL_RUN_ENABLED`; Preview vẫn bị tắt server-side. GitHub credential là Cloudflare Worker secret, không nằm trong source/git/browser.
+GitHub Release JAR gắn với module + fingerprint và rolling asset có thể overwrite phiên bản trước. **Fingerprint V2** đã publish lên `java-learning/main` (commit `bcb4aaa7`): SHA-256 64 hex tính từ manifest Git object IDs có version marker, gồm module chính, các module dependency tường minh (qua `properties.json`/`build.gradle`), Gradle root/wrapper, plugin orchestration, shared Spring Boot runtime và `internal/` (conservative). `learning-platform` không tự tính hash: dùng `sourceFingerprint` từ catalog đã publish và so khớp chính xác asset label như trước. V1 (Git tree SHA-1 40 ký tự) không thể khớp nhãn V2, nên artifact cũ tự động STALE. V2 chưa bao phủ thay đổi binary external dependencies ngoài Git nếu Gradle dependency không được lock; input shared rộng có thể invalidate nhiều module hơn mức cần thiết. The temporary build-enable toggles are retired; GitHub credentials and published fingerprint validation remain server-side. Preview DO and rate-limiter bindings are isolated.
 
 User-side flow: available JAR → download trực tiếp; missing/stale JAR → người dùng **chủ động** nhấn Build → poll status → download sau khi kiểm tra Release asset. Java 21 và `--enable-preview` xuất hiện trong run instructions. UI không chạy JAR trong Cloudflare.
 
 ### 13.1 Lifecycle khi mở tab Local Run — read-only, không dispatch
 
-1. `src/pages/LearningPage.tsx` dùng `loadModuleCatalog()` và `loadModuleDetails(routeId)` từ `src/data/moduleCatalog.ts`; `toLearningModule()` cung cấp `moduleId`, `moduleName`, `sourceFingerprint`. `ModuleTabs.tsx` hiển thị tab Local Run khi module `SERVLET`/`REACTIVE` và frontend flag được bật.
+1. `src/pages/LearningPage.tsx` calls `loadModuleCatalog()` and `loadModuleDetails(routeId)`; `toLearningModule()` supplies moduleId/moduleName/sourceFingerprint. `ModuleTabs.tsx` shows Local Run only for SERVLET/REACTIVE modules.
 2. Khi chọn `Local Run` hoặc reload với `?tab=execution`, `LearningPage.tsx` mount `<LocalRunPanel key={moduleId+fingerprint} />`. Effect khởi tạo gọi **song song** `refreshArtifact()` và `trackBuild()`; hoàn toàn **không gọi POST**.
 3. `refreshArtifact()` → `localRunApi.getArtifact()` → `findPublicReleaseAsset()` đọc Release `local-run` bằng GitHub Public API **không token**. Cache chung trên browser có TTL 5 phút, hợp nhất các request đồng thời, tối đa 10 trang × 100 assets. Chỉ với rate limit, network/CORS/timeout, GitHub 5xx hoặc dữ liệu không dùng được mới fallback `GET /api/local-run/artifact` trên Worker (authenticated server-side). Missing/stale không tự động gọi Worker.
 4. `trackBuild()` → `watchLocalRunBuild()` → `GET /api/local-run/status?moduleId=...&runId=job-<fingerprint>`. `404` là **chưa có job**, không phải không có JAR. Nếu DO có job, UI resume từ trạng thái lưu trong SQLite; browser không lưu job ID như authority và không tự gửi Build lại.
@@ -492,7 +492,7 @@ sequenceDiagram
 
 `src/components/LocalRunPanel.tsx` → `handleBuild()` chuyển UI sang `SUBMITTING`, khóa thao tác lặp và gọi `localRunApi.startBuild()` bằng `POST /api/local-run/build` với JSON `{moduleId, sourceFingerprint}`.
 
-`worker/index.ts` là entrypoint HTTP: chỉ đúng endpoint/phương thức, cần `GITHUB_ACTION_TOKEN`, `LOCAL_RUN_ENABLED=true`, same-origin khi có Origin, `application/json`, request body ≤ 2048 bytes, module/fingerprint đúng định dạng. `worker/local-run/catalog.ts::validatePublishedModule()` đọc **catalog gốc** từ Cloudflare `env.ASSETS` để kiểm tra module hiện hành là `SERVLET`/`REACTIVE` và fingerprint trùng với dữ liệu đã publish; không nhận task Gradle tùy ý từ browser.
+`worker/index.ts` checks `GITHUB_ACTION_TOKEN` server-side, same-origin for POST requests, JSON content type, maximum 2048-byte body and valid module/fingerprint. `worker/local-run/catalog.ts::validatePublishedModule()` reads the authoritative catalog via `env.ASSETS` and requires a published SERVLET/REACTIVE module and exact fingerprint; client cannot choose arbitrary Gradle tasks or paths.
 
 Worker dùng `env.LOCAL_RUN_COORDINATOR.getByName(moduleId).startBuild(...)`: một **SQLite Durable Object theo module**, không theo fingerprint. Trong `worker/local-run/engine.ts::BuildCoordinatorEngine.start()`, nếu module đang có job active cùng fingerprint → `REUSED`; fingerprint khác → `409`; nếu chưa có thì **ghi reservation `CHECKING` trước mọi GitHub I/O**. Sau đó kiểm tra Release JAR → `AVAILABLE` nếu đúng nhãn; tìm GitHub Actions workflow tương ứng đang chạy → `REUSED`; nếu cả hai không có mới xét rate limit theo IP rồi `DISPATCHED` bằng GitHub `workflow_dispatch`.
 
@@ -623,7 +623,7 @@ dist/
 
 `.github/workflows/verify-and-preview.yml` build và validate dataset/asset trước khi upload immutable Actions artifact. PR chạy validation nhưng không deploy; manual workflow có thể chạy Preview riêng; push frontend `main` hoặc verified content dispatch tự động deploy Production Worker `learning-platform`, rồi so sánh live Catalog, Search, Knowledge và JS/CSS với chính build artifact trên cả Worker domain và custom domain. Mismatch làm job thất bại. `npm run build` gồm frontend, Java ZIP sync, derived content counts và navigation; `scripts/verify-dist.mjs` còn xác minh projection không thiếu metadata của module đã publish.
 
-`wrangler.jsonc` cấu hình **Cloudflare Workers Static Assets** (`assets.directory: ./dist`), custom Worker script `worker/index.ts` chạy trước cho `/api/*`, SQLite Durable Object `LOCAL_RUN_COORDINATOR` và Rate Limiter `BUILD_RATE_LIMITER`. Production hiện đã deploy Worker/API và bật Build; Cloudflare Worker secret `GITHUB_ACTION_TOKEN` được cấu hình riêng, không lưu trong Git. Worker URL: `https://learning-platform.phuongnguyenit93.workers.dev`; custom domain: `https://nguyendodinhphuong.name.vn`. Preview có binding/namespace riêng và **`LOCAL_RUN_ENABLED=false`**.
+`wrangler.jsonc` configures Cloudflare Worker Static Assets (`assets.directory: ./dist`), Worker entrypoint for `/api/*`, SQLite DO `LOCAL_RUN_COORDINATOR` and Rate Limiter `BUILD_RATE_LIMITER`. Worker URL: `https://learning-platform.phuongnguyenit93.workers.dev`; custom domain: `https://nguyendodinhphuong.name.vn`. Preview has isolated DO/rate-limiter bindings and no build-enable variable.
 
 ### 15.1 Hai CI/CD pipelines khác nhau — không gộp Build JAR với deploy website
 
@@ -1018,7 +1018,7 @@ Swagger tiếp tục có giá trị như API experiment tool, nhưng không còn
 - Java topic picker, module tree/dashboard, Roadmap timeline, Overview, Menu, Knowledge renderer, API Docs reference, Quiz, Interview, Reference và tìm kiếm/filter từ static catalog/index.
 - Static Java ZIP consumer có checksum/manifest verification, asset URL mapping và isolated `dist/language/java` sync; derived navigation (~121 KB), 295 per-module detail files và content count summary (~46 KB ở dataset 2026-10-12) cho progressive render, không bắt menu đợi full catalog/hàng trăm content requests.
 - Hai pipeline tách biệt: `java-learning` publisher tạo Release `java-data` rồi `repository_dispatch` sang `learning-platform` để chạy CI/CD website; người dùng chủ động Build JAR kích hoạt workflow riêng trong `java-learning`, tạo Release `local-run`, **không deploy lại frontend**.
-- Production Cloudflare Worker + Static Assets, `LOCAL_RUN_ENABLED=true`, Vite tab flag enabled, SQLite Durable Object Coordinator keyed by module, IP-based rate limit 3/60 theo location và secret GitHub riêng; Preview Build vẫn disabled. Frontend public-first artifact lookup với authenticated Worker fallback, đối chiếu Fingerprint V2, resume/poll/reconcile và chống Build trùng.
+- Production Cloudflare Worker with static assets; Local Run available by module type without feature toggles. The Worker checks its GitHub secret, module/fingerprint and same-origin requirements, using DO single-flight and an IP rate limit. Preview has isolated bindings and can dispatch with GitHub credentials.
 - UI Local Run P0/P1/P2: typed API errors, rate-limit cooldown, phân biệt Worker outage với Build failed, Submitting/Queued/Building/Publishing/Ready, `REUSED`, GitHub Actions/Release links, release lag retry, kiểm tra trước khi rebuild, OS guides, Clipboard error và localhost gated confirmation.
 - Verification: Preview E2E `DATABASE_MYSQL` (`38203320041`), java-learning V2 workflow `38240307249` SUCCESS; frontend Production deploy `38247993716` PASS; 44 Local Run/React tests, 21 data tests, 13 Worker tests PASS ở bản phát hành 2026-10-12. Read-only Production smoke xác nhận JAR `DATABASE_MYSQL` sẵn sàng, `KAFKA_PRODUCER_BANK` có Build action, không chủ động dispatch JAR mới trong UI smoke.
 

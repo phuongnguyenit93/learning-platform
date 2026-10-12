@@ -37,6 +37,8 @@ export interface TrackingOptions {
   signal: AbortSignal;
   now?: () => number;
   wait?: (ms: number, signal: AbortSignal) => Promise<void>;
+  maxConnectionFailureMs?: number;
+  onConnectionChange?: (state: 'connected' | 'reconnecting', attempts: number) => void;
 }
 
 /** Read-only recovery and polling. Never dispatches or retries POST /build. */
@@ -45,7 +47,7 @@ export async function watchLocalRunBuild(
   onStatus: (reply: LocalRunStatusResponse) => void,
   options: TrackingOptions,
 ): Promise<LocalRunStatusResponse> {
-  const { signal, now = Date.now, wait = waitLocalRun } = options;
+  const { signal, now = Date.now, wait = waitLocalRun, maxConnectionFailureMs = MAX_CONNECTION_FAILURE_MS } = options;
   const started = now();
   let connectionFailedAt: number | null = null;
   let failures = 0;
@@ -58,6 +60,7 @@ export async function watchLocalRunBuild(
       if (signal.aborted) throw new DOMException('Cancelled', 'AbortError');
       connectionFailedAt = null;
       failures = 0;
+      options.onConnectionChange?.('connected', 0);
       onStatus(reply);
       if (reply.status === 'SUCCESS' || reply.status === 'FAILED') return reply;
       await wait(POLL_INTERVAL_MS, signal);
@@ -65,10 +68,11 @@ export async function watchLocalRunBuild(
       if (signal.aborted) throw new DOMException('Cancelled', 'AbortError');
       if (!isRetryableLocalRunError(error)) throw error;
       connectionFailedAt ??= now();
-      if (now() - connectionFailedAt >= MAX_CONNECTION_FAILURE_MS) {
+      failures += 1;
+      options.onConnectionChange?.('reconnecting', failures);
+      if (now() - connectionFailedAt >= maxConnectionFailureMs) {
         throw new LocalRunTrackingInterruptedError('Connection lost while tracking the build. Retry status without starting a new build.');
       }
-      failures += 1;
       await wait(Math.min(10_000, 1000 * 2 ** Math.min(failures, 4)), signal);
     }
   }

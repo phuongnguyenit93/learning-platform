@@ -5152,6 +5152,11 @@ pre {
   border-color: var(--download-text);
 }
 
+.local-run-artifact-state.is-unavailable {
+  border-style: solid;
+  border-color: var(--api-text);
+}
+
 .local-run-artifact-state__icon {
   display: grid;
   place-items: center;
@@ -5203,6 +5208,28 @@ pre {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface-raised);
+}
+
+.local-run-progress__steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.local-run-progress__steps .local-run-progress__step {
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.local-run-progress__steps .local-run-progress__step strong {
+  font-size: 10px;
+}
+
+.local-run-progress__steps .local-run-progress__step > span {
+  flex: 0 0 24px;
 }
 
 .local-run-progress__step {
@@ -5449,6 +5476,60 @@ pre {
   border-left-color: var(--api-text);
   background: var(--api-bg);
   color: var(--api-text);
+}
+
+.local-run-review,
+.local-run-started {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.local-run-review input,
+.local-run-started input {
+  flex: 0 0 auto;
+  margin-top: 3px;
+  accent-color: var(--download-text);
+}
+
+.local-run-os {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.local-run-os button {
+  padding: 7px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--surface-raised);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.local-run-os button.is-selected {
+  border-color: var(--download-text);
+  background: var(--download-bg);
+  color: var(--download-text);
+}
+
+.local-run-url-disabled {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 11px;
+  color: var(--text-muted);
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.local-run-button:focus-visible,
+.local-run-os button:focus-visible,
+.local-run-command button:focus-visible,
+.local-run-started:focus-within,
+.local-run-review:focus-within {
+  outline: 2px solid var(--download-text);
+  outline-offset: 2px;
 }
 
 .local-run-steps {

@@ -199,6 +199,20 @@ five minutes since the last check. It does not poll continuously. A bilingual
 refresh is disabled during an active check or build. Build `AVAILABLE` and
 `SUCCESS` results also force an immediate cache invalidation and recheck.
 
+Local Run's UI independently models **artifact verification**, **GitHub build
+state**, and **Worker connection state**. Status 404 (no job) is not a missing
+JAR or a service outage. Known POST rejections
+(400/401/403/404/409/413/415/422/429) are actionable errors rather than
+reconciliation attempts; HTTP 408, 5xx, and network timeouts trigger only
+read-only status reconciliation, NEVER automatic duplicate POST. If an
+uncertain POST is followed by a 404, dispatching again requires explicit
+user acknowledgement after checking GitHub Actions. HTTP 429 displays a
+Retry-After countdown. Progress is Submitting → Queued → Building →
+Publishing JAR → Ready, with a validated GitHub Actions link. If Release
+visibility is delayed, users can recheck; a new Build after a successful
+run requires confirmation. Run instructions cover Windows/macOS/Linux,
+clipboard errors, and opening localhost only after starting the JAR.
+
 On reload or re-entry, the panel resumes any matching Durable Object job using
 its deterministic `job-<fingerprint>` tracking ID via read-only `GET /status`.
 It never repeats a POST /build just to reconnect. A 404 means no job for this

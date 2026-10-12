@@ -13,6 +13,7 @@ export interface LocalRunBuildResponse {
   moduleId: string;
   status: LocalRunBuildStatus;
   result: LocalRunBuildResult;
+  runUrl?: string;
 }
 
 export interface LocalRunStatusResponse {
@@ -20,6 +21,7 @@ export interface LocalRunStatusResponse {
   moduleId: string;
   status: LocalRunBuildStatus;
   message?: string;
+  runUrl?: string;
 }
 
 export interface LocalRunArtifactResponse {
@@ -37,7 +39,7 @@ export interface LocalRunApi {
 }
 
 export class LocalRunHttpError extends Error {
-  constructor(readonly status: number, message: string) {
+  constructor(readonly status: number, message: string, readonly retryAfterSeconds?: number) {
     super(message);
     this.name = 'LocalRunHttpError';
   }
@@ -75,7 +77,12 @@ async function requestJson<T>(input: RequestInfo | URL, init?: RequestInit): Pro
   const timeout = setTimeout(abort, 12_000);
   try {
     const response = await fetch(input, { cache: 'no-store', ...init, signal: controller.signal });
-    if (!response.ok) throw new LocalRunHttpError(response.status, await readApiError(response));
+    if (!response.ok) {
+      const seconds = Number(response.headers.get('retry-after'));
+      throw new LocalRunHttpError(response.status, await readApiError(response),
+        response.headers.has('retry-after') && Number.isFinite(seconds) && seconds > 0
+          ? Math.min(seconds, 3600) : undefined);
+    }
     return await response.json() as T;
   } finally {
     clearTimeout(timeout);

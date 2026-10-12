@@ -25,13 +25,34 @@ const acronymLabels: Record<string, string> = {
 };
 
 export async function loadModuleCatalog(): Promise<ModuleCatalog> {
-  const response = await fetchJavaAsset('/module-catalog.json');
-
-  if (!response.ok) {
-    throw new Error(`Unable to load module catalog: ${response.status} ${response.statusText}`);
+  // An edge-cache miss can return a transient 500/timeout even though the
+  // verified static catalog exists. Limit retries; never spin forever.
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    try {
+      const response = await fetchJavaAsset('/module-catalog.json', {
+        cache: 'default',
+        signal: AbortSignal.timeout(12_000),
+      });
+      if (!response.ok) {
+        const error = new Error(`Unable to load module catalog: ${response.status} ${response.statusText}`);
+        if (response.status < 500 && response.status !== 429) throw error;
+        lastError = error;
+      } else {
+        const catalog = await response.json() as ModuleCatalog;
+        if (catalog.version !== 1 || !catalog.root || !Array.isArray(catalog.root.children)) {
+          throw new Error('Invalid Java module catalog.');
+        }
+        return catalog;
+      }
+    } catch (error) {
+      if (error instanceof Error && /Invalid Java module catalog/.test(error.message)) throw error;
+      if (error instanceof Error && /catalog: 4\d\d/.test(error.message) && !/catalog: 429/.test(error.message)) throw error;
+      lastError = error;
+    }
+    if (attempt < 2) await new Promise((resolve) => setTimeout(resolve, (attempt + 1) * 600));
   }
-
-  return response.json() as Promise<ModuleCatalog>;
+  throw lastError instanceof Error ? lastError : new Error('Unable to load module catalog after retries.');
 }
 
 export function formatCatalogName(name: string): string {

@@ -18,10 +18,8 @@ import {
   loadModuleCatalog,
   toLearningModule,
 } from '../data/moduleCatalog';
-import { loadApiOperationCount } from '../data/apiDocs';
-import { loadInterviewQuestionCount } from '../data/interview';
+import { loadModuleContentCounts } from '../data/moduleContentCounts';
 import { loadKnowledgeIndex } from '../data/knowledge';
-import { loadQuizQuestionCount } from '../data/quiz';
 import { resolveModuleStats } from '../data/moduleStats';
 import { useLanguage } from '../state/LanguageContext';
 import type { KnowledgeIndex, ModuleCatalog } from '../types/learning';
@@ -33,6 +31,7 @@ export function LearningPage() {
   const { language } = useLanguage();
   const [catalog, setCatalog] = useState<ModuleCatalog | null>(null);
   const [catalogError, setCatalogError] = useState<string | null>(null);
+  const [catalogReload, setCatalogReload] = useState(0);
   // Keep Local Run visible after a page reload, so the panel immediately
   // reconnects to the Durable Object job instead of requiring another click.
   const [activeTab, setActiveTab] = useState<ModuleTab>(
@@ -56,6 +55,7 @@ export function LearningPage() {
 
   useEffect(() => {
     let active = true;
+    setCatalogError(null);
 
     loadModuleCatalog()
       .then((result) => {
@@ -73,7 +73,7 @@ export function LearningPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [catalogReload]);
 
   const realModules = useMemo(
     () => (catalog ? collectRealModules(catalog.root) : []),
@@ -146,153 +146,30 @@ export function LearningPage() {
 
   useEffect(() => {
     let active = true;
+    if (!catalog) return () => { active = false; };
 
-    setKnowledgeCounts({});
-
-    if (!catalog) {
-      return () => {
-        active = false;
-      };
-    }
-
-    const modulesWithKnowledge = collectRealModules(catalog.root)
-      .map((node) => ({
-        routeId: node.routeId,
-        path: node.knowledge?.[language],
-      }))
-      .filter((entry): entry is { routeId: string; path: string } => Boolean(entry.routeId && entry.path));
-
-    Promise.all(
-      modulesWithKnowledge.map(async ({ routeId, path }) => {
-        try {
-          const index = await loadKnowledgeIndex(path);
-          return [routeId, index.sectionCount] as const;
-        } catch {
-          return null;
-        }
-      }),
-    )
-      .then((entries) => {
+    // This verified 46 KB summary replaces more than 600 simultaneous
+    // Knowledge/Quiz/Interview YAML/JSON requests on every Learning entry.
+    loadModuleContentCounts()
+      .then(({ locales }) => {
+        if (!active) return;
+        const entries = Object.entries(locales[language]);
+        setKnowledgeCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.knowledge])));
+        setQuizCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.quiz])));
+        setInterviewCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.interview])));
+        setApiCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.apiDocs])));
+      })
+      .catch(() => {
+        // The catalog has enough metadata for sidebar fallback even if
+        // the optional derived summary is temporarily unavailable.
         if (active) {
-          setKnowledgeCounts(Object.fromEntries(entries.filter((entry) => entry !== null)));
+          setKnowledgeCounts({});
+          setQuizCounts({});
+          setInterviewCounts({});
+          setApiCounts({});
         }
       });
-
-    return () => {
-      active = false;
-    };
-  }, [catalog, language]);
-
-  useEffect(() => {
-    let active = true;
-
-    setInterviewCounts({});
-
-    if (!catalog) {
-      return () => {
-        active = false;
-      };
-    }
-
-    const modulesWithInterview = collectRealModules(catalog.root)
-      .map((node) => ({
-        routeId: node.routeId,
-        path: node.interview?.[language],
-      }))
-      .filter((entry): entry is { routeId: string; path: string } => Boolean(entry.routeId && entry.path));
-
-    Promise.all(
-      modulesWithInterview.map(async ({ routeId, path }) => {
-        try {
-          return [routeId, await loadInterviewQuestionCount(path)] as const;
-        } catch {
-          return null;
-        }
-      }),
-    ).then((entries) => {
-      if (active) {
-        setInterviewCounts(Object.fromEntries(entries.filter((entry) => entry !== null)));
-      }
-    });
-
-    return () => {
-      active = false;
-    };
-  }, [catalog, language]);
-
-  useEffect(() => {
-    let active = true;
-
-    setQuizCounts({});
-
-    if (!catalog) {
-      return () => {
-        active = false;
-      };
-    }
-
-    const modulesWithQuiz = collectRealModules(catalog.root)
-      .map((node) => ({
-        routeId: node.routeId,
-        path: node.quiz?.[language],
-      }))
-      .filter((entry): entry is { routeId: string; path: string } => Boolean(entry.routeId && entry.path));
-
-    Promise.all(
-      modulesWithQuiz.map(async ({ routeId, path }) => {
-        try {
-          return [routeId, await loadQuizQuestionCount(path)] as const;
-        } catch {
-          return null;
-        }
-      }),
-    ).then((entries) => {
-      if (active) {
-        setQuizCounts(Object.fromEntries(entries.filter((entry) => entry !== null)));
-      }
-    });
-
-    return () => {
-      active = false;
-    };
-  }, [catalog, language]);
-
-  useEffect(() => {
-    let active = true;
-
-    setApiCounts({});
-
-    if (!catalog) {
-      return () => {
-        active = false;
-      };
-    }
-
-    const modulesWithApi = collectRealModules(catalog.root)
-      .map((node) => ({
-        routeId: node.routeId,
-        path: node.api?.[language],
-      }))
-      .filter((entry): entry is { routeId: string; path: string } => Boolean(entry.routeId && entry.path));
-
-    Promise.all(
-      modulesWithApi.map(async ({ routeId, path }) => {
-        try {
-          const count = await loadApiOperationCount(path);
-          return [routeId, count] as const;
-        } catch {
-          return null;
-        }
-      }),
-    ).then((entries) => {
-      if (active) {
-        setApiCounts(Object.fromEntries(entries.filter((entry) => entry !== null)));
-      }
-    });
-
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [catalog, language]);
 
   useEffect(() => {
@@ -384,6 +261,9 @@ export function LearningPage() {
         <div className="empty-state empty-state--large">
           <strong>{language === 'vi' ? 'Không thể tải cấu trúc module' : 'Unable to load module structure'}</strong>
           <span>{catalogError}</span>
+          <button type="button" onClick={() => setCatalogReload((value) => value + 1)}>
+            {language === 'vi' ? 'Thử tải lại' : 'Retry loading'}
+          </button>
         </div>
       </main>
     );

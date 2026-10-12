@@ -11,6 +11,7 @@ import { checkPreview } from './check-preview.mjs';
 
 export const productionAssetPaths = [
   '/language/java/module-catalog.json',
+  '/module-content-counts.json',
   '/language/java/search/knowledge-search.vi.json',
   '/language/java/search/knowledge-search.en.json',
   '/language/java/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/vi/content/ObjectOrientedProgramming/sections/oop-what.md',

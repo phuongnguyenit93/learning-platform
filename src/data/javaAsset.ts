@@ -12,6 +12,6 @@ export function javaAssetUrl(path: string): string {
   return path;
 }
 
-export function fetchJavaAsset(path: string): Promise<Response> {
-  return fetch(javaAssetUrl(path), { cache: 'no-cache' });
+export function fetchJavaAsset(path: string, init: RequestInit = {}): Promise<Response> {
+  return fetch(javaAssetUrl(path), { cache: 'no-cache', ...init });
 }

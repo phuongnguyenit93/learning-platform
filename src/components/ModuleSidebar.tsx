@@ -196,7 +196,13 @@ function isQualifiedRealModule(
     || (quizCounts[node.routeId] ?? 0) > 0
     || (interviewCounts[node.routeId] ?? 0) > 0
     || (apiCounts[node.routeId] ?? 0) > 0
-    || roadmapAvailability[node.routeId] === true;
+    || roadmapAvailability[node.routeId] === true
+    // If the optional count-summary request fails, do not hide real modules.
+    // The published catalog already declares which content is available.
+    || Boolean(Object.values(node.knowledge ?? {}).some(Boolean)
+      || Object.values(node.quiz ?? {}).some(Boolean)
+      || Object.values(node.interview ?? {}).some(Boolean)
+      || Object.values(node.api ?? {}).some(Boolean));
 }
 
 function isTerminalModuleGroup(node: ModuleCatalogNode): boolean {

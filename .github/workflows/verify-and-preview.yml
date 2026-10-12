@@ -52,7 +52,6 @@ jobs:
         run: |
           npm run test:worker
           npm run check:worker
-          npm run check:wrangler
 
       - name: Build frontend and consume verified Java Release
         env:
@@ -66,6 +65,9 @@ jobs:
           JAVA_DATA_EXPECTED_SOURCE_COMMIT: ${{ github.event.client_payload.source_commit }}
           JAVA_DATA_EXPECTED_SHA256: ${{ github.event.client_payload.data_sha256 }}
         run: npm run build
+
+      - name: Validate Wrangler bundle after building dist
+        run: npm run check:wrangler
 
       - name: Verify complete deployable assets
         run: node scripts/verify-dist.mjs

@@ -16,13 +16,14 @@ import {
   collectRealModules,
   findModuleByRouteId,
   loadModuleCatalog,
+  loadModuleDetails,
   toLearningModule,
 } from '../data/moduleCatalog';
 import { loadModuleContentCounts } from '../data/moduleContentCounts';
 import { loadKnowledgeIndex } from '../data/knowledge';
 import { resolveModuleStats } from '../data/moduleStats';
 import { useLanguage } from '../state/LanguageContext';
-import type { KnowledgeIndex, ModuleCatalog } from '../types/learning';
+import type { KnowledgeIndex, ModuleCatalog, ModuleCatalogNode } from '../types/learning';
 
 export function LearningPage() {
   const { moduleId } = useParams();
@@ -32,6 +33,9 @@ export function LearningPage() {
   const [catalog, setCatalog] = useState<ModuleCatalog | null>(null);
   const [catalogError, setCatalogError] = useState<string | null>(null);
   const [catalogReload, setCatalogReload] = useState(0);
+  const [moduleDetails, setModuleDetails] = useState<ModuleCatalogNode | null>(null);
+  const [moduleDetailError, setModuleDetailError] = useState<string | null>(null);
+  const [moduleDetailReload, setModuleDetailReload] = useState(0);
   // Keep Local Run visible after a page reload, so the panel immediately
   // reconnects to the Durable Object job instead of requiring another click.
   const [activeTab, setActiveTab] = useState<ModuleTab>(
@@ -87,6 +91,24 @@ export function LearningPage() {
 
   const activeModuleNode = requestedModule ?? realModules[0];
   const activeModuleId = activeModuleNode?.routeId ?? activeModuleNode?.serviceName ?? activeModuleNode?.name ?? '';
+  const readyDetails = moduleDetails?.routeId === activeModuleId ? moduleDetails : null;
+  const detailsPending = Boolean(activeModuleId && !readyDetails);
+  useEffect(() => {
+    let active = true;
+    if (!activeModuleId) return () => { active = false; };
+    setModuleDetailError(null);
+    loadModuleDetails(activeModuleId)
+      .then((result) => {
+        if (active) {
+          setModuleDetails(result);
+          setModuleDetailError(null);
+        }
+      })
+      .catch((error: unknown) => {
+        if (active) setModuleDetailError(error instanceof Error ? error.message : 'Unable to load module details.');
+      });
+    return () => { active = false; };
+  }, [activeModuleId, moduleDetailReload]);
   const roadmapAvailability = useMemo(
     () => (catalog
       ? Object.fromEntries(
@@ -102,8 +124,10 @@ export function LearningPage() {
     [activeModuleId],
   );
   const activeModule = useMemo(
-    () => (activeModuleNode ? toLearningModule(activeModuleNode, activeStats) : null),
-    [activeModuleNode, activeStats],
+    () => (activeModuleNode
+      ? toLearningModule(readyDetails ?? activeModuleNode, activeStats)
+      : null),
+    [activeModuleNode, activeStats, readyDetails],
   );
   const knowledgePath = activeModule?.knowledge[language];
   const videoPath = activeModule?.video[language];
@@ -355,6 +379,24 @@ export function LearningPage() {
         </div>
 
         <div className="learning-content">
+          {detailsPending ? (
+            <div className="empty-state empty-state--large">
+              <strong>
+                {moduleDetailError
+                  ? (language === 'vi' ? 'Không thể tải chi tiết module' : 'Unable to load module details')
+                  : (language === 'vi' ? 'Đang tải nội dung module...' : 'Loading module content...')}
+              </strong>
+              {moduleDetailError && (
+                <>
+                  <span>{moduleDetailError}</span>
+                  <button type="button" onClick={() => setModuleDetailReload((value) => value + 1)}>
+                    {language === 'vi' ? 'Thử tải lại' : 'Retry loading'}
+                  </button>
+                </>
+              )}
+            </div>
+          ) : (
+          <>
           {activeTab === 'overview' && <OverviewPanel module={activeModule} />}
           {visitedTabs.has('menu') && (
             <div hidden={activeTab !== 'menu'}>
@@ -494,6 +536,8 @@ export function LearningPage() {
                   : 'Feedback area for the current module.'}
               </p>
             </section>
+          )}
+          </>
           )}
         </div>
       </section>

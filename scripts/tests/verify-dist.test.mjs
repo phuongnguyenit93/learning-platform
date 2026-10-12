@@ -20,11 +20,23 @@ async function fixture(t) {
     version: 1, root: {
       kind: 'GROUP',
       children: [{
-        kind: 'MODULE',
+        kind: 'MODULE', routeId: 'EXAMPLE',
         knowledge: { vi: '/module/EXAMPLE/knowledge/vi/index.json' },
         api: { vi: '/module/EXAMPLE/api/vi' },
         children: [],
       }],
+    },
+  }));
+  await write('module-navigation.json', JSON.stringify({
+    version: 1, root: { kind: 'GROUP', children: [
+      { kind: 'MODULE', routeId: 'EXAMPLE', name: 'Example', hasContent: true, children: [] },
+    ] },
+  }));
+  await write('module-details/EXAMPLE.json', JSON.stringify({ kind: 'MODULE', routeId: 'EXAMPLE' }));
+  await write('module-content-counts.json', JSON.stringify({
+    version: 1, locales: {
+      vi: { EXAMPLE: { knowledge: 1, quiz: 0, interview: 0, apiDocs: 0 } },
+      en: { EXAMPLE: { knowledge: 0, quiz: 0, interview: 0, apiDocs: 0 } },
     },
   }));
   await write('language/java/module/EXAMPLE/knowledge/vi/index.json', '{}');

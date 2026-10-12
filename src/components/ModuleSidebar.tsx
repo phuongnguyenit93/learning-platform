@@ -197,6 +197,7 @@ function isQualifiedRealModule(
     || (interviewCounts[node.routeId] ?? 0) > 0
     || (apiCounts[node.routeId] ?? 0) > 0
     || roadmapAvailability[node.routeId] === true
+    || node.hasContent === true
     // If the optional count-summary request fails, do not hide real modules.
     // The published catalog already declares which content is available.
     || Boolean(Object.values(node.knowledge ?? {}).some(Boolean)

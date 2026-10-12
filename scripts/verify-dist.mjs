@@ -69,6 +69,29 @@ export async function verifyDist(directory = 'dist') {
 
   const catalog = JSON.parse(await readFile(join(java, 'module-catalog.json'), 'utf8'));
   ensure(catalog.version === 1, 'Unexpected Java catalog version');
+  const navigation = JSON.parse(await readFile(join(root, 'module-navigation.json'), 'utf8'));
+  ensure(navigation.version === 1 && navigation.root, 'Missing/invalid progressive module navigation');
+  const sourceIds = new Set();
+  const navigationIds = new Set();
+  const collectRouteIds = (node, target) => {
+    if (node.kind === 'MODULE' && node.routeId) target.add(node.routeId);
+    for (const child of node.children ?? []) collectRouteIds(child, target);
+  };
+  collectRouteIds(catalog.root, sourceIds);
+  collectRouteIds(navigation.root, navigationIds);
+  ensure(
+    sourceIds.size === navigationIds.size && [...sourceIds].every((id) => navigationIds.has(id)),
+    'Progressive navigation must contain every published Java module',
+  );
+  for (const id of sourceIds) {
+    ensure(await isFile(join(root, 'module-details', `${id}.json`)), `Missing progressive module details: ${id}`);
+  }
+  const contentCounts = JSON.parse(await readFile(join(root, 'module-content-counts.json'), 'utf8'));
+  ensure(
+    contentCounts.version === 1 &&
+      [...sourceIds].every((id) => contentCounts.locales?.vi?.[id] && contentCounts.locales?.en?.[id]),
+    'Missing progressive navigation content counts',
+  );
   const references = new Set();
   visitModules(catalog.root, java, references);
   ensure(references.size > 0, 'No Java catalog asset references');

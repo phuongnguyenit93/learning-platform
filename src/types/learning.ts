@@ -64,12 +64,14 @@ export interface ModuleCatalog {
 export interface ModuleCatalogNode {
   id: string;
   name: string;
-  path: string;
+  path?: string;
   kind: 'GROUP' | 'MODULE';
   routeId?: string;
   sourceFingerprint?: string;
   serviceName?: string;
   moduleType?: 'SERVLET' | 'REACTIVE' | 'LIBRARY' | 'PLATFORM' | string;
+  /** Navigation-only hint, derived at build time from published metadata. */
+  hasContent?: boolean;
   javaBasePackage?: string;
   description?: string;
   moduleDepend?: boolean;

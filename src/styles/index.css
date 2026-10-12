@@ -5284,33 +5284,6 @@ pre {
   background: var(--download-bg);
 }
 
-.local-run-progress__step.is-failed {
-  color: var(--api-text);
-}
-
-.local-run-progress__step.is-failed > span {
-  border-color: var(--api-text);
-  background: var(--api-bg);
-}
-
-.local-run-progress__connector {
-  position: relative;
-  width: 24px;
-  overflow: hidden;
-  color: var(--text-muted);
-  font-size: 11px;
-  text-align: center;
-}
-
-.local-run-progress__connector.is-complete {
-  color: var(--local-run-accent-text);
-}
-
-.local-run-progress__connector.is-running {
-  color: var(--local-run-accent-text);
-  animation: local-run-connector-flow 1.1s ease-in-out infinite;
-}
-
 .local-run-progress__activity {
   position: relative;
   height: 6px;
@@ -5375,19 +5348,6 @@ pre {
   }
 }
 
-@keyframes local-run-connector-flow {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: translateY(-1px);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateY(2px);
-  }
-}
-
 @keyframes local-run-build-shimmer {
   from {
     left: -34%;
@@ -5401,7 +5361,6 @@ pre {
 @media (prefers-reduced-motion: reduce) {
   .local-run-progress__step.is-current > span,
   .local-run-progress__step.is-current strong::after,
-  .local-run-progress__connector.is-running,
   .local-run-progress__activity > span {
     animation: none;
   }

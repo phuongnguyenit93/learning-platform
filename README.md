@@ -1,7 +1,10 @@
 # Learning Platform
 
-Standalone React 19 + TypeScript + Vite website. This repository is independent
-of the Java/Spring/Gradle sources that produce Java learning content.
+Standalone React 19 + TypeScript + Vite website with a Cloudflare Worker Local
+Run API and SQLite Durable Object coordinator. The former Spring Boot/React
+`java-learning/project-portal/` application has been retired and deleted.
+This repository is the **sole maintained website**, independent of Java source
+compilation. The Java repository remains the data producer and JAR builder.
 
 For product UX, frontend architecture, feature data contracts and current
 implementation status, see [ARCHITECTURE.md](ARCHITECTURE.md).
@@ -36,9 +39,8 @@ and validates the Java dataset. If the download, SHA-256, manifest or ZIP checks
 fail, the command fails and the site must **not** be deployed. `dist/` is the
 only runtime copy of learning data; it is ignored by Git. The production site
 is the resulting `dist/` directory.
-Cloudflare Pages can serve this directory and automatically falls back to
-`index.html` for SPA navigation when no top-level `404.html` exists.
-For **Cloudflare Workers Static Assets**, `wrangler.jsonc` configures
+For **Cloudflare Workers Static Assets** (the only maintained production host),
+`wrangler.jsonc` configures
 `assets.not_found_handling: single-page-application` for deep links such as
 `/learning`, `/learning/java/knowledge/HIKARI_CP`, `/project`, and `/about-me`.
 Do not add a catch-all `/* /index.html 200` rule to the Vite static assets:

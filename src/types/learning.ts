@@ -217,23 +217,6 @@ export interface KnowledgeSearchResult {
   score: number;
 }
 
-export interface KnowledgeTopic {
-  id: string;
-  label: LocalizedText;
-}
-
-export interface KnowledgeItem {
-  id: string;
-  moduleId: string;
-  topicId: string;
-  title: LocalizedText;
-  level: 'basic' | 'intermediate' | 'advanced';
-  summary: LocalizedText;
-  paragraphs: LocalizedText[];
-  bullets: LocalizedText[];
-  code?: string;
-}
-
 export type QuizAnswerId = 'A' | 'B' | 'C' | 'D';
 
 export interface QuizAnswer {
@@ -278,15 +261,6 @@ export interface InterviewQuestion {
 
 export interface InterviewDocument {
   questions: InterviewQuestion[];
-}
-
-export interface ApiOperation {
-  id: string;
-  moduleId: string;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
-  path: string;
-  summary: LocalizedText;
-  description: LocalizedText;
 }
 
 export interface ApiReadmeRelated {

@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { loadKnowledgeSearchIndex, searchKnowledge } from '../data/knowledgeSearch';
 import { collectRealModules, formatCatalogName } from '../data/moduleCatalog';
+import { isCountedRealModule, projectCountedRealModules } from '../data/realModuleFilter';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   KnowledgeSearchIndex,
@@ -19,6 +20,8 @@ interface ModuleSidebarProps {
   interviewCounts: Record<string, number>;
   apiCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
+  contentCountsState: 'loading' | 'ready' | 'error';
+  onRetryContentCounts: () => void;
 }
 
 interface TreeNodeProps {
@@ -178,32 +181,6 @@ function collectModuleSearchMetadata(
   });
 
   return result;
-}
-
-function isQualifiedRealModule(
-  node: ModuleCatalogNode,
-  knowledgeCounts: Record<string, number>,
-  quizCounts: Record<string, number>,
-  interviewCounts: Record<string, number>,
-  apiCounts: Record<string, number>,
-  roadmapAvailability: Record<string, boolean>,
-): boolean {
-  if (node.kind !== 'MODULE' || !node.routeId) {
-    return false;
-  }
-
-  return (knowledgeCounts[node.routeId] ?? 0) > 0
-    || (quizCounts[node.routeId] ?? 0) > 0
-    || (interviewCounts[node.routeId] ?? 0) > 0
-    || (apiCounts[node.routeId] ?? 0) > 0
-    || roadmapAvailability[node.routeId] === true
-    || node.hasContent === true
-    // If the optional count-summary request fails, do not hide real modules.
-    // The published catalog already declares which content is available.
-    || Boolean(Object.values(node.knowledge ?? {}).some(Boolean)
-      || Object.values(node.quiz ?? {}).some(Boolean)
-      || Object.values(node.interview ?? {}).some(Boolean)
-      || Object.values(node.api ?? {}).some(Boolean));
 }
 
 function isTerminalModuleGroup(node: ModuleCatalogNode): boolean {
@@ -608,45 +585,6 @@ function ModulePickerRow({
   );
 }
 
-function projectRealModuleNodes(
-  nodes: ModuleCatalogNode[],
-  knowledgeCounts: Record<string, number>,
-  quizCounts: Record<string, number>,
-  interviewCounts: Record<string, number>,
-  apiCounts: Record<string, number>,
-  roadmapAvailability: Record<string, boolean>,
-): ModuleCatalogNode[] {
-  const result: ModuleCatalogNode[] = [];
-
-  nodes.forEach((node) => {
-    const projectedChildren = projectRealModuleNodes(
-      node.children,
-      knowledgeCounts,
-      quizCounts,
-      interviewCounts,
-      apiCounts,
-      roadmapAvailability,
-    );
-    const keepModule = isQualifiedRealModule(
-      node,
-      knowledgeCounts,
-      quizCounts,
-      interviewCounts,
-      apiCounts,
-      roadmapAvailability,
-    );
-
-    if (keepModule || projectedChildren.length > 0) {
-      result.push({
-        ...node,
-        children: projectedChildren,
-      });
-    }
-  });
-
-  return result;
-}
-
 function TreeNode({
   node,
   depth,
@@ -684,14 +622,9 @@ function TreeNode({
   const isModule = node.kind === 'MODULE' && Boolean(node.routeId);
   const isActive = isModule && node.routeId === activeModuleId;
   const structuralModule = isModule && hasInlineChildren;
-  const isRealModule = isQualifiedRealModule(
-    node,
-    knowledgeCounts,
-    quizCounts,
-    interviewCounts,
-    apiCounts,
-    roadmapAvailability,
-  );
+  const isRealModule = isCountedRealModule(node, {
+    knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, api: apiCounts,
+  });
   const displayName = formatCatalogName(node.name);
   const pickerEntries = useMemo<ModulePickerEntry[]>(() => {
     const ordered = node.children.map((child, index) => ({ node: child, sequence: index + 1 }));
@@ -892,6 +825,8 @@ export function ModuleSidebar({
   interviewCounts,
   apiCounts,
   roadmapAvailability,
+  contentCountsState,
+  onRetryContentCounts,
 }: ModuleSidebarProps) {
   const navigate = useNavigate();
   const { language } = useLanguage();
@@ -979,17 +914,12 @@ export function ModuleSidebar({
   const realModuleCount = useMemo(
     () => nodes.reduce(
       (count, node) => count + collectRealModules(node)
-        .filter((moduleNode) => isQualifiedRealModule(
-          moduleNode,
-          knowledgeCounts,
-          quizCounts,
-          interviewCounts,
-          apiCounts,
-          roadmapAvailability,
-        )).length,
+        .filter((moduleNode) => isCountedRealModule(moduleNode, {
+          knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, api: apiCounts,
+        })).length,
       0,
     ),
-    [apiCounts, interviewCounts, knowledgeCounts, nodes, quizCounts, roadmapAvailability],
+    [apiCounts, interviewCounts, knowledgeCounts, nodes, quizCounts],
   );
   const visibleNodes = useMemo(
     () => {
@@ -997,15 +927,11 @@ export function ModuleSidebar({
         return nodes;
       }
 
-      return realModulesOnly
-        ? projectRealModuleNodes(
-          nodes,
-          knowledgeCounts,
-          quizCounts,
-          interviewCounts,
-          apiCounts,
-          roadmapAvailability,
-        )
+      // A count summary that is loading or has failed is not evidence of empty modules.
+      return realModulesOnly && contentCountsState === 'ready'
+        ? projectCountedRealModules(nodes, {
+          knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, api: apiCounts,
+        })
         : nodes;
     },
     [
@@ -1013,10 +939,10 @@ export function ModuleSidebar({
       interviewCounts,
       knowledgeCounts,
       knowledgeSearchActive,
+      contentCountsState,
       nodes,
       quizCounts,
       realModulesOnly,
-      roadmapAvailability,
     ],
   );
 
@@ -1037,7 +963,8 @@ export function ModuleSidebar({
 
   const displayedModuleCount = knowledgeSearchActive
     ? knowledgeMatchModuleIds.size
-    : (realModulesOnly ? realModuleCount : moduleCount);
+    : (realModulesOnly && contentCountsState !== 'ready' ? '?'
+      : (realModulesOnly ? realModuleCount : moduleCount));
 
   return (
     <aside className="learning-sidebar">
@@ -1047,6 +974,19 @@ export function ModuleSidebar({
           <span className="learning-sidebar__total">{displayedModuleCount}</span>
         </span>
       </div>
+
+      {realModulesOnly && contentCountsState !== 'ready' && !knowledgeSearchActive && (
+        <div className="sidebar-module-count-notice" role="status">
+          <span>{contentCountsState === 'loading'
+            ? (language === 'vi' ? '\u0110ang t\u1ea3i s\u1ed1 l\u01b0\u1ee3ng n\u1ed9i dung \u0111\u1ec3 l\u1ecdc Module th\u1eadt\u2026' : 'Loading content counts for Real modules...')
+            : (language === 'vi' ? 'Kh\u00f4ng th\u1ec3 x\u00e1c minh Module th\u1eadt; \u0111ang hi\u1ec3n th\u1ecb c\u00e2y \u0111\u1ea7y \u0111\u1ee7.' : 'Unable to verify Real modules; showing the full tree.')}</span>
+          {contentCountsState === 'error' && (
+            <button type="button" onClick={onRetryContentCounts}>
+              {language === 'vi' ? 'Th\u1eed l\u1ea1i' : 'Retry'}
+            </button>
+          )}
+        </div>
+      )}
 
       <label className={`sidebar-search${knowledgeSearchActive ? ' is-disabled' : ''}`}>
         <span aria-hidden="true">⌕</span>

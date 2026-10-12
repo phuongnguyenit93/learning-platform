@@ -262,3 +262,58 @@ test('HTTP 408 is ambiguous; only explicitly rejected statuses skip safe reconci
   }
   assert.equal(isDefiniteBuildRejection(new TypeError('Network failed')), false);
 });
+
+
+test('Queued and Building show a link to the exact GitHub Actions run, not the workflow listing', async (t) => {
+  for (const status of ['QUEUED', 'BUILDING'] as const) {
+    await t.test(status, async (sub) => {
+      sub.mock.method(localRunApi, 'getBuildStatus', async () => ({
+        moduleId: MODULE, runId: `job-${FP}`, status,
+        runUrl: 'https://github.com/phuongnguyenit93/java-learning/actions/runs/987654',
+      }));
+      sub.mock.method(localRunApi, 'getArtifact', async () => missing());
+      const ui = await mount(sub);
+      const anchor = ui.container.querySelector('a[href$="/actions/runs/987654"]');
+      assert.ok(anchor);
+      assert.match(anchor.textContent ?? '', /Xem ti/);
+      assert.equal(ui.container.querySelector('a[href*="/actions/workflows/"]'), null);
+    });
+  }
+});
+
+test('A failed GitHub workflow keeps the exact build log link for debugging', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => ({
+    moduleId: MODULE, runId: `job-${FP}`, status: 'FAILED' as const,
+    runUrl: 'https://github.com/phuongnguyenit93/java-learning/actions/runs/987654',
+    message: 'Gradle failed',
+  }));
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  const ui = await mount(t);
+  const anchor = ui.container.querySelector('a[href$="/actions/runs/987654"]');
+  assert.ok(anchor);
+  assert.match(anchor.textContent ?? '', /Xem build log/);
+});
+
+test('A successful GitHub workflow keeps its build log after the JAR is ready', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => ({
+    moduleId: MODULE, runId: `job-${FP}`, status: 'SUCCESS' as const,
+    runUrl: 'https://github.com/phuongnguyenit93/java-learning/actions/runs/987654',
+  }));
+  t.mock.method(localRunApi, 'getArtifact', async () => ({
+    ...missing(), available: true,
+    downloadUrl: 'https://github.com/phuongnguyenit93/java-learning/releases/download/local-run/database_mysql.jar',
+  }));
+  const ui = await mount(t);
+  const anchor = ui.container.querySelector('a[href$="/actions/runs/987654"]');
+  assert.ok(anchor);
+  assert.match(anchor.textContent ?? '', /Xem build log/);
+  assert.ok(ui.container.querySelector('a.local-run-button--download'));
+});
+
+test('No build run means no misleading generic Build log link', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No job'); });
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  const ui = await mount(t);
+  assert.equal(ui.container.querySelector('a[href*="/actions/workflows/"]'), null);
+  assert.equal(ui.container.querySelector('a[href*="/actions/runs/"]'), null);
+});

@@ -564,6 +564,7 @@ Các cải tiến UI triển khai trong commit [`333569c`](https://github.com/ph
 
 - **P0 — State/error classification:** tách artifact, build và Worker connection; status job 404 cho phép cân nhắc Build nhưng Worker outage không mở Build mù; lỗi POST được xác nhận như 400/403/409/429 không gọi reconcile như lỗi mạng; `429` có `Retry-After` countdown; `408`, 5xx và transport timeout được coi là dispatch chưa rõ và chỉ GET để đối chiếu; POST chưa chắc chắn + status 404 yêu cầu người dùng chủ động xác nhận đã kiểm tra Actions trước khi Build lại.
 - **P1 — Progress/recovery:** `Submitting → Queued → Building → Publishing JAR → Ready`, `REUSED` giải thích đang tiếp tục workflow cũ; URL run chỉ được render nếu là HTTPS GitHub Actions run thuộc đúng repository; có link Actions/Release, Reconnect, Retry asset. Build `SUCCESS` mà JAR chưa xuất hiện không giả Ready; khi có tùy chọn Rebuild phải xác nhận rõ trước khi gửi yêu cầu mới. Tracking deadline 47 phút không tự coi GitHub job thất bại.
+- **Real modules + build logs (current):** strict positive Knowledge/Quiz/Interview/API counts per selected locale, retaining necessary ancestors; loading/errors show an unfiltered tree with status/Retry. Local Run progress labels have fixed height and pulse only the active circle. Queued/Building/Publishing link to the exact GitHub run where known; after Success/Failed it remains as View build log. Worker derives the exact URL from a valid numeric GitHub run ID when html_url is missing, never substitutes a generic workflow-list URL as the build log.
 - **P2 — Run Locally/a11y:** hướng dẫn Java 21 riêng Windows/macOS/Linux, `java --enable-preview -jar ...` với port/context path mặc định; Copy báo lỗi khi Clipboard API thất bại; link `localhost` chỉ hoạt động sau checkbox xác nhận người dùng đã khởi động JAR; focus-visible và responsive styles.
 
 Các điều kiện *không được suy diễn*: Build UI không chứng minh app Java đã chạy; không hỗ trợ cancel GitHub workflow từ website; không có vị trí queue/ETA/FIFO riêng; Worker `503` không đồng nghĩa GitHub Build thất bại; public Download vẫn có thể hoạt động khi API Worker gặp sự cố.
@@ -702,7 +703,7 @@ External Java producer sở hữu learning content, source fingerprint và execu
 3. Chỉ đồng bộ `dist/language/java/` và giữ nguyên static assets/ngôn ngữ khác.
 4. Map upstream absolute paths sang `/language/java/...` khi load trong browser.
 5. Render deterministic order, localized resources, empty states và relationships theo data cung cấp.
-6. Sinh derived `module-navigation.json`, `module-details/{ROUTE_ID}.json`, `module-content-counts.json` ở ngoài Java namespace để React không fetch hàng trăm Knowledge/Quiz/Interview files lúc vào trang; bảo đảm fallback sidebar dùng metadata khi count summary tạm lỗi.
+6. Derived navigation and per-module details do not change Java Release content. Count summaries must load before the Real modules filter prunes the tree; on failure show the full tree with status and Retry instead of using metadata as proof of content.
 7. Không hand-author/sửa content nguồn, không quản lý Gradle tasks hay sinh lại learning dataset.
 
 ---
@@ -838,9 +839,9 @@ Full tree / Đầy đủ
 
 Real modules / Module thật
 → đây là content filter của Portal, không phải định nghĩa physical real module theo upstream module registry metadata
-→ giữ MODULE nếu Roadmap available OR Knowledge > 0 OR Quiz > 0 OR Interview > 0 OR API Docs > 0
-→ Roadmap chỉ available khi localized `roadmap.yml` có ít nhất một milestone
-→ chỉ ẩn MODULE khi Roadmap không available và cả bốn count đều = 0
+-> A MODULE qualifies only when Knowledge + Quiz + Interview + API Docs > 0 in the active locale
+-> Roadmap presence, content paths and hasContent do NOT qualify a module
+-> while counts are loading or unavailable, show the complete tree with explicit status/Retry; never classify unknown counts as zero
 → giữ GROUP ancestor cần thiết để bảo toàn hierarchy
 → prune branch không chứa module còn content
 → không flatten thành list

@@ -202,3 +202,16 @@ test('concurrent status pollers share a durable check window rather than stamped
   assert.equal((await first).status, 'BUILDING');
   assert.equal(h.stats.polled, 1);
 });
+
+
+test('existing final build with numeric run ID can recover its exact GitHub log URL', async () => {
+  const h = createHarness();
+  await h.engine.start(MODULE, FP, 'ip');
+  assert.ok(h.store.value);
+  h.store.value!.phase = 'FAILED';
+  h.store.value!.runUrl = undefined;
+  h.store.value!.runId = '88';
+  const reply = await h.engine.status(MODULE, trackingId(FP));
+  assert.equal(reply.status, 'FAILED');
+  assert.equal(reply.runUrl, 'https://github.com/phuongnguyenit93/java-learning/actions/runs/88');
+});

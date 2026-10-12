@@ -910,6 +910,29 @@ pre {
   outline: none;
 }
 
+.sidebar-module-count-notice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: -9px 8px 12px;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.sidebar-module-count-notice button {
+  flex: 0 0 auto;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  color: var(--text);
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
 .sidebar-knowledge-search {
   min-height: 42px;
   display: flex;
@@ -5226,6 +5249,11 @@ pre {
 
 .local-run-progress__steps .local-run-progress__step strong {
   font-size: 10px;
+  line-height: 1.35;
+  min-height: 2.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .local-run-progress__steps .local-run-progress__step > span {
@@ -5264,15 +5292,6 @@ pre {
 .local-run-progress__step.is-current > span {
   animation: local-run-step-pulse 1.45s ease-in-out infinite;
   box-shadow: 0 0 0 0 color-mix(in srgb, var(--local-run-accent-text) 38%, transparent);
-}
-
-.local-run-progress__step.is-current strong::after {
-  display: inline-block;
-  width: 1.45em;
-  overflow: hidden;
-  vertical-align: bottom;
-  animation: local-run-build-dots 1.35s steps(4, end) infinite;
-  content: '...';
 }
 
 .local-run-progress__step.is-success {
@@ -5338,16 +5357,6 @@ pre {
   }
 }
 
-@keyframes local-run-build-dots {
-  0% {
-    width: 0;
-  }
-
-  100% {
-    width: 1.45em;
-  }
-}
-
 @keyframes local-run-build-shimmer {
   from {
     left: -34%;
@@ -5360,13 +5369,8 @@ pre {
 
 @media (prefers-reduced-motion: reduce) {
   .local-run-progress__step.is-current > span,
-  .local-run-progress__step.is-current strong::after,
   .local-run-progress__activity > span {
     animation: none;
-  }
-
-  .local-run-progress__step.is-current strong::after {
-    width: 1.45em;
   }
 
   .local-run-progress__activity > span {

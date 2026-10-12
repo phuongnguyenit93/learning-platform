@@ -14,7 +14,7 @@
     "data:navigation": "node scripts/build-module-navigation.mjs",
     "test:data": "node --test scripts/tests/*.test.mjs",
     "test:worker": "tsx --test worker/tests/*.test.ts",
-    "test:local-run": "tsx --test scripts/tests/local-run-*.test.ts scripts/tests/local-run-panel.test.tsx scripts/tests/module-catalog-retry.test.ts",
+    "test:local-run": "tsx --test scripts/tests/local-run-*.test.ts scripts/tests/local-run-panel.test.tsx scripts/tests/local-run-sidebar.test.tsx scripts/tests/module-catalog-retry.test.ts",
     "check:worker": "tsc --noEmit -p tsconfig.worker.json",
     "check:wrangler": "wrangler deploy --dry-run --outdir .wrangler/local-run-check"
   },

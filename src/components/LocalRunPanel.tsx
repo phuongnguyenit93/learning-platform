@@ -138,7 +138,10 @@ export function LocalRunPanel({
         retryArtifact: 'Kiểm tra Release',
         retryBuild: 'Build lại',
         rebuildConfirm: 'Build trước thành công nhưng JAR chưa tìm thấy. Bạn đã kiểm tra GitHub Actions và Release? Gửi Build mới?',
-        viewLogs: 'Xem GitHub Actions',
+        viewProgress: 'Xem tiến trình GitHub Actions',
+        viewLogs: 'Xem build log',
+        pendingRunUrl: 'Đang xác định link GitHub Actions…',
+        reviewActions: 'Kiểm tra danh sách GitHub Actions',
         viewRelease: 'Xem Release',
         copyFailed: 'Không thể sao chép tự động. Hãy chọn và copy lệnh bằng tay.',
         guideOS: 'Hệ điều hành',
@@ -205,7 +208,10 @@ export function LocalRunPanel({
         retryArtifact: 'Check Release',
         retryBuild: 'Rebuild',
         rebuildConfirm: 'The previous build succeeded but no JAR was found. Have you checked GitHub Actions and the Release? Dispatch another build?',
-        viewLogs: 'View GitHub Actions',
+        viewProgress: 'View GitHub Actions progress',
+        viewLogs: 'View build log',
+        pendingRunUrl: 'Waiting for the GitHub Actions run link...',
+        reviewActions: 'Inspect GitHub Actions workflows',
         viewRelease: 'View Release',
         copyFailed: 'Automatic copy failed. Select and copy the command manually.',
         guideOS: 'Operating system',
@@ -298,7 +304,7 @@ export function LocalRunPanel({
           knownJobRef.current = true;
           setStatusChecked(true);
           setBuildStatus(reply.status);
-          setRunUrl(safeBuildRunUrl(reply.runUrl));
+          setRunUrl((current) => safeBuildRunUrl(reply.runUrl) ?? current);
           setNeedsDispatchReview(false);
           setReviewAcknowledged(false);
           if (reply.status !== 'SUCCESS') setBuildMessage(null);
@@ -474,6 +480,7 @@ export function LocalRunPanel({
     checkingRef.current = false;
     setArtifactChecking(false);
     setBuildStatus('SUBMITTING');
+    setRunUrl(null);
     setReusedJob(false);
     setBuildMessage(text.buildStarting);
     setPublishingExpired(false);
@@ -694,8 +701,19 @@ export function LocalRunPanel({
                 ↻ {text.retryStatus}
               </button>
             )}
-            <a className="local-run-button local-run-button--refresh" href={runUrl ?? ACTIONS_URL}
-              target="_blank" rel="noopener noreferrer">{text.viewLogs} ↗</a>
+            {runUrl && (buildInProgress || buildStatus === 'SUCCESS' || buildStatus === 'FAILED') && (
+              <a className="local-run-button local-run-button--refresh" href={runUrl}
+                target="_blank" rel="noopener noreferrer">
+                {buildStatus === 'SUCCESS' || buildStatus === 'FAILED' ? text.viewLogs : text.viewProgress} ↗
+              </a>
+            )}
+            {!runUrl && (buildStatus === 'QUEUED' || buildStatus === 'BUILDING') && (
+              <span className="local-run-backend-note" role="status">{text.pendingRunUrl}</span>
+            )}
+            {needsDispatchReview && (
+              <a className="local-run-button local-run-button--refresh" href={ACTIONS_URL}
+                target="_blank" rel="noopener noreferrer">{text.reviewActions} ↗</a>
+            )}
             {(buildStatus === 'SUCCESS' || publishingExpired) && (
               <a className="local-run-button local-run-button--refresh" href={RELEASE_URL}
                 target="_blank" rel="noopener noreferrer">{text.viewRelease} ↗</a>

@@ -9,6 +9,12 @@ const WORKFLOW = 'local-run-build.yml';
 const RELEASE = 'local-run';
 const BASE = `https://api.github.com/repos/${OWNER}/${REPO}`;
 
+/** A trusted, numeric GitHub run ID is sufficient to locate the exact build log. */
+export function githubRunUrl(id: number): string {
+  if (!Number.isSafeInteger(id) || id <= 0) throw new Error('Invalid GitHub run ID');
+  return `https://github.com/${OWNER}/${REPO}/actions/runs/${id}`;
+}
+
 export class GithubLocalRun implements GithubService {
   constructor(private readonly token: string) {}
 
@@ -90,7 +96,7 @@ export class GithubLocalRun implements GithubService {
     if (!Number.isSafeInteger(body.workflow_run_id) || !body.workflow_run_id) {
       throw new LocalRunError(502, 'GitHub dispatch returned no valid run id; reconciling.');
     }
-    return { id: body.workflow_run_id, url: body.html_url };
+    return { id: body.workflow_run_id, url: body.html_url ?? githubRunUrl(body.workflow_run_id) };
   }
 
   async getRun(runId: string): Promise<GithubRun> {

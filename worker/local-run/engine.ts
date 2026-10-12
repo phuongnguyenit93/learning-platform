@@ -1,4 +1,4 @@
-import { freshAsset } from './github';
+import { freshAsset, githubRunUrl } from './github';
 import {
   GithubRejectedError, LocalRunError, trackingId, workflowTitle,
   type BuildPhase, type BuildRecord, type BuildReply, type BuildStatus,
@@ -92,10 +92,10 @@ export class BuildCoordinatorEngine {
         this.save(record, {
           phase: statusForRun(existing),
           runId: String(existing.id),
-          runUrl: existing.html_url,
+          runUrl: existing.html_url ?? githubRunUrl(existing.id),
           checkedAt: this.now(),
         });
-        return { moduleId, status: statusForRun(existing), result: 'REUSED', runId: record.jobId, runUrl: existing.html_url };
+        return { moduleId, status: statusForRun(existing), result: 'REUSED', runId: record.jobId, runUrl: existing.html_url ?? githubRunUrl(existing.id) };
       }
 
       if (!await this.limiter.limit(actor)) {
@@ -141,7 +141,8 @@ export class BuildCoordinatorEngine {
       moduleId,
       runId: jobId,
       status: publicStatus(value),
-      runUrl: value.runUrl,
+      runUrl: value.runUrl ?? (value.runId && /^\d+$/.test(value.runId)
+        ? githubRunUrl(Number(value.runId)) : undefined),
       message: value.message,
     });
 
@@ -160,7 +161,7 @@ export class BuildCoordinatorEngine {
         const run = await this.github.findMatchingRun(moduleId, record.fingerprint, record.createdAt);
         if (run) return reply(this.save(record, {
           runId: String(run.id),
-          runUrl: run.html_url,
+          runUrl: run.html_url ?? githubRunUrl(run.id),
           phase: statusForRun(run),
           checkedAt: this.now(),
           message: run.status === 'completed' && run.conclusion !== 'success' ? 'GitHub Actions build failed.' : undefined,
@@ -191,7 +192,7 @@ export class BuildCoordinatorEngine {
       }
       return reply(this.save(record, {
         phase: statusForRun(run),
-        runUrl: run.html_url,
+        runUrl: run.html_url ?? githubRunUrl(run.id),
         checkedAt: this.now(),
         message: run.status === 'completed' && run.conclusion !== 'success'
           ? `GitHub Actions finished with conclusion: ${run.conclusion ?? 'unknown'}.`

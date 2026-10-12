@@ -50,6 +50,9 @@ export function LearningPage() {
   const [quizCounts, setQuizCounts] = useState<Record<string, number>>({});
   const [interviewCounts, setInterviewCounts] = useState<Record<string, number>>({});
   const [apiCounts, setApiCounts] = useState<Record<string, number>>({});
+  const [countsLoad, setCountsLoad] = useState<{ language: string; status: 'loading' | 'ready' | 'error' } | null>(null);
+  const [countsReload, setCountsReload] = useState(0);
+  const contentCountsState = countsLoad?.language === language ? countsLoad.status : 'loading';
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [knowledgeLoading, setKnowledgeLoading] = useState(false);
   const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
@@ -171,6 +174,7 @@ export function LearningPage() {
   useEffect(() => {
     let active = true;
     if (!catalog) return () => { active = false; };
+    setCountsLoad({ language, status: 'loading' });
 
     // This verified 46 KB summary replaces more than 600 simultaneous
     // Knowledge/Quiz/Interview YAML/JSON requests on every Learning entry.
@@ -182,6 +186,7 @@ export function LearningPage() {
         setQuizCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.quiz])));
         setInterviewCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.interview])));
         setApiCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.apiDocs])));
+        setCountsLoad({ language, status: 'ready' });
       })
       .catch(() => {
         // The catalog has enough metadata for sidebar fallback even if
@@ -191,10 +196,11 @@ export function LearningPage() {
           setQuizCounts({});
           setInterviewCounts({});
           setApiCounts({});
+          setCountsLoad({ language, status: 'error' });
         }
       });
     return () => { active = false; };
-  }, [catalog, language]);
+  }, [catalog, language, countsReload]);
 
   useEffect(() => {
     if (!catalog || !activeModuleNode?.routeId) {
@@ -313,6 +319,8 @@ export function LearningPage() {
         interviewCounts={interviewCounts}
         apiCounts={apiCounts}
         roadmapAvailability={roadmapAvailability}
+        contentCountsState={contentCountsState}
+        onRetryContentCounts={() => setCountsReload((value) => value + 1)}
       />
 
       {!sidebarCollapsed && (

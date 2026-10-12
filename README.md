@@ -216,6 +216,22 @@ visibility is delayed, users can recheck; a new Build after a successful
 run requires confirmation. Run instructions cover Windows/macOS/Linux,
 clipboard errors, and opening localhost only after starting the JAR.
 
+**Real modules** in the Learning sidebar means at least one content-count item
+(Knowledge, Quiz, Interview or API Docs) for the active language. Roadmap
+metadata, content paths and `hasContent` are not evidence of a counted item.
+If the count summary is loading or unavailable, the sidebar does not prune
+modules or guess at their counts; it shows the full tree with a loading/error
+notice and a Retry control. Ancestor groups keep their catalog order.
+
+Build progress labels have a stable height with a subtle circular pulse,
+not animated trailing dots. While Queued/Building/Publishing the panel links
+to the **exact GitHub Actions run** to inspect its steps; after Success/Failed
+that same link remains available as **View build log**. A numeric run ID can
+produce the trusted run URL when GitHub omits `html_url`; no generic workflow
+listing is presented as though it were the specific run. Without a known run,
+no fabricated log link is shown.
+
+
 On reload or re-entry, the panel resumes any matching Durable Object job using
 its deterministic `job-<fingerprint>` tracking ID via read-only `GET /status`.
 It never repeats a POST /build just to reconnect. A 404 means no job for this

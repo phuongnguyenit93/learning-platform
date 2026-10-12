@@ -1,0 +1,25 @@
+{
+  // Used only with "wrangler preview --config ..." -- never with deploy.
+  // Explicit PREVIEW namespace_id, not the production limiter (9217344).
+  // Never use the production Worker name here. Pass --worker-name learning-platform
+  // explicitly to preview commands targeting that Worker.
+  "name": "learning-platform-p1-rate-probe",
+  "main": "./rate-limit-probe.ts",
+  "compatibility_date": "2026-10-10",
+  "ratelimits": [
+    {
+      "name": "BUILD_RATE_LIMITER",
+      "namespace_id": "9217345",
+      "simple": { "limit": 3, "period": 60 }
+    }
+  ],
+  "previews": {
+    "ratelimits": [
+      {
+        "name": "BUILD_RATE_LIMITER",
+        "namespace_id": "9217345",
+        "simple": { "limit": 3, "period": 60 }
+      }
+    ]
+  }
+}

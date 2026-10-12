@@ -97,8 +97,8 @@ export function toLearningModule(node: ModuleCatalogNode, stats: ModuleStats): L
       quiz: true,
       interview: true,
       apiDocs: true,
-      // Local Run relies on a separate Spring API, which is not part of this React-only repo.
-      // Only re-enable once an external Local Run API is configured and deployed.
+      // Local Run is served by this site's Cloudflare Worker/DO backend.
+      // Keep hidden until production API secrets and build switches are enabled.
       execution: import.meta.env.VITE_ENABLE_LOCAL_RUN === 'true'
         && (node.moduleType === 'SERVLET' || node.moduleType === 'REACTIVE'),
       download: true,

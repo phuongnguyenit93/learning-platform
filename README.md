@@ -3,6 +3,9 @@
 Standalone React 19 + TypeScript + Vite website. This repository is independent
 of the Java/Spring/Gradle sources that produce Java learning content.
 
+For product UX, frontend architecture, feature data contracts and current
+implementation status, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
 ## Requirements
 
 - Node.js 22 (recommended)
@@ -154,13 +157,139 @@ node scripts/verify-dist.mjs
 
 ## Scope and limitations
 
-- Frontend only: no Spring Boot application, Java sources, Gradle wrapper, or
-  Java build plugins are included.
+- React frontend + a small Cloudflare Worker API. There is no Spring Boot
+  application, Java source, Gradle wrapper, or Java build plugin here.
 - Java data is served from `/language/java/module-catalog.json`,
   `/language/java/module/**` and `/language/java/search/**`.
-- **Local Run (build/download JAR)** needs an external backend. It is disabled
-  by default in this standalone build. Do not set `VITE_ENABLE_LOCAL_RUN=true`
-  until a compatible API is available at `/api/local-run/**`.
+- **Local Run (build/download JAR)** is enabled on Production: the frontend
+  build sets `VITE_ENABLE_LOCAL_RUN=true`, and `wrangler.jsonc` sets
+  `LOCAL_RUN_ENABLED=true` only for Production. Preview keeps its own
+  `LOCAL_RUN_ENABLED=false` kill switch. Never expose the GitHub token to Vite.
 - The About Me PDF/DOC buttons and Google Docs viewer still link to the
   external Google document as before.
 - The original `java-learning` source remains untouched by the copy.
+
+## Local Run Worker (Production)
+
+`worker/index.ts` routes only `/api/*` into code; static assets and SPA routing
+still use Cloudflare's `ASSETS` binding. `/api/local-run/build`, `/status`, and
+`/artifact` follow the existing `src/data/localRun.ts` contract. The backend
+validates module IDs and **published** source fingerprints, checks for an
+existing Release JAR, reuses any current GitHub workflow, then limits and
+dispatches a new build when necessary.
+
+For read-only JAR availability, the browser now checks the **public, unauthenticated**
+`java-learning` GitHub Release API first. One shared in-memory Release asset index
+is paginated (100 assets/page) and cached for up to five minutes, with concurrent
+lookups coalesced. Matching `moduleId · fingerprint:<SHA>` labels enable direct
+GitHub download; a missing asset or mismatched label does **not** invoke Worker.
+Only rate-limit responses (403 with rate-limit headers or a secondary-limit message,
+429), network/CORS
+failures, 5xx errors or unusable public metadata trigger the authenticated
+`GET /api/local-run/artifact` fallback, with a cooldown to avoid repeating blocked
+public calls. After Build returns `AVAILABLE` or finishes successfully, the browser
+invalidates the cache and verifies the newly published artifact. The browser
+never receives a GitHub token. Build dispatch and status polling **always** use
+the Worker/Durable Object path.
+
+The Local Run panel rechecks artifact metadata on entry (using the shared cache
+while fresh), and when the browser tab becomes visible or regains focus after
+five minutes since the last check. It does not poll continuously. A bilingual
+**Refresh JAR Status** button forces a new lookup even before TTL expires;
+refresh is disabled during an active check or build. Build `AVAILABLE` and
+`SUCCESS` results also force an immediate cache invalidation and recheck.
+
+On reload or re-entry, the panel resumes any matching Durable Object job using
+its deterministic `job-<fingerprint>` tracking ID via read-only `GET /status`.
+It never repeats a POST /build just to reconnect. A 404 means no job for this
+fingerprint. Status requests have 12-second HTTP timeouts; recoverable failures
+back off, and after 90 seconds of continuous network failure polling pauses
+with a **Reconnect Build Status** button. The frontend tracking deadline is
+47 minutes (server-side build age limit: 45 minutes). After `SUCCESS` or
+`AVAILABLE`, it retries fresh Release lookups for at most 45 seconds because
+upload visibility can lag; build success is not confused with artifact
+availability. Public JAR lookup remains usable if the Worker is offline.
+
+The SQLite-backed `LocalRunCoordinator` Durable Object is keyed by module ID.
+It writes a reservation BEFORE network requests to avoid concurrent duplicate
+dispatches. When the GitHub response is uncertain, it does not retry blindly;
+clients poll a `job-<fingerprint>` tracking ID while the object reconciles the
+workflow. `BUILD_RATE_LIMITER` permits 3 **new dispatch decisions** per 60
+seconds per Cloudflare-provided client IP at a Cloudflare location. This is
+an abuse limiter, not a globally consistent distributed lock. Normal artifact
+checks and status polls do not consume this quota. Visitors sharing an IP may
+share this quota; real accounts or Turnstile can be added if public usage grows.
+
+Cloudflare Rate Limiting uses eventually consistent, location-local counters,
+not an exact three-request hard cap. On 2026-10-12, a Cloudflare Preview probe
+using the separate Preview namespace `9217345` confirmed HTTP **429** with
+`Retry-After: 60` after earlier accepted requests. The probe dispatched **no**
+GitHub Actions workflows, and its Preview was deleted. The repeatable,
+Preview-only probe is in `scripts/preview/`; it must be used with `wrangler
+preview`, never `wrangler deploy`. Pass `--worker-name learning-platform`
+explicitly when targeting this Worker's Preview. Bursts may temporarily exceed
+three requests before the rate limiter catches up; Durable Object single-flight
+still prevents duplicate dispatches for the same module. Rate limits are
+per-IP/per-location, so multiple source IPs or Cloudflare locations can spend
+separate quotas across different modules; consider Turnstile, authenticated
+quotas, and GitHub Actions usage alerts before enabling public Build.
+
+Run the following WITHOUT deploying or providing real credentials:
+
+```bash
+npm ci
+npm run test:local-run
+npm run test:worker
+npm run check:worker
+npm run check:wrangler   # Wrangler bundle dry-run only
+npm run build
+npx wrangler dev --local
+```
+
+Production builds are enabled; Preview remains disabled. `GITHUB_ACTION_TOKEN`
+is a Cloudflare Worker secret (never source, config or `VITE_`). For long-term
+operation, prefer a dedicated fine-grained GitHub token restricted to
+`java-learning` (Actions Read/Write, Contents Read); rotate any broader
+temporary token promptly. `wrangler secret put` without Preview scoping
+changes Production: do not use it during Preview testing.
+
+`wrangler.jsonc` uses declarative SQLite Durable Object `exports` plus Worker
+Rate Limiting bindings; it does not require manually creating a namespace in
+the Dashboard. The `LOCAL_RUN_ENABLED` server kill switch is independent
+of the frontend `VITE_ENABLE_LOCAL_RUN` feature flag.
+
+### Cloudflare Preview (isolated; builds still disabled)
+
+`previews.durable_objects.bindings` is **required** because the Worker accesses
+the Coordinator through `env.LOCAL_RUN_COORDINATOR`: Cloudflare Preview does
+not inherit production bindings. Preview SQLite state is automatically
+isolated; Preview rate limit `namespace_id` is different from production to
+avoid shared counters. The Preview's server-side build flag is also `false`.
+
+After authenticating via `npx wrangler login`, create/update the Preview only:
+
+```bash
+npx wrangler preview --name local-run-cloudflare-stage --ignore-base-config
+node scripts/check-preview.mjs https://local-run-cloudflare-stage-learning-platform.phuongnguyenit93.workers.dev
+```
+
+The staged URL is
+`https://local-run-cloudflare-stage-learning-platform.phuongnguyenit93.workers.dev`.
+The remote static/SPA smoke check passed. A separate temporary Preview with
+a deliberately invalid token confirmed SQLite Coordinator RPC returns 404
+for a missing build; that temporary Preview was deleted.
+
+**Real one-build Preview smoke (2026-10-12):** Using the Preview secret, the
+server build switch was enabled temporarily for `DATABASE_MYSQL` with published
+fingerprint `15531e9071aef973942915c10d5757ac75c98f09`, matching the
+repository's `main` Git tree. `POST /build` returned `DISPATCHED` and created
+GitHub Actions [run 38203320041](https://github.com/phuongnguyenit93/java-learning/actions/runs/38203320041).
+A second request returned `REUSED` with the **same** run ID, status polling
+progressed `BUILDING` to `SUCCESS`, GitHub Release published `database_mysql.jar`
+(22,547,875 bytes, HEAD HTTP 200), and a follow-up Build request returned
+`AVAILABLE` without a new dispatch. Afterwards the Preview was deployed with
+`LOCAL_RUN_ENABLED=false` again (HTTP 503 verified); read-only artifact lookup
+still returns `available=true, stale=false`. Rate Limit bindings and logic are
+tested locally but a multi-dispatch HTTP 429 was **not** tested against remote
+Cloudflare, to avoid triggering unnecessary GitHub builds. No production
+deployment or source commit/push was performed.

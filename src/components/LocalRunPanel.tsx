@@ -1,5 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { localRunApi, type LocalRunArtifactResponse, type LocalRunBuildStatus } from '../data/localRun';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { localRunApi, localRunTrackingId, type LocalRunArtifactResponse, type LocalRunBuildStatus } from '../data/localRun';
+import { shouldRefreshLocalRunOnReturn } from '../data/localRunRefresh';
+import {
+  isLocalRunNotFound, waitForLocalRunArtifact, watchLocalRunBuild,
+} from '../data/localRunMonitor';
 import { useLanguage } from '../state/LanguageContext';
 
 interface LocalRunPanelProps {
@@ -12,7 +16,6 @@ const DEFAULT_PORT = 9000;
 const DEFAULT_CONTEXT_PATH = '/api';
 const DEFAULT_APPLICATION_NAME = 'api';
 const SWAGGER_ENABLED = 'TRUE';
-const BUILD_STATUS_POLL_INTERVAL_MS = 2500;
 
 function toJarFileName(moduleId: string): string {
   const normalized = moduleId
@@ -40,6 +43,13 @@ export function LocalRunPanel({
     fileName: toJarFileName(moduleId),
   });
   const [error, setError] = useState<string | null>(null);
+  const [statusRetryNeeded, setStatusRetryNeeded] = useState(false);
+  const checkSequence = useRef(0);
+  const checkingRef = useRef(false);
+  const buildingRef = useRef(false);
+  const watchingRef = useRef(false);
+  const trackingAbort = useRef<AbortController | null>(null);
+  const lastCheckStartedAt = useRef(0);
 
   const jarFileName = useMemo(() => toJarFileName(moduleId), [moduleId]);
   const runCommand = `java --enable-preview -jar ${jarFileName} --server.port=${DEFAULT_PORT} --server.servlet.context-path=${DEFAULT_CONTEXT_PATH} --spring.application.name=${DEFAULT_APPLICATION_NAME} --swagger.enabled=${SWAGGER_ENABLED}`;
@@ -53,6 +63,7 @@ export function LocalRunPanel({
         missing: 'Chưa có executable JAR cho phiên bản này.',
         stale: 'Executable JAR hiện có đã cũ so với module hiện tại.',
         checking: 'Đang kiểm tra executable JAR...',
+        refresh: 'Làm mới trạng thái JAR',
         fingerprintMissing: 'Không xác định được source fingerprint cho module này.',
         ready: 'Executable JAR đã sẵn sàng.',
         build: 'Build JAR',
@@ -62,6 +73,10 @@ export function LocalRunPanel({
         building: 'Building',
         successful: 'Build successful',
         failed: 'Build failed',
+        retryStatus: 'Thử kết nối lại trạng thái Build',
+        trackingLost: 'Không thể theo dõi Build lúc này. Thử kết nối lại; không cần gửi Build mới.',
+        unconfirmed: 'Chưa xác nhận được yêu cầu Build trước đó. Kiểm tra GitHub Actions trước khi Build lại.',
+        releasePending: 'Build thành công, nhưng JAR chưa xuất hiện trên Release. Hãy làm mới trạng thái JAR sau ít phút.',
         artifactPending: 'Artifact đã sẵn sàng nhưng chưa có download URL.',
         downloadPending: 'Artifact đã sẵn sàng nhưng chưa có download URL.',
         runTitle: 'Run Locally',
@@ -86,6 +101,7 @@ export function LocalRunPanel({
         missing: 'No executable JAR is available for this version.',
         stale: 'The available executable JAR is outdated for the current module version.',
         checking: 'Checking executable JAR...',
+        refresh: 'Refresh JAR Status',
         fingerprintMissing: 'The source fingerprint is unavailable for this module.',
         ready: 'The executable JAR is ready.',
         build: 'Build JAR',
@@ -95,6 +111,10 @@ export function LocalRunPanel({
         building: 'Building',
         successful: 'Build successful',
         failed: 'Build failed',
+        retryStatus: 'Reconnect Build Status',
+        trackingLost: 'Build tracking is currently unavailable. Reconnect without starting another build.',
+        unconfirmed: 'The previous build request could not be confirmed. Check GitHub Actions before building again.',
+        releasePending: 'Build succeeded, but the JAR has not appeared in the Release yet. Refresh JAR status shortly.',
         artifactPending: 'The artifact is ready, but a download URL is not available.',
         downloadPending: 'The artifact is ready, but a download URL is not available.',
         runTitle: 'Run Locally',
@@ -113,12 +133,105 @@ export function LocalRunPanel({
         portNote: 'Port 9000 is the Local Run default. Change --server.port if the port is already in use.',
       };
 
+  // Keep translation changes from resetting an active build/polling session.
+  const fingerprintMissingTextRef = useRef(text.fingerprintMissing);
+  fingerprintMissingTextRef.current = text.fingerprintMissing;
+  const progressTextRef = useRef(text);
+  progressTextRef.current = text;
+
+  const refreshArtifact = useCallback(async (force = false, onReturn = false): Promise<LocalRunArtifactResponse | null> => {
+    if (!sourceFingerprint || buildingRef.current) return null;
+    if (onReturn && !shouldRefreshLocalRunOnReturn(
+      lastCheckStartedAt.current, Date.now(), checkingRef.current || buildingRef.current,
+    )) return null;
+    if (!force && checkingRef.current) return null;
+
+    const sequence = ++checkSequence.current;
+    checkingRef.current = true;
+    lastCheckStartedAt.current = Date.now();
+    setArtifactChecking(true);
+    setError(null);
+    try {
+      const result = await localRunApi.getArtifact(moduleId, sourceFingerprint, force);
+      if (sequence === checkSequence.current) {
+        setArtifact(result);
+        return result;
+      }
+    } catch (artifactError) {
+      if (sequence === checkSequence.current) {
+        setError(artifactError instanceof Error ? artifactError.message : 'Unable to check JAR status.');
+      }
+    } finally {
+      if (sequence === checkSequence.current) {
+        checkingRef.current = false;
+        setArtifactChecking(false);
+      }
+    }
+    return null;
+  }, [moduleId, sourceFingerprint]);
+
+  const trackBuild = useCallback(async (controller: AbortController, afterDispatch = false) => {
+    if (watchingRef.current || controller.signal.aborted) return;
+    watchingRef.current = true;
+    buildingRef.current = true;
+    setStatusRetryNeeded(false);
+    try {
+      const outcome = await watchLocalRunBuild(
+        (signal) => localRunApi.getBuildStatus(localRunTrackingId(sourceFingerprint), moduleId, signal),
+        (reply) => {
+          if (controller.signal.aborted) return;
+          setBuildStatus(reply.status);
+          setBuildMessage(null);
+          if (reply.status === 'FAILED') setError(reply.message ?? progressTextRef.current.failed);
+          else setError(null);
+        },
+        { signal: controller.signal },
+      );
+      if (controller.signal.aborted || outcome.status !== 'SUCCESS') return;
+      // A successful GitHub run may precede release asset visibility.
+      checkSequence.current += 1;
+      checkingRef.current = false;
+      setArtifactChecking(true);
+      const ready = await waitForLocalRunArtifact(
+        () => localRunApi.getArtifact(moduleId, sourceFingerprint, true),
+        (result) => { if (!controller.signal.aborted) setArtifact(result); },
+        { signal: controller.signal },
+      );
+      if (!controller.signal.aborted && (!ready?.available || !ready.downloadUrl)) {
+        setBuildMessage(progressTextRef.current.releasePending);
+      }
+    } catch (trackingError) {
+      if (controller.signal.aborted) return;
+      if (isLocalRunNotFound(trackingError)) {
+        setBuildStatus('IDLE');
+        if (afterDispatch) setError(progressTextRef.current.unconfirmed);
+      } else {
+        setStatusRetryNeeded(true);
+        setBuildMessage(progressTextRef.current.trackingLost);
+        setError(trackingError instanceof Error ? trackingError.message : progressTextRef.current.trackingLost);
+      }
+    } finally {
+      if (!controller.signal.aborted) {
+        watchingRef.current = false;
+        buildingRef.current = false;
+        if (!checkingRef.current) setArtifactChecking(false);
+      }
+    }
+  }, [moduleId, sourceFingerprint]);
+
   useEffect(() => {
-    let cancelled = false;
+    checkSequence.current += 1;
+    checkingRef.current = false;
+    lastCheckStartedAt.current = 0;
+    const controller = new AbortController();
+    trackingAbort.current = controller;
+    watchingRef.current = false;
+    buildingRef.current = false;
 
     setBuildStatus('IDLE');
     setBuildMessage(null);
     setError(null);
+    setStatusRetryNeeded(false);
     setArtifactChecking(true);
     setArtifact({
       moduleId,
@@ -128,88 +241,96 @@ export function LocalRunPanel({
 
     if (!sourceFingerprint) {
       setArtifactChecking(false);
-      setError(text.fingerprintMissing);
-      return () => {
-        cancelled = true;
-      };
+      setError(fingerprintMissingTextRef.current);
+      return () => { controller.abort(); checkSequence.current += 1; };
     }
 
-    localRunApi.getArtifact(moduleId, sourceFingerprint)
-      .then((artifactResponse) => {
-        if (!cancelled) {
-          setArtifact(artifactResponse);
-        }
-      })
-      .catch((artifactError) => {
-        if (!cancelled) {
-          setError(artifactError instanceof Error ? artifactError.message : text.failed);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setArtifactChecking(false);
-        }
-      });
+    // Read-only public Release lookup must continue to work even if the Worker
+    // status endpoint is down/unconfigured. A DO job is recovered independently.
+    void refreshArtifact();
+    void trackBuild(controller);
 
     return () => {
-      cancelled = true;
+      controller.abort();
+      if (trackingAbort.current === controller) trackingAbort.current = null;
+      checkSequence.current += 1;
+      checkingRef.current = false;
+      watchingRef.current = false;
+      buildingRef.current = false;
     };
-  }, [moduleId, sourceFingerprint, text.failed, text.fingerprintMissing]);
+  }, [moduleId, sourceFingerprint, trackBuild]);
+
+  useEffect(() => {
+    if (!sourceFingerprint) setError(text.fingerprintMissing);
+  }, [sourceFingerprint, text.fingerprintMissing]);
+
+  useEffect(() => {
+    const checkOnReturn = () => {
+      if (document.visibilityState === 'visible') void refreshArtifact(false, true);
+    };
+    document.addEventListener('visibilitychange', checkOnReturn);
+    window.addEventListener('focus', checkOnReturn);
+    return () => {
+      document.removeEventListener('visibilitychange', checkOnReturn);
+      window.removeEventListener('focus', checkOnReturn);
+    };
+  }, [refreshArtifact]);
 
   const handleBuild = async () => {
-    if (!sourceFingerprint) {
-      setError(text.fingerprintMissing);
+    if (!sourceFingerprint || watchingRef.current || buildingRef.current || statusRetryNeeded) {
+      if (!sourceFingerprint) setError(text.fingerprintMissing);
       return;
     }
 
     setError(null);
+    buildingRef.current = true;
+    checkSequence.current += 1;
+    checkingRef.current = false;
+    setArtifactChecking(false);
     setBuildStatus('QUEUED');
     setBuildMessage(text.buildStarting);
 
     try {
-      const started = await localRunApi.startBuild({ moduleId, sourceFingerprint });
+      const controller = trackingAbort.current;
+      if (!controller) return;
+      const started = await localRunApi.startBuild({ moduleId, sourceFingerprint }, controller.signal);
+      if (controller.signal.aborted) return;
       setBuildStatus(started.status);
       setBuildMessage(null);
 
+      buildingRef.current = false;
       if (started.result === 'AVAILABLE') {
-        const artifactResponse = await localRunApi.getArtifact(moduleId, sourceFingerprint);
-        setArtifact(artifactResponse);
-        return;
-      }
-
-      if (!started.runId) {
-        throw new Error('Local Run API did not return a workflow run id.');
-      }
-
-      let currentStatus = started.status;
-      while (currentStatus !== 'SUCCESS' && currentStatus !== 'FAILED') {
-        await new Promise((resolve) => window.setTimeout(resolve, BUILD_STATUS_POLL_INTERVAL_MS));
-        const statusResponse = await localRunApi.getBuildStatus(started.runId, moduleId);
-        currentStatus = statusResponse.status;
-        setBuildStatus(statusResponse.status);
-        setBuildMessage(null);
-
-        if (statusResponse.status === 'FAILED') {
-          setError(statusResponse.message ?? text.failed);
+        checkingRef.current = true;
+        setArtifactChecking(true);
+        const ready = await waitForLocalRunArtifact(
+          () => localRunApi.getArtifact(moduleId, sourceFingerprint, true),
+          (result) => { if (!controller.signal.aborted) setArtifact(result); },
+          { signal: controller.signal },
+        );
+        if (!controller.signal.aborted && (!ready?.available || !ready.downloadUrl)) {
+          setBuildMessage(progressTextRef.current.releasePending);
         }
-      }
-
-      if (currentStatus === 'SUCCESS') {
-        const artifactResponse = await localRunApi.getArtifact(moduleId, sourceFingerprint);
-        setArtifact(artifactResponse);
-
-        if (!artifactResponse.available) {
-          setError(text.artifactPending);
-        }
+      } else {
+        await trackBuild(controller, true);
       }
     } catch (buildError) {
-      setBuildStatus('FAILED');
-      setBuildMessage(null);
+      const controller = trackingAbort.current;
+      if (!controller || controller.signal.aborted) return;
+      // The POST may have succeeded before the connection dropped. Never
+      // dispatch again automatically; reconcile its deterministic job ID.
+      buildingRef.current = false;
       setError(buildError instanceof Error ? buildError.message : text.failed);
+      await trackBuild(controller, true);
+    } finally {
+      buildingRef.current = false;
+      if (!trackingAbort.current?.signal.aborted && !watchingRef.current) {
+        checkingRef.current = false;
+        setArtifactChecking(false);
+      }
     }
   };
 
-  const buildInProgress = buildStatus === 'QUEUED' || buildStatus === 'BUILDING';
+  const buildInProgress = buildStatus === 'QUEUED' || buildStatus === 'BUILDING' || statusRetryNeeded;
 
   const statusLabel = buildStatus === 'QUEUED'
     ? text.queued
@@ -310,9 +431,25 @@ export function LocalRunPanel({
                 className="local-run-button local-run-button--build"
                 type="button"
                 onClick={handleBuild}
-                disabled={buildInProgress || artifactChecking || !sourceFingerprint}
+                disabled={buildInProgress || buildStatus === 'SUCCESS' || artifactChecking || !sourceFingerprint}
               >
                 ▶ {buildInProgress ? statusLabel : text.build}
+              </button>
+            )}
+            <button
+              className="local-run-button local-run-button--refresh"
+              type="button"
+              onClick={() => { if (!checkingRef.current && !buildingRef.current) void refreshArtifact(true); }}
+              disabled={artifactChecking || buildInProgress || !sourceFingerprint}
+              aria-label={text.refresh}
+              title={text.refresh}
+            >
+              ↻ {text.refresh}
+            </button>
+            {statusRetryNeeded && (
+              <button className="local-run-button local-run-button--refresh" type="button"
+                onClick={() => { if (trackingAbort.current && !watchingRef.current) void trackBuild(trackingAbort.current); }}>
+                ↻ {text.retryStatus}
               </button>
             )}
           </div>

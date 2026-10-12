@@ -5190,7 +5190,9 @@ pre {
 
 .local-run-card__actions {
   display: flex;
+  gap: 10px;
   margin-top: 18px;
+  flex-wrap: wrap;
 }
 
 .local-run-progress {
@@ -5409,6 +5411,17 @@ pre {
 .local-run-button--download {
   background: var(--download-bg);
   color: var(--download-text);
+}
+
+.local-run-button--refresh {
+  background: var(--surface-raised);
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
+
+.local-run-button--refresh:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--text-muted);
 }
 
 .local-run-button:disabled {

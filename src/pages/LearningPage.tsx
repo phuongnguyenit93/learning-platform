@@ -33,8 +33,14 @@ export function LearningPage() {
   const { language } = useLanguage();
   const [catalog, setCatalog] = useState<ModuleCatalog | null>(null);
   const [catalogError, setCatalogError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<ModuleTab>('knowledge');
-  const [visitedTabs, setVisitedTabs] = useState<Set<ModuleTab>>(() => new Set<ModuleTab>(['knowledge']));
+  // Keep Local Run visible after a page reload, so the panel immediately
+  // reconnects to the Durable Object job instead of requiring another click.
+  const [activeTab, setActiveTab] = useState<ModuleTab>(
+    () => routeSearchParams.get('tab') === 'execution' ? 'execution' : 'knowledge',
+  );
+  const [visitedTabs, setVisitedTabs] = useState<Set<ModuleTab>>(
+    () => new Set<ModuleTab>([routeSearchParams.get('tab') === 'execution' ? 'execution' : 'knowledge']),
+  );
   const [searchQuery, setSearchQuery] = useState('');
   const [knowledgeIndex, setKnowledgeIndex] = useState<KnowledgeIndex | null>(null);
   const [knowledgeCounts, setKnowledgeCounts] = useState<Record<string, number>>({});
@@ -449,6 +455,12 @@ export function LearningPage() {
             executionEnabled={activeModule.capabilities.execution}
             onChange={(tab) => {
               setActiveTab(tab);
+              if (tab === 'execution' || routeSearchParams.get('tab') === 'execution') {
+                const next = new URLSearchParams(routeSearchParams);
+                if (tab === 'execution') next.set('tab', 'execution');
+                else next.delete('tab');
+                navigate({ search: next.toString() ? `?${next}` : '' }, { replace: true });
+              }
               setVisitedTabs((current) => {
                 if (current.has(tab)) {
                   return current;
@@ -577,12 +589,16 @@ export function LearningPage() {
                     return next;
                   });
                   setActiveTab('execution');
+                  const next = new URLSearchParams(routeSearchParams);
+                  next.set('tab', 'execution');
+                  navigate({ search: `?${next}` }, { replace: true });
                 }}
               />
             </div>
           )}
           {activeTab === 'execution' && activeModule.capabilities.execution && (
             <LocalRunPanel
+              key={`${activeModule.id}:${activeModule.sourceFingerprint}`}
               moduleId={activeModule.id}
               moduleName={activeModule.shortName}
               sourceFingerprint={activeModule.sourceFingerprint}

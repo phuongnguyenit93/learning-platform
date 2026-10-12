@@ -45,8 +45,21 @@ jobs:
       - name: Test Java Data Consumer and URL mapping
         run: npm run test:data
 
+      - name: Test public GitHub Release lookup and Worker fallback
+        run: npm run test:local-run
+
+      - name: Validate Cloudflare Worker, build coordinator and bindings
+        run: |
+          npm run test:worker
+          npm run check:worker
+          npm run check:wrangler
+
       - name: Build frontend and consume verified Java Release
         env:
+          # Enable the Local Run tab in the Vite bundle only after Worker tests
+          # and the published Java catalog/fingerprint validation are available.
+          # Preview still has LOCAL_RUN_ENABLED=false on the server.
+          VITE_ENABLE_LOCAL_RUN: 'true'
           # The producer dispatched the exact uploaded ZIP/manifest. A newer
           # rolling Release must not silently replace the expected version.
           JAVA_DATA_DISPATCH_REQUIRED: ${{ github.event_name == 'repository_dispatch' }}
@@ -106,7 +119,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4.136.3'
+          wranglerVersion: '4.149.0'
           command: preview --name step-3-3
 
       - name: Validate live preview endpoints
@@ -167,7 +180,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: '4.136.3'
+          wranglerVersion: '4.149.0'
           command: deploy
 
       - name: Verify deployed production content equals the built artifact

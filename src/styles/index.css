@@ -260,6 +260,11 @@ pre {
   margin: 0 auto;
 }
 
+/* Mermaid v11 styles actor > tspan but renders some actor names directly
+   inside <text>. Keep those labels legible on both Portal themes. */
+.mermaid-diagram__svg svg text.actor {
+  fill: var(--text) !important;
+}
 .mermaid-diagram__status,
 .mermaid-diagram__error > p {
   margin: 0;

@@ -7,16 +7,144 @@ interface MermaidMarkdownProps {
   children: string;
 }
 
+type DiagramTheme = 'light' | 'dark';
+
 type DiagramState =
   | { status: 'loading' }
   | { status: 'ready'; svg: string }
   | { status: 'error' };
 
-// Mermaid's renderer uses a shared DOM container, so serialize diagram renders.
+function activeTheme(): DiagramTheme {
+  if (typeof document === 'undefined') return 'dark';
+  return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+}
+
+// Use explicit, readable Mermaid palettes rather than its light-default colors
+// (which make node/message labels nearly invisible on the Portal's dark surface).
+const diagramPalettes = {
+  dark: {
+    background: '#17191e',
+    primaryColor: '#293548',
+    primaryTextColor: '#f8fafc',
+    primaryBorderColor: '#a78bfa',
+    secondaryColor: '#293548',
+    secondaryTextColor: '#f8fafc',
+    secondaryBorderColor: '#a78bfa',
+    tertiaryColor: '#293548',
+    tertiaryTextColor: '#f8fafc',
+    tertiaryBorderColor: '#a78bfa',
+    textColor: '#f8fafc',
+    nodeTextColor: '#f8fafc',
+    lineColor: '#cbd5e1',
+    defaultLinkColor: '#cbd5e1',
+    edgeLabelBackground: '#293548',
+    actorBkg: '#293548',
+    actorBorder: '#a78bfa',
+    actorTextColor: '#f8fafc',
+    actorLineColor: '#cbd5e1',
+    signalColor: '#cbd5e1',
+    signalTextColor: '#f8fafc',
+    labelBoxBkgColor: '#293548',
+    labelBoxBorderColor: '#a78bfa',
+    labelTextColor: '#f8fafc',
+    loopTextColor: '#f8fafc',
+    noteBkgColor: '#334155',
+    noteBorderColor: '#a78bfa',
+    noteTextColor: '#f8fafc',
+    stateLabelColor: '#f8fafc',
+    transitionColor: '#cbd5e1',
+    transitionLabelColor: '#f8fafc',
+    classText: '#f8fafc',
+    titleColor: '#f8fafc',
+  },
+  light: {
+    background: '#f3f5f8',
+    primaryColor: '#e9eafe',
+    primaryTextColor: '#1a1d23',
+    primaryBorderColor: '#7655c2',
+    secondaryColor: '#e9eafe',
+    secondaryTextColor: '#1a1d23',
+    secondaryBorderColor: '#7655c2',
+    tertiaryColor: '#e9eafe',
+    tertiaryTextColor: '#1a1d23',
+    tertiaryBorderColor: '#7655c2',
+    textColor: '#1a1d23',
+    nodeTextColor: '#1a1d23',
+    lineColor: '#475569',
+    defaultLinkColor: '#475569',
+    edgeLabelBackground: '#f3f5f8',
+    actorBkg: '#e9eafe',
+    actorBorder: '#7655c2',
+    actorTextColor: '#1a1d23',
+    actorLineColor: '#475569',
+    signalColor: '#475569',
+    signalTextColor: '#1a1d23',
+    labelBoxBkgColor: '#e9eafe',
+    labelBoxBorderColor: '#7655c2',
+    labelTextColor: '#1a1d23',
+    loopTextColor: '#1a1d23',
+    noteBkgColor: '#eff6ff',
+    noteBorderColor: '#7655c2',
+    noteTextColor: '#1a1d23',
+    stateLabelColor: '#1a1d23',
+    transitionColor: '#475569',
+    transitionLabelColor: '#1a1d23',
+    classText: '#1a1d23',
+    titleColor: '#1a1d23',
+  },
+} as const;
+
+// Mermaid v11 represents many flowchart node labels using HTML inside
+// <foreignObject>. Our SVG-only sanitizer intentionally strips that HTML,
+// which previously left visible shapes with completely blank labels.
+// Convert the labels into native SVG text BEFORE sanitizing, so all original
+// HTML stays untrusted and never enters the displayed DOM.
+function sanitizeDiagramSvg(svg: string, theme: DiagramTheme): string {
+  const parsed = new DOMParser().parseFromString(svg, 'text/html');
+  const root = parsed.querySelector('svg');
+  if (!root) {
+    return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+  }
+
+  for (const foreignObject of root.querySelectorAll('foreignObject')) {
+    const width = Number(foreignObject.getAttribute('width') ?? 0);
+    const height = Number(foreignObject.getAttribute('height') ?? 0);
+    const paragraphs = Array.from(foreignObject.querySelectorAll('p'));
+    // Preserve deliberate <br> breaks without copying any HTML into SVG.
+    for (const br of foreignObject.querySelectorAll('br')) {
+      br.replaceWith(parsed.createTextNode('\n'));
+    }
+    const lines = (paragraphs.length > 0 ? paragraphs : [foreignObject])
+      .flatMap((node) => (node.textContent ?? '').split('\n'))
+      .map((line) => line.replace(/\s+/g, ' ').trim())
+      .filter(Boolean);
+    const label = parsed.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.setAttribute('x', String(Number.isFinite(width) ? width / 2 : 0));
+    label.setAttribute('y', String(Number.isFinite(height) ? height / 2 : 0));
+    label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('dominant-baseline', 'middle');
+    label.setAttribute('fill', diagramPalettes[theme].primaryTextColor);
+    label.setAttribute('font-size', '16');
+
+    for (let i = 0; i < lines.length; i++) {
+      const tspan = parsed.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+      tspan.setAttribute('x', label.getAttribute('x') ?? '0');
+      tspan.setAttribute('dy', i === 0 ? `${-(lines.length - 1) * 0.6}em` : '1.2em');
+      tspan.textContent = lines[i];
+      label.appendChild(tspan);
+    }
+    foreignObject.replaceWith(label);
+  }
+
+  return DOMPurify.sanitize(root.outerHTML, { USE_PROFILES: { svg: true, svgFilters: true } });
+}
+// Mermaid uses shared DOM rendering state, so serialize renders (including
+// distinct themes) to avoid cross-diagram palette interference.
 let renderQueue: Promise<void> = Promise.resolve();
 let mermaidImport: Promise<typeof import('mermaid')> | undefined;
+let renderSequence = 0;
 
-function renderDiagram(source: string, id: string): Promise<string> {
+function renderDiagram(source: string, id: string, theme: DiagramTheme): Promise<string> {
   const render = async (): Promise<string> => {
     mermaidImport ??= import('mermaid');
     const { default: mermaid } = await mermaidImport;
@@ -24,13 +152,15 @@ function renderDiagram(source: string, id: string): Promise<string> {
     mermaid.initialize({
       startOnLoad: false,
       securityLevel: 'strict',
+      theme: 'base',
+      themeVariables: diagramPalettes[theme],
       flowchart: { htmlLabels: false },
     });
 
     await mermaid.parse(source);
-    const { svg } = await mermaid.render(id, source);
-    // Content comes from published Markdown. Never insert raw SVG into the DOM.
-    return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
+    const { svg } = await mermaid.render(id + '-' + ++renderSequence, source);
+    // The content comes from published Markdown. Never insert raw SVG into the DOM.
+    return sanitizeDiagramSvg(svg, theme);
   };
 
   const task = renderQueue.then(render, render);
@@ -40,13 +170,23 @@ function renderDiagram(source: string, id: string): Promise<string> {
 
 function MermaidDiagram({ source }: { source: string }) {
   const id = 'mermaid-' + useId().replace(/[^a-zA-Z0-9_-]/g, '');
+  const [theme, setTheme] = useState<DiagramTheme>(activeTheme);
   const [state, setState] = useState<DiagramState>({ status: 'loading' });
+
+  useEffect(() => {
+    const element = document.documentElement;
+    const syncTheme = () => setTheme(activeTheme());
+    syncTheme();
+    const observer = new MutationObserver(syncTheme);
+    observer.observe(element, { attributes: true, attributeFilter: ['data-theme'] });
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     let active = true;
     setState({ status: 'loading' });
 
-    void renderDiagram(source, id)
+    void renderDiagram(source, id, theme)
       .then((svg) => {
         if (active) setState({ status: 'ready', svg });
       })
@@ -57,7 +197,7 @@ function MermaidDiagram({ source }: { source: string }) {
     return () => {
       active = false;
     };
-  }, [id, source]);
+  }, [id, source, theme]);
 
   return (
     <div className="mermaid-diagram">

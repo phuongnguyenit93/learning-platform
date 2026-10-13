@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadApiDocs } from '../data/apiDocs';
 import { collectKnowledgeSections, formatKnowledgeDisplayTitle } from '../data/knowledge';
 import { loadQuizDocument } from '../data/quiz';
@@ -453,7 +452,7 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
                             </div>
                           )}
                           {!knowledgeLoading && !knowledgeError && knowledgeMarkdown !== undefined && (
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{knowledgeMarkdown}</ReactMarkdown>
+                            <MermaidMarkdown>{knowledgeMarkdown}</MermaidMarkdown>
                           )}
                         </div>
                       </>

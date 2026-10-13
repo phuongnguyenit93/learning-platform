@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadVideoScript } from '../data/video';
 import { useLanguage } from '../state/LanguageContext';
 import type { VideoIndexItem, VideoScriptDocument } from '../types/learning';
@@ -215,17 +214,17 @@ export function KnowledgeVideoPanel({ item, compact = false }: KnowledgeVideoPan
                           </td>
                           <td>
                             <div className="markdown-content knowledge-video__markdown">
-                              <ReactMarkdown remarkPlugins={[remarkGfm]}>{scriptItem.visual}</ReactMarkdown>
+                              <MermaidMarkdown>{scriptItem.visual}</MermaidMarkdown>
                             </div>
                           </td>
                           <td>
                             <div className="markdown-content knowledge-video__markdown">
-                              <ReactMarkdown remarkPlugins={[remarkGfm]}>{scriptItem.script}</ReactMarkdown>
+                              <MermaidMarkdown>{scriptItem.script}</MermaidMarkdown>
                             </div>
                           </td>
                           <td>
                             <div className="markdown-content knowledge-video__markdown">
-                              <ReactMarkdown remarkPlugins={[remarkGfm]}>{scriptItem.purpose}</ReactMarkdown>
+                              <MermaidMarkdown>{scriptItem.purpose}</MermaidMarkdown>
                             </div>
                           </td>
                         </tr>

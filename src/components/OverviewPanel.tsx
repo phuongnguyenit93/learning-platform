@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MermaidMarkdown } from './MermaidMarkdown';
 import { fetchJavaAsset } from '../data/javaAsset';
 import { useLanguage } from '../state/LanguageContext';
 import type { LearningModule } from '../types/learning';
@@ -90,7 +89,7 @@ export function OverviewPanel({ module }: OverviewPanelProps) {
 
   return (
     <section className="overview-panel markdown-content">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content ?? ''}</ReactMarkdown>
+      <MermaidMarkdown>{content ?? ''}</MermaidMarkdown>
     </section>
   );
 }

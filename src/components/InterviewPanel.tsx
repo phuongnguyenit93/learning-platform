@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadApiDocs } from '../data/apiDocs';
 import { loadInterviewDocument } from '../data/interview';
 import { fetchJavaAsset } from '../data/javaAsset';
@@ -423,7 +422,7 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
                             </div>
                           )}
                           {!knowledgeLoading && !knowledgeError && knowledgeMarkdown !== undefined && (
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{knowledgeMarkdown}</ReactMarkdown>
+                            <MermaidMarkdown>{knowledgeMarkdown}</MermaidMarkdown>
                           )}
                         </div>
                       </>

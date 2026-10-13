@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadApiDocs, resolveOperationKnowledgeKey } from '../data/apiDocs';
 import { fetchJavaAsset } from '../data/javaAsset';
 import {
@@ -511,7 +510,7 @@ export function ApiDocsPanel({
 
                                     {!knowledgeLoading && knowledgeMarkdown !== undefined && (
                                       <div className="markdown-content api-operation__knowledge-markdown">
-                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{knowledgeMarkdown}</ReactMarkdown>
+                                        <MermaidMarkdown>{knowledgeMarkdown}</MermaidMarkdown>
                                       </div>
                                     )}
                                   </section>

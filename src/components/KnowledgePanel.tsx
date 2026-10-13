@@ -74,6 +74,9 @@ export function KnowledgePanel({
   const [navigationSerial, setNavigationSerial] = useState(0);
   const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(null);
   const [hoverMenuLeft, setHoverMenuLeft] = useState(8);
+  const manuallyExpandedSectionRef = useRef<string | null>(null);
+  const lastNavigationKeyRef = useRef<string | null>(null);
+  const autoScrollCancelledRef = useRef(false);
   const topicNavRef = useRef<HTMLDivElement>(null);
   const topicStripRef = useRef<HTMLDivElement>(null);
   const topicButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -90,6 +93,11 @@ export function KnowledgePanel({
   const allSections = useMemo(() => (index ? collectKnowledgeSections(index.tree) : []), [index]);
   const hoveredCategory = categories.find((category) => category.id === hoveredCategoryId);
   const selectedSectionExpanded = selectedSectionId !== null && expandedSectionIds.has(selectedSectionId);
+  const selectedSection = allSections.find((section) => section.id === selectedSectionId);
+  const selectedSectionSettled = selectedSection === undefined
+    || ((contentCache[selectedSection.content] !== undefined
+      || (selectedSectionId !== null && sectionErrors[selectedSectionId] !== undefined))
+      && (selectedSectionId === null || !loadingSectionIds.has(selectedSectionId)));
 
   const visibleSections = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -242,7 +250,12 @@ export function KnowledgePanel({
 
   useEffect(() => {
     if (!selectedSectionId) {
+      manuallyExpandedSectionRef.current = null;
       return;
+    }
+
+    if (manuallyExpandedSectionRef.current !== selectedSectionId) {
+      manuallyExpandedSectionRef.current = null;
     }
 
     setExpandedSectionIds((current) => {
@@ -306,12 +319,20 @@ export function KnowledgePanel({
       return;
     }
 
-    // Wait until the selected accordion has expanded so its position is stable.
-    if (!selectedSectionExpanded) {
+    // Clicking an accordion header is not a navigation request: keep the user's
+    // scroll position instead of jumping to the beginning of that same lesson.
+    if (!selectedSectionExpanded || manuallyExpandedSectionRef.current === selectedSectionId) {
       return;
     }
 
+    const navigationKey = `${selectedSectionId}:${navigationSerial}`;
+    if (lastNavigationKeyRef.current !== navigationKey) {
+      lastNavigationKeyRef.current = navigationKey;
+      autoScrollCancelledRef.current = false;
+    }
+
     const frame = window.requestAnimationFrame(() => {
+      if (autoScrollCancelledRef.current) return;
       const section = document.getElementById(`knowledge-section-${selectedSectionId}`);
       const topicNav = topicNavRef.current;
       if (!section || !topicNav) return;
@@ -325,12 +346,33 @@ export function KnowledgePanel({
       // that target is measured; no fixed pixel position or chapter index.
       window.scrollTo({
         top: Math.max(0, window.scrollY + section.getBoundingClientRect().top - visibleTop),
-        behavior: 'smooth',
+        // An immediate position is deterministic even if Markdown expands
+        // asynchronously; this effect runs again once content is rendered.
+        behavior: 'instant',
       });
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [selectedSectionId, activeCategoryId, selectedSectionExpanded, navigationSerial]);
+  }, [selectedSectionId, activeCategoryId, selectedSectionExpanded, selectedSectionSettled, navigationSerial]);
+
+  useEffect(() => {
+    if (!selectedSectionId || !selectedSectionExpanded || selectedSectionSettled
+      || manuallyExpandedSectionRef.current === selectedSectionId) return;
+
+    // Do not snap back after someone starts reading/scrolling during the fetch.
+    const cancel = () => { autoScrollCancelledRef.current = true; };
+    const cancelOnKey = (event: KeyboardEvent) => {
+      if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) cancel();
+    };
+    window.addEventListener('wheel', cancel, { passive: true });
+    window.addEventListener('touchmove', cancel, { passive: true });
+    window.addEventListener('keydown', cancelOnKey);
+    return () => {
+      window.removeEventListener('wheel', cancel);
+      window.removeEventListener('touchmove', cancel);
+      window.removeEventListener('keydown', cancelOnKey);
+    };
+  }, [selectedSectionId, selectedSectionExpanded, selectedSectionSettled]);
 
   useEffect(() => {
     const topicNav = topicNavRef.current;
@@ -504,6 +546,8 @@ export function KnowledgePanel({
 
   const toggleSection = (sectionId: string) => {
     const willExpand = !expandedSectionIds.has(sectionId);
+
+    manuallyExpandedSectionRef.current = willExpand ? sectionId : null;
 
     setExpandedSectionIds((current) => {
       const next = new Set(current);
@@ -865,6 +909,7 @@ export function KnowledgePanel({
                   className="knowledge-topic-flyout__item"
                   onClick={() => {
                     setHoveredCategoryId(null);
+                    manuallyExpandedSectionRef.current = null;
                     // Re-selecting an already open lesson must scroll to it too.
                     setNavigationSerial((current) => current + 1);
                     onNavigateToSection(hoveredCategory.id, section.id);

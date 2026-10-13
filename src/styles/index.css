@@ -3547,7 +3547,6 @@ pre {
 }
 
 .knowledge-card {
-  scroll-margin-top: calc(var(--header-height) + 145px);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 7px;

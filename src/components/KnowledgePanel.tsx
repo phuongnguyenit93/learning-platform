@@ -89,6 +89,7 @@ export function KnowledgePanel({
   const categories = useMemo(() => (index ? collectKnowledgeCategories(index.tree) : []), [index]);
   const allSections = useMemo(() => (index ? collectKnowledgeSections(index.tree) : []), [index]);
   const hoveredCategory = categories.find((category) => category.id === hoveredCategoryId);
+  const selectedSectionExpanded = selectedSectionId !== null && expandedSectionIds.has(selectedSectionId);
 
   const visibleSections = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -305,14 +306,59 @@ export function KnowledgePanel({
       return;
     }
 
+    // Wait until the selected accordion has expanded so its position is stable.
+    if (!selectedSectionExpanded) {
+      return;
+    }
+
     const frame = window.requestAnimationFrame(() => {
-      document
-        .getElementById(`knowledge-section-${selectedSectionId}`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const section = document.getElementById(`knowledge-section-${selectedSectionId}`);
+      const topicNav = topicNavRef.current;
+      if (!section || !topicNav) return;
+
+      const headerHeight = document.querySelector<HTMLElement>('.topbar')?.getBoundingClientRect().height ?? 0;
+      const moduleTabsHeight = document.querySelector<HTMLElement>('.module-tab-wrapper')?.getBoundingClientRect().height ?? 0;
+      const topicNavHeight = topicNav.getBoundingClientRect().height;
+      const visibleTop = headerHeight + moduleTabsHeight + topicNavHeight + 12;
+
+      // Resolve the real DOM target by section id. Only the clearance above
+      // that target is measured; no fixed pixel position or chapter index.
+      window.scrollTo({
+        top: Math.max(0, window.scrollY + section.getBoundingClientRect().top - visibleTop),
+        behavior: 'smooth',
+      });
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [selectedSectionId, activeCategoryId, navigationSerial]);
+  }, [selectedSectionId, activeCategoryId, selectedSectionExpanded, navigationSerial]);
+
+  useEffect(() => {
+    const topicNav = topicNavRef.current;
+    const header = document.querySelector<HTMLElement>('.topbar');
+    const moduleTabs = document.querySelector<HTMLElement>('.module-tab-wrapper');
+    if (!topicNav || !moduleTabs) return;
+
+    const updateStickyPositions = () => {
+      const headerHeight = header?.getBoundingClientRect().height ?? 0;
+      const tabsHeight = moduleTabs.getBoundingClientRect().height;
+      moduleTabs.style.top = `${headerHeight}px`;
+      topicNav.style.top = `${headerHeight + tabsHeight}px`;
+    };
+
+    updateStickyPositions();
+    const resizeObserver = new ResizeObserver(updateStickyPositions);
+    if (header) resizeObserver.observe(header);
+    resizeObserver.observe(moduleTabs);
+    resizeObserver.observe(topicNav);
+    window.addEventListener('resize', updateStickyPositions);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateStickyPositions);
+      moduleTabs.style.removeProperty('top');
+      topicNav.style.removeProperty('top');
+    };
+  }, []);
 
   useEffect(() => {
     const strip = topicStripRef.current;
@@ -340,17 +386,20 @@ export function KnowledgePanel({
   }, [categories.length, index?.language, index?.moduleId]);
 
   useEffect(() => {
+    const strip = topicStripRef.current;
     const key = activeCategoryId === 'all' ? 'all' : activeCategoryId;
     const activeButton = topicButtonRefs.current[key];
 
-    if (!activeButton) {
+    if (!strip || !activeButton) {
       return;
     }
 
-    activeButton.scrollIntoView({
+    // Center the active category horizontally without scrolling the window.
+    strip.scrollTo({
+      left: strip.scrollLeft + activeButton.getBoundingClientRect().left
+        - strip.getBoundingClientRect().left
+        - (strip.clientWidth - activeButton.getBoundingClientRect().width) / 2,
       behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center',
     });
   }, [activeCategoryId, index?.language, index?.moduleId]);
 

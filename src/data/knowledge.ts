@@ -34,7 +34,9 @@ export async function loadKnowledgeIndex(path: string): Promise<KnowledgeIndex> 
 }
 
 export function formatKnowledgeDisplayTitle(title: string): string {
-  return title.replace(/^\s*\d+\.\s*/, '').trim();
+  // Numbered headings such as "1.1 OOP" must lose the whole 1.1,
+  // not just "1.", which previously left a stray "1" in lesson titles.
+  return title.replace(/^\s*\d+(?:\.\d+)*[.)]?\s+/, '').trim();
 }
 
 export function collectKnowledgeCategories(nodes: KnowledgeTreeNode[]): KnowledgeCategoryNode[] {

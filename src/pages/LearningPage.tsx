@@ -478,6 +478,11 @@ export function LearningPage() {
                   setSelectedKnowledgeSection(null);
                 }}
                 onSectionChange={setSelectedKnowledgeSection}
+                onNavigateToSection={(categoryId, sectionId) => {
+                  setSearchQuery('');
+                  setActiveKnowledgeCategory(categoryId);
+                  setSelectedKnowledgeSection(sectionId);
+                }}
               />
             </div>
           )}

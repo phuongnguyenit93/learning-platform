@@ -44,6 +44,7 @@ interface KnowledgePanelProps {
   videoIndexPath?: string;
   onCategoryChange: (categoryId: string) => void;
   onSectionChange: (sectionId: string | null) => void;
+  onNavigateToSection: (categoryId: string, sectionId: string) => void;
 }
 
 export function KnowledgePanel({
@@ -57,6 +58,7 @@ export function KnowledgePanel({
   videoIndexPath,
   onCategoryChange,
   onSectionChange,
+  onNavigateToSection,
 }: KnowledgePanelProps) {
   const { language } = useLanguage();
   const [contentCache, setContentCache] = useState<Record<string, string>>({});
@@ -69,6 +71,10 @@ export function KnowledgePanel({
   const [canScrollTopicsLeft, setCanScrollTopicsLeft] = useState(false);
   const [canScrollTopicsRight, setCanScrollTopicsRight] = useState(false);
   const [draggingTopics, setDraggingTopics] = useState(false);
+  const [navigationSerial, setNavigationSerial] = useState(0);
+  const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(null);
+  const [hoverMenuLeft, setHoverMenuLeft] = useState(8);
+  const topicNavRef = useRef<HTMLDivElement>(null);
   const topicStripRef = useRef<HTMLDivElement>(null);
   const topicButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const topicDragRef = useRef({
@@ -82,6 +88,7 @@ export function KnowledgePanel({
 
   const categories = useMemo(() => (index ? collectKnowledgeCategories(index.tree) : []), [index]);
   const allSections = useMemo(() => (index ? collectKnowledgeSections(index.tree) : []), [index]);
+  const hoveredCategory = categories.find((category) => category.id === hoveredCategoryId);
 
   const visibleSections = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
@@ -301,11 +308,11 @@ export function KnowledgePanel({
     const frame = window.requestAnimationFrame(() => {
       document
         .getElementById(`knowledge-section-${selectedSectionId}`)
-        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [selectedSectionId]);
+  }, [selectedSectionId, activeCategoryId, navigationSerial]);
 
   useEffect(() => {
     const strip = topicStripRef.current;
@@ -347,7 +354,21 @@ export function KnowledgePanel({
     });
   }, [activeCategoryId, index?.language, index?.moduleId]);
 
+  const showCategoryMenu = (categoryId: string, button: HTMLButtonElement) => {
+    if (draggingTopics) return;
+    const bounds = topicNavRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+
+    // The tab strip scrolls horizontally. Keep its dropdown outside that
+    // overflow container and clamp the dropdown within the Knowledge width.
+    const menuWidth = Math.min(420, bounds.width - 16);
+    const left = Math.max(8, Math.min(button.getBoundingClientRect().left - bounds.left, bounds.width - menuWidth - 8));
+    setHoverMenuLeft(left);
+    setHoveredCategoryId(categoryId);
+  };
+
   const scrollTopics = (direction: -1 | 1) => {
+    setHoveredCategoryId(null);
     const strip = topicStripRef.current;
 
     if (!strip) {
@@ -391,6 +412,7 @@ export function KnowledgePanel({
     if (!drag.dragged && Math.abs(delta) > 5) {
       drag.dragged = true;
       setDraggingTopics(true);
+      setHoveredCategoryId(null);
 
       if (!strip.hasPointerCapture(event.pointerId)) {
         strip.setPointerCapture(event.pointerId);
@@ -690,7 +712,20 @@ export function KnowledgePanel({
 
   return (
     <section className="knowledge-panel">
-      <div className="knowledge-topic-nav">
+      <div
+        ref={topicNavRef}
+        className="knowledge-topic-nav"
+        onPointerLeave={() => setHoveredCategoryId(null)}
+        onBlur={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget)) setHoveredCategoryId(null);
+        }}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') {
+            setHoveredCategoryId(null);
+            topicButtonRefs.current[hoveredCategoryId ?? 'all']?.focus();
+          }
+        }}
+      >
         <button
           type="button"
           className="knowledge-topic-nav__scroll"
@@ -705,6 +740,7 @@ export function KnowledgePanel({
           ref={topicStripRef}
           className={`knowledge-topic-strip${draggingTopics ? ' is-dragging' : ''}`}
           aria-label="Knowledge categories"
+          onScroll={() => setHoveredCategoryId(null)}
           onPointerDown={handleTopicPointerDown}
           onPointerMove={handleTopicPointerMove}
           onPointerUp={finishTopicDrag}
@@ -735,7 +771,16 @@ export function KnowledgePanel({
               ref={(element) => { topicButtonRefs.current[category.id] = element; }}
               type="button"
               className={`knowledge-topic-strip__button${activeCategoryId === category.id ? ' is-active' : ''}`}
-              onClick={() => onCategoryChange(category.id)}
+              onClick={() => {
+                setHoveredCategoryId(null);
+                onCategoryChange(category.id);
+              }}
+              onPointerEnter={(event) => {
+                if (event.pointerType !== 'touch') showCategoryMenu(category.id, event.currentTarget);
+              }}
+              onFocus={(event) => showCategoryMenu(category.id, event.currentTarget)}
+              aria-expanded={hoveredCategoryId === category.id}
+              aria-haspopup="true"
             >
               {category.title}
               <span>{category.sections.length}</span>
@@ -752,6 +797,36 @@ export function KnowledgePanel({
         >
           ›
         </button>
+
+        {hoveredCategory && !draggingTopics && (
+          <div
+            className="knowledge-topic-flyout"
+            style={{ left: hoverMenuLeft }}
+            aria-label={hoveredCategory.title}
+          >
+            <div className="knowledge-topic-flyout__heading">
+              {hoveredCategory.title}
+              <span>{hoveredCategory.sections.length}</span>
+            </div>
+            <div className="knowledge-topic-flyout__items">
+              {hoveredCategory.sections.map((section) => (
+                <button
+                  key={section.id}
+                  type="button"
+                  className="knowledge-topic-flyout__item"
+                  onClick={() => {
+                    setHoveredCategoryId(null);
+                    // Re-selecting an already open lesson must scroll to it too.
+                    setNavigationSerial((current) => current + 1);
+                    onNavigateToSection(hoveredCategory.id, section.id);
+                  }}
+                >
+                  {formatKnowledgeDisplayTitle(section.title)}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="knowledge-list">

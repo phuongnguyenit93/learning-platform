@@ -1893,7 +1893,10 @@ pre {
 }
 
 .module-tab-wrapper {
-  position: relative;
+  position: sticky;
+  top: var(--header-height);
+  z-index: 80;
+  background: var(--layout-bg);
 }
 
 .module-tabs-row {
@@ -2751,14 +2754,18 @@ pre {
 }
 
 .knowledge-topic-nav {
+  position: sticky;
+  top: calc(var(--header-height) + 64px);
+  z-index: 70;
   width: 100%;
   min-width: 0;
   display: grid;
   grid-template-columns: 32px minmax(0, 1fr) 32px;
   align-items: stretch;
   margin-bottom: 12px;
-  overflow: hidden;
+  overflow: visible;
   border-bottom: 1px solid var(--border);
+  background: var(--layout-bg);
 }
 
 .knowledge-topic-strip {
@@ -2851,6 +2858,61 @@ pre {
 
 .knowledge-topic-strip__button.is-active::after {
   background: var(--text);
+}
+
+
+.knowledge-topic-flyout {
+  position: absolute;
+  top: calc(100% - 1px);
+  width: min(420px, calc(100% - 16px));
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 0 0 10px 10px;
+  background: var(--card-bg);
+  box-shadow: 0 14px 32px var(--shadow);
+}
+
+.knowledge-topic-flyout__heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.knowledge-topic-flyout__heading span {
+  color: var(--text-muted);
+}
+
+.knowledge-topic-flyout__items {
+  max-height: min(52vh, 420px);
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.knowledge-topic-flyout__item {
+  display: block;
+  width: 100%;
+  padding: 11px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+}
+
+.knowledge-topic-flyout__item:hover,
+.knowledge-topic-flyout__item:focus-visible {
+  background: var(--surface-hover);
+  color: var(--text);
+  outline: none;
 }
 
 .knowledge-list {
@@ -3485,6 +3547,7 @@ pre {
 }
 
 .knowledge-card {
+  scroll-margin-top: calc(var(--header-height) + 145px);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 7px;

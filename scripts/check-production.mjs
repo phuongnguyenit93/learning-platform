@@ -16,11 +16,51 @@ export const productionAssetPaths = [
   '/module-content-counts.json',
   '/language/java/search/knowledge-search.vi.json',
   '/language/java/search/knowledge-search.en.json',
-  '/language/java/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/vi/content/ObjectOrientedProgramming/sections/oop-what.md',
-  '/language/java/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/content/ObjectOrientedProgramming/sections/oop-what.md',
+  '/language/java/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/vi/index.json',
+  '/language/java/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/index.json',
 ];
 
 const digest = (data) => createHash('sha256').update(data).digest('hex');
+
+const OOP_MODULE_ID = 'OBJECT_ORIENTED_PROGRAMMING';
+
+function firstKnowledgeLesson(index, language) {
+  if (index?.version !== 1 || index.moduleId !== OOP_MODULE_ID ||
+      index.language !== language || !Array.isArray(index.tree)) {
+    throw new Error(`Invalid OOP Knowledge index for ${language}`);
+  }
+
+  const nodes = [...index.tree];
+  while (nodes.length) {
+    const node = nodes.shift();
+    if (Array.isArray(node?.sections)) {
+      for (const section of node.sections) {
+        if (typeof section?.content !== 'string') continue;
+        const prefix = `/module/${OOP_MODULE_ID}/knowledge/${language}/content/`;
+        const contentPath = decodeURIComponent(section.content);
+        const relative = contentPath.startsWith(prefix) ? contentPath.slice(prefix.length) : '';
+        if (!relative.endsWith('.md') ||
+            relative.split('/').some((part) => !part || part === '.' || part === '..' || part.includes('\\')) ||
+            /[?#]/.test(relative)) {
+          throw new Error(`Invalid OOP ${language} Knowledge lesson path: ${section.content}`);
+        }
+        return `/language/java${contentPath}`;
+      }
+    }
+    if (Array.isArray(node?.children)) nodes.push(...node.children);
+  }
+  throw new Error(`OOP Knowledge index has no lessons for ${language}`);
+}
+
+async function knowledgeLessonPaths(directory) {
+  const paths = [];
+  for (const language of ['vi', 'en']) {
+    const indexPath = `/language/java/module/${OOP_MODULE_ID}/knowledge/${language}/index.json`;
+    const index = JSON.parse(await readFile(resolve(directory, indexPath.substring(1)), 'utf8'));
+    paths.push(firstKnowledgeLesson(index, language));
+  }
+  return paths;
+}
 
 export async function verifyProductionOnce(url, directory = 'dist', fetchImpl = fetch) {
   await checkPreview(url, fetchImpl);
@@ -30,7 +70,9 @@ export async function verifyProductionOnce(url, directory = 'dist', fetchImpl = 
   if (!bundles.some((path) => path.endsWith('.js')) || !bundles.some((path) => path.endsWith('.css'))) {
     throw new Error('Deployment artifact has no Vite JavaScript or CSS bundle');
   }
-  const checkedPaths = [...productionAssetPaths, ...bundles];
+  // Resolve real lesson paths from the exact artifact's Knowledge indices.
+  // Module content is generated and lesson names change between releases.
+  const checkedPaths = [...productionAssetPaths, ...await knowledgeLessonPaths(directory), ...bundles];
   for (const path of checkedPaths) {
     const expected = await readFile(resolve(directory, path.substring(1)));
     const expectedHash = digest(expected);

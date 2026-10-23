@@ -592,7 +592,7 @@ export function KnowledgePanel({
     const sectionNumber = visibleSectionNumberById.get(section.id);
 
     return (
-      <article key={section.id} id={`knowledge-section-${section.id}`} className={`knowledge-card${expanded ? ' is-expanded' : ''}`}>
+      <article key={section.id} id={`knowledge-section-${section.id}`} className={`knowledge-card${expanded ? ' is-expanded' : ''}${section.isImportant === true ? ' is-important' : ''}`}>
         <button
           type="button"
           className={`knowledge-card__header${options.showIndex ? '' : ' knowledge-card__header--without-index'}`}
@@ -603,7 +603,16 @@ export function KnowledgePanel({
             <span className="knowledge-card__index">#{sectionNumber}</span>
           )}
           <span className="knowledge-card__title-group">
-            <span className="knowledge-card__title">{formatKnowledgeDisplayTitle(section.title)}</span>
+            <span className="knowledge-card__title-row">
+              <span className="knowledge-card__title">{formatKnowledgeDisplayTitle(section.title)}</span>
+              {section.isImportant === true && (
+                <CustomTooltip content={language === 'vi'
+                  ? 'Kiến thức quan trọng cần phải học'
+                  : 'Essential knowledge you should learn'}>
+                  <span className="knowledge-important-star" role="img" aria-label={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'} title={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'}>★</span>
+                </CustomTooltip>
+              )}
+            </span>
             {options.showCategory && (
               <span className="knowledge-card__category">{section.categoryTitle}</span>
             )}

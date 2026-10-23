@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { formatKnowledgeDisplayTitle } from '../data/knowledge';
 import { useLanguage } from '../state/LanguageContext';
 import type { KnowledgeCategoryNode, KnowledgeIndex, KnowledgeTreeNode } from '../types/learning';
+import { CustomTooltip } from './CustomTooltip';
 
 interface MenuPanelProps {
   index: KnowledgeIndex | null;
@@ -157,13 +158,22 @@ function MenuNode({
             <li key={section.id}>
               <button
                 type="button"
-                className={`knowledge-menu__section${selectedSectionId === section.id ? ' is-active' : ''}`}
+                className={`knowledge-menu__section${selectedSectionId === section.id ? ' is-active' : ''}${section.isImportant === true ? ' is-important' : ''}`}
                 style={{ '--menu-depth': depth + 1 } as CSSProperties}
                 onClick={() => onSelectSection(node.id, section.id)}
               >
                 <span className="knowledge-menu__section-dot" aria-hidden="true">•</span>
                 <span className="knowledge-menu__section-copy">
-                  <span className="knowledge-menu__section-title">{formatKnowledgeDisplayTitle(section.title)}</span>
+                  <span className="knowledge-menu__section-title">
+                    {formatKnowledgeDisplayTitle(section.title)}
+                    {section.isImportant === true && (
+                      <CustomTooltip content={language === 'vi'
+                        ? 'Kiến thức quan trọng cần phải học'
+                        : 'Essential knowledge you should learn'}>
+                        <span className="knowledge-important-star" role="img" aria-label={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'} title={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'}>★</span>
+                      </CustomTooltip>
+                    )}
+                  </span>
                   <span className="knowledge-menu__section-hint">
                     {language === 'vi' ? 'Nhấn vào để học' : 'Click to learn'}
                   </span>

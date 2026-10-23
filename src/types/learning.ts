@@ -91,6 +91,8 @@ export interface KnowledgeSection {
   title: string;
   content: string;
   difficulty: KnowledgeDifficulty;
+  /** Omitted in older published indexes; treat as false. */
+  isImportant?: boolean;
   aiGenerated: boolean;
   reviewed: boolean;
 }

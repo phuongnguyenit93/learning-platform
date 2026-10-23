@@ -44,6 +44,10 @@
   --notice-border: #6f5722;
   --notice-title: #ffe08a;
   --notice-text: #e6d7ae;
+  --important-bg: #292419;
+  --important-border: #60502d;
+  --important-star: #f0c653;
+  --important-hover-bg: #352c1a;
 
   /* Capability colors stay identical in light and dark themes. */
   --overview-bg: #2b3038;
@@ -112,6 +116,10 @@
   --notice-border: #dfc46d;
   --notice-title: #7a5610;
   --notice-text: #5f5131;
+  --important-bg: #fff7e8;
+  --important-border: #e8d5aa;
+  --important-star: #bc8317;
+  --important-hover-bg: #fff0d2;
 }
 
 * {
@@ -3508,6 +3516,26 @@ pre {
   color: var(--knowledge-text);
 }
 
+.knowledge-menu__section.is-important {
+  background: var(--important-bg);
+  box-shadow: inset 2px 0 var(--important-border);
+}
+
+.knowledge-menu__section.is-important:hover,
+.knowledge-menu__section.is-important.is-active {
+  background: var(--important-hover-bg);
+}
+
+.knowledge-important-star {
+  display: inline-block;
+  margin-left: 7px;
+  color: var(--important-star);
+  font-size: 15px;
+  line-height: 1;
+  vertical-align: -1px;
+  white-space: nowrap;
+}
+
 .knowledge-menu__section-dot {
   width: 14px;
   flex: 0 0 14px;
@@ -3553,10 +3581,23 @@ pre {
   background: var(--card-bg);
 }
 
+.knowledge-card.is-important {
+  border-color: var(--important-border);
+  background: var(--important-bg);
+}
+
+.knowledge-card.is-important .knowledge-card__header:hover {
+  background: var(--important-hover-bg);
+}
+
 .knowledge-card.is-expanded {
   position: relative;
   overflow: visible;
   background: var(--card-expanded-bg);
+}
+
+.knowledge-card.is-important.is-expanded {
+  background: var(--important-bg);
 }
 
 .knowledge-card__header {
@@ -3595,6 +3636,21 @@ pre {
   line-height: 1.4;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.knowledge-card__title-row {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.knowledge-card__title-row .knowledge-card__title {
+  display: block;
+  flex: 0 1 auto;
+}
+
+.knowledge-card__title-row .custom-tooltip-anchor {
+  flex: 0 0 auto;
 }
 
 .knowledge-card__title-group {

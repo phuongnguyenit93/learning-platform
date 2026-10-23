@@ -23,6 +23,7 @@ const index: KnowledgeIndex = {
       title: `1.${number} Lesson ${number}`,
       content: `/lesson-${number}.md`,
       difficulty: 'BASIC',
+      isImportant: number === 1,
       aiGenerated: false,
       reviewed: false,
     })),
@@ -107,6 +108,14 @@ test('manual expand never scrolls; navigation realigns once Markdown arrives', a
   });
 
   await act(async () => root.render(<Harness />));
+  const importantCard = container.querySelector('#knowledge-section-oop-1-1');
+  const regularCard = container.querySelector('#knowledge-section-oop-1-2');
+  assert.ok(importantCard?.classList.contains('is-important'), 'essential lesson should be highlighted');
+  assert.ok(importantCard?.querySelector('.knowledge-important-star'), 'essential lesson should have a star');
+  assert.equal(importantCard?.querySelector('.knowledge-important-star')?.getAttribute('title'),
+    'Kiến thức quan trọng cần phải học');
+  assert.equal(regularCard?.classList.contains('is-important'), false, 'regular lesson should remain unhighlighted');
+  assert.equal(regularCard?.querySelector('.knowledge-important-star'), null);
   const manualButton = container.querySelector<HTMLButtonElement>('#knowledge-section-oop-1-1 button');
   assert.ok(manualButton);
   await act(async () => manualButton.click());

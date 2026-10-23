@@ -3581,23 +3581,18 @@ pre {
   background: var(--card-bg);
 }
 
-.knowledge-card.is-important {
-  border-color: var(--important-border);
-  background: var(--important-bg);
-}
-
-.knowledge-card.is-important .knowledge-card__header:hover {
-  background: var(--important-hover-bg);
-}
-
 .knowledge-card.is-expanded {
   position: relative;
   overflow: visible;
   background: var(--card-expanded-bg);
 }
 
-.knowledge-card.is-important.is-expanded {
+.knowledge-card.is-important > .knowledge-card__header {
   background: var(--important-bg);
+}
+
+.knowledge-card.is-important > .knowledge-card__header:hover {
+  background: var(--important-hover-bg);
 }
 
 .knowledge-card__header {

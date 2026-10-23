@@ -41,9 +41,6 @@ async function fixture(t) {
   }));
   await write('language/java/module/EXAMPLE/knowledge/vi/index.json', '{}');
   await write('language/java/module/EXAMPLE/api/vi/api-descriptions.yml', 'api: {}');
-  for (const lang of ['vi', 'en']) {
-    await write(`language/java/search/knowledge-search.${lang}.json`, '{"version":1,"documents":[]}');
-  }
   return { root, write };
 }
 

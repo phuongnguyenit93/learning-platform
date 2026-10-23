@@ -10,7 +10,7 @@ import { assertExpectedRelease, downloadAndValidate, parseChecksum, syncJavaData
 const utf8 = (text) => new TextEncoder().encode(text);
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
-function fixture({ extraEntries = {}, overrideManifest = {} } = {}) {
+function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false } = {}) {
   const catalog = utf8(JSON.stringify({
     version: 1,
     root: {
@@ -24,6 +24,10 @@ function fixture({ extraEntries = {}, overrideManifest = {} } = {}) {
     'search/knowledge-search.en.json': utf8('{"version":1,"documents":[]}'),
     ...extraEntries,
   };
+  if (omitSearch) {
+    delete dataFiles['search/knowledge-search.vi.json'];
+    delete dataFiles['search/knowledge-search.en.json'];
+  }
   const totalBytes = Object.values(dataFiles).reduce((n, bytes) => n + bytes.length, 0);
   const manifest = {
     schemaVersion: 1,
@@ -145,7 +149,14 @@ test('stages Java data and preserves unrelated files and sibling language direct
   assert.equal(await readFile(join(dataDir, 'module', 'DEMO', 'overview', 'vi.md'), 'utf8'), '# Demo\n');
   assert.equal(JSON.parse(await readFile(join(dataDir, 'module-catalog.json'), 'utf8')).version, 1);
   assert.deepEqual(await readdir(join(dataDir, 'module')), ['DEMO']);
+  assert.equal((await readdir(dataDir)).includes('search'), false, 'legacy Knowledge search files are not deployed');
   assert.deepEqual((await readdir(join(root, 'dist', 'language'))).sort(), ['golang', 'java'], 'staging and backup directories removed');
+});
+
+test('consumer accepts a Java release without any Knowledge search files', () => {
+  const { zip, checksum } = fixture({ omitSearch: true });
+  const validated = validateArchive(zip, checksum);
+  assert.equal(validated.files.size, 2);
 });
 
 test('a failed validation cannot change the existing Java data directory', async (t) => {

@@ -44,8 +44,6 @@ async function fixture(t) {
     ['/module-navigation.json', JSON.stringify(catalog)],
     [`/module-details/${moduleId}.json`, JSON.stringify({ kind: 'MODULE', routeId: moduleId })],
     ['/module-content-counts.json', JSON.stringify({ version: 1, locales: { vi: {}, en: {} } })],
-    ['/language/java/search/knowledge-search.vi.json', '{"version":1,"documents":[]}'],
-    ['/language/java/search/knowledge-search.en.json', '{"version":1,"documents":[]}'],
     [`/language/java/module/${moduleId}/knowledge/vi/index.json`, knowledgeIndex('vi', viLesson)],
     [`/language/java/module/${moduleId}/knowledge/en/index.json`, knowledgeIndex('en', enLesson)],
     [viLesson, '**Lập trình hướng đối tượng** bản mới'],
@@ -67,7 +65,7 @@ async function fixture(t) {
 
 test('production gate selects real VI/EN OOP lessons from Knowledge indices and checks exact bytes', async (t) => {
   const { dist, data, mockFetch } = await fixture(t);
-  assert.equal(productionAssetPaths.length, 8);
+  assert.equal(productionAssetPaths.length, 6);
   assert.ok(![...data.keys()].some((path) => path.endsWith('oop-what.md')));
   const visited = [];
   await verifyProductionOnce('https://site.example', dist, async (url) => {

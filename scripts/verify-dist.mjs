@@ -97,11 +97,7 @@ export async function verifyDist(directory = 'dist') {
   ensure(references.size > 0, 'No Java catalog asset references');
   for (const ref of references) ensure(await validAsset(ref), `Missing Java catalog asset: ${ref}`);
 
-  for (const language of ['vi', 'en']) {
-    const search = JSON.parse(await readFile(join(java, 'search', `knowledge-search.${language}.json`), 'utf8'));
-    ensure(search.version === 1 && Array.isArray(search.documents), `Invalid Java search index: ${language}`);
-  }
-  console.log(`DIST VERIFIED: Java catalog v${catalog.version}, ${references.size} module asset references, VI/EN search, Vite JS/CSS present`);
+  console.log(`DIST VERIFIED: Java catalog v${catalog.version}, ${references.size} module asset references, Vite JS/CSS present`);
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

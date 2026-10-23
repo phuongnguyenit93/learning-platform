@@ -191,4 +191,4 @@ jobs:
           echo "### Production deployment verified" >> "$GITHUB_STEP_SUMMARY"
           echo "Worker: learning-platform" >> "$GITHUB_STEP_SUMMARY"
           echo "Public site: https://nguyendodinhphuong.name.vn" >> "$GITHUB_STEP_SUMMARY"
-          echo "Both Worker and custom domain serve the verified build's Java catalog, VI/EN search and OOP Knowledge bytes." >> "$GITHUB_STEP_SUMMARY"
+          echo "Both Worker and custom domain serve the verified build's Java catalog and OOP Knowledge bytes." >> "$GITHUB_STEP_SUMMARY"

@@ -83,7 +83,7 @@ export function validateArchive(zipBytes, checksumText) {
     throw new Error(`Invalid ZIP archive: ${error.message}`, { cause: error });
   }
   const names = Object.keys(decoded);
-  assert(names.length > 3 && names.length <= MAX_FILE_COUNT + 1, 'Invalid ZIP entry count');
+  assert(names.length > 2 && names.length <= MAX_FILE_COUNT + 1, 'Invalid ZIP entry count');
 
   const seen = new Set();
   let dataBytes = 0;
@@ -102,9 +102,6 @@ export function validateArchive(zipBytes, checksumText) {
     }
   }
   assert(seen.has('manifest.json') && seen.has('module-catalog.json'), 'ZIP missing manifest/catalog');
-  for (const lang of ['vi', 'en']) {
-    assert(seen.has(`search/knowledge-search.${lang}.json`), `ZIP missing ${lang} search index`);
-  }
 
   let manifest;
   let catalog;
@@ -238,6 +235,8 @@ export async function syncJavaData(dataDirectory, validated) {
       }
     }
     for (const [name, content] of validated.files) {
+      // Temporary: ignore search indexes even in existing published Releases.
+      if (name.startsWith('search/knowledge-search.')) continue;
       const target = join(stage, ...name.split('/'));
       await mkdir(dirname(target), { recursive: true });
       await writeFile(target, content, { flag: 'wx' });

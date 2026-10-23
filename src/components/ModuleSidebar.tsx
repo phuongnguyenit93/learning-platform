@@ -2,6 +2,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
+// Knowledge search is disabled until its oversized index is replaced.
+const KNOWLEDGE_SEARCH_ENABLED = false;
 import { loadKnowledgeSearchIndex, searchKnowledge } from '../data/knowledgeSearch';
 import { collectRealModules, formatCatalogName } from '../data/moduleCatalog';
 import { isCountedRealModule, projectCountedRealModules } from '../data/realModuleFilter';
@@ -840,7 +842,7 @@ export function ModuleSidebar({
   const [expandRequest, setExpandRequest] = useState<SidebarExpandRequest>({ version: 0, expanded: true });
   const filter = useMemo(() => filterInput.trim().toLowerCase(), [filterInput]);
   const knowledgeQuery = knowledgeSearchInput.trim();
-  const knowledgeSearchActive = knowledgeQuery.length > 0;
+  const knowledgeSearchActive = KNOWLEDGE_SEARCH_ENABLED && knowledgeQuery.length > 0;
   const moduleSearchMetadata = useMemo(() => collectModuleSearchMetadata(nodes), [nodes]);
 
   useEffect(() => {
@@ -1041,7 +1043,7 @@ export function ModuleSidebar({
         </div>
       </div>
 
-      <label className={`sidebar-knowledge-search${knowledgeSearchActive ? ' is-active' : ''}`}>
+      {KNOWLEDGE_SEARCH_ENABLED && <label className={`sidebar-knowledge-search${knowledgeSearchActive ? ' is-active' : ''}`}>
         <span aria-hidden="true">⌕</span>
         <input
           type="search"
@@ -1060,7 +1062,7 @@ export function ModuleSidebar({
             ×
           </button>
         )}
-      </label>
+      </label>}
 
       {knowledgeSearchActive && (
         <div className="sidebar-knowledge-results" aria-live="polite">

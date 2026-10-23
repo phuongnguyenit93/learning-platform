@@ -25,10 +25,6 @@ export async function checkPreview(previewUrl, fetchImpl = fetch) {
   ensure(index.includes('<html') || index.includes('<!doctype html'), 'Preview root is not HTML');
   const catalog = await (await get('/language/java/module-catalog.json')).json();
   ensure(catalog.version === 1 && Array.isArray(catalog.root?.children), 'Preview Java catalog invalid (or SPA fallback)');
-  for (const language of ['vi', 'en']) {
-    const result = await (await get(`/language/java/search/knowledge-search.${language}.json`)).json();
-    ensure(result.version === 1 && Array.isArray(result.documents), `Preview ${language} search invalid`);
-  }
 
   let selected = null;
   function scan(node) {
@@ -42,7 +38,7 @@ export async function checkPreview(previewUrl, fetchImpl = fetch) {
   ensure(selected, 'No Knowledge index in Java catalog for smoke test');
   const knowledge = await (await get(`/language/java${selected}`)).json();
   ensure(knowledge && typeof knowledge === 'object' && !('doctype' in knowledge), 'Preview Knowledge JSON invalid');
-  console.log(`PREVIEW VERIFIED: ${base.origin}, React HTML, Java catalog, VI/EN search and ${selected}`);
+  console.log(`PREVIEW VERIFIED: ${base.origin}, React HTML, Java catalog and ${selected}`);
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

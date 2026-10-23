@@ -14,8 +14,6 @@ export const productionAssetPaths = [
   '/module-navigation.json',
   '/module-details/OBJECT_ORIENTED_PROGRAMMING.json',
   '/module-content-counts.json',
-  '/language/java/search/knowledge-search.vi.json',
-  '/language/java/search/knowledge-search.en.json',
   '/language/java/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/vi/index.json',
   '/language/java/module/OBJECT_ORIENTED_PROGRAMMING/knowledge/en/index.json',
 ];

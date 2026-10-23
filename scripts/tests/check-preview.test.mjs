@@ -13,8 +13,6 @@ function fakeFetch(pathOverrides = {}) {
   const routes = {
     '/': '<!doctype html><html><body>ok</body></html>',
     '/language/java/module-catalog.json': JSON.stringify(catalog),
-    '/language/java/search/knowledge-search.vi.json': '{"version":1,"documents":[]}',
-    '/language/java/search/knowledge-search.en.json': '{"version":1,"documents":[]}',
     '/language/java/module/EXAMPLE/knowledge/vi/index.json': '{"version":1}',
     ...pathOverrides,
   };
@@ -24,14 +22,14 @@ function fakeFetch(pathOverrides = {}) {
   };
 }
 
-test('preview smoke accepts valid HTML, catalog, search and Knowledge paths', async () => {
+test('preview smoke accepts valid HTML, catalog and Knowledge paths without search', async () => {
   await checkPreview('https://example.workers.dev/', fakeFetch());
 });
 
 test('preview smoke rejects SPA fallback returned instead of JSON', async () => {
   await assert.rejects(
     checkPreview('https://example.workers.dev/', fakeFetch({
-      '/language/java/search/knowledge-search.en.json': '<!doctype html><html></html>',
+      '/language/java/module/EXAMPLE/knowledge/vi/index.json': '<!doctype html><html></html>',
     })),
   );
 });

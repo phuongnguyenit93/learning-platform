@@ -1,6 +1,7 @@
 import type {
   KnowledgeCategoryNode,
   KnowledgeIndex,
+  KnowledgeSection,
   KnowledgeSectionRef,
   KnowledgeTreeNode,
 } from '../types/learning';
@@ -39,6 +40,23 @@ export function formatKnowledgeDisplayTitle(title: string): string {
   return title.replace(/^\s*\d+(?:\.\d+)*[.)]?\s+/, '').trim();
 }
 
+const difficultyOrder: Record<KnowledgeSection['difficulty'], number> = {
+  BASIC: 0,
+  INTERMEDIATE: 1,
+  ADVANCED: 2,
+};
+
+/** Group by learning level, preserving the original order within each level. */
+export function sortKnowledgeSectionsByDifficulty<T extends KnowledgeSection>(sections: readonly T[]): T[] {
+  return sections
+    .map((section, originalIndex) => ({ section, originalIndex }))
+    .sort((left, right) => (
+      (difficultyOrder[left.section.difficulty] ?? 3) - (difficultyOrder[right.section.difficulty] ?? 3)
+      || left.originalIndex - right.originalIndex
+    ))
+    .map(({ section }) => section);
+}
+
 export function collectKnowledgeCategories(nodes: KnowledgeTreeNode[]): KnowledgeCategoryNode[] {
   const result: KnowledgeCategoryNode[] = [];
 
@@ -54,13 +72,17 @@ export function collectKnowledgeCategories(nodes: KnowledgeTreeNode[]): Knowledg
   return result;
 }
 
-export function collectKnowledgeSections(nodes: KnowledgeTreeNode[]): KnowledgeSectionRef[] {
+export function collectKnowledgeSections(
+  nodes: KnowledgeTreeNode[],
+  options: { sortByDifficulty?: boolean } = {},
+): KnowledgeSectionRef[] {
   return collectKnowledgeCategories(nodes).flatMap((category) =>
-    category.sections.map((section) => ({
-      ...section,
-      categoryId: category.id,
-      categoryTitle: category.title,
-      sourcePath: category.sourcePath,
-    })),
+    (options.sortByDifficulty ? sortKnowledgeSectionsByDifficulty(category.sections) : category.sections)
+      .map((section) => ({
+        ...section,
+        categoryId: category.id,
+        categoryTitle: category.title,
+        sourcePath: category.sourcePath,
+      })),
   );
 }

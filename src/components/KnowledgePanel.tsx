@@ -7,6 +7,7 @@ import {
   collectKnowledgeCategories,
   collectKnowledgeSections,
   formatKnowledgeDisplayTitle,
+  sortKnowledgeSectionsByDifficulty,
 } from '../data/knowledge';
 import { loadVideoIndex } from '../data/video';
 import { useLanguage } from '../state/LanguageContext';
@@ -90,7 +91,9 @@ export function KnowledgePanel({
   const suppressTopicClickRef = useRef(false);
 
   const categories = useMemo(() => (index ? collectKnowledgeCategories(index.tree) : []), [index]);
-  const allSections = useMemo(() => (index ? collectKnowledgeSections(index.tree) : []), [index]);
+  const allSections = useMemo(() => (
+    index ? collectKnowledgeSections(index.tree, { sortByDifficulty: true }) : []
+  ), [index]);
   const hoveredCategory = categories.find((category) => category.id === hoveredCategoryId);
   const selectedSectionExpanded = selectedSectionId !== null && expandedSectionIds.has(selectedSectionId);
   const selectedSection = allSections.find((section) => section.id === selectedSectionId);
@@ -911,7 +914,7 @@ export function KnowledgePanel({
               <span>{hoveredCategory.sections.length}</span>
             </div>
             <div className="knowledge-topic-flyout__items">
-              {hoveredCategory.sections.map((section) => (
+              {sortKnowledgeSectionsByDifficulty(hoveredCategory.sections).map((section) => (
                 <button
                   key={section.id}
                   type="button"

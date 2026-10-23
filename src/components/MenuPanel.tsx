@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type CSSProperties } from 'react';
-import { formatKnowledgeDisplayTitle } from '../data/knowledge';
+import { formatKnowledgeDisplayTitle, sortKnowledgeSectionsByDifficulty } from '../data/knowledge';
 import { useLanguage } from '../state/LanguageContext';
 import type { KnowledgeCategoryNode, KnowledgeIndex, KnowledgeTreeNode } from '../types/learning';
 import { CustomTooltip } from './CustomTooltip';
@@ -129,9 +129,10 @@ function MenuNode({
   }
 
   const fullCategoryMatch = categoryMatches(node, query);
-  const visibleSections = fullCategoryMatch
+  const matchingSections = fullCategoryMatch
     ? node.sections
     : node.sections.filter((section) => `${section.title} ${section.id}`.toLowerCase().includes(query));
+  const visibleSections = sortKnowledgeSectionsByDifficulty(matchingSections);
 
   if (visibleSections.length === 0 && query) {
     return null;

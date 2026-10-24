@@ -4860,6 +4860,13 @@ pre {
   min-height: 0;
 }
 
+/* Match IDE Ctrl/Cmd+hover navigation without styling unresolved references. */
+.code-explorer .monaco-editor .code-explorer__definition-link {
+  cursor: pointer !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .code-explorer__status,
 .code-explorer__notice {
   padding: 15px 12px;

@@ -189,7 +189,77 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
         setAlternatives(matches);
       }
     };
+    // The slim Monaco build does not provide VS Code's Ctrl+hover link gesture.
+    // Show the affordance only for an indexed, navigable source reference.
+    const linkDecoration = editor.createDecorationsCollection();
+    let hoveredPosition: monaco.IPosition | null = null;
+    let hoveringText = false;
+    let modifierDown = false;
+    let decoratedKey: string | null = null;
+    const clearLink = () => {
+      if (decoratedKey !== null) {
+        linkDecoration.clear();
+        decoratedKey = null;
+      }
+    };
+    const updateLink = () => {
+      const bundle = materialRef.current;
+      const model = editor.getModel();
+      const path = model ? sourcePath(model.uri) : null;
+      if (!bundle || !path || !modifierDown || !hoveringText || !hoveredPosition) {
+        clearLink();
+        return;
+      }
+      const reference = findCodeReference(bundle.references, path,
+        hoveredPosition.lineNumber, hoveredPosition.column);
+      if (!reference || reference.status === 'UNRESOLVED'
+        || !reference.targets.some((id) => bundle.symbols.some((symbol) => symbol.id === id))) {
+        clearLink();
+        return;
+      }
+      const key = path + ':' + reference.line + ':' + reference.column;
+      if (key === decoratedKey) return;
+      linkDecoration.set([{
+        range: new api.Range(reference.line, reference.column,
+          reference.endLine, reference.endColumn + 1),
+        options: { inlineClassName: 'code-explorer__definition-link' },
+      }]);
+      decoratedKey = key;
+    };
+    const handleModifier = (event: KeyboardEvent) => {
+      if (event.key !== 'Control' && event.key !== 'Meta') return;
+      modifierDown = event.ctrlKey || event.metaKey;
+      updateLink();
+    };
+    const resetLink = () => {
+      modifierDown = false;
+      hoveredPosition = null;
+      hoveringText = false;
+      clearLink();
+    };
+    window.addEventListener('keydown', handleModifier);
+    window.addEventListener('keyup', handleModifier);
+    window.addEventListener('blur', resetLink);
     disposables.current = [
+      // Decorations collections have clear(), not dispose().
+      { dispose: () => linkDecoration.clear() },
+      { dispose: () => {
+        window.removeEventListener('keydown', handleModifier);
+        window.removeEventListener('keyup', handleModifier);
+        window.removeEventListener('blur', resetLink);
+      } },
+      editor.onDidChangeModel(resetLink),
+      editor.onMouseLeave(() => {
+        hoveredPosition = null;
+        hoveringText = false;
+        clearLink();
+      }),
+      editor.onMouseMove((event) => {
+        hoveredPosition = event.target.position;
+        hoveringText = event.target.type === api.editor.MouseTargetType.CONTENT_TEXT;
+        modifierDown = event.event.ctrlKey || event.event.metaKey;
+        updateLink();
+      }),
       api.languages.registerDefinitionProvider({ language: 'java', scheme: 'code-explorer' }, {
         provideDefinition(model: monaco.editor.ITextModel, position: monaco.Position) {
           const bundle = materialRef.current;

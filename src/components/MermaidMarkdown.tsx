@@ -2,6 +2,7 @@ import { isValidElement, useEffect, useId, useState, type ReactNode } from 'reac
 import DOMPurify from 'dompurify';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { wrapMermaidLabel } from '../data/mermaidLabelWrap';
 
 interface MermaidMarkdownProps {
   children: string;
@@ -106,6 +107,13 @@ function sanitizeDiagramSvg(svg: string, theme: DiagramTheme): string {
     return DOMPurify.sanitize(svg, { USE_PROFILES: { svg: true, svgFilters: true } });
   }
 
+  const context = document.createElement('canvas').getContext('2d');
+  const measure = (text: string, fontSize: number): number => {
+    if (!context) return Array.from(text).length * fontSize * 0.65;
+    context.font = `${fontSize}px "Trebuchet MS", Verdana, Arial, sans-serif`;
+    return context.measureText(text).width;
+  };
+
   for (const foreignObject of root.querySelectorAll('foreignObject')) {
     const width = Number(foreignObject.getAttribute('width') ?? 0);
     const height = Number(foreignObject.getAttribute('height') ?? 0);
@@ -118,19 +126,23 @@ function sanitizeDiagramSvg(svg: string, theme: DiagramTheme): string {
       .flatMap((node) => (node.textContent ?? '').split('\n'))
       .map((line) => line.replace(/\s+/g, ' ').trim())
       .filter(Boolean);
+    const wrapped = wrapMermaidLabel(lines, width, height, measure);
     const label = parsed.createElementNS('http://www.w3.org/2000/svg', 'text');
     label.setAttribute('x', String(Number.isFinite(width) ? width / 2 : 0));
     label.setAttribute('y', String(Number.isFinite(height) ? height / 2 : 0));
     label.setAttribute('text-anchor', 'middle');
     label.setAttribute('dominant-baseline', 'middle');
     label.setAttribute('fill', diagramPalettes[theme].primaryTextColor);
-    label.setAttribute('font-size', '16');
+    label.setAttribute('font-size', String(wrapped.fontSize));
+    label.setAttribute('font-family', 'Trebuchet MS, Verdana, Arial, sans-serif');
 
-    for (let i = 0; i < lines.length; i++) {
+    for (let i = 0; i < wrapped.lines.length; i++) {
       const tspan = parsed.createElementNS('http://www.w3.org/2000/svg', 'tspan');
       tspan.setAttribute('x', label.getAttribute('x') ?? '0');
-      tspan.setAttribute('dy', i === 0 ? `${-(lines.length - 1) * 0.6}em` : '1.2em');
-      tspan.textContent = lines[i];
+      tspan.setAttribute('dy', i === 0
+        ? String(-(wrapped.lines.length - 1) * wrapped.lineHeight / 2)
+        : String(wrapped.lineHeight));
+      tspan.textContent = wrapped.lines[i];
       label.appendChild(tspan);
     }
     foreignObject.replaceWith(label);

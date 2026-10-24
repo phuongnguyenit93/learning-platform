@@ -47,13 +47,16 @@ export function ApiDocsPanel({
   const [knowledgeContentCache, setKnowledgeContentCache] = useState<Record<string, string>>({});
   const [knowledgeLoadingPaths, setKnowledgeLoadingPaths] = useState<Set<string>>(new Set());
   const [knowledgeErrors, setKnowledgeErrors] = useState<Record<string, string>>({});
-  const [showSource, setShowSource] = useState(false);
-  const [sourceRequest, setSourceRequest] = useState<ExplorerRequest | null>(null);
+  // At most one API owns a mounted Monaco editor. Switching operations
+  // unmounts the previous explorer, while material/source fetches stay cached.
+  const [activeSource, setActiveSource] = useState<{
+    operationId: string;
+    request: ExplorerRequest;
+  } | null>(null);
 
   useEffect(() => {
-    setShowSource(false);
-    setSourceRequest(null);
-  }, [codeExplorerUrl]);
+    setActiveSource(null);
+  }, [basePath, codeExplorerUrl]);
 
   useEffect(() => {
     let active = true;
@@ -171,6 +174,11 @@ export function ApiDocsPanel({
   }, [knowledgeIndex]);
 
   const toggleController = (controllerName: string) => {
+    if (expandedControllers.has(controllerName) && document?.controllers
+      .find((controller) => controller.name === controllerName)?.operations
+      .some((operation) => operation.id === activeSource?.operationId)) {
+      setActiveSource(null);
+    }
     setExpandedControllers((current) => {
       const next = new Set(current);
       if (next.has(controllerName)) {
@@ -196,16 +204,18 @@ export function ApiDocsPanel({
 
   const openOperationSource = (operation: ApiDocOperation) => {
     if (!codeExplorerUrl) return;
-    setSourceRequest((previous) => ({
-      sequence: (previous?.sequence ?? 0) + 1,
-      operation: {
-        controller: operation.controllerName,
-        signature: operation.methodSignature,
-        httpMethod: operation.httpMethod,
-        path: operation.path,
+    setActiveSource((previous) => previous?.operationId === operation.id ? null : ({
+      operationId: operation.id,
+      request: {
+        sequence: 1,
+        operation: {
+          controller: operation.controllerName,
+          signature: operation.methodSignature,
+          httpMethod: operation.httpMethod,
+          path: operation.path,
+        },
       },
     }));
-    setShowSource(true);
   };
 
   const resolveLinkedKnowledge = (
@@ -345,12 +355,6 @@ export function ApiDocsPanel({
         </div>
 
         <div className="api-docs-toolbar__actions">
-          {codeExplorerUrl && (
-            <button type="button" aria-expanded={showSource}
-              onClick={() => setShowSource((value) => !value)}>
-              {showSource ? (language === 'vi' ? 'Ẩn Source Explorer' : 'Hide Source Explorer') : 'Source Explorer'}
-            </button>
-          )}
           <button
             type="button"
             onClick={() => {
@@ -365,6 +369,7 @@ export function ApiDocsPanel({
             onClick={() => {
               setExpandedControllers(new Set());
               setExpandedOperations(new Set());
+              setActiveSource(null);
             }}
           >
             {language === 'vi' ? 'Thu gọn tất cả' : 'Collapse all'}
@@ -388,8 +393,6 @@ export function ApiDocsPanel({
         />
       </div>
 
-      <div className={'api-docs-body' + (showSource && codeExplorerUrl ? ' has-source-explorer' : '')}>
-      <div className="api-docs-body__reference">
       {visibleControllers.length === 0 ? (
         <div className="empty-state">
           <strong>{language === 'vi' ? 'Không tìm thấy API phù hợp' : 'No matching APIs found'}</strong>
@@ -425,6 +428,7 @@ export function ApiDocsPanel({
                   <div className="api-controller__operations">
                     {controller.operations.map((operation) => {
                       const operationOpen = expandedOperations.has(operation.id);
+                      const sourceOpen = activeSource?.operationId === operation.id;
                       const sanitizedExecution = operation.executionHtml
                         ? DOMPurify.sanitize(operation.executionHtml)
                         : '';
@@ -492,10 +496,11 @@ export function ApiDocsPanel({
                               </span>
                             </button>
                             {codeExplorerUrl && (
-                              <button type="button" className="api-operation__source-toggle"
-                                aria-label={'Open Java source for ' + operation.httpMethod + ' ' + operation.path}
+                              <button type="button" className={'api-operation__source-toggle' + (sourceOpen ? ' is-open' : '')}
+                                aria-expanded={sourceOpen}
+                                aria-label={(sourceOpen ? 'Close' : 'Open') + ' Java source for ' + operation.httpMethod + ' ' + operation.path}
                                 onClick={() => openOperationSource(operation)}>
-                                &lt;/&gt; Source
+                                &lt;/&gt; {sourceOpen ? (language === 'vi' ? 'Đóng Source' : 'Close Source') : 'Source'}
                               </button>
                             )}
                             {operationOpen && linkedKnowledge && (
@@ -510,6 +515,19 @@ export function ApiDocsPanel({
                               </button>
                             )}
                           </div>
+
+                          {sourceOpen && codeExplorerUrl && (
+                            <div className="api-operation__source-explorer">
+                              <Suspense fallback={<div className="code-explorer__status" role="status">Loading Source Explorer...</div>}>
+                                <CodeExplorerPanel
+                                  key={operation.id}
+                                  materialUrl={codeExplorerUrl}
+                                  request={activeSource.request}
+                                  onClose={() => setActiveSource(null)}
+                                />
+                              </Suspense>
+                            </div>
+                          )}
 
                           {operationOpen && (
                             <div className="api-operation__details">
@@ -586,13 +604,6 @@ export function ApiDocsPanel({
           })}
         </div>
       )}
-      </div>
-      {showSource && codeExplorerUrl && (
-        <Suspense fallback={<aside className="code-explorer"><div className="code-explorer__status">Loading Source Explorer...</div></aside>}>
-          <CodeExplorerPanel materialUrl={codeExplorerUrl} request={sourceRequest} onClose={() => setShowSource(false)} />
-        </Suspense>
-      )}
-      </div>
     </section>
   );
 }

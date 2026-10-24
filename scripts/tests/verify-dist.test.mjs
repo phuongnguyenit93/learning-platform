@@ -60,3 +60,30 @@ test('dist verifier rejects accidental legacy unprefixed Java catalog', async (t
   await write('module-catalog.json', '{}');
   await assert.rejects(verifyDist(root), /Unexpected unprefixed Java catalog/);
 });
+
+test('dist verifier checks Code Explorer Java source checksum and rejects tampering', async (t) => {
+  const { root, write } = await fixture(t);
+  const source = 'package demo;\npublic class Example {}\n';
+  const sha = (await import('node:crypto')).createHash('sha256').update(source).digest('hex');
+  await write('language/java/module-catalog.json', JSON.stringify({
+    version: 1, root: { kind: 'GROUP', children: [{
+      kind: 'MODULE', routeId: 'EXAMPLE',
+      knowledge: { vi: '/module/EXAMPLE/knowledge/vi/index.json' },
+      api: { vi: '/module/EXAMPLE/api/vi' },
+      codeExplorer: '/module/EXAMPLE/code-explorer/index.json', children: [],
+    }] },
+  }));
+  const base = 'language/java/module/EXAMPLE/code-explorer';
+  await write(base + '/index.json', JSON.stringify({
+    version: 1, type: 'CODE_EXPLORER',
+    files: [{ path: 'demo/Example.java', bytes: Buffer.byteLength(source), sha256: sha }],
+    symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+  }));
+  for (const file of ['symbols.json', 'references.json', 'api-map.json']) {
+    await write(base + '/' + file, '{"version":1}');
+  }
+  await write(base + '/files/demo/Example.java', source);
+  await verifyDist(root);
+  await write(base + '/files/demo/Example.java', source + '// tampered');
+  await assert.rejects(verifyDist(root), /Code Explorer Java checksum/);
+});

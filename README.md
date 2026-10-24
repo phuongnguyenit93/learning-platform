@@ -75,6 +75,18 @@ The Java repository now publishes validated data to the **rolling GitHub
 Release tag `java-data`**. A standalone consumer is available for explicit
 use, without requiring Gradle or Java:
 
+Modules with `content/code-explorer/material.yml` also publish a read-only
+`code-explorer/` bundle: `index.json` (file tree and hashes), `symbols.json`,
+`references.json`, `api-map.json` and allowlisted `files/**/*.java`.
+The producer's `generatePortalData` builds these files automatically.
+The consumer permits `.java` **only** inside the Code Explorer source
+directory, validates each source SHA-256 against `index.json`, then places
+the material at
+`/language/java/module/<ROUTE_ID>/code-explorer/`. The module's
+`codeExplorer` catalog field provides the producer-relative index path.
+The React Monaco viewer is a separate UI feature; the material is already
+available as static assets after a verified data build.
+
 ```bash
 npm ci
 npm run test:data

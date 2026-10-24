@@ -16,6 +16,7 @@ const RELEASE = 'https://github.com/phuongnguyenit93/java-learning/releases/down
 const ZIP_NAME = 'java-learning-data.zip';
 const CHECKSUM_NAME = 'java-learning-data.zip.sha256';
 const ALLOWED_EXTENSIONS = new Set(['.json', '.yml', '.yaml', '.md']);
+const CODE_EXPLORER_JAVA = /^module\/[A-Z0-9_-]+\/code-explorer\/files\/(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/;
 const MANAGED_NAMES = new Set(['module-catalog.json', 'module', 'search']);
 const MAX_DOWNLOAD_BYTES = 120 * 1024 * 1024;
 const MAX_EXTRACTED_BYTES = 300 * 1024 * 1024;
@@ -55,7 +56,10 @@ function validateName(name, isManifest = false) {
     `Unexpected ZIP entry: ${name}`,
   );
   if (!isManifest) {
-    assert(ALLOWED_EXTENSIONS.has(extname(name).toLowerCase()), `Forbidden ZIP entry type: ${name}`);
+    assert(
+      ALLOWED_EXTENSIONS.has(extname(name).toLowerCase()) || CODE_EXPLORER_JAVA.test(name),
+      `Forbidden ZIP entry type: ${name}`,
+    );
   }
 }
 
@@ -65,6 +69,53 @@ function countModules(node) {
   assert(Array.isArray(children), 'Invalid catalog children');
   const self = node.kind === 'MODULE' ? 1 : 0;
   return self + children.reduce((count, child) => count + countModules(child), 0);
+}
+
+function verifyCodeExplorerFiles(files, catalog) {
+  const claimed = new Set();
+  function visit(node) {
+    if (node.kind === 'MODULE' && node.codeExplorer !== undefined) {
+      const route = node.routeId;
+      assert(/^[A-Z0-9_-]{1,128}$/.test(route), 'Invalid Code Explorer module routeId');
+      const prefix = `module/${route}/code-explorer/`;
+      assert(node.codeExplorer === `/${prefix}index.json`, `Invalid Code Explorer catalog path for ${route}`);
+      const encoded = files.get(`${prefix}index.json`);
+      assert(encoded, `Missing Code Explorer index for ${route}`);
+      let index;
+      try {
+        index = JSON.parse(decode(encoded));
+      } catch (error) {
+        throw new Error(`Invalid Code Explorer index for ${route}: ${error.message}`);
+      }
+      assert(index.version === 1 && index.type === 'CODE_EXPLORER'
+        && typeof index.id === 'string' && Array.isArray(index.files) && index.files.length > 0,
+      `Invalid Code Explorer manifest for ${route}`);
+      for (const [key, expected] of Object.entries({
+        symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+      })) {
+        assert(index[key] === expected && files.has(prefix + expected),
+          `Missing or invalid Code Explorer index asset: ${route}/${key}`);
+      }
+      for (const entry of index.files) {
+        assert(entry && typeof entry.path === 'string'
+          && CODE_EXPLORER_JAVA.test(prefix + 'files/' + entry.path),
+        `Unsafe Code Explorer source path: ${route}`);
+        const relative = prefix + 'files/' + entry.path;
+        assert(!claimed.has(relative), `Duplicate Code Explorer source: ${relative}`);
+        claimed.add(relative);
+        const bytes = files.get(relative);
+        assert(bytes && bytes.length === entry.bytes && sha256(bytes) === entry.sha256,
+          `Code Explorer source checksum mismatch: ${relative}`);
+      }
+    }
+    for (const child of node.children ?? []) visit(child);
+  }
+  visit(catalog.root);
+  for (const name of files.keys()) {
+    if (name.endsWith('.java')) {
+      assert(claimed.has(name), `Unclaimed Code Explorer Java source: ${name}`);
+    }
+  }
 }
 
 /**
@@ -120,6 +171,7 @@ export function validateArchive(zipBytes, checksumText) {
   assert(catalog.version === 1 && catalog.root, 'Unexpected module catalog schema');
   assert(manifest.moduleCount === countModules(catalog.root) && manifest.moduleCount > 0, 'Manifest moduleCount mismatch');
   assert(Number.isSafeInteger(manifest.referenceCount) && manifest.referenceCount > 0, 'Invalid manifest referenceCount');
+  verifyCodeExplorerFiles(files, catalog);
 
   return { manifest, files, sha256: actual };
 }

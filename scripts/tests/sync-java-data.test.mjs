@@ -10,18 +10,32 @@ import { assertExpectedRelease, downloadAndValidate, parseChecksum, syncJavaData
 const utf8 = (text) => new TextEncoder().encode(text);
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
-function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false } = {}) {
+function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false, explorer = false } = {}) {
   const catalog = utf8(JSON.stringify({
     version: 1,
     root: {
-      kind: 'GROUP', children: [{ kind: 'MODULE', routeId: 'DEMO', children: [] }],
+      kind: 'GROUP', children: [{ kind: 'MODULE', routeId: 'DEMO', children: [],
+        ...(explorer ? { codeExplorer: '/module/DEMO/code-explorer/index.json' } : {}) }],
     },
   }));
+  const source = utf8('package demo;\npublic class Example {}\n');
+  const explorerEntries = explorer ? {
+    'module/DEMO/code-explorer/index.json': utf8(JSON.stringify({
+      version: 1, type: 'CODE_EXPLORER', id: 'demo', files: [
+        { path: 'demo/Example.java', bytes: source.length, sha256: sha256(source) },
+      ], symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+    })),
+    'module/DEMO/code-explorer/symbols.json': utf8('{"version":1,"symbols":[]}'),
+    'module/DEMO/code-explorer/references.json': utf8('{"version":1,"references":[]}'),
+    'module/DEMO/code-explorer/api-map.json': utf8('{"version":1,"endpoints":[]}'),
+    'module/DEMO/code-explorer/files/demo/Example.java': source,
+  } : {};
   const dataFiles = {
     'module-catalog.json': catalog,
     'module/DEMO/overview/vi.md': utf8('# Demo\n'),
     'search/knowledge-search.vi.json': utf8('{"version":1,"documents":[]}'),
     'search/knowledge-search.en.json': utf8('{"version":1,"documents":[]}'),
+    ...explorerEntries,
     ...extraEntries,
   };
   if (omitSearch) {
@@ -68,6 +82,19 @@ test('rejects dangerous paths, source code, executables and unexpected roots', (
     const { zip, checksum } = fixture({ extraEntries: { [path]: utf8('payload') } });
     assert.throws(() => validateArchive(zip, checksum), /Unsafe ZIP path|Unexpected ZIP entry|Forbidden ZIP entry type/, path);
   }
+});
+
+test('Code Explorer Java files are received only with a verified manifest and checked SHA', () => {
+  const valid = fixture({ explorer: true });
+  const parsed = validateArchive(valid.zip, valid.checksum);
+  assert.equal(parsed.files.has('module/DEMO/code-explorer/files/demo/Example.java'), true);
+  const sourcePath = 'module/DEMO/code-explorer/files/demo/Example.java';
+  const tampered = fixture({ explorer: true, extraEntries: { [sourcePath]: utf8('public class Changed {}') } });
+  assert.throws(() => validateArchive(tampered.zip, tampered.checksum), /checksum mismatch/);
+  const unclaimed = fixture({ extraEntries: { [sourcePath]: utf8('public class Example {}') } });
+  assert.throws(() => validateArchive(unclaimed.zip, unclaimed.checksum), /Unclaimed Code Explorer Java/);
+  const outside = fixture({ extraEntries: { 'module/DEMO/api/demo/Example.java': utf8('not allowed') } });
+  assert.throws(() => validateArchive(outside.zip, outside.checksum), /Forbidden ZIP entry type/);
 });
 
 test('rejects invalid or incompatible manifest', () => {

@@ -32,7 +32,7 @@ export async function buildModuleNavigation(javaRoot = 'dist/language/java', out
     if (node.roadmap) {
       thin.roadmap = Object.fromEntries(Object.keys(node.roadmap).map((language) => [language, 'available']));
     }
-    thin.hasContent = Boolean(node.knowledge || node.quiz || node.interview || node.api || node.roadmap);
+    thin.hasContent = Boolean(node.knowledge || node.quiz || node.interview || node.api || node.roadmap || node.codeExplorer);
     thin.children = node.children.map(project);
     if (node.kind === 'MODULE' && node.routeId) {
       if (!ROUTE_ID.test(node.routeId) || details.has(node.routeId)) {

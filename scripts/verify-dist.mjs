@@ -3,6 +3,7 @@
  * Cloudflare must never receive a frontend-only/incomplete dist directory.
  */
 import { readFile, readdir, stat } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -43,7 +44,7 @@ function localReference(javaRoot, value) {
 function visitModules(node, javaRoot, references) {
   ensure(node && typeof node === 'object' && Array.isArray(node.children), 'Invalid catalog node');
   if (node.kind === 'MODULE') {
-    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'api', 'reference']) {
+    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'api', 'reference', 'codeExplorer']) {
       const field = node[kind];
       if (!field) continue;
       const values = typeof field === 'object' ? Object.values(field) : [field];
@@ -96,6 +97,34 @@ export async function verifyDist(directory = 'dist') {
   visitModules(catalog.root, java, references);
   ensure(references.size > 0, 'No Java catalog asset references');
   for (const ref of references) ensure(await validAsset(ref), `Missing Java catalog asset: ${ref}`);
+
+  // Validate the actual published Java bytes, not just the catalog's index.
+  async function checkExplorer(node) {
+    if (node.kind === 'MODULE' && node.codeExplorer) {
+      const path = localReference(java, node.codeExplorer);
+      const index = JSON.parse(await readFile(path, 'utf8'));
+      ensure(index.version === 1 && index.type === 'CODE_EXPLORER'
+        && Array.isArray(index.files) && index.files.length > 0,
+      `Invalid Code Explorer material: ${node.routeId}`);
+      for (const [key, filename] of Object.entries({
+        symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+      })) {
+        ensure(index[key] === filename && await isFile(join(path, '..', filename)),
+          `Missing Code Explorer metadata: ${node.routeId}/${key}`);
+      }
+      for (const file of index.files) {
+        ensure(typeof file.path === 'string'
+          && /^(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/.test(file.path),
+        `Invalid Code Explorer Java path: ${node.routeId}`);
+        const bytes = await readFile(join(path, '..', 'files', file.path));
+        ensure(bytes.length === file.bytes
+          && createHash('sha256').update(bytes).digest('hex') === file.sha256,
+        `Invalid Code Explorer Java checksum: ${node.routeId}/${file.path}`);
+      }
+    }
+    for (const child of node.children ?? []) await checkExplorer(child);
+  }
+  await checkExplorer(catalog.root);
 
   console.log(`DIST VERIFIED: Java catalog v${catalog.version}, ${references.size} module asset references, Vite JS/CSS present`);
 }

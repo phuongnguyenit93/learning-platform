@@ -83,6 +83,7 @@ export interface ModuleCatalogNode {
   quiz?: Partial<Record<Language, string>>;
   interview?: Partial<Record<Language, string>>;
   api?: Partial<Record<Language, string>>;
+  codeExplorer?: string;
   children: ModuleCatalogNode[];
 }
 

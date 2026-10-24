@@ -509,6 +509,7 @@ export function LearningPage() {
           {visitedTabs.has('api') && (
             <div hidden={activeTab !== 'api'}>
               <ApiDocsPanel
+                codeExplorerUrl={readyDetails?.codeExplorer}
                 key={`${activeModule.id}:api`}
                 basePath={apiPath}
                 knowledgeIndex={knowledgeIndex}

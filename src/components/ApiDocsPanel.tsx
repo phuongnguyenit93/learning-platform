@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadApiDocs, resolveOperationKnowledgeKey } from '../data/apiDocs';
@@ -18,12 +18,16 @@ import type {
 } from '../types/learning';
 import { CustomTooltip } from './CustomTooltip';
 import { DownloadAction } from './DownloadAction';
+import type { ExplorerRequest } from './CodeExplorerPanel';
+
+const CodeExplorerPanel = lazy(() => import('./CodeExplorerPanel'));
 
 interface ApiDocsPanelProps {
   basePath?: string;
   knowledgeIndex: KnowledgeIndex | null;
   searchQuery: string;
   onDownload: () => void;
+  codeExplorerUrl?: string;
 }
 
 export function ApiDocsPanel({
@@ -31,6 +35,7 @@ export function ApiDocsPanel({
   knowledgeIndex,
   searchQuery,
   onDownload,
+  codeExplorerUrl,
 }: ApiDocsPanelProps) {
   const { language } = useLanguage();
   const [document, setDocument] = useState<ApiDocsDocument | null>(null);
@@ -42,6 +47,13 @@ export function ApiDocsPanel({
   const [knowledgeContentCache, setKnowledgeContentCache] = useState<Record<string, string>>({});
   const [knowledgeLoadingPaths, setKnowledgeLoadingPaths] = useState<Set<string>>(new Set());
   const [knowledgeErrors, setKnowledgeErrors] = useState<Record<string, string>>({});
+  const [showSource, setShowSource] = useState(false);
+  const [sourceRequest, setSourceRequest] = useState<ExplorerRequest | null>(null);
+
+  useEffect(() => {
+    setShowSource(false);
+    setSourceRequest(null);
+  }, [codeExplorerUrl]);
 
   useEffect(() => {
     let active = true;
@@ -182,6 +194,20 @@ export function ApiDocsPanel({
     });
   };
 
+  const openOperationSource = (operation: ApiDocOperation) => {
+    if (!codeExplorerUrl) return;
+    setSourceRequest((previous) => ({
+      sequence: (previous?.sequence ?? 0) + 1,
+      operation: {
+        controller: operation.controllerName,
+        signature: operation.methodSignature,
+        httpMethod: operation.httpMethod,
+        path: operation.path,
+      },
+    }));
+    setShowSource(true);
+  };
+
   const resolveLinkedKnowledge = (
     controller: ApiDocController,
     operation: ApiDocOperation,
@@ -319,6 +345,12 @@ export function ApiDocsPanel({
         </div>
 
         <div className="api-docs-toolbar__actions">
+          {codeExplorerUrl && (
+            <button type="button" aria-expanded={showSource}
+              onClick={() => setShowSource((value) => !value)}>
+              {showSource ? (language === 'vi' ? 'Ẩn Source Explorer' : 'Hide Source Explorer') : 'Source Explorer'}
+            </button>
+          )}
           <button
             type="button"
             onClick={() => {
@@ -356,6 +388,8 @@ export function ApiDocsPanel({
         />
       </div>
 
+      <div className={'api-docs-body' + (showSource && codeExplorerUrl ? ' has-source-explorer' : '')}>
+      <div className="api-docs-body__reference">
       {visibleControllers.length === 0 ? (
         <div className="empty-state">
           <strong>{language === 'vi' ? 'Không tìm thấy API phù hợp' : 'No matching APIs found'}</strong>
@@ -457,6 +491,13 @@ export function ApiDocsPanel({
                                 </span>
                               </span>
                             </button>
+                            {codeExplorerUrl && (
+                              <button type="button" className="api-operation__source-toggle"
+                                aria-label={'Open Java source for ' + operation.httpMethod + ' ' + operation.path}
+                                onClick={() => openOperationSource(operation)}>
+                                &lt;/&gt; Source
+                              </button>
+                            )}
                             {operationOpen && linkedKnowledge && (
                               <button
                                 type="button"
@@ -545,6 +586,13 @@ export function ApiDocsPanel({
           })}
         </div>
       )}
+      </div>
+      {showSource && codeExplorerUrl && (
+        <Suspense fallback={<aside className="code-explorer"><div className="code-explorer__status">Loading Source Explorer...</div></aside>}>
+          <CodeExplorerPanel materialUrl={codeExplorerUrl} request={sourceRequest} onClose={() => setShowSource(false)} />
+        </Suspense>
+      )}
+      </div>
     </section>
   );
 }

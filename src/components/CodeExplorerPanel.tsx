@@ -14,6 +14,13 @@ import {
   type ExplorerSymbol,
   type ExplorerTreeNode,
 } from '../data/codeExplorer';
+import {
+  countExplorerTreeFiles,
+  explorerChapterPath,
+  isExplorerPathVisible,
+  scopeExplorerTree,
+  type ExplorerTreeScope,
+} from '../data/codeExplorerScope';
 import { useTheme } from '../state/ThemeContext';
 import { useLanguage } from '../state/LanguageContext';
 
@@ -75,6 +82,7 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
   const [sourceError, setSourceError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [alternatives, setAlternatives] = useState<ExplorerSymbol[]>([]);
+  const [treeScope, setTreeScope] = useState<ExplorerTreeScope>('PACKAGE');
   const materialRef = useRef<CodeExplorerMaterial | null>(null);
   const openRef = useRef<(position: Position) => void>(() => {});
   const lastRequest = useRef<number | null>(null);
@@ -118,6 +126,15 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
 
   const symbols = useMemo(() =>
     new Map(material?.symbols.map((symbol) => [symbol.id, symbol]) ?? []), [material]);
+  const controllerFile = useMemo(() => material && request
+    ? findCodeExplorerApi(material, request.operation)?.file : undefined, [material, request]);
+  const selectedScope = controllerFile ? treeScope : 'MODULE';
+  const scopedTree = useMemo(() => scopeExplorerTree(material?.tree ?? [], controllerFile, selectedScope),
+    [material, controllerFile, selectedScope]);
+  const scopedFileCount = useMemo(() => countExplorerTreeFiles(scopedTree), [scopedTree]);
+  const chapterName = controllerFile ? explorerChapterPath(controllerFile).split('/').pop() : '';
+  const activeOutsideScope = Boolean(location && controllerFile
+    && !isExplorerPathVisible(location.path, controllerFile, selectedScope));
 
   useEffect(() => {
     if (!material || !request || lastRequest.current === request.sequence) return;
@@ -343,8 +360,25 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
       </div>
       <div className="code-explorer__workspace">
         <nav className="code-explorer__tree" aria-label="Java source files">
-          <strong>EXPLORER</strong>
-          {material.tree.map((node) =>
+          <div className="code-explorer__tree-heading">
+            <strong>EXPLORER</strong>
+            <small>{scopedFileCount}/{material.files.length} {language === 'vi' ? 'file' : 'files'}</small>
+          </div>
+          <select className="code-explorer__scope-select" aria-label="Filter Java source files"
+            value={selectedScope} disabled={!controllerFile}
+            onChange={(event) => setTreeScope(event.target.value as ExplorerTreeScope)}>
+            <option value="PACKAGE">{language === 'vi' ? 'Chương' : 'Chapter'}: {chapterName || '—'}</option>
+            <option value="CONTROLLER">{language === 'vi' ? 'Chỉ Controller' : 'Controller only'}</option>
+            <option value="MODULE">{language === 'vi' ? 'Toàn bộ module' : 'Entire module'}</option>
+          </select>
+          {activeOutsideScope && location && (
+            <div className="code-explorer__outside-scope">
+              <small>{language === 'vi' ? 'File đang mở ngoài bộ lọc' : 'Open file outside filter'}</small>
+              <button type="button" className="code-explorer__file is-active" title={location.path}
+                onClick={() => openFile(location.path)}>☕ {location.path.split('/').pop()}</button>
+            </div>
+          )}
+          {scopedTree.map((node) =>
             <FileTree key={node.path} node={node} selected={location?.path} open={openFile} />)}
         </nav>
         <div className="code-explorer__main">

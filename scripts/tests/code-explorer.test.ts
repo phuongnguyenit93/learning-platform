@@ -6,6 +6,54 @@ import {
   loadCodeExplorer,
   loadCodeExplorerFile,
 } from '../../src/data/codeExplorer';
+import {
+  countExplorerTreeFiles,
+  explorerChapterPath,
+  isExplorerPathVisible,
+  scopeExplorerTree,
+} from '../../src/data/codeExplorerScope';
+
+test('API Source Explorer defaults to its chapter while preserving controller, module and external navigation', () => {
+  const files = [
+    'com/example/learning/oop/abstraction/controller/AbstractionController.java',
+    'com/example/learning/oop/abstraction/service/BookService.java',
+    'com/example/learning/oop/abstraction/dto/BookDto.java',
+    'com/example/learning/oop/testing/controller/TestingController.java',
+  ];
+  const root = { name: 'com', path: 'com', type: 'DIRECTORY' as const, children: [
+    { name: 'example', path: 'com/example', type: 'DIRECTORY' as const, children: [
+      { name: 'learning', path: 'com/example/learning', type: 'DIRECTORY' as const, children: [
+        { name: 'oop', path: 'com/example/learning/oop', type: 'DIRECTORY' as const, children: [
+          ...['abstraction', 'testing'].map((chapter) => ({
+            name: chapter, path: 'com/example/learning/oop/' + chapter, type: 'DIRECTORY' as const,
+            children: files.filter((file) => file.includes('/' + chapter + '/')).map((file) => {
+              const folder = file.substring(0, file.lastIndexOf('/'));
+              return { name: folder.split('/').pop()!, path: folder, type: 'DIRECTORY' as const,
+                children: [{ name: file.split('/').pop()!, path: file, type: 'FILE' as const, children: [] }] };
+            }),
+          })),
+        ] },
+      ] },
+    ] },
+  ] };
+  const controller = files[0];
+  const tree = [root];
+  assert.equal(explorerChapterPath(controller), 'com/example/learning/oop/abstraction');
+  const chapter = scopeExplorerTree(tree, controller, 'PACKAGE');
+  assert.equal(chapter.length, 1);
+  assert.equal(chapter[0].name, 'abstraction');
+  assert.equal(countExplorerTreeFiles(chapter), 3);
+  assert.equal(countExplorerTreeFiles(scopeExplorerTree(tree, controller, 'CONTROLLER')), 1);
+  assert.equal(countExplorerTreeFiles(scopeExplorerTree(tree, controller, 'MODULE')), 4);
+  assert.equal(isExplorerPathVisible(files[1], controller, 'PACKAGE'), true);
+  assert.equal(isExplorerPathVisible(files[3], controller, 'PACKAGE'), false);
+  assert.equal(isExplorerPathVisible(files[1], controller, 'CONTROLLER'), false);
+  assert.equal(isExplorerPathVisible(files[3], controller, 'MODULE'), true);
+  assert.equal(scopeExplorerTree(tree, 'unknown/controller/Missing.java', 'PACKAGE'), tree,
+    'unsupported source layout must retain a browsable tree');
+  assert.equal(explorerChapterPath('sample/controller/SampleController.java'), 'sample');
+  assert.equal(explorerChapterPath('sample/RootController.java'), 'sample');
+});
 
 function fixture(route: string) {
   const index = '/module/' + route + '/code-explorer/index.json';

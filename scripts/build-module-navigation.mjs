@@ -8,7 +8,7 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import { resolve, join, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const NAVIGATION_FIELDS = ['id', 'name', 'kind', 'routeId', 'moduleType', 'description'];
+const NAVIGATION_FIELDS = ['id', 'name', 'kind', 'routeId', 'moduleType', 'currentStep', 'description'];
 const ROUTE_ID = /^[A-Z0-9][A-Z0-9_-]{0,127}$/;
 
 export async function buildModuleNavigation(javaRoot = 'dist/language/java', outputRoot = 'dist') {

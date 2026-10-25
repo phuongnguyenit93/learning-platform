@@ -70,6 +70,7 @@ export interface ModuleCatalogNode {
   sourceFingerprint?: string;
   serviceName?: string;
   moduleType?: 'SERVLET' | 'REACTIVE' | 'LIBRARY' | 'PLATFORM' | string;
+  currentStep?: string;
   /** Navigation-only hint, derived at build time from published metadata. */
   hasContent?: boolean;
   javaBasePackage?: string;

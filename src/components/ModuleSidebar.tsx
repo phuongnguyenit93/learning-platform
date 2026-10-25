@@ -343,7 +343,14 @@ function ModulePickerPopup({
               <span className="module-picker__sequence" aria-label={`Order ${sequence}`}>
                 {sequence}
               </span>
-              <span className="module-picker__module-name">{formatCatalogName(moduleNode.name)}</span>
+              <span className="module-picker__module-title">
+                <span className="module-picker__module-name">{formatCatalogName(moduleNode.name)}</span>
+                {moduleNode.currentStep === 'FINAL' ? (
+                  <span className="module-picker__step module-picker__step--finished">Finished</span>
+                ) : (moduleNode.currentStep && /^[1-9][0-9]*[A-Z]?$/.test(moduleNode.currentStep)) ? (
+                  <span className="module-picker__step">Step {moduleNode.currentStep}</span>
+                ) : null}
+              </span>
               <ModuleBadges
                 routeId={routeId}
                 knowledgeCounts={knowledgeCounts}

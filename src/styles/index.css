@@ -1783,6 +1783,14 @@ pre {
   color: var(--row-active-text);
 }
 
+.module-picker__module-title {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .module-picker__module-name {
   min-width: 0;
   overflow: hidden;
@@ -1790,6 +1798,18 @@ pre {
   font-weight: 650;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.module-picker__step {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.module-picker__step--finished {
+  color: var(--success, #45bd83);
 }
 
 .module-picker__open-cue {

@@ -13,8 +13,6 @@ const lesson = (id: string, level: KnowledgeDifficulty) => ({
   title: id,
   content: '/' + id + '.md',
   difficulty: level,
-  aiGenerated: false,
-  reviewed: false,
 });
 
 const index: KnowledgeIndex = {
@@ -98,6 +96,8 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
         onNavigateToSection={() => {}} />
     </LanguageProvider>,
   ));
+
+  assert.equal(container.querySelector('[class*="__governance"]'), null);
 
   const expansionButtons = container.querySelectorAll<HTMLButtonElement>(
     '.knowledge-menu__toggle--category',

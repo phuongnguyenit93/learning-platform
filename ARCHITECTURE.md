@@ -288,7 +288,7 @@ Knowledge là nội dung static có thể đọc mà không cần module runtime
 /language/java/module/THREAD/knowledge/en/index.json
 ```
 
-Renderer lazy-load section khi người dùng mở, hỗ trợ nhiều section mở đồng thời, category strip arrow-scroll và drag-scroll. Knowledge metadata hiển thị difficulty (`BASIC`, `INTERMEDIATE`, `ADVANCED`) và governance badge (`AI Generated`, `Reviewed`/`Not Reviewed`) khi data cung cấp. Không chỉnh sửa Markdown hoặc metadata ở frontend.
+Renderer lazy-load section khi người dùng mở, hỗ trợ nhiều section mở đồng thời, category strip arrow-scroll và drag-scroll. Knowledge metadata hiển thị difficulty (`BASIC`, `INTERMEDIATE`, `ADVANCED`) và `isImportant` khi data cung cấp. Không chỉnh sửa Markdown hoặc metadata ở frontend.
 
 Related APIs được suy ra từ quan hệ `readmeRelated` có trong API YAML; không tự tạo relation thứ hai. Content UI chỉ render nội dung trusted-structured và sanitize rich HTML khi cần.
 
@@ -302,7 +302,7 @@ Contract cho single-choice:
 
 - Mỗi câu có 4 answers với stable identity `A/B/C/D`, chính xác 1 `correctAnswerId` và explanation của từng answer.
 - Shuffle vị trí answer **một lần khi load context**, nhưng giữ canonical `answer.id` để kiểm tra đúng/sai và explanation.
-- `aiGenerated`/`reviewed` hiển thị governance metadata. `readmeRelated` và `apiRelated` chỉ hiện khi data thực tế resolve được; không tự suy diễn mapping.
+- `readmeRelated` và `apiRelated` chỉ hiện khi data thực tế resolve được; không tự suy diễn mapping. Không có badge trạng thái sinh nội dung hoặc kiểm duyệt.
 - Related Knowledge/API được mở theo điều kiện UI sau khi người dùng chọn đáp án đúng; trạng thái chọn phải được giữ khi đổi tab trong cùng module/language.
 
 Ví dụ shape dữ liệu consumer:
@@ -331,14 +331,12 @@ Interview hiển thị danh sách Q&A tham khảo từ localized YAML static; kh
 questions:
   - question: "run() và start() khác nhau thế nào?"
     answer: "run() chạy trong caller thread; start() bắt đầu thread mới."
-    aiGenerated: true
-    reviewed: false
     readmeRelated:
       file: "1.Basic/Basic.md"
       anchor: "start-vs-run"
 ```
 
-`Reference Answer / Câu trả lời tham khảo` bắt đầu collapsed; mỗi item có thể mở độc lập và nhiều answer có thể cùng mở. Governance badges dùng cùng convention với Knowledge/Quiz. Related Knowledge/API chỉ xuất hiện khi target từ dataset resolve được; Markdown lazy-load, rich HTML sanitized.
+`Reference Answer / Câu trả lời tham khảo` bắt đầu collapsed; mỗi item có thể mở độc lập và nhiều answer có thể cùng mở. Related Knowledge/API chỉ xuất hiện khi target từ dataset resolve được; Markdown lazy-load, rich HTML sanitized.
 
 ---
 
@@ -378,13 +376,13 @@ Catalog: api.{lang}
 └── api-params.yml
 ```
 
-`controller-description.yml` mô tả controller và `readmeRelated.file`; `api-descriptions.yml` chứa method signature, HTTP metadata, descriptions, governance flags và relation; `api-execution.yml` là guided execution HTML; `api-params.yml` mô tả parameters. UI chỉ consume files được dataset cung cấp; không tự synthesize thiếu source.
+`controller-description.yml` mô tả controller và `readmeRelated.file`; `api-descriptions.yml` chứa method signature, HTTP metadata, descriptions và relation; `api-execution.yml` là guided execution HTML; `api-params.yml` mô tả parameters. UI chỉ consume files được dataset cung cấp; không tự synthesize thiếu source.
 
 Ordering API reference bám Knowledge linkage: controller theo chapter của effective `readmeRelated.file`; method theo vị trí `readmeRelated.anchor` trong README. Fallback cần deterministic khi mapping thiếu. `readmeRelated` là relation duy nhất giữa API và Knowledge; `Related Knowledge` ở API Docs và `Related APIs` popup ở Knowledge suy ra từ cùng dữ liệu đó.
 
 HTML trong `execution` phải được sanitize trước khi render. Method detail giữ split `Execution | Related Knowledge`; phần API Docs **không thực hiện HTTP request chạy API**, không thay thế Swagger hoặc debugger thực sự. Execution Context/live API runtime là một capability khác và hiện không nằm trong scope deploy website static.
 
-Governance (`aiGenerated`, `reviewed`) là data-owned, frontend chỉ render badge/tooltip. API Docs/Knowledge/Menu giữ expand/collapse gần nhất trong cùng module/language khi đổi tab; lần đầu API Docs collapsed.
+API Docs/Knowledge/Menu giữ expand/collapse gần nhất trong cùng module/language khi đổi tab; lần đầu API Docs collapsed. Các nhãn được hiển thị chỉ dựa vào metadata kỹ thuật còn tồn tại như Difficulty và `isImportant`.
 
 ---
 

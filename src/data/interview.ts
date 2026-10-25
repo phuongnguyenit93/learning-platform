@@ -35,8 +35,6 @@ function parseQuestion(value: unknown, index: number): InterviewQuestion {
   return {
     question: asNonBlankString(value.question, `questions[${index}].question`),
     answer: asNonBlankString(value.answer, `questions[${index}].answer`),
-    aiGenerated: asBoolean(value.aiGenerated, `questions[${index}].aiGenerated`),
-    reviewed: asBoolean(value.reviewed, `questions[${index}].reviewed`),
     readmeRelated: parseReadmeRelated(value.readmeRelated, `questions[${index}].readmeRelated`),
     apiRelated: parseApiRelated(value.apiRelated, `questions[${index}].apiRelated`),
   };
@@ -80,13 +78,6 @@ function asString(value: unknown, path: string): string {
   return value.trim();
 }
 
-function asBoolean(value: unknown, path: string): boolean {
-  if (typeof value !== 'boolean') {
-    throw new Error(`Invalid Interview value at ${path}: expected a boolean.`);
-  }
-
-  return value;
-}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);

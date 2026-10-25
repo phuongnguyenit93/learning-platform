@@ -19,11 +19,11 @@ const knowledge: KnowledgeIndex = {
   tree: [
     { kind: 'FOLDER', id: '1.First', title: 'First', children: [
       { kind: 'CATEGORY', id: 'first', title: 'Topic', sourcePath: 'menu/1.First/topic.md',
-        sections: [{ id: 'shared-anchor', title: 'First item', content: '/first.md', difficulty: 'BASIC', aiGenerated: true, reviewed: false }] },
+        sections: [{ id: 'shared-anchor', title: 'First item', content: '/first.md', difficulty: 'BASIC', }] },
     ] },
     { kind: 'FOLDER', id: '2.Second', title: 'Second', children: [
       { kind: 'CATEGORY', id: 'second', title: 'Topic', sourcePath: 'menu/2.Second/topic.md',
-        sections: [{ id: 'shared-anchor', title: 'Second item', content: '/second.md', difficulty: 'BASIC', aiGenerated: true, reviewed: false }] },
+        sections: [{ id: 'shared-anchor', title: 'Second item', content: '/second.md', difficulty: 'BASIC', }] },
     ] },
   ],
 };

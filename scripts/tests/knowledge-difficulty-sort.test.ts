@@ -11,8 +11,6 @@ const lesson = (id: string, difficulty: KnowledgeSection['difficulty']): Knowled
   title: id,
   content: '/' + id + '.md',
   difficulty,
-  aiGenerated: false,
-  reviewed: false,
 });
 
 test('groups BASIC, INTERMEDIATE, ADVANCED without changing authored order within each level', () => {

@@ -19,7 +19,7 @@ const knowledge: KnowledgeIndex = {
 
 function question(kind: 'quiz' | 'interview', label: string) {
   const common = {
-    question: `Question ${label}`, aiGenerated: false, reviewed: true,
+    question: `Question ${label}`,
     readmeRelated: { anchor: 'anchor' }, apiRelated: { controller: '', methodSignature: '' },
   };
   if (kind === 'interview') return stringify({ questions: [{ ...common, answer: `Answer ${label}` }] });
@@ -71,6 +71,7 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
   try {
     await render('quiz');
     assert.match(container.textContent ?? '', /Question first/);
+    assert.equal(container.querySelector('[class*="__governance"]'), null);
     assert.doesNotMatch(container.textContent ?? '', /Question second/);
     assert.equal(calls.filter((url) => url.endsWith('/question.yml')).length, 1);
     const chapterButtons = [...container.querySelectorAll('.question-chapter-picker__item')];
@@ -85,6 +86,7 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
 
     await render('interview');
     assert.match(container.textContent ?? '', /Question first/);
+    assert.equal(container.querySelector('[class*="__governance"]'), null);
     await act(async () => { button('Câu trả lời tham khảo').click(); });
     assert.match(container.textContent ?? '', /Answer first/);
     await act(async () => { button('Second').click(); });

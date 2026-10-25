@@ -94,8 +94,8 @@ export interface KnowledgeSection {
   difficulty: KnowledgeDifficulty;
   /** Omitted in older published indexes; treat as false. */
   isImportant?: boolean;
-  aiGenerated: boolean;
-  reviewed: boolean;
+
+
 }
 
 export type KnowledgeDifficulty = 'BASIC' | 'INTERMEDIATE' | 'ADVANCED';
@@ -241,8 +241,8 @@ export interface QuizApiRelated {
 export interface QuizQuestion {
   id: string;
   question: string;
-  aiGenerated: boolean;
-  reviewed: boolean;
+
+
   readmeRelated: QuizReadmeRelated;
   apiRelated: QuizApiRelated;
   answers: QuizAnswer[];
@@ -256,8 +256,8 @@ export interface QuizDocument {
 export interface InterviewQuestion {
   question: string;
   answer: string;
-  aiGenerated: boolean;
-  reviewed: boolean;
+
+
   readmeRelated: QuizReadmeRelated;
   apiRelated: QuizApiRelated;
 }
@@ -291,8 +291,8 @@ export interface ApiDocOperation {
   produces: string[];
   params: ApiParamDefinition[];
   readmeRelated: ApiReadmeRelated;
-  aiGenerated: boolean;
-  reviewed: boolean;
+
+
 }
 
 export interface ApiDocController {

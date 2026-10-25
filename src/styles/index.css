@@ -3679,32 +3679,6 @@ pre {
   gap: 6px;
   flex-wrap: wrap;
 }
-
-.knowledge-card__governance {
-  padding: 4px 8px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 9px;
-  font-weight: 760;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-}
-
-.knowledge-card__governance--ai {
-  background: var(--surface-soft);
-  color: var(--text-soft);
-}
-
-.knowledge-card__governance--reviewed {
-  background: color-mix(in srgb, #2f9e64 18%, transparent);
-  color: #68d79a;
-}
-
-.knowledge-card__governance--not-reviewed {
-  background: color-mix(in srgb, #c78b2a 18%, transparent);
-  color: #efb85f;
-}
-
 .custom-tooltip-anchor {
   display: inline-flex;
   align-items: center;
@@ -4294,36 +4268,6 @@ pre {
   gap: 6px;
   flex-wrap: wrap;
 }
-
-.quiz-card__governance {
-  display: inline-flex;
-  align-items: center;
-  width: max-content;
-  padding: 3px 7px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 9px;
-  font-weight: 760;
-  letter-spacing: 0.03em;
-  line-height: 1.35;
-  white-space: nowrap;
-}
-
-.quiz-card__governance--ai {
-  background: var(--surface-soft);
-  color: var(--text-soft);
-}
-
-.quiz-card__governance--reviewed {
-  background: color-mix(in srgb, #2f9e64 18%, transparent);
-  color: #68d79a;
-}
-
-.quiz-card__governance--not-reviewed {
-  background: color-mix(in srgb, #c78b2a 18%, transparent);
-  color: #efb85f;
-}
-
 .quiz-card h3 {
   min-height: 48px;
   margin: 8px 0 16px;
@@ -4649,36 +4593,6 @@ pre {
   gap: 6px;
   flex-wrap: wrap;
 }
-
-.interview-card__governance {
-  display: inline-flex;
-  align-items: center;
-  width: max-content;
-  padding: 3px 7px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 9px;
-  font-weight: 760;
-  letter-spacing: 0.03em;
-  line-height: 1.35;
-  white-space: nowrap;
-}
-
-.interview-card__governance--ai {
-  background: var(--surface-soft);
-  color: var(--text-soft);
-}
-
-.interview-card__governance--reviewed {
-  background: color-mix(in srgb, #2f9e64 18%, transparent);
-  color: #68d79a;
-}
-
-.interview-card__governance--not-reviewed {
-  background: color-mix(in srgb, #c78b2a 18%, transparent);
-  color: #efb85f;
-}
-
 .interview-card h3 {
   margin: 10px 0 16px;
   color: var(--text);
@@ -5358,42 +5272,6 @@ pre {
   text-overflow: clip;
   white-space: normal;
 }
-
-.api-operation__copy .api-operation__governance,
-.api-operation__governance {
-  display: inline-flex;
-  align-items: center;
-  width: max-content;
-  padding: 3px 7px;
-  overflow: visible;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 9px;
-  font-weight: 760;
-  letter-spacing: 0.03em;
-  line-height: 1.35;
-  text-overflow: clip;
-  white-space: nowrap;
-}
-
-.api-operation__copy .api-operation__governance--ai,
-.api-operation__governance--ai {
-  background: var(--surface-soft);
-  color: var(--text-soft);
-}
-
-.api-operation__copy .api-operation__governance--reviewed,
-.api-operation__governance--reviewed {
-  background: color-mix(in srgb, #2f9e64 18%, transparent);
-  color: #68d79a;
-}
-
-.api-operation__copy .api-operation__governance--not-reviewed,
-.api-operation__governance--not-reviewed {
-  background: color-mix(in srgb, #c78b2a 18%, transparent);
-  color: #efb85f;
-}
-
 .api-operation__details {
   display: grid;
   gap: 16px;

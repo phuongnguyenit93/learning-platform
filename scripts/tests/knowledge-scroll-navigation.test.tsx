@@ -24,8 +24,6 @@ const index: KnowledgeIndex = {
       content: `/lesson-${number}.md`,
       difficulty: 'BASIC',
       isImportant: number === 1,
-      aiGenerated: false,
-      reviewed: false,
     })),
   }],
 };

@@ -244,8 +244,6 @@ function buildDocument(
         produces: asStringArray(method.produces),
         params: resolveParamDefinitions(paramNames, source.apiParams),
         readmeRelated: operationReadmeRelated,
-        aiGenerated: asBoolean(method.aiGenerated, false),
-        reviewed: asBoolean(method.reviewed, false),
       });
     });
 

@@ -13,6 +13,7 @@
     "data:counts": "node scripts/build-module-content-counts.mjs",
     "data:navigation": "node scripts/build-module-navigation.mjs",
     "test:data": "node --test scripts/tests/*.test.mjs && tsx --test scripts/tests/code-explorer.test.ts",
+    "test:questions": "tsx --test scripts/tests/question-chapters.test.ts scripts/tests/question-panels.test.tsx",
     "test:worker": "tsx --test worker/tests/*.test.ts",
     "test:local-run": "tsx --test scripts/tests/local-run-*.test.ts scripts/tests/local-run-panel.test.tsx scripts/tests/local-run-sidebar.test.tsx scripts/tests/module-catalog-retry.test.ts",
     "check:worker": "tsc --noEmit -p tsconfig.worker.json",

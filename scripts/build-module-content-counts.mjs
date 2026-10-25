@@ -39,6 +39,32 @@ export async function buildModuleContentCounts(javaRoot = 'dist/language/java', 
     const cacheKey = `${type}:${source}`;
     if (!readCounts.has(cacheKey)) {
       readCounts.set(cacheKey, (async () => {
+        // Interview/Quiz releases now publish per-chapter question.yml files
+        // and a compact index.json with the total. Older releases contain one
+        // module-wide YAML; support both during the producer transition.
+        if (type === 'quiz' || type === 'interview') {
+          const indexPath = source.replace(/question\.yml$/, 'index.json');
+          let indexContent;
+          if (indexPath === source && source.endsWith('.json')) {
+            indexContent = await readFile(indexPath, 'utf8');
+          } else if (indexPath !== source) {
+            try {
+              indexContent = await readFile(indexPath, 'utf8');
+            } catch (error) {
+              if (error?.code !== 'ENOENT') throw error;
+            }
+          }
+          if (indexContent !== undefined) {
+            const index = JSON.parse(indexContent);
+            if (!Array.isArray(index.chapters) || !Number.isSafeInteger(index.totalQuestions)
+              || index.totalQuestions < 0
+              || index.chapters.some((chapter) => !Number.isSafeInteger(chapter.questionCount) || chapter.questionCount < 0)
+              || index.chapters.reduce((sum, chapter) => sum + chapter.questionCount, 0) !== index.totalQuestions) {
+              throw new Error(`Invalid ${type} index at ${indexPath}`);
+            }
+            return index.totalQuestions;
+          }
+        }
         const content = await readFile(source, 'utf8');
         if (type === 'knowledge') {
           const index = JSON.parse(content);

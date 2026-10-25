@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadApiDocs } from '../data/apiDocs';
-import { collectKnowledgeSections, formatKnowledgeDisplayTitle } from '../data/knowledge';
+import { buildQuestionKnowledgeResolver, formatKnowledgeDisplayTitle } from '../data/knowledge';
 import { loadQuizDocument } from '../data/quiz';
+import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
 import { fetchJavaAsset } from '../data/javaAsset';
 import { useLanguage } from '../state/LanguageContext';
 import type {
@@ -39,6 +40,9 @@ const displayLabels = ['A', 'B', 'C', 'D'];
 
 export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps) {
   const { language } = useLanguage();
+  const { chapters, selected, selectChapter, loading: indexLoading, error: indexError } =
+    useQuestionChapterSelection(path, 'quiz', knowledgeIndex);
+  const documentPath = selected?.documentPath;
   const [questions, setQuestions] = useState<ShuffledQuestion[]>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, QuizAnswerId>>({});
   const [relatedPanelByQuestion, setRelatedPanelByQuestion] = useState<Record<string, RelatedPanelType>>({});
@@ -46,8 +50,9 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
   const [knowledgeLoadingPaths, setKnowledgeLoadingPaths] = useState<Set<string>>(() => new Set());
   const [knowledgeErrors, setKnowledgeErrors] = useState<Record<string, string>>({});
   const [apiDocument, setApiDocument] = useState<ApiDocsDocument | null>(null);
-  const [loading, setLoading] = useState(Boolean(path));
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadedPath, setLoadedPath] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -56,10 +61,14 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
     setKnowledgeLoadingPaths(new Set());
     setKnowledgeErrors({});
     setError(null);
+    setQuestions([]);
+    setSelectedAnswers({});
+    setRelatedPanelByQuestion({});
+    setLoadedPath(null);
 
-    if (!path) {
-      setQuestions([]);
+    if (!documentPath || selected?.questionCount === 0) {
       setLoading(false);
+      setLoadedPath(documentPath ?? null);
       return () => {
         active = false;
       };
@@ -67,7 +76,7 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
 
     setLoading(true);
 
-    loadQuizDocument(path)
+    loadQuizDocument(documentPath)
       .then((document) => {
         if (!active) {
           return;
@@ -101,6 +110,7 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
         setRelatedPanelByQuestion((current) => Object.fromEntries(
           Object.entries(current).filter(([questionId]) => validQuestions.has(questionId)),
         ));
+        setLoadedPath(documentPath);
         setLoading(false);
       })
       .catch((caught: unknown) => {
@@ -110,13 +120,14 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
 
         setQuestions([]);
         setError(caught instanceof Error ? caught.message : 'Unable to load Quiz.');
+        setLoadedPath(documentPath);
         setLoading(false);
       });
 
     return () => {
       active = false;
     };
-  }, [path]);
+  }, [documentPath, selected?.questionCount]);
 
   useEffect(() => {
     let active = true;
@@ -146,18 +157,10 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
     };
   }, [apiBasePath, knowledgeIndex]);
 
-  const knowledgeByKey = useMemo(() => {
-    if (!knowledgeIndex) {
-      return new Map<string, KnowledgeSectionRef>();
-    }
-
-    return new Map(
-      collectKnowledgeSections(knowledgeIndex.tree).map((section) => [
-        `${section.sourcePath}#${section.id}`,
-        section,
-      ]),
-    );
-  }, [knowledgeIndex]);
+  const resolveRelatedKnowledge = useMemo(
+    () => buildQuestionKnowledgeResolver(knowledgeIndex, selected?.path.split('/')[1] ?? selected?.id),
+    [knowledgeIndex, selected?.id, selected?.path],
+  );
 
   const apiByKey = useMemo(() => {
     const result = new Map<string, ResolvedApiRelated>();
@@ -222,16 +225,13 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
         return;
       }
 
-      const knowledgeKey = question.readmeRelated.file && question.readmeRelated.anchor
-        ? `${question.readmeRelated.file}#${question.readmeRelated.anchor}`
-        : '';
-      const relatedKnowledge = knowledgeKey ? knowledgeByKey.get(knowledgeKey) : undefined;
+      const relatedKnowledge = resolveRelatedKnowledge(question.readmeRelated);
 
       if (relatedKnowledge) {
         ensureKnowledgeContent(relatedKnowledge);
       }
     });
-  }, [ensureKnowledgeContent, knowledgeByKey, questions, relatedPanelByQuestion]);
+  }, [ensureKnowledgeContent, resolveRelatedKnowledge, questions, relatedPanelByQuestion]);
 
   const openRelatedKnowledge = (questionId: string, section: KnowledgeSectionRef) => {
     setRelatedPanelByQuestion((current) => ({ ...current, [questionId]: 'knowledge' }));
@@ -254,37 +254,46 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
     });
   };
 
-  if (loading) {
+  if (indexLoading) {
     return (
       <div className="empty-state">
-        <strong>{language === 'vi' ? 'Đang tải Quiz...' : 'Loading Quiz...'}</strong>
+        <strong>{language === 'vi' ? 'Đang tải danh sách chương Quiz...' : 'Loading Quiz chapters...'}</strong>
       </div>
     );
   }
 
-  if (error) {
+  if (indexError) {
     return (
       <div className="empty-state">
         <strong>{language === 'vi' ? 'Không thể tải Quiz' : 'Unable to load Quiz'}</strong>
-        <span>{error}</span>
+        <span>{indexError}</span>
       </div>
     );
   }
 
-  if (questions.length === 0) {
+  if (chapters.length === 0) {
     return <EmptyQuiz />;
   }
 
   return (
+    <div className="question-chapter-content">
+      <QuestionChapterPicker kind="quiz" chapters={chapters} selectedId={selected?.id ?? null} onSelect={selectChapter} />
+      {(loading || loadedPath !== documentPath) ? (
+        <div className="empty-state">
+          <strong>{language === 'vi' ? 'Đang tải Quiz...' : 'Loading Quiz...'}</strong>
+        </div>
+      ) : error ? (
+        <div className="empty-state">
+          <strong>{language === 'vi' ? 'Không thể tải Quiz' : 'Unable to load Quiz'}</strong>
+          <span>{error}</span>
+        </div>
+      ) : questions.length === 0 ? <EmptyQuiz /> : (
     <section className="quiz-grid">
       {questions.map((question, index) => {
         const selectedId = selectedAnswers[question.id];
         const selectedAnswer = question.answers.find((answer) => answer.id === selectedId);
         const selectedIsCorrect = selectedId === question.correctAnswerId;
-        const knowledgeKey = question.readmeRelated.file && question.readmeRelated.anchor
-          ? `${question.readmeRelated.file}#${question.readmeRelated.anchor}`
-          : '';
-        const relatedKnowledge = knowledgeKey ? knowledgeByKey.get(knowledgeKey) : undefined;
+        const relatedKnowledge = resolveRelatedKnowledge(question.readmeRelated);
         const apiKey = question.apiRelated.controller && question.apiRelated.methodSignature
           ? `${question.apiRelated.controller}#${question.apiRelated.methodSignature}`
           : '';
@@ -516,6 +525,8 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
         );
       })}
     </section>
+      )}
+    </div>
   );
 }
 

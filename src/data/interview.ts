@@ -48,7 +48,7 @@ function parseReadmeRelated(value: unknown, path: string) {
   }
 
   return {
-    file: asString(value.file, `${path}.file`),
+    file: value.file === undefined ? '' : asString(value.file, `${path}.file`),
     anchor: asString(value.anchor, `${path}.anchor`),
   };
 }

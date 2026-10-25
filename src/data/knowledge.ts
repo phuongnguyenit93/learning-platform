@@ -4,6 +4,7 @@ import type {
   KnowledgeSection,
   KnowledgeSectionRef,
   KnowledgeTreeNode,
+  QuizReadmeRelated,
 } from '../types/learning';
 import { fetchJavaAsset } from './javaAsset';
 
@@ -85,4 +86,25 @@ export function collectKnowledgeSections(
         sourcePath: category.sourcePath,
       })),
   );
+}
+
+/** New chapter question files only need an anchor; legacy file+anchor links still work. */
+export function buildQuestionKnowledgeResolver(index: KnowledgeIndex | null, chapterId?: string) {
+  if (!index) return (_related: QuizReadmeRelated): KnowledgeSectionRef | undefined => undefined;
+  const chapter = index.tree.find((node) => node.id === chapterId);
+  const refs = collectKnowledgeSections(chapter ? [chapter] : index.tree);
+  const byKey = new Map(collectKnowledgeSections(index.tree).map((section) => [`${section.sourcePath}#${section.id}`, section]));
+  const byAnchor = new Map<string, KnowledgeSectionRef | null>();
+  for (const section of refs) {
+    // Multiple sections can share an anchor. Never guess which article was meant.
+    byAnchor.set(section.id, byAnchor.has(section.id) ? null : section);
+  }
+  return (related: QuizReadmeRelated): KnowledgeSectionRef | undefined => {
+    if (!related.anchor) return undefined;
+    if (related.file) {
+      const exact = byKey.get(`${related.file}#${related.anchor}`);
+      if (exact) return exact;
+    }
+    return byAnchor.get(related.anchor) ?? undefined;
+  };
 }

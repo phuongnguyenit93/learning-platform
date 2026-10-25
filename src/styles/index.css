@@ -4158,6 +4158,108 @@ pre {
   text-decoration: underline;
 }
 
+.question-chapter-content {
+  display: grid;
+  grid-template-columns: minmax(220px, 270px) minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.question-chapter-content > * {
+  min-width: 0;
+}
+
+.question-chapter-picker {
+  position: sticky;
+  top: 18px;
+  max-height: min(75vh, 760px);
+  overflow-y: auto;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--card-bg);
+}
+
+.question-chapter-picker__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.question-chapter-picker__heading > span {
+  font-size: 11px;
+  color: var(--text-soft);
+}
+
+.question-chapter-picker__list {
+  display: grid;
+  gap: 5px;
+}
+
+.question-chapter-picker__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-soft);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.question-chapter-picker__item:hover,
+.question-chapter-picker__item:focus-visible {
+  border-color: var(--border);
+  background: var(--surface-soft, var(--card-bg));
+  color: var(--text);
+}
+
+.question-chapter-picker__item.is-active {
+  border-color: var(--blue);
+  color: var(--text);
+  background: var(--surface-soft, var(--card-bg));
+  font-weight: 750;
+}
+
+.question-chapter-picker__count {
+  flex-shrink: 0;
+  min-width: 24px;
+  padding: 2px 6px;
+  border-radius: 7px;
+  background: var(--quiz-bg);
+  color: var(--quiz-text);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.question-chapter-picker__count--interview {
+  background: var(--interview-bg);
+  color: var(--interview-text);
+}
+
+@media (max-width: 1100px) {
+  .question-chapter-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .question-chapter-picker {
+    position: static;
+    max-height: 260px;
+  }
+}
+
 .quiz-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -3064,7 +3064,9 @@ pre {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 16px 20px;
-  overscroll-behavior: contain;
+  /* At the top/bottom, allow vertical scrolling to continue on the page. */
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
 }
 
 .knowledge-summary-table {
@@ -3091,11 +3093,13 @@ pre {
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  max-height: min(260px, 33vh);
-  overflow: auto;
+  /* The table grows to its full height; only columns scroll within it. */
+  overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-color: var(--border-strong) var(--surface-soft);
   scrollbar-width: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
 }
 
 .knowledge-summary-table-scroll:focus-visible {
@@ -3908,7 +3912,8 @@ pre {
   overflow: auto;
   margin: 0;
   padding: 16px 24px;
-  overscroll-behavior: contain;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
   background: var(--summary-panel-bg);
   color: var(--text-soft);
   font-size: 13px;

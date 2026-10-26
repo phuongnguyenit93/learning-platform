@@ -5974,6 +5974,26 @@ pre {
   font-weight: 900;
 }
 
+.local-run-execution-context {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.local-run-execution-context input {
+  accent-color: var(--blue);
+}
+
+.local-run-execution-context:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
 .local-run-step__copy {
   display: grid;
   gap: 3px;

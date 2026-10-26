@@ -13,6 +13,7 @@ interface LocalRunPanelProps {
   moduleId: string;
   moduleName: string;
   sourceFingerprint: string;
+  moduleType?: string;
 }
 
 const DEFAULT_PORT = 9000;
@@ -53,11 +54,13 @@ export function LocalRunPanel({
   moduleId,
   moduleName,
   sourceFingerprint,
+  moduleType = 'SERVLET',
 }: LocalRunPanelProps) {
   const { language } = useLanguage();
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
   const [os, setOs] = useState<'windows' | 'macos' | 'linux'>('windows');
   const [jarStarted, setJarStarted] = useState(false);
+  const [executionContextEnabled, setExecutionContextEnabled] = useState(false);
   const [buildStatus, setBuildStatus] = useState<LocalRunBuildStatus | 'IDLE' | 'SUBMITTING' | 'PUBLISHING'>('IDLE');
   const [buildMessage, setBuildMessage] = useState<string | null>(null);
   const [artifactChecking, setArtifactChecking] = useState(true);
@@ -92,7 +95,7 @@ export function LocalRunPanel({
   const copyTimer = useRef<number | null>(null);
 
   const jarFileName = useMemo(() => toJarFileName(moduleId), [moduleId]);
-  const runCommand = `java --enable-preview -jar ${jarFileName} --server.port=${DEFAULT_PORT} --server.servlet.context-path=${DEFAULT_CONTEXT_PATH} --spring.application.name=${DEFAULT_APPLICATION_NAME} --swagger.enabled=${SWAGGER_ENABLED}`;
+  const runCommand = `java --enable-preview -jar ${jarFileName} --server.port=${DEFAULT_PORT} --server.servlet.context-path=${DEFAULT_CONTEXT_PATH} --spring.application.name=${DEFAULT_APPLICATION_NAME} --swagger.enabled=${SWAGGER_ENABLED} --execution-context.enabled=${moduleType === 'SERVLET' && executionContextEnabled}`;
   const localUrl = `http://localhost:${DEFAULT_PORT}${DEFAULT_CONTEXT_PATH}`;
   const cooldownSeconds = Math.max(0, Math.ceil((cooldownUntil - nowTick) / 1000));
 
@@ -170,6 +173,9 @@ export function LocalRunPanel({
         envCopy: 'Trỏ JAVA_HOME tới thư mục JDK 21 và thêm %JAVA_HOME%\\bin vào Path.',
         verifyTitle: 'Kiểm tra Java',
         runJarTitle: 'Chạy JAR',
+        executionContextTitle: 'Bật Execution Context',
+        executionContextHint: 'Chỉ bật khi muốn ghi nhận request, response, exception và log để phân tích. Khi tắt, Swagger hoạt động bình thường như trước. Không cần build lại JAR.',
+        executionContextUnavailable: 'Execution Context hiện chỉ hỗ trợ module Servlet.',
         openTitle: 'Mở ứng dụng',
         copy: 'Copy',
         copied: 'Đã copy',
@@ -240,6 +246,9 @@ export function LocalRunPanel({
         envCopy: 'Point JAVA_HOME to your JDK 21 folder and add %JAVA_HOME%\\bin to Path.',
         verifyTitle: 'Verify Java',
         runJarTitle: 'Run the JAR',
+        executionContextTitle: 'Enable Execution Context',
+        executionContextHint: 'Enable capture of requests, responses, exceptions, and logs for analysis. When disabled, Swagger works as before. No JAR rebuild is needed.',
+        executionContextUnavailable: 'Execution Context currently supports Servlet modules only.',
         openTitle: 'Open the application',
         copy: 'Copy',
         copied: 'Copied',
@@ -807,6 +816,13 @@ export function LocalRunPanel({
               <div className="local-run-step__copy">
                 <strong>{text.runJarTitle}</strong>
               </div>
+              <label className="local-run-execution-context">
+                <input type="checkbox" checked={moduleType === 'SERVLET' && executionContextEnabled}
+                  disabled={moduleType !== 'SERVLET'}
+                  onChange={(event) => { setExecutionContextEnabled(event.target.checked); setCopyState('idle'); }} />
+                <span>{text.executionContextTitle}</span>
+              </label>
+              <small>{moduleType === 'SERVLET' ? text.executionContextHint : text.executionContextUnavailable}</small>
               <div className="local-run-command">
                 <code>{runCommand}</code>
                 <button type="button" onClick={handleCopy}>{copyState === 'copied' ? text.copied : text.copy}</button>

@@ -17,7 +17,7 @@ interface Mounted {
   button: (label: string) => HTMLButtonElement;
 }
 
-async function mount(t: Parameters<Parameters<typeof test>[1]>[0]): Promise<Mounted> {
+async function mount(t: Parameters<Parameters<typeof test>[1]>[0], moduleType = 'SERVLET'): Promise<Mounted> {
   const browser = new Window({ url: 'http://localhost:5000' });
   const originals = new Map<string, PropertyDescriptor | undefined>();
   for (const [key, value] of Object.entries({
@@ -34,7 +34,7 @@ async function mount(t: Parameters<Parameters<typeof test>[1]>[0]): Promise<Moun
   const root: Root = createRoot(container);
   await act(async () => {
     root.render(<LanguageProvider><LocalRunPanel moduleId={MODULE}
-      moduleName="Database MySQL" sourceFingerprint={FP} /></LanguageProvider>);
+      moduleName="Database MySQL" sourceFingerprint={FP} moduleType={moduleType} /></LanguageProvider>);
   });
   t.after(async () => {
     await act(async () => { root.unmount(); });
@@ -55,6 +55,33 @@ async function mount(t: Parameters<Parameters<typeof test>[1]>[0]): Promise<Moun
   };
   return { container, button, click };
 }
+
+test('Execution Context switch updates run command only, defaults OFF, and preserves Swagger', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No job'); });
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  const ui = await mount(t);
+  const checkbox = ui.container.querySelector('.local-run-execution-context input') as HTMLInputElement;
+  const command = () => ui.container.querySelector('.local-run-command code')?.textContent ?? '';
+  assert.ok(checkbox);
+  assert.equal(checkbox.checked, false);
+  assert.match(command(), /--execution-context.enabled=false/);
+  assert.match(command(), /--swagger.enabled=TRUE/);
+  await act(async () => { checkbox.click(); });
+  assert.equal(checkbox.checked, true);
+  assert.match(command(), /--execution-context.enabled=true/);
+  assert.match(command(), /--swagger.enabled=TRUE/);
+  await act(async () => { checkbox.click(); });
+  assert.match(command(), /--execution-context.enabled=false/);
+});
+
+test('Reactive Local Run cannot enable unsupported Servlet Execution Context', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No job'); });
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  const ui = await mount(t, 'REACTIVE');
+  const checkbox = ui.container.querySelector('.local-run-execution-context input') as HTMLInputElement;
+  assert.ok(checkbox.disabled);
+  assert.match(ui.container.querySelector('.local-run-command code')?.textContent ?? '', /--execution-context.enabled=false/);
+});
 
 test('Worker job 404 enables a new Build, and a missing JAR is not marked ready', async (t) => {
   t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No job'); });

@@ -538,6 +538,7 @@ export function LearningPage() {
               moduleId={activeModule.id}
               moduleName={activeModule.shortName}
               sourceFingerprint={activeModule.sourceFingerprint}
+              moduleType={activeModuleNode?.moduleType}
             />
           )}
           {activeTab === 'feedback' && (

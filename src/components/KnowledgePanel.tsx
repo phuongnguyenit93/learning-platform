@@ -1088,7 +1088,16 @@ export function KnowledgePanel({
             ref={(element) => { topicButtonRefs.current.all = element; }}
             type="button"
             className={`knowledge-topic-strip__button${activeCategoryId === 'all' ? ' is-active' : ''}`}
-            onClick={() => onCategoryChange('all')}
+            onClick={() => {
+              onCategoryChange('all');
+              setHoveredCategoryId('all');
+            }}
+            onPointerEnter={(event) => {
+              if (event.pointerType !== 'touch') showCategoryMenu('all', event.currentTarget);
+            }}
+            onFocus={(event) => showCategoryMenu('all', event.currentTarget)}
+            aria-expanded={hoveredCategoryId === 'all'}
+            aria-haspopup="true"
           >
             {language === 'vi' ? 'Tất cả' : 'All'}
             <span>{index.sectionCount}</span>
@@ -1127,29 +1136,46 @@ export function KnowledgePanel({
           ›
         </button>
 
-        {hoveredCategory && !draggingTopics && (
+        {(hoveredCategoryId === 'all' || hoveredCategory) && !draggingTopics && (
           <div
             className="knowledge-topic-flyout"
             style={{ left: hoverMenuLeft }}
-            aria-label={hoveredCategory.title}
+            aria-label={hoveredCategoryId === 'all'
+              ? (language === 'vi' ? 'Danh sách chương' : 'Chapters')
+              : hoveredCategory!.title}
           >
             <div className="knowledge-topic-flyout__heading">
-              {hoveredCategory.title}
-              <span>{hoveredCategory.sections.length}</span>
+              {hoveredCategoryId === 'all'
+                ? (language === 'vi' ? 'Các chương' : 'Chapters')
+                : hoveredCategory!.title}
+              <span>{hoveredCategoryId === 'all' ? categories.length : hoveredCategory!.sections.length}</span>
             </div>
             <div className="knowledge-topic-flyout__items">
-              {sortKnowledgeSectionsByDifficulty(hoveredCategory.sections).map((section) => (
+              {hoveredCategoryId === 'all' ? categories.map((category) => (
+                <button
+                  key={category.id}
+                  type="button"
+                  className="knowledge-topic-flyout__item knowledge-topic-flyout__chapter"
+                  onClick={() => {
+                    setHoveredCategoryId(null);
+                    onCategoryChange(category.id);
+                  }}
+                >
+                  <span>{category.title}</span>
+                  <span className="knowledge-topic-flyout__chapter-count">{category.sections.length}</span>
+                </button>
+              )) : sortKnowledgeSectionsByDifficulty(hoveredCategory!.sections).map((section) => (
                 <button
                   key={section.id}
                   type="button"
                   className="knowledge-topic-flyout__item"
                   onClick={() => {
                     setHoveredCategoryId(null);
-                    openCategoryForLesson(hoveredCategory.id);
+                    openCategoryForLesson(hoveredCategory!.id);
                     manuallyExpandedSectionRef.current = null;
                     // Re-selecting an already open lesson must scroll to it too.
                     setNavigationSerial((current) => current + 1);
-                    onNavigateToSection(hoveredCategory.id, section.id);
+                    onNavigateToSection(hoveredCategory!.id, section.id);
                   }}
                 >
                   {formatKnowledgeDisplayTitle(section.title)}

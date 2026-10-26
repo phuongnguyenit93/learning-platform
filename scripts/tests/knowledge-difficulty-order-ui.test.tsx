@@ -76,6 +76,7 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
   const container = browser.document.createElement('div');
   browser.document.body.append(container);
   const root = createRoot(container);
+  let selectedCategory: string | null = null;
 
   t.after(async () => {
     await act(async () => root.unmount());
@@ -92,7 +93,8 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
         selectedSectionId={null} onSelectSection={() => {}} />
       <KnowledgePanel index={index} loading={false} error={null} searchQuery=""
         activeCategoryId="all" selectedSectionId={null}
-        onCategoryChange={() => {}} onSectionChange={() => {}}
+        onCategoryChange={(categoryId) => { selectedCategory = categoryId; }}
+        onSectionChange={() => {}}
         onNavigateToSection={() => {}} />
     </LanguageProvider>,
   ));
@@ -138,6 +140,21 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
     Array.from(knowledgeGroups[1].querySelectorAll('.knowledge-card')).map((item) => item.id.replace('knowledge-section-', '')),
     ['second-basic', 'second-advanced'],
   );
+
+  const allTopic = container.querySelector<HTMLButtonElement>('.knowledge-topic-strip__button:first-child');
+  assert.ok(allTopic);
+  await act(async () => allTopic.focus());
+  assert.equal(allTopic.getAttribute('aria-expanded'), 'true');
+  assert.deepEqual(
+    Array.from(container.querySelectorAll('.knowledge-topic-flyout__chapter > span:first-child'))
+      .map((item) => item.textContent?.trim()),
+    ['Chapter One', 'Chapter Two'],
+    'All dropdown lists chapter names only, not individual lessons',
+  );
+  assert.equal(container.querySelectorAll('.knowledge-topic-flyout__chapter-count').length, 2);
+  await act(async () => container.querySelector<HTMLButtonElement>('.knowledge-topic-flyout__chapter')?.click());
+  assert.equal(selectedCategory, 'chapter-one', 'choosing a chapter changes the active category');
+  assert.equal(container.querySelector('.knowledge-topic-flyout'), null);
 
   const firstTopic = container.querySelector<HTMLButtonElement>('.knowledge-topic-strip__button:nth-child(2)');
   assert.ok(firstTopic);

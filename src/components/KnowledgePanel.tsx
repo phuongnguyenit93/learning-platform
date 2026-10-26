@@ -11,6 +11,7 @@ import {
 } from '../data/knowledge';
 import { loadVideoIndex } from '../data/video';
 import { loadKnowledgeSummaryChapter, loadKnowledgeSummaryIndex } from '../data/knowledgeSummary';
+import { legacyChapterSummaryRoadmap } from '../data/legacyChapterSummaryRoadmap';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   ApiDocsDocument,
@@ -679,7 +680,9 @@ export function KnowledgePanel({
   const renderChapterSummary = (categoryId: string) => {
     const chapter = summaryChapters[categoryId];
     if (!chapter?.section || (typeof chapter.section === 'string' && !chapter.section.trim())) return null;
-    const roadmap = typeof chapter.section === 'string' ? null : chapter.section;
+    const roadmap = typeof chapter.section === 'string'
+      ? legacyChapterSummaryRoadmap(chapter.section, chapter.summaries)
+      : chapter.section;
     return (
       <section className="knowledge-chapter-summary" aria-label={language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}>
         <div className="knowledge-chapter-summary__heading">

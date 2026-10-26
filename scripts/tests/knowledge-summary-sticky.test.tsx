@@ -23,7 +23,14 @@ test('chapter summary renders before lessons; sticky lesson summary closes on cr
   const originals = new Map<string, PropertyDescriptor | undefined>();
   let articleOneBottom = 1600;
   const mockFetch = async (path: string) => {
-    const value = path.endsWith('/summary/vi/index.json')
+    const value = path.endsWith('/video/vi/index.json')
+      ? {
+        version: 1, moduleId: 'OOP', language: 'vi', videoCount: 1,
+        items: [{ categoryId: 'ch1', title: 'Tư duy OOP', sourcePath: 'chapter.md',
+          content: '/module/OOP/video/vi/content/ch1/script.json',
+          url: '', sectionCount: 2, sceneCount: 3, transitionCount: 1 }],
+      }
+      : path.endsWith('/summary/vi/index.json')
       ? {
         version: 1, moduleId: 'OOP', language: 'vi', sectionCount: 1,
         items: [{ categoryId: 'ch1', title: 'Tư duy OOP',
@@ -93,6 +100,7 @@ test('chapter summary renders before lessons; sticky lesson summary closes on cr
       <div className="topbar" /><div className="module-tab-wrapper" />
       <KnowledgePanel index={knowledge} loading={false} error={null} searchQuery=""
         activeCategoryId={category} selectedSectionId={selected}
+        videoIndexPath="/module/OOP/video/vi/index.json"
         summaryIndexPath="/module/OOP/summary/vi/index.json"
         onCategoryChange={updateCategory} onSectionChange={setSelected}
         onNavigateToSection={(_, id) => setSelected(id)} />
@@ -113,10 +121,24 @@ test('chapter summary renders before lessons; sticky lesson summary closes on cr
 
   await act(async () => root.render(<Harness />));
   await act(async () => { await new Promise((resolve) => setTimeout(resolve, 45)); });
+  const categoryToggle = container.querySelector<HTMLButtonElement>('.knowledge-category-group__header');
+  assert.equal(categoryToggle?.getAttribute('aria-expanded'), 'false', 'chapter starts collapsed');
+  await act(async () => categoryToggle?.click());
+  const videoToggle = container.querySelector<HTMLButtonElement>('.knowledge-video__toggle');
+  assert.equal(videoToggle?.getAttribute('aria-expanded'), 'false', 'video starts collapsed');
+  assert.equal(container.querySelector('.knowledge-video__player-shell'), null);
+  await act(async () => videoToggle?.click());
+  assert.ok(container.querySelector('.knowledge-video__player-shell'));
+  await act(async () => videoToggle?.click());
+  assert.equal(container.querySelector('.knowledge-video__player-shell'), null);
   const chapter = container.querySelector('.knowledge-chapter-summary');
   const heading = container.querySelector('.knowledge-lessons-heading');
   assert.ok(chapter && heading && chapter.compareDocumentPosition(heading) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
   assert.match(chapter.textContent ?? '', /Tóm tắt chương/);
+  const chapterToggle = chapter.querySelector<HTMLButtonElement>('.knowledge-chapter-summary__heading');
+  assert.equal(chapterToggle?.getAttribute('aria-expanded'), 'false', 'chapter summary starts collapsed');
+  assert.equal(chapter.querySelector('.knowledge-roadmap__card'), null);
+  await act(async () => chapterToggle?.click());
   assert.equal(chapter.querySelectorAll('.knowledge-roadmap__card').length, 2);
   assert.equal(chapter.querySelectorAll('.knowledge-roadmap__connector').length, 1);
   assert.match(chapter.querySelector('.knowledge-roadmap__connector-copy')?.textContent ?? '', /Từ tư duy → ứng dụng/);
@@ -125,6 +147,9 @@ test('chapter summary renders before lessons; sticky lesson summary closes on cr
   assert.equal(wideTable.getAttribute('tabindex'), '0', 'table scroller is keyboard-accessible');
   assert.equal(wideTable.querySelectorAll('th').length, 10, 'all ten columns remain in the table');
   assert.match(chapter.querySelector('.knowledge-summary-table__hint')?.textContent ?? '', /Cuộn ngang/);
+  const lessonsToggle = container.querySelector<HTMLButtonElement>('.knowledge-lessons-heading--toggle');
+  assert.equal(lessonsToggle?.getAttribute('aria-expanded'), 'false');
+  await act(async () => lessonsToggle?.click());
   const lesson1 = container.querySelector<HTMLElement>('#knowledge-section-lesson-1');
   const lesson2 = container.querySelector<HTMLElement>('#knowledge-section-lesson-2');
   assert.ok(lesson1 && lesson2);

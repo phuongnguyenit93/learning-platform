@@ -54,6 +54,7 @@ function isDirectVideoUrl(rawUrl: string): boolean {
 
 export function KnowledgeVideoPanel({ item, compact = false }: KnowledgeVideoPanelProps) {
   const { language } = useLanguage();
+  const [expanded, setExpanded] = useState(false);
   const [scriptExpanded, setScriptExpanded] = useState(false);
   const [script, setScript] = useState<VideoScriptDocument | null>(null);
   const [scriptLoading, setScriptLoading] = useState(false);
@@ -64,6 +65,7 @@ export function KnowledgeVideoPanel({ item, compact = false }: KnowledgeVideoPan
     setScript(null);
     setScriptError(null);
     setScriptExpanded(false);
+    setExpanded(false);
   }, [compact, item.content]);
 
   useEffect(() => {
@@ -104,6 +106,9 @@ export function KnowledgeVideoPanel({ item, compact = false }: KnowledgeVideoPan
   return (
     <section className={`knowledge-video${compact ? ' knowledge-video--compact' : ''}`}>
       <div className="knowledge-video__header">
+        <button type="button" className="knowledge-video__toggle"
+          aria-expanded={expanded} aria-controls={`knowledge-video-content-${item.categoryId}`}
+          onClick={() => setExpanded((current) => !current)}>
         <div className="knowledge-video__heading">
           <span className="knowledge-video__eyebrow">VIDEO</span>
           <strong>{language === 'vi' ? 'Video & kịch bản trình bày' : 'Video & presentation script'}</strong>
@@ -115,8 +120,11 @@ export function KnowledgeVideoPanel({ item, compact = false }: KnowledgeVideoPan
             <span>{item.transitionCount} transition</span>
           )}
         </div>
+        <span className="knowledge-accordion-chevron" aria-hidden="true">{expanded ? '−' : '+'}</span>
+        </button>
       </div>
 
+      {expanded && <div id={`knowledge-video-content-${item.categoryId}`}>
       <div className="knowledge-video__player-shell">
         {embedUrl ? (
           <iframe
@@ -237,6 +245,7 @@ export function KnowledgeVideoPanel({ item, compact = false }: KnowledgeVideoPan
           </div>
         )}
       </div>
+      </div>}
     </section>
   );
 }

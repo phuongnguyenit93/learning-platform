@@ -106,6 +106,9 @@ test('manual expand never scrolls; navigation realigns once Markdown arrives', a
   });
 
   await act(async () => root.render(<Harness />));
+  const lessonsToggle = container.querySelector<HTMLButtonElement>('.knowledge-lessons-heading--toggle');
+  assert.equal(lessonsToggle?.getAttribute('aria-expanded'), 'false');
+  await act(async () => lessonsToggle?.click());
   const importantCard = container.querySelector('#knowledge-section-oop-1-1');
   const regularCard = container.querySelector('#knowledge-section-oop-1-2');
   assert.ok(importantCard?.classList.contains('is-important'), 'essential lesson should be highlighted');
@@ -120,9 +123,14 @@ test('manual expand never scrolls; navigation realigns once Markdown arrives', a
   await act(async () => { await new Promise((resolve) => setTimeout(resolve, 20)); });
   assert.equal(scrolls.length, 0, 'opening an accordion should not reposition the page');
 
+  await act(async () => lessonsToggle?.click());
+  assert.equal(container.querySelector('#knowledge-section-oop-1-2'), null, 'closing the lesson group hides its cards');
+
   assert.ok(selectExternal);
   await act(async () => selectExternal!('oop-1-2'));
   await act(async () => { await new Promise((resolve) => setTimeout(resolve, 30)); });
+  assert.equal(lessonsToggle?.getAttribute('aria-expanded'), 'true',
+    'external navigation reopens the collapsed lesson group');
   assert.ok(scrolls.length > 0, 'navigation to section id must scroll');
   assert.equal(scrolls.at(-1), 340, 'initial target uses actual measured sticky heights');
 

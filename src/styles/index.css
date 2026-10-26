@@ -2994,6 +2994,48 @@ pre {
   background: var(--surface-soft);
 }
 
+.knowledge-accordion-toggle {
+  width: 100%;
+  text-align: left;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.knowledge-accordion-toggle:hover,
+.knowledge-accordion-toggle:focus-visible,
+.knowledge-video__toggle:hover,
+.knowledge-video__toggle:focus-visible,
+.knowledge-lessons-heading--toggle:hover,
+.knowledge-lessons-heading--toggle:focus-visible {
+  background: var(--surface-hover);
+  outline-offset: -2px;
+}
+
+.knowledge-accordion-chevron {
+  flex: 0 0 auto;
+  color: var(--text-muted);
+  font-size: 19px;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.knowledge-category-group__header {
+  border: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.knowledge-category-group__header[aria-expanded="false"] {
+  border-bottom: 0;
+  border-radius: 9px;
+}
+
+.knowledge-category-group__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .knowledge-category-group__title {
   min-width: 0;
   overflow: hidden;
@@ -3053,6 +3095,18 @@ pre {
   color: var(--text);
   font-size: 13px;
   font-weight: 750;
+}
+
+.knowledge-chapter-summary__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.knowledge-chapter-summary__heading[aria-expanded="false"] {
+  border-bottom: 0;
 }
 
 .knowledge-chapter-summary__scroll {
@@ -3284,6 +3338,29 @@ pre {
   letter-spacing: 0.08em;
 }
 
+.knowledge-lessons-heading--toggle {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  padding: 15px 12px;
+}
+
+.knowledge-lessons-heading__count {
+  font-size: 11px;
+  color: var(--text-soft);
+  letter-spacing: 0;
+}
+
+.knowledge-list > .knowledge-lessons-heading--toggle {
+  padding: 18px 0 12px;
+}
+
+.knowledge-list > .knowledge-category-group__sections {
+  padding: 0;
+}
+
 .knowledge-lessons-heading--standalone {
   padding: 20px 0 2px;
 }
@@ -3300,9 +3377,32 @@ pre {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 9px 13px;
+  padding: 0;
   border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--surface-soft) 70%, transparent);
+}
+
+.knowledge-video__header:has(.knowledge-video__toggle[aria-expanded="false"]) {
+  border-bottom: 0;
+}
+
+.knowledge-video__toggle {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 13px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.knowledge-video__toggle .knowledge-video__stats {
+  margin-left: auto;
 }
 
 .knowledge-video__heading {

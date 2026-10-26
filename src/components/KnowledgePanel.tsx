@@ -70,6 +70,9 @@ export function KnowledgePanel({
   const { language } = useLanguage();
   const [contentCache, setContentCache] = useState<Record<string, string>>({});
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(() => new Set());
+  const [expandedCategoryIds, setExpandedCategoryIds] = useState<Set<string>>(() => new Set());
+  const [expandedLessonGroupIds, setExpandedLessonGroupIds] = useState<Set<string>>(() => new Set());
+  const [expandedChapterSummaryIds, setExpandedChapterSummaryIds] = useState<Set<string>>(() => new Set());
   const [loadingSectionIds, setLoadingSectionIds] = useState<Set<string>>(() => new Set());
   const [sectionErrors, setSectionErrors] = useState<Record<string, string>>({});
   const [apiDocument, setApiDocument] = useState<ApiDocsDocument | null>(null);
@@ -148,6 +151,23 @@ export function KnowledgePanel({
       .filter((group) => group.sections.length > 0);
   }, [activeCategoryId, allSections, categories, visibleSections]);
 
+  useEffect(() => {
+    // A search reveals matching chapters/lessons, while allowing the user
+    // to collapse them again even if the query remains active.
+    if (!searchQuery.trim()) return;
+    const matchingCategoryIds = activeCategoryId === 'all'
+      ? visibleSectionGroups.map(({ category }) => category.id)
+      : visibleSections.length > 0 ? [activeCategoryId] : [];
+    setExpandedCategoryIds((current) => {
+      if (matchingCategoryIds.every((id) => current.has(id))) return current;
+      return new Set([...current, ...matchingCategoryIds]);
+    });
+    setExpandedLessonGroupIds((current) => {
+      if (matchingCategoryIds.every((id) => current.has(id))) return current;
+      return new Set([...current, ...matchingCategoryIds]);
+    });
+  }, [searchQuery, activeCategoryId, visibleSectionGroups, visibleSections.length]);
+
   const visibleSectionNumberById = useMemo(() => new Map(
     visibleSections.map((section, indexInList) => [section.id, indexInList + 1]),
   ), [visibleSections]);
@@ -177,6 +197,10 @@ export function KnowledgePanel({
     setLoadingSectionIds(new Set());
     setSectionErrors({});
     setOpenSummaryId(null);
+    setExpandedSectionIds(new Set());
+    setExpandedCategoryIds(new Set());
+    setExpandedLessonGroupIds(new Set());
+    setExpandedChapterSummaryIds(new Set());
   }, [index?.moduleId, index?.language]);
 
   useEffect(() => {
@@ -310,6 +334,13 @@ export function KnowledgePanel({
       manuallyExpandedSectionRef.current = null;
       return;
     }
+    const categoryId = allSections.find((section) => section.id === selectedSectionId)?.categoryId;
+    if (categoryId) {
+      setExpandedCategoryIds((current) => current.has(categoryId)
+        ? current : new Set(current).add(categoryId));
+      setExpandedLessonGroupIds((current) => current.has(categoryId)
+        ? current : new Set(current).add(categoryId));
+    }
 
     if (manuallyExpandedSectionRef.current !== selectedSectionId) {
       manuallyExpandedSectionRef.current = null;
@@ -324,7 +355,7 @@ export function KnowledgePanel({
       next.add(selectedSectionId);
       return next;
     });
-  }, [selectedSectionId]);
+  }, [selectedSectionId, allSections]);
 
   useEffect(() => {
     const sectionsToLoad = allSections.filter((section) => (
@@ -677,6 +708,29 @@ export function KnowledgePanel({
     }
   };
 
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategoryIds((current) => {
+      const next = new Set(current);
+      if (next.has(categoryId)) next.delete(categoryId);
+      else next.add(categoryId);
+      return next;
+    });
+  };
+
+  const toggleLessonGroup = (categoryId: string) => {
+    setExpandedLessonGroupIds((current) => {
+      const next = new Set(current);
+      if (next.has(categoryId)) next.delete(categoryId);
+      else next.add(categoryId);
+      return next;
+    });
+  };
+
+  const openCategoryForLesson = (categoryId: string) => {
+    setExpandedCategoryIds((current) => new Set(current).add(categoryId));
+    setExpandedLessonGroupIds((current) => new Set(current).add(categoryId));
+  };
+
   const renderChapterSummary = (categoryId: string) => {
     const chapter = summaryChapters[categoryId];
     if (!chapter?.section || (typeof chapter.section === 'string' && !chapter.section.trim())) return null;
@@ -685,10 +739,22 @@ export function KnowledgePanel({
       : chapter.section;
     return (
       <section className="knowledge-chapter-summary" aria-label={language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}>
-        <div className="knowledge-chapter-summary__heading">
+        <button type="button" className="knowledge-chapter-summary__heading knowledge-accordion-toggle"
+          aria-expanded={expandedChapterSummaryIds.has(categoryId)}
+          aria-controls={`knowledge-chapter-summary-content-${categoryId}`}
+          onClick={() => setExpandedChapterSummaryIds((current) => {
+            const next = new Set(current);
+            if (next.has(categoryId)) next.delete(categoryId);
+            else next.add(categoryId);
+            return next;
+          })}>
           {language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}
-        </div>
-        <div className="knowledge-chapter-summary__scroll markdown-content">
+          <span className="knowledge-accordion-chevron" aria-hidden="true">
+            {expandedChapterSummaryIds.has(categoryId) ? '−' : '+'}
+          </span>
+        </button>
+        {expandedChapterSummaryIds.has(categoryId) && (
+        <div id={`knowledge-chapter-summary-content-${categoryId}`} className="knowledge-chapter-summary__scroll markdown-content">
           {roadmap ? (
             <>
               <div className="knowledge-roadmap" aria-label={language === 'vi' ? 'Lộ trình các bài học' : 'Lesson roadmap'}>
@@ -725,6 +791,7 @@ export function KnowledgePanel({
             <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{chapter.section as string}</MermaidMarkdown>
           )}
         </div>
+        )}
       </section>
     );
   };
@@ -923,6 +990,34 @@ export function KnowledgePanel({
     );
   };
 
+  const renderLessonsGroup = (
+    categoryId: string,
+    sections: KnowledgeSectionRef[],
+    showIndex: boolean,
+  ) => {
+    const expanded = expandedLessonGroupIds.has(categoryId);
+    return (
+      <>
+        <button type="button" className="knowledge-lessons-heading knowledge-lessons-heading--toggle"
+          aria-expanded={expanded} aria-controls={`knowledge-lessons-${categoryId}`}
+          onClick={() => toggleLessonGroup(categoryId)}>
+          <span>{language === 'vi' ? 'BÀI HỌC' : 'LESSONS'}</span>
+          <span className="knowledge-lessons-heading__line" aria-hidden="true" />
+          <span className="knowledge-lessons-heading__count">{sections.length}</span>
+          <span className="knowledge-accordion-chevron" aria-hidden="true">{expanded ? '−' : '+'}</span>
+        </button>
+        {expanded && (
+          <div id={`knowledge-lessons-${categoryId}`} className="knowledge-category-group__sections">
+            {sections.map((section) => renderSectionCard(section, {
+              showIndex,
+              showCategory: !showIndex,
+            }))}
+          </div>
+        )}
+      </>
+    );
+  };
+
   if (loading) {
     return <div className="empty-state empty-state--large"><strong>{language === 'vi' ? 'Đang tải Knowledge...' : 'Loading Knowledge...'}</strong></div>;
   }
@@ -1050,6 +1145,7 @@ export function KnowledgePanel({
                   className="knowledge-topic-flyout__item"
                   onClick={() => {
                     setHoveredCategoryId(null);
+                    openCategoryForLesson(hoveredCategory.id);
                     manuallyExpandedSectionRef.current = null;
                     // Re-selecting an already open lesson must scroll to it too.
                     setNavigationSerial((current) => current + 1);
@@ -1066,50 +1162,42 @@ export function KnowledgePanel({
 
       <div className="knowledge-list">
         {activeCategoryId === 'all'
-          ? visibleSectionGroups.map(({ category, sections }) => (
-            <section key={category.id} className="knowledge-category-group">
-              <div className="knowledge-category-group__header">
-                <span className="knowledge-category-group__title">{category.title}</span>
-                <span className="knowledge-category-group__count">
-                  {sections.length} {language === 'vi' ? 'section' : sections.length === 1 ? 'section' : 'sections'}
-                </span>
-              </div>
-
-              {videoByCategoryId.has(category.id) && (
-                <div className="knowledge-category-group__video">
-                  <KnowledgeVideoPanel item={videoByCategoryId.get(category.id)!} compact />
-                </div>
-              )}
-
-              {renderChapterSummary(category.id)}
-
-              <div className="knowledge-lessons-heading">
-                <span>{language === 'vi' ? 'BÀI HỌC' : 'LESSONS'}</span>
-                <span className="knowledge-lessons-heading__line" aria-hidden="true" />
-              </div>
-
-              <div className="knowledge-category-group__sections">
-                {sections.map((section) => renderSectionCard(section, {
-                  showIndex: true,
-                  showCategory: false,
-                }))}
-              </div>
-            </section>
-          ))
+          ? visibleSectionGroups.map(({ category, sections }) => {
+            const expanded = expandedCategoryIds.has(category.id);
+            return (
+              <section key={category.id} className="knowledge-category-group">
+                <button type="button" className="knowledge-category-group__header knowledge-accordion-toggle"
+                  aria-expanded={expanded} aria-controls={`knowledge-category-content-${category.id}`}
+                  onClick={() => toggleCategory(category.id)}>
+                  <span className="knowledge-category-group__title">{category.title}</span>
+                  <span className="knowledge-category-group__actions">
+                    <span className="knowledge-category-group__count">
+                      {sections.length} {language === 'vi' ? 'section' : sections.length === 1 ? 'section' : 'sections'}
+                    </span>
+                    <span className="knowledge-accordion-chevron" aria-hidden="true">{expanded ? '−' : '+'}</span>
+                  </span>
+                </button>
+                {expanded && (
+                  <div id={`knowledge-category-content-${category.id}`} className="knowledge-category-group__content">
+                    {videoByCategoryId.has(category.id) && (
+                      <div className="knowledge-category-group__video">
+                        <KnowledgeVideoPanel item={videoByCategoryId.get(category.id)!} compact />
+                      </div>
+                    )}
+                    {renderChapterSummary(category.id)}
+                    {renderLessonsGroup(category.id, sections, true)}
+                  </div>
+                )}
+              </section>
+            );
+          })
           : (
             <>
               {videoByCategoryId.has(activeCategoryId) && (
                 <KnowledgeVideoPanel item={videoByCategoryId.get(activeCategoryId)!} />
               )}
               {renderChapterSummary(activeCategoryId)}
-              <div className="knowledge-lessons-heading knowledge-lessons-heading--standalone">
-                <span>{language === 'vi' ? 'BÀI HỌC' : 'LESSONS'}</span>
-                <span className="knowledge-lessons-heading__line" aria-hidden="true" />
-              </div>
-              {visibleSections.map((section) => renderSectionCard(section, {
-                showIndex: false,
-                showCategory: true,
-              }))}
+              {renderLessonsGroup(activeCategoryId, visibleSections, false)}
             </>
           )}
 

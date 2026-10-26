@@ -120,6 +120,16 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
   );
 
   const knowledgeGroups = container.querySelectorAll('.knowledge-category-group');
+  assert.equal(knowledgeGroups.length, 2);
+  assert.equal(knowledgeGroups[0].querySelector('.knowledge-card'), null, 'chapters start collapsed');
+  for (const group of Array.from(knowledgeGroups)) {
+    const chapterToggle = group.querySelector<HTMLButtonElement>('.knowledge-category-group__header');
+    assert.equal(chapterToggle?.getAttribute('aria-expanded'), 'false');
+    await act(async () => chapterToggle?.click());
+    const lessonsToggle = group.querySelector<HTMLButtonElement>('.knowledge-lessons-heading--toggle');
+    assert.equal(lessonsToggle?.getAttribute('aria-expanded'), 'false');
+    await act(async () => lessonsToggle?.click());
+  }
   assert.deepEqual(
     Array.from(knowledgeGroups[0].querySelectorAll('.knowledge-card')).map((item) => item.id.replace('knowledge-section-', '')),
     expectedFirstChapter,
@@ -148,8 +158,11 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
         onNavigateToSection={() => {}} />
     </LanguageProvider>,
   ));
+  const standaloneLessons = container.querySelector<HTMLButtonElement>('.knowledge-list > .knowledge-lessons-heading--toggle');
+  // Expanded chapter state survives switching from All to a single category.
+  assert.equal(standaloneLessons?.getAttribute('aria-expanded'), 'true');
   assert.deepEqual(
-    Array.from(container.querySelectorAll('.knowledge-list > .knowledge-card'))
+    Array.from(container.querySelectorAll('.knowledge-list > .knowledge-category-group__sections .knowledge-card'))
       .map((item) => item.id.replace('knowledge-section-', '')),
     expectedFirstChapter,
   );

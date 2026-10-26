@@ -685,7 +685,7 @@ export function KnowledgePanel({
           {language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}
         </div>
         <div className="knowledge-chapter-summary__scroll markdown-content">
-          <MermaidMarkdown>{chapter.section}</MermaidMarkdown>
+          <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{chapter.section}</MermaidMarkdown>
         </div>
       </section>
     );
@@ -767,7 +767,7 @@ export function KnowledgePanel({
                   aria-label={language === 'vi' ? 'Tắt tóm tắt' : 'Close summary'}>×</button>
               </div>
               <div className="knowledge-card__summary-scroll markdown-content">
-                <MermaidMarkdown>{lessonSummary.summary}</MermaidMarkdown>
+                <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{lessonSummary.summary}</MermaidMarkdown>
               </div>
             </div>
           )}

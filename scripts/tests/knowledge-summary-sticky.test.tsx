@@ -32,7 +32,7 @@ test('chapter summary renders before lessons; sticky lesson summary closes on cr
       : path.endsWith('/summary.json')
         ? {
           version: 1, moduleId: 'OOP', language: 'vi', categoryId: 'ch1',
-          section: '# Summary của chương\n\n| Bài | Mục tiêu |\n| --- | --- |\n| 1 | Định hướng |',
+          section: '# Summary của chương\n\n| Tiêu chí | Bài 1 | Bài 2 | Bài 3 | Bài 4 | Bài 5 | Bài 6 | Bài 7 | Bài 8 | Bài 9 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Năng lực | Định hướng | Dữ liệu | Kiểu | Đóng gói | Kế thừa | Tương tác | Thiết kế | Thực hành | Kiểm thử |',
           summaries: [
             { id: 'lesson-1', title: 'Bài học 1', summary: '## Tóm tắt riêng của bài 1' },
             { id: 'lesson-2', title: 'Bài học 2', summary: '## Tóm tắt riêng của bài 2' },
@@ -108,6 +108,11 @@ test('chapter summary renders before lessons; sticky lesson summary closes on cr
   const heading = container.querySelector('.knowledge-lessons-heading');
   assert.ok(chapter && heading && chapter.compareDocumentPosition(heading) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
   assert.match(chapter.textContent ?? '', /Summary của chương/);
+  const wideTable = chapter.querySelector('.knowledge-summary-table-scroll');
+  assert.ok(wideTable, 'wide summary tables have their own scroll region');
+  assert.equal(wideTable.getAttribute('tabindex'), '0', 'table scroller is keyboard-accessible');
+  assert.equal(wideTable.querySelectorAll('th').length, 10, 'all ten columns remain in the table');
+  assert.match(chapter.querySelector('.knowledge-summary-table__hint')?.textContent ?? '', /Cuộn ngang/);
   const lesson1 = container.querySelector<HTMLElement>('#knowledge-section-lesson-1');
   const lesson2 = container.querySelector<HTMLElement>('#knowledge-section-lesson-2');
   assert.ok(lesson1 && lesson2);

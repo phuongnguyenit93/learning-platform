@@ -6,6 +6,8 @@ import { wrapMermaidLabel } from '../data/mermaidLabelWrap';
 
 interface MermaidMarkdownProps {
   children: string;
+  scrollTables?: boolean;
+  tableScrollLabel?: string;
 }
 
 type DiagramTheme = 'light' | 'dark';
@@ -227,11 +229,24 @@ function MermaidDiagram({ source }: { source: string }) {
   );
 }
 
-export function MermaidMarkdown({ children }: MermaidMarkdownProps) {
+export function MermaidMarkdown({ children, scrollTables = false, tableScrollLabel = 'Scroll sideways to view all columns' }: MermaidMarkdownProps) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
+        table({ node: _node, children: content, ...props }) {
+          const table = <table {...props}>{content}</table>;
+          if (!scrollTables) return table;
+          return (
+            <div className="knowledge-summary-table">
+              <div className="knowledge-summary-table__hint" aria-hidden="true">↔ {tableScrollLabel}</div>
+              <div className="knowledge-summary-table-scroll" role="region"
+                aria-label={tableScrollLabel} tabIndex={0}>
+                {table}
+              </div>
+            </div>
+          );
+        },
         pre({ node: _node, children: content, ...props }) {
           if (isValidElement<{ className?: string; children?: ReactNode }>(content)
             && /(?:^|\s)language-mermaid(?:\s|$)/i.test(content.props.className ?? '')) {

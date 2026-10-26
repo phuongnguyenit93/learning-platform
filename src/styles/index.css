@@ -48,6 +48,13 @@
   --important-border: #60502d;
   --important-star: #f0c653;
   --important-hover-bg: #352c1a;
+  --summary-accent: #c9a7ff;
+  --summary-toggle-bg: #342543;
+  --summary-toggle-hover: #463059;
+  --summary-toggle-border: #6f528f;
+  --summary-panel-bg: #1b1725;
+  --summary-panel-heading: #2c223a;
+  --summary-panel-border: #685083;
 
   /* Capability colors stay identical in light and dark themes. */
   --overview-bg: #2b3038;
@@ -120,6 +127,13 @@
   --important-border: #e8d5aa;
   --important-star: #bc8317;
   --important-hover-bg: #fff0d2;
+  --summary-accent: #6740a1;
+  --summary-toggle-bg: #eee4fa;
+  --summary-toggle-hover: #e4d3f8;
+  --summary-toggle-border: #ad90d0;
+  --summary-panel-bg: #faf7ff;
+  --summary-panel-heading: #f0e8fb;
+  --summary-panel-border: #c9b4e5;
 }
 
 * {
@@ -2790,7 +2804,10 @@ pre {
   display: grid;
   grid-template-columns: 32px minmax(0, 1fr) 32px;
   align-items: stretch;
-  margin-bottom: 12px;
+  /* Keep the gap inside the opaque sticky navigation surface, so article
+     headings cannot show through between the category menu and lesson bar. */
+  margin-bottom: 0;
+  padding-bottom: 12px;
   overflow: visible;
   border-bottom: 1px solid var(--border);
   background: var(--layout-bg);
@@ -3000,10 +3017,15 @@ pre {
 
 .knowledge-chapter-summary {
   margin: 9px 9px 0;
+  min-width: 0;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--card-bg);
+}
+
+.knowledge-list > .knowledge-chapter-summary {
+  margin: 10px 0 0;
 }
 
 .knowledge-chapter-summary__heading,
@@ -3017,17 +3039,68 @@ pre {
 }
 
 .knowledge-chapter-summary__scroll {
-  max-height: min(360px, 40vh);
-  overflow: auto;
+  width: 100%;
+  max-width: none;
+  height: min(400px, 48vh);
+  margin: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   padding: 16px 20px;
   overscroll-behavior: contain;
 }
 
-.knowledge-chapter-summary__scroll table,
-.knowledge-card__summary-scroll table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
+.knowledge-summary-table {
+  width: 100%;
+  min-width: 0;
+  margin: 16px 0 20px;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  background: var(--card-bg);
+}
+
+.knowledge-summary-table__hint {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 650;
+  text-align: right;
+}
+
+.knowledge-summary-table-scroll {
+  width: 100%;
+  max-height: min(260px, 33vh);
+  overflow: auto;
+  scrollbar-color: var(--border-strong) var(--surface-soft);
+  scrollbar-width: auto;
+  overscroll-behavior: contain;
+}
+
+.knowledge-summary-table-scroll:focus-visible {
+  outline: 2px solid var(--summary-accent);
+  outline-offset: -2px;
+}
+
+.markdown-content .knowledge-summary-table-scroll table {
+  display: table;
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
+  margin: 0;
+  table-layout: auto;
+}
+
+.knowledge-summary-table-scroll th,
+.knowledge-summary-table-scroll td {
+  min-width: 210px;
+  max-width: 360px;
+  vertical-align: top;
+  overflow-wrap: break-word;
+}
+
+.knowledge-summary-table-scroll th:first-child,
+.knowledge-summary-table-scroll td:first-child {
+  min-width: 170px;
 }
 
 .knowledge-category-group__sections .knowledge-card {
@@ -3654,6 +3727,10 @@ pre {
   background: var(--card-bg);
 }
 
+.knowledge-card.is-expanded > .knowledge-card__sticky {
+  box-shadow: 0 1px 0 var(--border), 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
 .knowledge-card__header {
   width: 100%;
   min-height: 60px;
@@ -3760,10 +3837,10 @@ pre {
 
 .knowledge-card__summary-toggle {
   padding: 5px 9px;
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--summary-toggle-border);
   border-radius: 5px;
-  background: var(--surface-soft);
-  color: var(--text-soft);
+  background: var(--summary-toggle-bg);
+  color: var(--summary-accent);
   font-size: 11px;
   font-weight: 720;
   white-space: nowrap;
@@ -3772,20 +3849,24 @@ pre {
 
 .knowledge-card__summary-toggle:hover,
 .knowledge-card__summary-toggle.is-active {
-  background: var(--knowledge-bg);
-  color: var(--knowledge-text);
+  background: var(--summary-toggle-hover);
+  color: var(--summary-accent);
 }
 
 .knowledge-card__summary {
-  border-top: 1px solid var(--border);
-  background: var(--card-expanded-bg);
+  border-top: 1px solid var(--summary-panel-border);
+  border-bottom: 1px solid var(--summary-panel-border);
+  background: var(--summary-panel-bg);
 }
 
 .knowledge-card__summary-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 14px;
+  padding: 10px 18px;
+  border-bottom-color: var(--summary-panel-border);
+  background: var(--summary-panel-heading);
+  color: var(--summary-accent);
 }
 
 .knowledge-card__summary-heading button {
@@ -3797,12 +3878,28 @@ pre {
 }
 
 .knowledge-card__summary-scroll {
+  width: 100%;
+  max-width: none;
   max-height: min(320px, 34vh);
   overflow: auto;
-  padding: 14px 24px;
+  margin: 0;
+  padding: 16px 24px;
   overscroll-behavior: contain;
+  background: var(--summary-panel-bg);
   color: var(--text-soft);
   font-size: 13px;
+}
+
+.knowledge-card__summary-scroll h1 {
+  font-size: 22px;
+}
+
+.knowledge-card__summary-scroll h2 {
+  font-size: 19px;
+}
+
+.knowledge-card__summary-scroll h3 {
+  font-size: 16px;
 }
 .custom-tooltip-anchor {
   display: inline-flex;

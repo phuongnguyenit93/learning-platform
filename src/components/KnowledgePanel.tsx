@@ -11,6 +11,7 @@ import {
 } from '../data/knowledge';
 import { loadVideoIndex } from '../data/video';
 import { loadKnowledgeSummaryChapter, loadKnowledgeSummaryIndex } from '../data/knowledgeSummary';
+import { parseChapterSummaryRoadmap } from '../data/chapterSummaryRoadmap';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   ApiDocsDocument,
@@ -679,13 +680,49 @@ export function KnowledgePanel({
   const renderChapterSummary = (categoryId: string) => {
     const chapter = summaryChapters[categoryId];
     if (!chapter?.section.trim()) return null;
+    const roadmap = parseChapterSummaryRoadmap(chapter.section);
     return (
       <section className="knowledge-chapter-summary" aria-label={language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}>
         <div className="knowledge-chapter-summary__heading">
           {language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}
         </div>
         <div className="knowledge-chapter-summary__scroll markdown-content">
-          <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{chapter.section}</MermaidMarkdown>
+          {roadmap ? (
+            <>
+              {roadmap.introduction && <MermaidMarkdown>{roadmap.introduction}</MermaidMarkdown>}
+              <div className="knowledge-roadmap" aria-label={language === 'vi' ? 'Lộ trình các bài học' : 'Lesson roadmap'}>
+                <h2 className="knowledge-roadmap__heading">1. {roadmap.heading}</h2>
+                {roadmap.steps.map((step, index) => (
+                  <div className="knowledge-roadmap__group" key={`${step.number}-${index}`}>
+                    <div className="knowledge-roadmap__step">
+                      <div className="knowledge-roadmap__number" aria-hidden="true">{step.number}</div>
+                      <div className="knowledge-roadmap__card">
+                        <h3>{language === 'vi' ? 'Bài' : 'Lesson'} {step.number} — {step.title}</h3>
+                        <div className="knowledge-roadmap__description">
+                          <MermaidMarkdown>{step.description}</MermaidMarkdown>
+                        </div>
+                      </div>
+                    </div>
+                    {step.transition && (
+                      <div className="knowledge-roadmap__connector">
+                        <div className="knowledge-roadmap__connector-arrow" aria-hidden="true">↓</div>
+                        <div className="knowledge-roadmap__connector-copy">
+                          <MermaidMarkdown>{step.transition}</MermaidMarkdown>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {roadmap.comparisonMarkdown && (
+                <div className="knowledge-chapter-summary__comparison">
+                  <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{roadmap.comparisonMarkdown}</MermaidMarkdown>
+                </div>
+              )}
+            </>
+          ) : (
+            <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{chapter.section}</MermaidMarkdown>
+          )}
         </div>
       </section>
     );

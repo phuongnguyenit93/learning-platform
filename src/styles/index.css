@@ -3069,6 +3069,135 @@ pre {
   overscroll-behavior-y: auto;
 }
 
+.knowledge-roadmap {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 26px;
+}
+
+.knowledge-roadmap__heading {
+  margin: 0 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.knowledge-roadmap__step,
+.knowledge-roadmap__connector {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  min-width: 0;
+}
+
+.knowledge-roadmap__number {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-top: 12px;
+  border: 1px solid var(--summary-toggle-border);
+  border-radius: 12px;
+  background: var(--summary-toggle-bg);
+  color: var(--summary-accent);
+  font-size: 18px;
+  font-weight: 850;
+}
+
+.knowledge-roadmap__card {
+  min-width: 0;
+  padding: 16px 20px;
+  border: 1px solid var(--border-strong);
+  border-left: 3px solid var(--summary-toggle-border);
+  border-radius: 10px;
+  background: var(--surface-soft);
+}
+
+.knowledge-roadmap__card h3 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.knowledge-roadmap__description {
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.knowledge-roadmap__description > :first-child,
+.knowledge-roadmap__connector-copy > :first-child {
+  margin-top: 0;
+}
+
+.knowledge-roadmap__description > :last-child,
+.knowledge-roadmap__connector-copy > :last-child {
+  margin-bottom: 0;
+}
+
+.knowledge-roadmap__connector {
+  align-items: center;
+  margin: 8px 0;
+}
+
+.knowledge-roadmap__connector-arrow {
+  display: grid;
+  place-items: center;
+  min-height: 68px;
+  color: var(--summary-accent);
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.knowledge-roadmap__connector-copy {
+  min-width: 0;
+  padding: 11px 16px;
+  border: 1px solid var(--summary-panel-border);
+  border-radius: 9px;
+  background: var(--summary-panel-bg);
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.knowledge-roadmap__connector-copy strong {
+  color: var(--summary-accent);
+}
+
+.knowledge-chapter-summary__comparison {
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 650px) {
+  .knowledge-roadmap__step,
+  .knowledge-roadmap__connector {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .knowledge-roadmap__number {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    font-size: 14px;
+  }
+
+  .knowledge-roadmap__card {
+    padding: 12px;
+  }
+
+  .knowledge-roadmap__card h3 {
+    font-size: 15px;
+  }
+
+  .knowledge-roadmap__connector-copy {
+    padding: 10px;
+  }
+}
+
 .knowledge-summary-table {
   width: 100%;
   min-width: 0;

@@ -48,6 +48,7 @@ export interface LearningModule {
   questionCount: number;
   overview: Partial<Record<Language, string>>;
   knowledge: Partial<Record<Language, string>>;
+  summary: Partial<Record<Language, string>>;
   video: Partial<Record<Language, string>>;
   reference?: string;
   quiz: Partial<Record<Language, string>>;
@@ -78,6 +79,7 @@ export interface ModuleCatalogNode {
   moduleDepend?: boolean;
   overview?: Partial<Record<Language, string>>;
   knowledge?: Partial<Record<Language, string>>;
+  summary?: Partial<Record<Language, string>>;
   video?: Partial<Record<Language, string>>;
   reference?: string;
   roadmap?: Partial<Record<Language, string>>;
@@ -132,6 +134,34 @@ export interface KnowledgeSectionRef extends KnowledgeSection {
   categoryId: string;
   categoryTitle: string;
   sourcePath: string;
+}
+
+export interface KnowledgeSummaryLesson {
+  id: string;
+  title: string;
+  summary: string;
+}
+
+export interface KnowledgeSummaryChapter {
+  version: number;
+  moduleId: string;
+  language: Language;
+  categoryId: string;
+  section: string;
+  summaries: KnowledgeSummaryLesson[];
+}
+
+export interface KnowledgeSummaryIndex {
+  version: number;
+  moduleId: string;
+  language: Language;
+  sectionCount: number;
+  items: Array<{
+    categoryId: string;
+    title: string;
+    content: string;
+    lessonCount: number;
+  }>;
 }
 
 export interface VideoIndexItem {

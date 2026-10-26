@@ -133,6 +133,7 @@ export function LearningPage() {
     [activeModuleNode, activeStats, readyDetails],
   );
   const knowledgePath = activeModule?.knowledge[language];
+  const summaryPath = activeModule?.summary[language];
   const videoPath = activeModule?.video[language];
   const referencePath = activeModule?.reference;
   const quizPath = activeModule?.quiz[language];
@@ -473,6 +474,7 @@ export function LearningPage() {
                 selectedSectionId={selectedKnowledgeSection}
                 apiBasePath={apiPath}
                 videoIndexPath={videoPath}
+                summaryIndexPath={summaryPath}
                 onCategoryChange={(categoryId) => {
                   setActiveKnowledgeCategory(categoryId);
                   setSelectedKnowledgeSection(null);

@@ -10,6 +10,7 @@ import {
   sortKnowledgeSectionsByDifficulty,
 } from '../data/knowledge';
 import { loadVideoIndex } from '../data/video';
+import { loadKnowledgeSummaryChapter, loadKnowledgeSummaryIndex } from '../data/knowledgeSummary';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   ApiDocsDocument,
@@ -17,6 +18,8 @@ import type {
   KnowledgeDifficulty,
   KnowledgeIndex,
   KnowledgeSectionRef,
+  KnowledgeSummaryChapter,
+  KnowledgeSummaryIndex,
   VideoIndex,
 } from '../types/learning';
 import { CustomTooltip } from './CustomTooltip';
@@ -43,6 +46,7 @@ interface KnowledgePanelProps {
   selectedSectionId: string | null;
   apiBasePath?: string;
   videoIndexPath?: string;
+  summaryIndexPath?: string;
   onCategoryChange: (categoryId: string) => void;
   onSectionChange: (sectionId: string | null) => void;
   onNavigateToSection: (categoryId: string, sectionId: string) => void;
@@ -57,6 +61,7 @@ export function KnowledgePanel({
   selectedSectionId,
   apiBasePath,
   videoIndexPath,
+  summaryIndexPath,
   onCategoryChange,
   onSectionChange,
   onNavigateToSection,
@@ -68,6 +73,10 @@ export function KnowledgePanel({
   const [sectionErrors, setSectionErrors] = useState<Record<string, string>>({});
   const [apiDocument, setApiDocument] = useState<ApiDocsDocument | null>(null);
   const [videoIndex, setVideoIndex] = useState<VideoIndex | null>(null);
+  const [summaryIndex, setSummaryIndex] = useState<KnowledgeSummaryIndex | null>(null);
+  const [summaryChapters, setSummaryChapters] = useState<Record<string, KnowledgeSummaryChapter>>({});
+  const [summaryErrors, setSummaryErrors] = useState<Set<string>>(() => new Set());
+  const [openSummaryId, setOpenSummaryId] = useState<string | null>(null);
   const [previewOperationId, setPreviewOperationId] = useState<string | null>(null);
   const [canScrollTopicsLeft, setCanScrollTopicsLeft] = useState(false);
   const [canScrollTopicsRight, setCanScrollTopicsRight] = useState(false);
@@ -79,6 +88,8 @@ export function KnowledgePanel({
   const lastNavigationKeyRef = useRef<string | null>(null);
   const autoScrollCancelledRef = useRef(false);
   const topicNavRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
+  const summaryEnteredStickyRef = useRef(false);
   const topicStripRef = useRef<HTMLDivElement>(null);
   const topicButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const topicDragRef = useRef({
@@ -143,7 +154,6 @@ export function KnowledgePanel({
   const videoByCategoryId = useMemo(() => new Map(
     (videoIndex?.items ?? []).map((item) => [item.categoryId, item]),
   ), [videoIndex]);
-
   const relatedApisByKnowledgeKey = useMemo(() => {
     const result = new Map<string, ApiKnowledgeRelation[]>();
 
@@ -165,7 +175,50 @@ export function KnowledgePanel({
     setContentCache({});
     setLoadingSectionIds(new Set());
     setSectionErrors({});
+    setOpenSummaryId(null);
   }, [index?.moduleId, index?.language]);
+
+  useEffect(() => {
+    setOpenSummaryId(null);
+  }, [activeCategoryId]);
+
+  useEffect(() => {
+    let active = true;
+    setSummaryIndex(null);
+    setSummaryChapters({});
+    setSummaryErrors(new Set());
+    if (summaryIndexPath) {
+      loadKnowledgeSummaryIndex(summaryIndexPath)
+        .then((value) => { if (active) setSummaryIndex(value); })
+        .catch(() => { if (active) setSummaryIndex(null); });
+    }
+    return () => { active = false; };
+  }, [summaryIndexPath]);
+
+  useEffect(() => {
+    if (!summaryIndex || !index || summaryIndex.moduleId !== index.moduleId
+      || summaryIndex.language !== index.language) return;
+    let active = true;
+    const items = summaryIndex.items.filter((item) => (
+      (activeCategoryId === 'all' || activeCategoryId === item.categoryId)
+      && !summaryChapters[item.categoryId] && !summaryErrors.has(item.categoryId)
+    ));
+    items.forEach((item) => {
+      loadKnowledgeSummaryChapter(item.content)
+        .then((chapter) => {
+          if (active && chapter.moduleId === summaryIndex.moduleId
+            && chapter.language === summaryIndex.language && chapter.categoryId === item.categoryId) {
+            setSummaryChapters((current) => ({ ...current, [item.categoryId]: chapter }));
+          }
+        })
+        .catch(() => {
+          if (active) setSummaryErrors((current) => new Set(current).add(item.categoryId));
+        });
+    });
+    return () => { active = false; };
+  // Each visible chapter is requested once per index/category selection. Changes
+  // to the result map must not cancel requests for sibling chapters.
+  }, [summaryIndex, index?.moduleId, index?.language, activeCategoryId]);
 
   useEffect(() => {
     let active = true;
@@ -388,6 +441,10 @@ export function KnowledgePanel({
       const tabsHeight = moduleTabs.getBoundingClientRect().height;
       moduleTabs.style.top = `${headerHeight}px`;
       topicNav.style.top = `${headerHeight + tabsHeight}px`;
+      panelRef.current?.style.setProperty(
+        '--knowledge-lesson-top',
+        `${headerHeight + tabsHeight + topicNav.getBoundingClientRect().height}px`,
+      );
     };
 
     updateStickyPositions();
@@ -402,8 +459,46 @@ export function KnowledgePanel({
       window.removeEventListener('resize', updateStickyPositions);
       moduleTabs.style.removeProperty('top');
       topicNav.style.removeProperty('top');
+      panelRef.current?.style.removeProperty('--knowledge-lesson-top');
     };
   }, []);
+
+  useEffect(() => {
+    if (!openSummaryId) return;
+    let frame = 0;
+    summaryEnteredStickyRef.current = false;
+    const checkOwner = () => {
+      frame = 0;
+      const card = document.getElementById(`knowledge-section-${openSummaryId}`);
+      const sticky = card?.querySelector<HTMLElement>('.knowledge-card__sticky');
+      const top = panelRef.current
+        ? Number.parseFloat(panelRef.current.style.getPropertyValue('--knowledge-lesson-top')) || 0
+        : 0;
+      if (!card || !sticky) {
+        setOpenSummaryId(null);
+        return;
+      }
+      const rect = card.getBoundingClientRect();
+      const stickyHeight = sticky.getBoundingClientRect().height;
+      if (rect.top <= top + 2 && rect.bottom > top + stickyHeight) {
+        summaryEnteredStickyRef.current = true;
+      }
+      if (rect.bottom <= top + stickyHeight + 2
+        || (summaryEnteredStickyRef.current && rect.top > top + 2)) {
+        setOpenSummaryId(null);
+      }
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(checkOwner);
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    return () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [openSummaryId]);
 
   useEffect(() => {
     const strip = topicStripRef.current;
@@ -551,6 +646,7 @@ export function KnowledgePanel({
     const willExpand = !expandedSectionIds.has(sectionId);
 
     manuallyExpandedSectionRef.current = willExpand ? sectionId : null;
+    setOpenSummaryId((current) => current === sectionId && willExpand ? current : null);
 
     setExpandedSectionIds((current) => {
       const next = new Set(current);
@@ -580,6 +676,21 @@ export function KnowledgePanel({
     }
   };
 
+  const renderChapterSummary = (categoryId: string) => {
+    const chapter = summaryChapters[categoryId];
+    if (!chapter?.section.trim()) return null;
+    return (
+      <section className="knowledge-chapter-summary" aria-label={language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}>
+        <div className="knowledge-chapter-summary__heading">
+          {language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}
+        </div>
+        <div className="knowledge-chapter-summary__scroll markdown-content">
+          <MermaidMarkdown>{chapter.section}</MermaidMarkdown>
+        </div>
+      </section>
+    );
+  };
+
   const renderSectionCard = (
     section: KnowledgeSectionRef,
     options: {
@@ -593,40 +704,74 @@ export function KnowledgePanel({
     const sectionError = sectionErrors[section.id];
     const relatedApis = relatedApisByKnowledgeKey.get(`${section.sourcePath}#${section.id}`) ?? [];
     const sectionNumber = visibleSectionNumberById.get(section.id);
+    const summaryChapter = summaryChapters[section.categoryId];
+    const lessonSummary = summaryChapter?.summaries.find((item) => item.id === section.id)
+      ?? summaryChapter?.summaries.find((item) => (
+        formatKnowledgeDisplayTitle(item.title) === formatKnowledgeDisplayTitle(section.title)
+      ));
+    const summaryOpen = openSummaryId === section.id;
 
     return (
       <article key={section.id} id={`knowledge-section-${section.id}`} className={`knowledge-card${expanded ? ' is-expanded' : ''}${section.isImportant === true ? ' is-important' : ''}`}>
-        <button
-          type="button"
-          className={`knowledge-card__header${options.showIndex ? '' : ' knowledge-card__header--without-index'}`}
-          onClick={() => toggleSection(section.id)}
-          aria-expanded={expanded}
-        >
-          {options.showIndex && sectionNumber !== undefined && (
-            <span className="knowledge-card__index">#{sectionNumber}</span>
-          )}
-          <span className="knowledge-card__title-group">
-            <span className="knowledge-card__title-row">
-              <span className="knowledge-card__title">{formatKnowledgeDisplayTitle(section.title)}</span>
-              {section.isImportant === true && (
-                <CustomTooltip content={language === 'vi'
-                  ? 'Kiến thức quan trọng cần phải học'
-                  : 'Essential knowledge you should learn'}>
-                  <span className="knowledge-important-star" role="img" aria-label={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'} title={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'}>★</span>
-                </CustomTooltip>
+        <div className="knowledge-card__sticky">
+          <div className={`knowledge-card__header${options.showIndex ? '' : ' knowledge-card__header--without-index'}`}>
+            <button type="button" className="knowledge-card__trigger"
+              onClick={() => toggleSection(section.id)} aria-expanded={expanded}>
+              {options.showIndex && sectionNumber !== undefined && (
+                <span className="knowledge-card__index">#{sectionNumber}</span>
+              )}
+              <span className="knowledge-card__title-group">
+                <span className="knowledge-card__title-row">
+                  <span className="knowledge-card__title">{formatKnowledgeDisplayTitle(section.title)}</span>
+                  {section.isImportant === true && (
+                    <CustomTooltip content={language === 'vi'
+                      ? 'Kiến thức quan trọng cần phải học'
+                      : 'Essential knowledge you should learn'}>
+                      <span className="knowledge-important-star" role="img" aria-label={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'} title={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'}>★</span>
+                    </CustomTooltip>
+                  )}
+                </span>
+                {options.showCategory && (
+                  <span className="knowledge-card__category">{section.categoryTitle}</span>
+                )}
+              </span>
+            </button>
+            <span className="knowledge-card__metadata">
+              <span className={`knowledge-card__level knowledge-card__level--${section.difficulty.toLowerCase()}`}>
+                {resolveDifficultyLabel(section.difficulty, language)}
+              </span>
+              {lessonSummary && (
+                <button type="button" className={`knowledge-card__summary-toggle${summaryOpen ? ' is-active' : ''}`}
+                  aria-expanded={summaryOpen} aria-controls={`knowledge-summary-${section.id}`}
+                  onClick={() => {
+                    if (!expanded) toggleSection(section.id);
+                    setOpenSummaryId((current) => current === section.id ? null : section.id);
+                  }}>
+                  {language === 'vi' ? 'Tóm tắt' : 'Summary'}
+                </button>
               )}
             </span>
-            {options.showCategory && (
-              <span className="knowledge-card__category">{section.categoryTitle}</span>
-            )}
-          </span>
-          <span className="knowledge-card__metadata">
-            <span className={`knowledge-card__level knowledge-card__level--${section.difficulty.toLowerCase()}`}>
-              {resolveDifficultyLabel(section.difficulty, language)}
-            </span>
-          </span>
-          <span className="knowledge-card__expand" aria-hidden="true">{expanded ? '−' : '+'}</span>
-        </button>
+            <button type="button" className="knowledge-card__expand"
+              onClick={() => toggleSection(section.id)}
+              aria-label={expanded ? (language === 'vi' ? 'Đóng bài học' : 'Collapse lesson')
+                : (language === 'vi' ? 'Mở bài học' : 'Expand lesson')}
+              aria-expanded={expanded}>
+              {expanded ? '−' : '+'}
+            </button>
+          </div>
+          {summaryOpen && lessonSummary && (
+            <div id={`knowledge-summary-${section.id}`} className="knowledge-card__summary">
+              <div className="knowledge-card__summary-heading">
+                <strong>{language === 'vi' ? 'Tóm tắt bài học' : 'Lesson summary'}</strong>
+                <button type="button" onClick={() => setOpenSummaryId(null)}
+                  aria-label={language === 'vi' ? 'Tắt tóm tắt' : 'Close summary'}>×</button>
+              </div>
+              <div className="knowledge-card__summary-scroll markdown-content">
+                <MermaidMarkdown>{lessonSummary.summary}</MermaidMarkdown>
+              </div>
+            </div>
+          )}
+        </div>
 
         {expanded && (
           <div className="knowledge-card__body">
@@ -762,7 +907,7 @@ export function KnowledgePanel({
   }
 
   return (
-    <section className="knowledge-panel">
+    <section className="knowledge-panel" ref={panelRef}>
       <div
         ref={topicNavRef}
         className="knowledge-topic-nav"
@@ -898,6 +1043,8 @@ export function KnowledgePanel({
                 </div>
               )}
 
+              {renderChapterSummary(category.id)}
+
               <div className="knowledge-lessons-heading">
                 <span>{language === 'vi' ? 'BÀI HỌC' : 'LESSONS'}</span>
                 <span className="knowledge-lessons-heading__line" aria-hidden="true" />
@@ -916,6 +1063,7 @@ export function KnowledgePanel({
               {videoByCategoryId.has(activeCategoryId) && (
                 <KnowledgeVideoPanel item={videoByCategoryId.get(activeCategoryId)!} />
               )}
+              {renderChapterSummary(activeCategoryId)}
               <div className="knowledge-lessons-heading knowledge-lessons-heading--standalone">
                 <span>{language === 'vi' ? 'BÀI HỌC' : 'LESSONS'}</span>
                 <span className="knowledge-lessons-heading__line" aria-hidden="true" />

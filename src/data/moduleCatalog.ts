@@ -133,6 +133,7 @@ export function toLearningModule(node: ModuleCatalogNode, stats: ModuleStats): L
     questionCount: stats.knowledge,
     overview: node.overview ?? {},
     knowledge: node.knowledge ?? {},
+    summary: node.summary ?? {},
     video: node.video ?? {},
     reference: node.reference,
     quiz: node.quiz ?? {},

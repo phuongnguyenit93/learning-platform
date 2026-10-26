@@ -6,8 +6,10 @@ import { useNavigate } from 'react-router-dom';
 const KNOWLEDGE_SEARCH_ENABLED = false;
 import { loadKnowledgeSearchIndex, searchKnowledge } from '../data/knowledgeSearch';
 import { collectRealModules, formatCatalogName } from '../data/moduleCatalog';
+import { getModuleStepTooltip } from '../data/moduleStepTooltips';
 import { isCountedRealModule, projectCountedRealModules } from '../data/realModuleFilter';
 import { useLanguage } from '../state/LanguageContext';
+import { CustomTooltip } from './CustomTooltip';
 import type {
   KnowledgeSearchIndex,
   KnowledgeSearchResult,
@@ -329,6 +331,10 @@ function ModulePickerPopup({
           }
 
           const active = routeId === activeModuleId;
+          const step = moduleNode.currentStep;
+          const stepLabel = step === 'FINAL'
+            ? 'Finished'
+            : (step && /^[1-9][0-9]*[A-Z]?$/.test(step) ? `Step ${step}` : null);
 
           return (
             <button
@@ -345,11 +351,13 @@ function ModulePickerPopup({
               </span>
               <span className="module-picker__module-title">
                 <span className="module-picker__module-name">{formatCatalogName(moduleNode.name)}</span>
-                {moduleNode.currentStep === 'FINAL' ? (
-                  <span className="module-picker__step module-picker__step--finished">Finished</span>
-                ) : (moduleNode.currentStep && /^[1-9][0-9]*[A-Z]?$/.test(moduleNode.currentStep)) ? (
-                  <span className="module-picker__step">Step {moduleNode.currentStep}</span>
-                ) : null}
+                {stepLabel && (
+                  <CustomTooltip content={getModuleStepTooltip(step, language) ?? stepLabel}>
+                    <span className={`module-picker__step${step === 'FINAL' ? ' module-picker__step--finished' : ''}`}>
+                      {stepLabel}
+                    </span>
+                  </CustomTooltip>
+                )}
               </span>
               <ModuleBadges
                 routeId={routeId}

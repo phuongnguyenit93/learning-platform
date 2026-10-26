@@ -1843,6 +1843,8 @@ pre {
 
 .learning-main {
   width: min(100%, 1280px);
+  min-width: 0;
+  max-width: 100%;
   margin: 0 auto;
   padding: 28px 32px 60px;
 }
@@ -2791,6 +2793,8 @@ pre {
 }
 
 .knowledge-panel {
+  width: 100%;
+  max-width: 100%;
   min-width: 0;
   overflow: visible;
 }
@@ -2962,10 +2966,17 @@ pre {
 
 .knowledge-list {
   display: grid;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
 }
 
 .knowledge-category-group {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   overflow: visible;
   border: 1px solid var(--border);
   border-radius: 9px;
@@ -3007,6 +3018,8 @@ pre {
 
 .knowledge-category-group__sections {
   display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
   gap: 8px;
   padding: 9px;
 }
@@ -3018,6 +3031,8 @@ pre {
 .knowledge-chapter-summary {
   margin: 9px 9px 0;
   min-width: 0;
+  width: calc(100% - 18px);
+  max-width: calc(100% - 18px);
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -3026,6 +3041,8 @@ pre {
 
 .knowledge-list > .knowledge-chapter-summary {
   margin: 10px 0 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .knowledge-chapter-summary__heading,
@@ -3040,6 +3057,7 @@ pre {
 
 .knowledge-chapter-summary__scroll {
   width: 100%;
+  min-width: 0;
   max-width: none;
   height: min(400px, 48vh);
   margin: 0;
@@ -3052,7 +3070,9 @@ pre {
 .knowledge-summary-table {
   width: 100%;
   min-width: 0;
+  max-width: 100%;
   margin: 16px 0 20px;
+  overflow: clip;
   border: 1px solid var(--border-strong);
   border-radius: 7px;
   background: var(--card-bg);
@@ -3069,6 +3089,8 @@ pre {
 
 .knowledge-summary-table-scroll {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   max-height: min(260px, 33vh);
   overflow: auto;
   scrollbar-color: var(--border-strong) var(--surface-soft);
@@ -3700,6 +3722,8 @@ pre {
 }
 
 .knowledge-card {
+  min-width: 0;
+  max-width: 100%;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 7px;

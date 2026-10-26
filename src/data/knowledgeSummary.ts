@@ -14,8 +14,21 @@ function validIndex(value: KnowledgeSummaryIndex): boolean {
 }
 
 function validChapter(value: KnowledgeSummaryChapter): boolean {
+  const section = value?.section;
+  const sectionValid = typeof section === 'string' ? !!section.trim()
+    : section?.version === 1 && section?.type === 'LEARNING_ROADMAP'
+      && typeof section?.title === 'string' && typeof section?.roadmapHeading === 'string'
+      && typeof section?.comparisonMarkdown === 'string' && Array.isArray(section?.roadmap)
+      && section.roadmap.length > 0 && section.roadmap.every((step, index) => (
+        typeof step?.id === 'string' && step.id === value.summaries?.[index]?.id
+        && step.order === index + 1
+        && typeof step.title === 'string' && typeof step.description === 'string'
+        && (index === section.roadmap.length - 1 ? step.transition === null
+          : step.transition?.to === section.roadmap[index + 1]?.id
+            && typeof step.transition?.description === 'string')
+      ));
   return value?.version === 1 && typeof value.categoryId === 'string'
-    && typeof value.section === 'string' && Array.isArray(value.summaries)
+    && sectionValid && Array.isArray(value.summaries)
     && value.summaries.every((item) => (
       typeof item.id === 'string' && typeof item.title === 'string'
       && typeof item.summary === 'string'

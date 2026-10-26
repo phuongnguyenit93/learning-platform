@@ -32,7 +32,16 @@ test('chapter summary renders before lessons; sticky lesson summary closes on cr
       : path.endsWith('/summary.json')
         ? {
           version: 1, moduleId: 'OOP', language: 'vi', categoryId: 'ch1',
-          section: '# Summary của chương\n\n## 1. Mạch liên kết bài học\n\n### Bài 1 — Tư duy OOP\n\nNền tảng lập trình hướng đối tượng.\n\n↓ **Từ tư duy → ứng dụng**\n\n### Bài 2 — Ứng dụng OOP\n\nVận dụng trách nhiệm.\n\n## 2. Bảng đối chiếu các bài học\n\n| Tiêu chí | Bài 1 | Bài 2 | Bài 3 | Bài 4 | Bài 5 | Bài 6 | Bài 7 | Bài 8 | Bài 9 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Năng lực | Định hướng | Dữ liệu | Kiểu | Đóng gói | Kế thừa | Tương tác | Thiết kế | Thực hành | Kiểm thử |',
+          section: {
+            version: 1, type: 'LEARNING_ROADMAP', title: 'Summary của chương',
+            roadmapHeading: 'Mạch liên kết bài học',
+            roadmap: [
+              { id: 'lesson-1', order: 1, title: 'Tư duy OOP', description: 'Nền tảng lập trình hướng đối tượng.',
+                transition: { to: 'lesson-2', description: '**Từ tư duy → ứng dụng**' } },
+              { id: 'lesson-2', order: 2, title: 'Ứng dụng OOP', description: 'Vận dụng trách nhiệm.', transition: null },
+            ],
+            comparisonMarkdown: '## 2. Bảng đối chiếu các bài học\n\n| Tiêu chí | Bài 1 | Bài 2 | Bài 3 | Bài 4 | Bài 5 | Bài 6 | Bài 7 | Bài 8 | Bài 9 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| Năng lực | Định hướng | Dữ liệu | Kiểu | Đóng gói | Kế thừa | Tương tác | Thiết kế | Thực hành | Kiểm thử |',
+          },
           summaries: [
             { id: 'lesson-1', title: 'Bài học 1', summary: '## Tóm tắt riêng của bài 1' },
             { id: 'lesson-2', title: 'Bài học 2', summary: '## Tóm tắt riêng của bài 2' },

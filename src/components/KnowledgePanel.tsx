@@ -11,7 +11,6 @@ import {
 } from '../data/knowledge';
 import { loadVideoIndex } from '../data/video';
 import { loadKnowledgeSummaryChapter, loadKnowledgeSummaryIndex } from '../data/knowledgeSummary';
-import { parseChapterSummaryRoadmap } from '../data/chapterSummaryRoadmap';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   ApiDocsDocument,
@@ -679,8 +678,8 @@ export function KnowledgePanel({
 
   const renderChapterSummary = (categoryId: string) => {
     const chapter = summaryChapters[categoryId];
-    if (!chapter?.section.trim()) return null;
-    const roadmap = parseChapterSummaryRoadmap(chapter.section);
+    if (!chapter?.section || (typeof chapter.section === 'string' && !chapter.section.trim())) return null;
+    const roadmap = typeof chapter.section === 'string' ? null : chapter.section;
     return (
       <section className="knowledge-chapter-summary" aria-label={language === 'vi' ? 'Tóm tắt chương' : 'Chapter summary'}>
         <div className="knowledge-chapter-summary__heading">
@@ -689,15 +688,14 @@ export function KnowledgePanel({
         <div className="knowledge-chapter-summary__scroll markdown-content">
           {roadmap ? (
             <>
-              {roadmap.introduction && <MermaidMarkdown>{roadmap.introduction}</MermaidMarkdown>}
               <div className="knowledge-roadmap" aria-label={language === 'vi' ? 'Lộ trình các bài học' : 'Lesson roadmap'}>
-                <h2 className="knowledge-roadmap__heading">1. {roadmap.heading}</h2>
-                {roadmap.steps.map((step, index) => (
-                  <div className="knowledge-roadmap__group" key={`${step.number}-${index}`}>
+                <h2 className="knowledge-roadmap__heading">1. {roadmap.roadmapHeading}</h2>
+                {roadmap.roadmap.map((step, index) => (
+                  <div className="knowledge-roadmap__group" key={step.id}>
                     <div className="knowledge-roadmap__step">
-                      <div className="knowledge-roadmap__number" aria-hidden="true">{step.number}</div>
+                      <div className="knowledge-roadmap__number" aria-hidden="true">{step.order}</div>
                       <div className="knowledge-roadmap__card">
-                        <h3>{language === 'vi' ? 'Bài' : 'Lesson'} {step.number} — {step.title}</h3>
+                        <h3>{language === 'vi' ? 'Bài' : 'Lesson'} {step.order} — {step.title}</h3>
                         <div className="knowledge-roadmap__description">
                           <MermaidMarkdown>{step.description}</MermaidMarkdown>
                         </div>
@@ -707,7 +705,7 @@ export function KnowledgePanel({
                       <div className="knowledge-roadmap__connector">
                         <div className="knowledge-roadmap__connector-arrow" aria-hidden="true">↓</div>
                         <div className="knowledge-roadmap__connector-copy">
-                          <MermaidMarkdown>{step.transition}</MermaidMarkdown>
+                          <MermaidMarkdown>{step.transition.description}</MermaidMarkdown>
                         </div>
                       </div>
                     )}
@@ -721,7 +719,7 @@ export function KnowledgePanel({
               )}
             </>
           ) : (
-            <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{chapter.section}</MermaidMarkdown>
+            <MermaidMarkdown scrollTables tableScrollLabel={language === 'vi' ? 'Cuộn ngang để xem hết các cột' : 'Scroll sideways to view all columns'}>{chapter.section as string}</MermaidMarkdown>
           )}
         </div>
       </section>

@@ -147,8 +147,23 @@ export interface KnowledgeSummaryChapter {
   moduleId: string;
   language: Language;
   categoryId: string;
-  section: string;
+  section: KnowledgeChapterRoadmap | string;
   summaries: KnowledgeSummaryLesson[];
+}
+
+export interface KnowledgeChapterRoadmap {
+  version: 1;
+  type: 'LEARNING_ROADMAP';
+  title: string;
+  roadmapHeading: string;
+  roadmap: Array<{
+    id: string;
+    order: number;
+    title: string;
+    description: string;
+    transition: { to: string; description: string } | null;
+  }>;
+  comparisonMarkdown: string;
 }
 
 export interface KnowledgeSummaryIndex {

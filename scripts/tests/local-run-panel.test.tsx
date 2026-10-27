@@ -74,6 +74,35 @@ test('Execution Context switch updates run command only, defaults OFF, and prese
   assert.match(command(), /--execution-context.enabled=false/);
 });
 
+test('Build JAR collapses its contents, restores them, and leaves Build Source empty', async (t) => {
+  let checks = 0;
+  t.mock.method(localRunApi, 'getBuildStatus', async () => {
+    checks++;
+    throw new LocalRunHttpError(404, 'No job');
+  });
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  const ui = await mount(t);
+  const toggle = ui.container.querySelector<HTMLButtonElement>('.local-run-build-toggle');
+  const source = ui.container.querySelector('.local-run-card--source');
+  assert.ok(toggle);
+  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+  assert.equal(toggle.getAttribute('aria-controls'), 'local-run-jar-content');
+  assert.ok(ui.container.querySelector('#local-run-jar-content .local-run-meta'));
+  assert.equal(source?.querySelector('h2')?.textContent, 'Build Source');
+  assert.equal(source?.querySelectorAll('button, a').length, 0);
+
+  await act(async () => { toggle.click(); });
+  assert.equal(toggle.getAttribute('aria-expanded'), 'false');
+  assert.equal(ui.container.querySelector('#local-run-jar-content'), null);
+  assert.ok(ui.container.querySelector('.local-run-card--guide'), 'Run Locally guide remains visible');
+  assert.ok(ui.container.querySelector('.local-run-card--source'), 'Build Source remains visible');
+
+  await act(async () => { toggle.click(); });
+  assert.equal(toggle.getAttribute('aria-expanded'), 'true');
+  assert.equal(ui.button('Build JAR').disabled, false);
+  assert.equal(checks, 1, 'toggling the view does not restart the backend status check');
+});
+
 test('Reactive Local Run cannot enable unsupported Servlet Execution Context', async (t) => {
   t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No job'); });
   t.mock.method(localRunApi, 'getArtifact', async () => missing());

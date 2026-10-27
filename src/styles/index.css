@@ -6008,6 +6008,13 @@ pre {
   align-items: stretch;
 }
 
+.local-run-build-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
 .local-run-card {
   min-width: 0;
   padding: 22px;
@@ -6019,6 +6026,51 @@ pre {
 
 .local-run-card--artifact {
   border-top: 3px solid var(--local-run-accent-text);
+}
+
+.local-run-card--source {
+  border-top: 3px solid var(--border-strong);
+}
+
+.local-run-source-placeholder {
+  min-height: 100px;
+}
+
+.local-run-build-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.local-run-card--artifact.is-collapsed .local-run-build-heading {
+  margin-bottom: 0;
+}
+
+.local-run-build-heading .local-run-card__heading {
+  margin-bottom: 0;
+}
+
+.local-run-build-toggle {
+  display: grid;
+  place-items: center;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-raised);
+  color: var(--text);
+  font-size: 21px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.local-run-build-toggle:hover,
+.local-run-build-toggle:focus-visible {
+  border-color: var(--local-run-accent-text);
+  outline-offset: 2px;
 }
 
 .local-run-card--guide {

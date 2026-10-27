@@ -60,6 +60,7 @@ export function LocalRunPanel({
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
   const [os, setOs] = useState<'windows' | 'macos' | 'linux'>('windows');
   const [jarStarted, setJarStarted] = useState(false);
+  const [jarExpanded, setJarExpanded] = useState(true);
   const [executionContextEnabled, setExecutionContextEnabled] = useState(false);
   const [buildStatus, setBuildStatus] = useState<LocalRunBuildStatus | 'IDLE' | 'SUBMITTING' | 'PUBLISHING'>('IDLE');
   const [buildMessage, setBuildMessage] = useState<string | null>(null);
@@ -110,7 +111,6 @@ export function LocalRunPanel({
 
   const text = language === 'vi'
     ? {
-        packageTitle: 'Build / Download JAR',
         module: 'Module',
         java: 'Java',
         missing: 'Chưa có executable JAR cho phiên bản này.',
@@ -183,7 +183,6 @@ export function LocalRunPanel({
         portNote: 'Port 9000 là mặc định cho Local Run. Có thể đổi --server.port nếu port bị trùng.',
       }
     : {
-        packageTitle: 'Build / Download JAR',
         module: 'Module',
         java: 'Java',
         missing: 'No executable JAR is available for this version.',
@@ -605,12 +604,25 @@ export function LocalRunPanel({
   return (
     <section className="local-run-panel">
       <div className="local-run-grid">
-        <article className="local-run-card local-run-card--artifact">
-          <div className="local-run-card__heading">
-            <span className="local-run-card__eyebrow">Local Run</span>
-            <h2>{text.packageTitle}</h2>
+        <div className="local-run-build-stack">
+        <article className={`local-run-card local-run-card--artifact${jarExpanded ? '' : ' is-collapsed'}`}>
+          <div className="local-run-build-heading">
+            <div className="local-run-card__heading">
+              <span className="local-run-card__eyebrow">Local Run</span>
+              <h2>Build JAR</h2>
+            </div>
+            <button type="button" className="local-run-build-toggle"
+              aria-expanded={jarExpanded}
+              aria-controls="local-run-jar-content"
+              aria-label={jarExpanded
+                ? (language === 'vi' ? 'Thu gọn phần JAR' : 'Collapse JAR section')
+                : (language === 'vi' ? 'Mở rộng phần JAR' : 'Expand JAR section')}
+              onClick={() => setJarExpanded((current) => !current)}>
+              <span aria-hidden="true">{jarExpanded ? '−' : '+'}</span>
+            </button>
           </div>
 
+          {jarExpanded && <div id="local-run-jar-content">
           <dl className="local-run-meta">
             <div>
               <dt>{text.module}</dt>
@@ -763,7 +775,17 @@ export function LocalRunPanel({
           {artifactError && (
             <p className="local-run-backend-note local-run-backend-note--error" role="alert">{text.unknownJar} {artifactError}</p>
           )}
+          </div>}
         </article>
+
+        <article className="local-run-card local-run-card--source" aria-label="Build Source">
+          <div className="local-run-card__heading">
+            <span className="local-run-card__eyebrow">Local Run</span>
+            <h2>Build Source</h2>
+          </div>
+          <div className="local-run-source-placeholder" aria-hidden="true" />
+        </article>
+        </div>
 
         <article className="local-run-card local-run-card--guide">
           <div className="local-run-card__heading">

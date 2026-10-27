@@ -4059,10 +4059,6 @@ pre {
   cursor: pointer;
 }
 
-.knowledge-card__header--without-index .knowledge-card__trigger {
-  grid-template-columns: minmax(0, 1fr);
-}
-
 .knowledge-card__trigger:focus-visible,
 .knowledge-card__summary-toggle:focus-visible,
 .knowledge-card__expand:focus-visible {
@@ -6878,18 +6874,10 @@ pre {
     padding: 0;
   }
 
-  .knowledge-card__header--without-index .knowledge-card__trigger {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .knowledge-card__metadata {
     grid-column: 1 / -1;
     grid-row: 2;
     justify-content: flex-start;
-  }
-
-  .knowledge-card__header--without-index .knowledge-card__metadata {
-    grid-column: 1 / -1;
   }
 
   .knowledge-card__expand {

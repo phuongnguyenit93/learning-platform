@@ -799,7 +799,6 @@ export function KnowledgePanel({
   const renderSectionCard = (
     section: KnowledgeSectionRef,
     options: {
-      showIndex: boolean;
       showCategory: boolean;
     },
   ) => {
@@ -819,10 +818,10 @@ export function KnowledgePanel({
     return (
       <article key={section.id} id={`knowledge-section-${section.id}`} className={`knowledge-card${expanded ? ' is-expanded' : ''}${section.isImportant === true ? ' is-important' : ''}`}>
         <div className="knowledge-card__sticky">
-          <div className={`knowledge-card__header${options.showIndex ? '' : ' knowledge-card__header--without-index'}`}>
+          <div className="knowledge-card__header">
             <button type="button" className="knowledge-card__trigger"
               onClick={() => toggleSection(section.id)} aria-expanded={expanded}>
-              {options.showIndex && sectionNumber !== undefined && (
+              {sectionNumber !== undefined && (
                 <span className="knowledge-card__index">#{sectionNumber}</span>
               )}
               <span className="knowledge-card__title-group">
@@ -993,7 +992,7 @@ export function KnowledgePanel({
   const renderLessonsGroup = (
     categoryId: string,
     sections: KnowledgeSectionRef[],
-    showIndex: boolean,
+    showCategory: boolean,
   ) => {
     const expanded = expandedLessonGroupIds.has(categoryId);
     return (
@@ -1009,8 +1008,7 @@ export function KnowledgePanel({
         {expanded && (
           <div id={`knowledge-lessons-${categoryId}`} className="knowledge-category-group__sections">
             {sections.map((section) => renderSectionCard(section, {
-              showIndex,
-              showCategory: !showIndex,
+              showCategory,
             }))}
           </div>
         )}
@@ -1211,7 +1209,7 @@ export function KnowledgePanel({
                       </div>
                     )}
                     {renderChapterSummary(category.id)}
-                    {renderLessonsGroup(category.id, sections, true)}
+                    {renderLessonsGroup(category.id, sections, false)}
                   </div>
                 )}
               </section>
@@ -1223,7 +1221,7 @@ export function KnowledgePanel({
                 <KnowledgeVideoPanel item={videoByCategoryId.get(activeCategoryId)!} />
               )}
               {renderChapterSummary(activeCategoryId)}
-              {renderLessonsGroup(activeCategoryId, visibleSections, false)}
+              {renderLessonsGroup(activeCategoryId, visibleSections, true)}
             </>
           )}
 

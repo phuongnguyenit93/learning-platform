@@ -140,6 +140,11 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
     Array.from(knowledgeGroups[1].querySelectorAll('.knowledge-card')).map((item) => item.id.replace('knowledge-section-', '')),
     ['second-basic', 'second-advanced'],
   );
+  assert.deepEqual(
+    Array.from(knowledgeGroups[0].querySelectorAll('.knowledge-card__index')).map((item) => item.textContent?.trim()),
+    ['#1', '#2', '#3', '#4', '#5', '#6'],
+    'All tab displays numbered lessons',
+  );
 
   const allTopic = container.querySelector<HTMLButtonElement>('.knowledge-topic-strip__button:first-child');
   assert.ok(allTopic);
@@ -182,5 +187,16 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
     Array.from(container.querySelectorAll('.knowledge-list > .knowledge-category-group__sections .knowledge-card'))
       .map((item) => item.id.replace('knowledge-section-', '')),
     expectedFirstChapter,
+  );
+  assert.deepEqual(
+    Array.from(container.querySelectorAll('.knowledge-list > .knowledge-category-group__sections .knowledge-card__index'))
+      .map((item) => item.textContent?.trim()),
+    ['#1', '#2', '#3', '#4', '#5', '#6'],
+    'Individual chapter tabs also display lesson numbers in visible order',
+  );
+  assert.equal(
+    container.querySelectorAll('.knowledge-list > .knowledge-category-group__sections .knowledge-card__category').length,
+    6,
+    'Chapter label stays visible beneath lesson titles',
   );
 });

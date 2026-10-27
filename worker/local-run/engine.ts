@@ -1,6 +1,6 @@
 import { freshAsset, githubRunUrl } from './github';
 import {
-  GithubRejectedError, LocalRunError, trackingId, workflowTitle,
+  GithubRejectedError, LocalRunError, sourceWorkflowTitle, trackingId, workflowTitle,
   type BuildPhase, type BuildRecord, type BuildReply, type BuildStatus,
   type DispatchLimiter, type GithubRun, type GithubService, type RecordStore,
   type StatusReply,
@@ -33,6 +33,7 @@ export class BuildCoordinatorEngine {
     private readonly github: GithubService,
     private readonly limiter: DispatchLimiter,
     private readonly now: () => number = Date.now,
+    private readonly kind: 'jar' | 'source' = 'jar',
   ) {}
 
   private save(record: BuildRecord, change: Partial<BuildRecord>): BuildRecord {
@@ -82,7 +83,7 @@ export class BuildCoordinatorEngine {
 
     try {
       const asset = await this.github.findAsset(moduleId);
-      if (freshAsset(asset, moduleId, fingerprint)) {
+      if (freshAsset(asset, moduleId, fingerprint, this.kind)) {
         this.save(record, { phase: 'SUCCESS', checkedAt: this.now() });
         return { moduleId, status: 'SUCCESS', result: 'AVAILABLE' };
       }
@@ -187,7 +188,9 @@ export class BuildCoordinatorEngine {
     try {
       const run = await this.github.getRun(record.runId);
       // Status endpoint must never accept an unrelated GitHub run.
-      if (run.display_title !== workflowTitle(moduleId, record.fingerprint) || run.head_branch !== 'main') {
+      const expectedTitle = this.kind === 'source'
+        ? sourceWorkflowTitle(moduleId, record.fingerprint) : workflowTitle(moduleId, record.fingerprint);
+      if (run.display_title !== expectedTitle || run.head_branch !== 'main') {
         throw new LocalRunError(502, 'GitHub workflow identity does not match this build.');
       }
       return reply(this.save(record, {

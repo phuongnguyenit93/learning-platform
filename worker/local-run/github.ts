@@ -1,11 +1,13 @@
 import {
-  GithubRejectedError, LocalRunError, assetLabel, jarName, workflowTitle,
+  GithubRejectedError, LocalRunError, assetLabel, jarName, sourceAssetLabel,
+  sourceWorkflowTitle, sourceZipName, workflowTitle,
   type GithubRun, type GithubService, type ReleaseAsset,
 } from './types';
 
 const OWNER = 'phuongnguyenit93';
 const REPO = 'java-learning';
 const WORKFLOW = 'local-run-build.yml';
+const SOURCE_WORKFLOW = 'local-run-source-build.yml';
 const RELEASE = 'local-run';
 const BASE = `https://api.github.com/repos/${OWNER}/${REPO}`;
 
@@ -16,7 +18,13 @@ export function githubRunUrl(id: number): string {
 }
 
 export class GithubLocalRun implements GithubService {
-  constructor(private readonly token: string) {}
+  constructor(private readonly token: string, private readonly kind: 'jar' | 'source' = 'jar') {}
+
+  private get workflow(): string { return this.kind === 'source' ? SOURCE_WORKFLOW : WORKFLOW; }
+  private filename(moduleId: string): string { return this.kind === 'source' ? sourceZipName(moduleId) : jarName(moduleId); }
+  private title(moduleId: string, fingerprint: string): string {
+    return this.kind === 'source' ? sourceWorkflowTitle(moduleId, fingerprint) : workflowTitle(moduleId, fingerprint);
+  }
 
   private async request(path: string, init: RequestInit = {}, allow404 = false): Promise<Response | null> {
     if (!this.token) throw new LocalRunError(503, 'Local Run is not configured on this Worker.');
@@ -57,7 +65,7 @@ export class GithubLocalRun implements GithubService {
       const response = await this.request(`/releases/${release.id}/assets?per_page=100&page=${page}`);
       const assets = await response!.json() as ReleaseAsset[];
       if (!Array.isArray(assets)) throw new LocalRunError(502, 'Invalid GitHub asset list.');
-      const asset = assets.find((entry) => entry.name === jarName(moduleId));
+      const asset = assets.find((entry) => entry.name === this.filename(moduleId));
       if (asset) return asset;
       if (assets.length < 100) break;
     }
@@ -65,11 +73,11 @@ export class GithubLocalRun implements GithubService {
   }
 
   async findMatchingRun(moduleId: string, fingerprint: string, since = 0): Promise<GithubRun | null> {
-    const response = await this.request(`/actions/workflows/${WORKFLOW}/runs?event=workflow_dispatch&per_page=100`);
+    const response = await this.request(`/actions/workflows/${this.workflow}/runs?event=workflow_dispatch&per_page=100`);
     const payload = await response!.json() as { workflow_runs?: GithubRun[] };
     const runs = payload.workflow_runs;
     if (!Array.isArray(runs)) throw new LocalRunError(502, 'Invalid GitHub workflow list.');
-    const title = workflowTitle(moduleId, fingerprint);
+    const title = this.title(moduleId, fingerprint);
     return runs.find((run) => (
       run.display_title === title
       && run.head_branch === 'main'
@@ -79,7 +87,7 @@ export class GithubLocalRun implements GithubService {
   }
 
   async dispatch(moduleId: string, fingerprint: string): Promise<{ id: number; url?: string }> {
-    const response = await this.request(`/actions/workflows/${WORKFLOW}/dispatches`, {
+    const response = await this.request(`/actions/workflows/${this.workflow}/dispatches`, {
       method: 'POST',
       body: JSON.stringify({
         ref: 'main',
@@ -109,6 +117,6 @@ export class GithubLocalRun implements GithubService {
   }
 }
 
-export function freshAsset(asset: ReleaseAsset | null, moduleId: string, fingerprint: string): boolean {
-  return asset?.label === assetLabel(moduleId, fingerprint);
+export function freshAsset(asset: ReleaseAsset | null, moduleId: string, fingerprint: string, kind: 'jar' | 'source' = 'jar'): boolean {
+  return asset?.label === (kind === 'source' ? sourceAssetLabel(moduleId, fingerprint) : assetLabel(moduleId, fingerprint));
 }

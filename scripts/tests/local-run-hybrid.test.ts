@@ -64,6 +64,51 @@ test('public GitHub asset is AVAILABLE and multiple modules share a cached relea
   assert.ok(h.calls.every((url) => url.startsWith(PUBLIC)), 'no Worker request for a public success');
 });
 
+test('Source ZIP uses a separate release asset and exact source-fingerprint label', async (t) => {
+  const zip = 'https://github.com/phuongnguyenit93/java-learning/releases/download/local-run/thread_source.zip';
+  const source = {
+    name: 'thread_source.zip',
+    label: `THREAD · source-fingerprint:${FP}`,
+    browser_download_url: zip,
+  };
+  const h = harness(t, githubApi([asset('THREAD', FP), source]));
+  assert.deepEqual(await localRunApi.getSourceArtifact('THREAD', FP), {
+    moduleId: 'THREAD', fileName: 'thread_source.zip', available: true, stale: false, downloadUrl: zip,
+  });
+  assert.equal((await localRunApi.getArtifact('THREAD', FP)).available, true);
+  assert.equal(h.calls.length, 2, 'JAR and Source share the public release index, not build state');
+});
+
+test('Source ZIP cannot be downloaded with an outdated source fingerprint', async (t) => {
+  const h = harness(t, githubApi([{
+    name: 'thread_source.zip',
+    label: `THREAD · source-fingerprint:${OTHER_FP}`,
+    browser_download_url: DOWNLOAD.replace('thread.jar', 'thread_source.zip'),
+  }]));
+  assert.deepEqual(await localRunApi.getSourceArtifact('THREAD', FP), {
+    moduleId: 'THREAD', fileName: 'thread_source.zip', available: false, stale: true,
+  });
+  assert.equal(h.calls.length, 2);
+});
+
+test('Source API dispatch and status URLs are isolated from JAR endpoints', async (t) => {
+  const h = harness(t, (url, init) => {
+    if (url === '/api/local-run/source/build') {
+      assert.equal(init?.method, 'POST');
+      assert.deepEqual(JSON.parse(String(init.body)), { moduleId: 'THREAD', sourceFingerprint: FP });
+      return json({ moduleId: 'THREAD', status: 'QUEUED', result: 'DISPATCHED', runId: `job-${FP}` });
+    }
+    assert.ok(url.startsWith('/api/local-run/source/status?'));
+    const query = new URL(url, 'https://example.test').searchParams;
+    assert.equal(query.get('moduleId'), 'THREAD');
+    assert.equal(query.get('runId'), `job-${FP}`);
+    return json({ moduleId: 'THREAD', runId: `job-${FP}`, status: 'BUILDING' });
+  });
+  assert.equal((await localRunApi.startSourceBuild({ moduleId: 'THREAD', sourceFingerprint: FP })).result, 'DISPATCHED');
+  assert.equal((await localRunApi.getSourceBuildStatus(`job-${FP}`, 'THREAD')).status, 'BUILDING');
+  assert.equal(h.calls.length, 2);
+});
+
 test('V2 fingerprint rejects old V1 JAR label but accepts a newly published V2 label', async (t) => {
   let v2Published = false;
   const h = harness(t, (url, init) => githubApi([asset('THREAD', v2Published ? V2_FP : FP)])(url, init));

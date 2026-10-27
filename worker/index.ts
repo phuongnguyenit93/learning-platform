@@ -2,7 +2,7 @@ import { LocalRunCoordinator } from './local-run/coordinator';
 import { GithubLocalRun, freshAsset } from './local-run/github';
 import { validatePublishedModule } from './local-run/catalog';
 import {
-  LocalRunError, jarName, json, normalizeFingerprint, normalizeModuleId,
+  LocalRunError, jarName, sourceZipName, json, normalizeFingerprint, normalizeModuleId,
   type CoordinatorRpcResult,
 } from './local-run/types';
 import type { WorkerEnv } from './types';
@@ -45,11 +45,16 @@ async function respond(request: Request, env: WorkerEnv): Promise<Response> {
 
   // Unknown API routes must be JSON 404s, not the SPA's index.html.
   const path = url.pathname;
-  if (!['/api/local-run/build', '/api/local-run/status', '/api/local-run/artifact'].includes(path)) {
+  if (![
+    '/api/local-run/build', '/api/local-run/status', '/api/local-run/artifact',
+    '/api/local-run/source/build', '/api/local-run/source/status', '/api/local-run/source/artifact',
+  ].includes(path)) {
     return json({ message: 'API route not found.' }, 404);
   }
 
-  if (request.method !== (path === '/api/local-run/build' ? 'POST' : 'GET')) {
+  const isSource = path.startsWith('/api/local-run/source/');
+  const isBuild = path.endsWith('/build');
+  if (request.method !== (isBuild ? 'POST' : 'GET')) {
     return json({ message: 'Method not allowed.' }, 405);
   }
   if (!env.GITHUB_ACTION_TOKEN) {
@@ -57,7 +62,7 @@ async function respond(request: Request, env: WorkerEnv): Promise<Response> {
     return json({ message: 'Local Run API has not been configured.' }, 503);
   }
 
-  if (path === '/api/local-run/build') {
+  if (isBuild) {
     const origin = request.headers.get('origin');
     if (origin && origin !== url.origin) throw new LocalRunError(403, 'Cross-origin builds are not allowed.');
     if (!request.headers.get('content-type')?.toLowerCase().includes('application/json')) {
@@ -74,27 +79,33 @@ async function respond(request: Request, env: WorkerEnv): Promise<Response> {
     // CF-Connecting-IP is set by Cloudflare at the edge; not supplied by the UI.
     // Anonymous visitors may share an IP (NAT), so this is a conservative limit.
     const actor = `local-run:${request.headers.get('cf-connecting-ip') ?? 'unknown'}`;
-    const response = await env.LOCAL_RUN_COORDINATOR.getByName(moduleId).startBuild(moduleId, fingerprint, actor);
+    const coordinator = env.LOCAL_RUN_COORDINATOR.getByName(moduleId);
+    const response = isSource
+      ? await coordinator.startSourceBuild(moduleId, fingerprint, actor)
+      : await coordinator.startBuild(moduleId, fingerprint, actor);
     return fromCoordinator(response);
   }
 
   const moduleId = normalizeModuleId(url.searchParams.get('moduleId'));
   if (!moduleId) throw new LocalRunError(400, 'Invalid moduleId.');
 
-  if (path === '/api/local-run/status') {
+  if (path.endsWith('/status')) {
     const runId = url.searchParams.get('runId');
     if (!runId || !/^job-[0-9a-f]{40,64}$/.test(runId)) {
       throw new LocalRunError(400, 'Invalid Local Run job id.');
     }
-    return fromCoordinator(await env.LOCAL_RUN_COORDINATOR.getByName(moduleId).getBuildStatus(moduleId, runId));
+    const coordinator = env.LOCAL_RUN_COORDINATOR.getByName(moduleId);
+    return fromCoordinator(isSource
+      ? await coordinator.getSourceBuildStatus(moduleId, runId)
+      : await coordinator.getBuildStatus(moduleId, runId));
   }
 
   const fingerprint = normalizeFingerprint(url.searchParams.get('sourceFingerprint'));
   if (!fingerprint) throw new LocalRunError(400, 'Invalid sourceFingerprint.');
-  const asset = await new GithubLocalRun(env.GITHUB_ACTION_TOKEN).findAsset(moduleId);
-  const fileName = jarName(moduleId);
+  const asset = await new GithubLocalRun(env.GITHUB_ACTION_TOKEN, isSource ? 'source' : 'jar').findAsset(moduleId);
+  const fileName = isSource ? sourceZipName(moduleId) : jarName(moduleId);
   if (!asset) return json({ moduleId, available: false, stale: false, fileName });
-  if (!freshAsset(asset, moduleId, fingerprint)) {
+  if (!freshAsset(asset, moduleId, fingerprint, isSource ? 'source' : 'jar')) {
     return json({ moduleId, available: false, stale: true, fileName });
   }
   if (url.searchParams.get('download') === '1') {

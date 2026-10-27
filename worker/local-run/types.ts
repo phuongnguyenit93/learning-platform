@@ -101,12 +101,24 @@ export function jarName(moduleId: string): string {
   return `${moduleId.toLowerCase().replace(/[^a-z0-9._-]+/g, '-')}.jar`;
 }
 
+export function sourceZipName(moduleId: string): string {
+  return `${moduleId.toLowerCase().replace(/[^a-z0-9._-]+/g, '-')}_source.zip`;
+}
+
 export function assetLabel(moduleId: string, fingerprint: string): string {
   return `${moduleId} · fingerprint:${fingerprint}`;
 }
 
+export function sourceAssetLabel(moduleId: string, fingerprint: string): string {
+  return `${moduleId} · source-fingerprint:${fingerprint}`;
+}
+
 export function workflowTitle(moduleId: string, fingerprint: string): string {
   return `Local Run ${moduleId} · fingerprint:${fingerprint}`;
+}
+
+export function sourceWorkflowTitle(moduleId: string, fingerprint: string): string {
+  return `Local Run Source ${moduleId} · source-fingerprint:${fingerprint}`;
 }
 
 export function trackingId(fingerprint: string): string {

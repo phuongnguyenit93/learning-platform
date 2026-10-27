@@ -6032,10 +6032,6 @@ pre {
   border-top: 3px solid var(--border-strong);
 }
 
-.local-run-source-placeholder {
-  min-height: 100px;
-}
-
 .local-run-build-heading {
   display: flex;
   align-items: flex-start;
@@ -6044,7 +6040,8 @@ pre {
   margin-bottom: 20px;
 }
 
-.local-run-card--artifact.is-collapsed .local-run-build-heading {
+.local-run-card--artifact.is-collapsed .local-run-build-heading,
+.local-run-card--source.is-collapsed .local-run-build-heading {
   margin-bottom: 0;
 }
 

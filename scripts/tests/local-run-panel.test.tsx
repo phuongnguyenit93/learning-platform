@@ -17,7 +17,13 @@ interface Mounted {
   button: (label: string) => HTMLButtonElement;
 }
 
-async function mount(t: Parameters<Parameters<typeof test>[1]>[0], moduleType = 'SERVLET'): Promise<Mounted> {
+async function mount(t: Parameters<Parameters<typeof test>[1]>[0], moduleType = 'SERVLET', mockSource = true): Promise<Mounted> {
+  if (mockSource) {
+    t.mock.method(localRunApi, 'getSourceBuildStatus', async () => { throw new LocalRunHttpError(404, 'No source job'); });
+    t.mock.method(localRunApi, 'getSourceArtifact', async () => ({
+      moduleId: MODULE, fileName: 'database_mysql_source.zip', available: false,
+    }));
+  }
   const browser = new Window({ url: 'http://localhost:5000' });
   const originals = new Map<string, PropertyDescriptor | undefined>();
   for (const [key, value] of Object.entries({
@@ -74,7 +80,7 @@ test('Execution Context switch updates run command only, defaults OFF, and prese
   assert.match(command(), /--execution-context.enabled=false/);
 });
 
-test('Build JAR collapses its contents, restores them, and leaves Build Source empty', async (t) => {
+test('Build JAR collapses independently while Build Source offers its own controls', async (t) => {
   let checks = 0;
   t.mock.method(localRunApi, 'getBuildStatus', async () => {
     checks++;
@@ -89,7 +95,8 @@ test('Build JAR collapses its contents, restores them, and leaves Build Source e
   assert.equal(toggle.getAttribute('aria-controls'), 'local-run-jar-content');
   assert.ok(ui.container.querySelector('#local-run-jar-content .local-run-meta'));
   assert.equal(source?.querySelector('h2')?.textContent, 'Build Source');
-  assert.equal(source?.querySelectorAll('button, a').length, 0);
+  assert.ok(source?.querySelector('button.local-run-button--build'));
+  assert.ok(source?.querySelector('button.local-run-build-toggle'));
 
   await act(async () => { toggle.click(); });
   assert.equal(toggle.getAttribute('aria-expanded'), 'false');
@@ -101,6 +108,85 @@ test('Build JAR collapses its contents, restores them, and leaves Build Source e
   assert.equal(toggle.getAttribute('aria-expanded'), 'true');
   assert.equal(ui.button('Build JAR').disabled, false);
   assert.equal(checks, 1, 'toggling the view does not restart the backend status check');
+});
+
+test('Build Source creates an independent job and enables a verified ZIP download', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No JAR job'); });
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  let built = false;
+  let sourceStatusCalls = 0;
+  let sourceBuildCalls = 0;
+  t.mock.method(localRunApi, 'getSourceBuildStatus', async () => {
+    sourceStatusCalls++;
+    if (!built) throw new LocalRunHttpError(404, 'No source job');
+    return { moduleId: MODULE, runId: `job-${FP}`, status: 'SUCCESS' as const,
+      runUrl: 'https://github.com/phuongnguyenit93/java-learning/actions/runs/123456' };
+  });
+  t.mock.method(localRunApi, 'getSourceArtifact', async () => ({
+    moduleId: MODULE, fileName: 'database_mysql_source.zip', available: built,
+    downloadUrl: built ? 'https://github.com/phuongnguyenit93/java-learning/releases/download/local-run/database_mysql_source.zip' : undefined,
+  }));
+  t.mock.method(localRunApi, 'startSourceBuild', async () => {
+    sourceBuildCalls++;
+    built = true;
+    return { moduleId: MODULE, status: 'SUCCESS' as const, result: 'AVAILABLE' as const };
+  });
+  const ui = await mount(t, 'SERVLET', false);
+  const source = ui.container.querySelector('.local-run-card--source')!;
+  const sourceButton = source.querySelector<HTMLButtonElement>('.local-run-button--build')!;
+  assert.equal(sourceButton.disabled, false);
+  await act(async () => { sourceButton.click(); });
+  assert.equal(sourceBuildCalls, 1);
+  assert.ok(sourceStatusCalls >= 2);
+  assert.equal(ui.button('Build JAR').disabled, false, 'source build does not affect JAR controls');
+  const link = source.querySelector<HTMLAnchorElement>('a.local-run-button--download');
+  assert.ok(link);
+  assert.equal(link.download, 'database_mysql_source.zip');
+  assert.equal(link.href, 'https://github.com/phuongnguyenit93/java-learning/releases/download/local-run/database_mysql_source.zip');
+});
+
+test('Build Source cannot use a stale ZIP, and its refresh does not touch JAR', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No JAR job'); });
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  t.mock.method(localRunApi, 'getSourceBuildStatus', async () => { throw new LocalRunHttpError(404, 'No source job'); });
+  let refreshCount = 0;
+  t.mock.method(localRunApi, 'getSourceArtifact', async () => {
+    refreshCount++;
+    return { moduleId: MODULE, fileName: 'database_mysql_source.zip', available: false, stale: true };
+  });
+  const ui = await mount(t, 'SERVLET', false);
+  const source = ui.container.querySelector('.local-run-card--source')!;
+  assert.match(source.textContent ?? '', /đã cũ/);
+  assert.equal(source.querySelector('a.local-run-button--download'), null);
+  assert.equal(source.querySelector<HTMLButtonElement>('.local-run-button--build')?.disabled, false);
+  await act(async () => { source.querySelector<HTMLButtonElement>('.local-run-button--refresh')?.click(); });
+  assert.equal(refreshCount, 2);
+  assert.equal(ui.button('Build JAR').disabled, false);
+});
+
+test('an ambiguous Source submission blocks retries until the GitHub workflow is reviewed', async (t) => {
+  t.mock.method(localRunApi, 'getBuildStatus', async () => { throw new LocalRunHttpError(404, 'No JAR job'); });
+  t.mock.method(localRunApi, 'getArtifact', async () => missing());
+  let statusCalls = 0;
+  t.mock.method(localRunApi, 'getSourceBuildStatus', async () => {
+    statusCalls++;
+    throw new LocalRunHttpError(404, 'No source job');
+  });
+  t.mock.method(localRunApi, 'getSourceArtifact', async () => ({
+    moduleId: MODULE, fileName: 'database_mysql_source.zip', available: false,
+  }));
+  let attempts = 0;
+  t.mock.method(localRunApi, 'startSourceBuild', async () => { attempts++; throw new TypeError('Connection dropped'); });
+  const ui = await mount(t, 'SERVLET', false);
+  const source = ui.container.querySelector('.local-run-card--source')!;
+  await act(async () => { source.querySelector<HTMLButtonElement>('.local-run-button--build')?.click(); });
+  assert.equal(attempts, 1);
+  assert.equal(statusCalls, 2, 'ambiguous POST reconciles with one status GET');
+  assert.equal(source.querySelector<HTMLButtonElement>('.local-run-button--build')?.disabled, true);
+  assert.ok(source.querySelector<HTMLAnchorElement>('a[href*="/actions/workflows/local-run-source-build.yml"]'));
+  await act(async () => { source.querySelector<HTMLInputElement>('.local-run-review input')?.click(); });
+  assert.equal(source.querySelector<HTMLButtonElement>('.local-run-button--build')?.disabled, false);
+  assert.equal(ui.button('Build JAR').disabled, false);
 });
 
 test('Reactive Local Run cannot enable unsupported Servlet Execution Context', async (t) => {

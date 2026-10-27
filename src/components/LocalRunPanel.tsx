@@ -8,6 +8,7 @@ import {
   isLocalRunNotFound, LocalRunTrackingInterruptedError, waitForLocalRunArtifact, watchLocalRunBuild,
 } from '../data/localRunMonitor';
 import { useLanguage } from '../state/LanguageContext';
+import { LocalRunSourceCard } from './LocalRunSourceCard';
 
 interface LocalRunPanelProps {
   moduleId: string;
@@ -778,13 +779,7 @@ export function LocalRunPanel({
           </div>}
         </article>
 
-        <article className="local-run-card local-run-card--source" aria-label="Build Source">
-          <div className="local-run-card__heading">
-            <span className="local-run-card__eyebrow">Local Run</span>
-            <h2>Build Source</h2>
-          </div>
-          <div className="local-run-source-placeholder" aria-hidden="true" />
-        </article>
+        <LocalRunSourceCard moduleId={moduleId} moduleName={moduleName} sourceFingerprint={sourceFingerprint} />
         </div>
 
         <article className="local-run-card local-run-card--guide">

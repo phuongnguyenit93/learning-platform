@@ -36,6 +36,9 @@ export interface LocalRunApi {
   startBuild(request: LocalRunBuildRequest, signal?: AbortSignal): Promise<LocalRunBuildResponse>;
   getBuildStatus(runId: string, moduleId: string, signal?: AbortSignal): Promise<LocalRunStatusResponse>;
   getArtifact(moduleId: string, sourceFingerprint: string, refresh?: boolean): Promise<LocalRunArtifactResponse>;
+  startSourceBuild(request: LocalRunBuildRequest, signal?: AbortSignal): Promise<LocalRunBuildResponse>;
+  getSourceBuildStatus(runId: string, moduleId: string, signal?: AbortSignal): Promise<LocalRunStatusResponse>;
+  getSourceArtifact(moduleId: string, sourceFingerprint: string, refresh?: boolean): Promise<LocalRunArtifactResponse>;
 }
 
 export class LocalRunHttpError extends Error {
@@ -54,6 +57,11 @@ export function localRunTrackingId(sourceFingerprint: string): string {
 function jarName(moduleId: string): string {
   const slug = moduleId.trim().toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
   return `${slug || 'module'}.jar`;
+}
+
+export function sourceZipName(moduleId: string): string {
+  const slug = moduleId.trim().toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
+  return `${slug || 'module'}_source.zip`;
 }
 
 async function readApiError(response: Response): Promise<string> {
@@ -121,6 +129,36 @@ const httpLocalRunApi: LocalRunApi = {
       if (!(error instanceof PublicGithubFallbackError)) throw error;
       const search = new URLSearchParams({ moduleId, sourceFingerprint });
       return requestJson<LocalRunArtifactResponse>(`/api/local-run/artifact?${search}`);
+    }
+  },
+
+  startSourceBuild({ moduleId, sourceFingerprint }, signal) {
+    return requestJson<LocalRunBuildResponse>('/api/local-run/source/build', {
+      method: 'POST', signal,
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ moduleId, sourceFingerprint }),
+    });
+  },
+
+  getSourceBuildStatus(runId, moduleId, signal) {
+    const search = new URLSearchParams({ runId, moduleId });
+    return requestJson<LocalRunStatusResponse>(`/api/local-run/source/status?${search}`, { signal });
+  },
+
+  async getSourceArtifact(moduleId, sourceFingerprint, refresh = false) {
+    if (refresh) invalidatePublicReleaseCache();
+    const fileName = sourceZipName(moduleId);
+    try {
+      const asset = await findPublicReleaseAsset(fileName);
+      if (!asset) return { moduleId, available: false, stale: false, fileName };
+      if (asset.label !== `${moduleId} · source-fingerprint:${sourceFingerprint}`) {
+        return { moduleId, available: false, stale: true, fileName };
+      }
+      return { moduleId, available: true, stale: false, fileName, downloadUrl: asset.browser_download_url };
+    } catch (error) {
+      if (!(error instanceof PublicGithubFallbackError)) throw error;
+      const search = new URLSearchParams({ moduleId, sourceFingerprint });
+      return requestJson<LocalRunArtifactResponse>(`/api/local-run/source/artifact?${search}`);
     }
   },
 };

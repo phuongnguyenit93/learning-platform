@@ -7,6 +7,8 @@ import { JavaLearningLayout } from './pages/JavaLearningLayout';
 import { LearningTopicsPage } from './pages/LearningTopicsPage';
 import { ProjectPage } from './pages/ProjectPage';
 import { AboutMePage } from './pages/AboutMePage';
+import { SopPage } from './pages/SopPage';
+import { JavaOverviewPage } from './pages/JavaOverviewPage';
 
 function LegacyLearningRedirect() {
   const { moduleId } = useParams();
@@ -33,10 +35,12 @@ export function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/learning" element={<LearningTopicsPage />} />
+        <Route path="/sop" element={<SopPage />} />
         <Route path="/project" element={<ProjectPage />} />
         <Route path="/learning/java/project" element={<LegacyJavaProjectRedirect />} />
         <Route path="/learning/java" element={<JavaLearningLayout />}>
           <Route index element={<Navigate to="knowledge" replace />} />
+          <Route path="overview" element={<JavaOverviewPage />} />
           <Route path="knowledge" element={<LearningPage />} />
           <Route path="knowledge/:moduleId" element={<LearningPage />} />
         </Route>

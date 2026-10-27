@@ -6777,6 +6777,16 @@ pre {
     grid-template-columns: 1fr;
   }
 
+  .topbar__nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .topbar__nav-link {
+    font-size: 12px;
+  }
+
   .topbar__actions {
     grid-column: 1;
     grid-row: 3;
@@ -7251,6 +7261,14 @@ pre {
   min-height: calc(100vh - var(--header-height) - var(--java-nav-height));
 }
 
+.java-overview-page {
+  min-height: calc(100vh - var(--header-height) - var(--java-nav-height));
+  display: grid;
+  place-items: center;
+  padding: 32px;
+  background: var(--home-bg);
+}
+
 .java-learning .learning-sidebar {
   top: calc(var(--header-height) + var(--java-nav-height));
   height: calc(100vh - var(--header-height) - var(--java-nav-height));
@@ -7668,6 +7686,15 @@ pre {
 @media (max-width: 580px) {
   :root {
     --java-nav-height: 104px;
+  }
+
+  .java-overview-page {
+    padding: 20px 12px;
+  }
+
+  .java-section-nav__tab {
+    min-width: 0;
+    padding-inline: 18px;
   }
 
   .learning-topics-page {

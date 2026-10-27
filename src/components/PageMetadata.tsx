@@ -16,11 +16,15 @@ export function PageMetadata() {
 
     const title = isMyCv
       ? 'Nguyen Do Dinh Phuong'
-      : pathname === '/project' || pathname === '/project/'
-        ? 'Project - Learning Platform'
-        : isJavaLearning
-          ? 'Java Learning - Knowledge'
-          : 'Learning Platform';
+      : pathname === '/sop' || pathname === '/sop/'
+        ? 'SOP - Learning Platform'
+        : pathname === '/project' || pathname === '/project/'
+          ? 'Project - Learning Platform'
+          : pathname === '/learning/java/overview'
+            ? 'Java Learning - Overview'
+            : isJavaLearning
+              ? 'Java Learning - Knowledge'
+              : 'Learning Platform';
 
     const favicon = isJavaLearning ? javaFavicon : defaultFavicon;
 

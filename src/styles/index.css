@@ -55,6 +55,9 @@
   --summary-panel-bg: #1b1725;
   --summary-panel-heading: #2c223a;
   --summary-panel-border: #685083;
+  --knowledge-lessons-bg: #142c31;
+  --knowledge-lessons-border: #36747a;
+  --knowledge-lessons-text: #95e5dd;
 
   /* Capability colors stay identical in light and dark themes. */
   --overview-bg: #2b3038;
@@ -134,6 +137,9 @@
   --summary-panel-bg: #faf7ff;
   --summary-panel-heading: #f0e8fb;
   --summary-panel-border: #c9b4e5;
+  --knowledge-lessons-bg: #e6f5f3;
+  --knowledge-lessons-border: #83bbb4;
+  --knowledge-lessons-text: #17665e;
 }
 
 * {
@@ -2999,6 +3005,10 @@ pre {
   background: color-mix(in srgb, var(--card-bg) 82%, transparent);
 }
 
+.knowledge-list > .knowledge-category-group + .knowledge-category-group {
+  margin-top: 8px;
+}
+
 .knowledge-category-group__header {
   min-height: 44px;
   display: flex;
@@ -3355,22 +3365,37 @@ pre {
 }
 
 .knowledge-lessons-heading--toggle {
-  width: 100%;
-  border: 0;
-  background: transparent;
+  width: calc(100% - 18px);
+  margin: 9px 9px 0;
+  border: 1px solid var(--knowledge-lessons-border);
+  border-radius: 8px;
+  background: var(--knowledge-lessons-bg);
+  color: var(--knowledge-lessons-text);
+  font-size: 12px;
   text-align: left;
   cursor: pointer;
-  padding: 15px 12px;
+  padding: 13px 15px;
+}
+
+.knowledge-lessons-heading--toggle:hover,
+.knowledge-lessons-heading--toggle:focus-visible {
+  background: color-mix(in srgb, var(--knowledge-lessons-bg) 78%, var(--surface-hover));
+  border-color: var(--knowledge-lessons-text);
+}
+
+.knowledge-lessons-heading--toggle .knowledge-accordion-chevron {
+  color: var(--knowledge-lessons-text);
 }
 
 .knowledge-lessons-heading__count {
   font-size: 11px;
-  color: var(--text-soft);
+  color: var(--knowledge-lessons-text);
   letter-spacing: 0;
 }
 
 .knowledge-list > .knowledge-lessons-heading--toggle {
-  padding: 18px 0 12px;
+  width: 100%;
+  margin: 0;
 }
 
 .knowledge-list > .knowledge-category-group__sections {
@@ -3385,6 +3410,10 @@ pre {
   height: 1px;
   flex: 1;
   background: var(--border);
+}
+
+.knowledge-lessons-heading--toggle .knowledge-lessons-heading__line {
+  background: var(--knowledge-lessons-border);
 }
 
 .knowledge-video__header {

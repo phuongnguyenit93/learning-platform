@@ -21,6 +21,8 @@ test('every documented step has VI and EN text; STEP 0 stays hidden', () => {
   assert.equal(getModuleStepTooltip(undefined, 'en'), null);
   assert.match(getModuleStepTooltip('2', 'vi') ?? '', /Roadmap.*Reference/);
   assert.match(getModuleStepTooltip('12A', 'en') ?? '', /Vietnamese.*English/);
+  assert.match(getModuleStepTooltip('13', 'en') ?? '', /Vietnamese.*English/);
+  assert.match(getModuleStepTooltip('12A', 'vi') ?? '', /mã cũ 12A/);
   assert.match(getModuleStepTooltip('FINAL', 'vi') ?? '', /commit.*push/);
   assert.match(getModuleStepTooltip('8', 'vi') ?? '', /chưa có mô tả chính thức/);
   assert.match(getModuleStepTooltip('99', 'en') ?? '', /No official description/);

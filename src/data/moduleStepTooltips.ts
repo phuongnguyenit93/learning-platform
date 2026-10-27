@@ -5,8 +5,8 @@ import type { Language } from '../types/learning';
  * Only edit these labels when the meaning of a STEP changes; per-module
  * progress still comes exclusively from CURRENT_STEP in master.json.
  *
- * STEP 8 and 13 are reserved in the current workflow. Historical modules
- * may still carry these values, so they have explicit placeholder tooltips.
+ * STEP 8 is reserved in the current workflow. STEP 12A is a legacy
+ * progress value for the VI-to-EN clone, now numbered STEP 13.
  */
 export const MODULE_STEP_TOOLTIPS: Record<string, Record<Language, string>> = {
   '1': {
@@ -58,12 +58,12 @@ export const MODULE_STEP_TOOLTIPS: Record<string, Record<Language, string>> = {
     en: 'Exported an offline Excel snapshot of the Vietnamese module tab.',
   },
   '12A': {
-    vi: 'Đã sao chép và kiểm tra cấu trúc nội dung tiếng Việt sang tiếng Anh.',
-    en: 'Cloned and validated the Vietnamese content structure in English.',
+    vi: 'Bước 13 (mã cũ 12A): Đã sao chép và kiểm tra cấu trúc nội dung tiếng Việt sang tiếng Anh.',
+    en: 'Step 13 (legacy 12A): Cloned and validated the Vietnamese content structure in English.',
   },
   '13': {
-    vi: 'Bước dự phòng; chưa có mô tả chính thức trong quy trình hiện tại.',
-    en: 'Reserved step; no official description in the current workflow.',
+    vi: 'Đã sao chép và kiểm tra cấu trúc nội dung tiếng Việt sang tiếng Anh.',
+    en: 'Cloned and validated the Vietnamese content structure in English.',
   },
   '14': {
     vi: 'Đã dịch nội dung VI sang EN và nghiệm thu bản dịch.',

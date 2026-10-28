@@ -4,7 +4,6 @@ import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Window } from 'happy-dom';
 import { KnowledgePanel } from '../../src/components/KnowledgePanel';
-import { MenuPanel } from '../../src/components/MenuPanel';
 import { LanguageProvider } from '../../src/state/LanguageContext';
 import type { KnowledgeDifficulty, KnowledgeIndex } from '../../src/types/learning';
 
@@ -49,7 +48,7 @@ const index: KnowledgeIndex = {
   ],
 };
 
-test('Menu, Knowledge cards and topic flyout share difficulty order per chapter', async (t) => {
+test('Knowledge cards and topic flyout share difficulty order per chapter', async (t) => {
   const browser = new Window({ url: 'http://localhost:5000' });
   const originals = new Map<string, PropertyDescriptor | undefined>();
   class FakeResizeObserver {
@@ -89,8 +88,6 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
 
   await act(async () => root.render(
     <LanguageProvider>
-      <MenuPanel index={index} loading={false} error={null} searchQuery=""
-        selectedSectionId={null} onSelectSection={() => {}} />
       <KnowledgePanel index={index} loading={false} error={null} searchQuery=""
         activeCategoryId="all" selectedSectionId={null}
         onCategoryChange={(categoryId) => { selectedCategory = categoryId; }}
@@ -101,26 +98,10 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
 
   assert.equal(container.querySelector('[class*="__governance"]'), null);
 
-  const expansionButtons = container.querySelectorAll<HTMLButtonElement>(
-    '.knowledge-menu__toggle--category',
-  );
-  assert.equal(expansionButtons.length, 2);
-  await act(async () => { expansionButtons[0].click(); expansionButtons[1].click(); });
-
   const expectedFirstChapter = [
     'basic-1', 'basic-2', 'intermediate-1',
     'intermediate-2', 'advanced-1', 'advanced-2',
   ];
-  const categories = container.querySelectorAll('.knowledge-menu__category');
-  assert.deepEqual(
-    Array.from(categories[0].querySelectorAll('.knowledge-menu__section-title')).map((item) => item.textContent?.trim()),
-    expectedFirstChapter,
-  );
-  assert.deepEqual(
-    Array.from(categories[1].querySelectorAll('.knowledge-menu__section-title')).map((item) => item.textContent?.trim()),
-    ['second-basic', 'second-advanced'],
-  );
-
   const knowledgeGroups = container.querySelectorAll('.knowledge-category-group');
   assert.equal(knowledgeGroups.length, 2);
   assert.equal(knowledgeGroups[0].querySelector('.knowledge-card'), null, 'chapters start collapsed');
@@ -172,8 +153,6 @@ test('Menu, Knowledge cards and topic flyout share difficulty order per chapter'
   // Selecting a single chapter must retain the exact same ordering as "All".
   await act(async () => root.render(
     <LanguageProvider>
-      <MenuPanel index={index} loading={false} error={null} searchQuery=""
-        selectedSectionId={null} onSelectSection={() => {}} />
       <KnowledgePanel index={index} loading={false} error={null} searchQuery=""
         activeCategoryId="chapter-one" selectedSectionId={null}
         onCategoryChange={() => {}} onSectionChange={() => {}}

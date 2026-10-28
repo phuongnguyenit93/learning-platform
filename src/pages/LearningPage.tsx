@@ -5,7 +5,6 @@ import { KnowledgePanel } from '../components/KnowledgePanel';
 import { InterviewPanel } from '../components/InterviewPanel';
 import { LearningSearch } from '../components/LearningSearch';
 import { LocalRunPanel } from '../components/LocalRunPanel';
-import { MenuPanel } from '../components/MenuPanel';
 import { ModuleSidebar } from '../components/ModuleSidebar';
 import { ModuleTabs, type ModuleTab } from '../components/ModuleTabs';
 import { OverviewPanel } from '../components/OverviewPanel';
@@ -407,29 +406,6 @@ export function LearningPage() {
           ) : (
           <>
           {activeTab === 'overview' && <OverviewPanel module={activeModule} />}
-          {visitedTabs.has('menu') && (
-            <div hidden={activeTab !== 'menu'}>
-              <MenuPanel
-                key={`${activeModule.id}:menu`}
-                index={knowledgeIndex}
-                loading={knowledgeLoading}
-                error={knowledgeError}
-                searchQuery={searchQuery}
-                selectedSectionId={selectedKnowledgeSection}
-                onSelectSection={(categoryId, sectionId) => {
-                  setSearchQuery('');
-                  setActiveKnowledgeCategory(categoryId);
-                  setSelectedKnowledgeSection(sectionId);
-                  setVisitedTabs((current) => {
-                    const next = new Set(current);
-                    next.add('knowledge');
-                    return next;
-                  });
-                  setActiveTab('knowledge');
-                }}
-              />
-            </div>
-          )}
           {visitedTabs.has('roadmap') && (
             <div hidden={activeTab !== 'roadmap'}>
               <RoadmapPanel

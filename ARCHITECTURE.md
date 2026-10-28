@@ -849,9 +849,9 @@ MODULE đạt điều kiện `Module thật` **không có permanent background r
 
 Toàn sidebar có thể đóng/mở độc lập với tree branch state. Control đóng sidebar nằm giữa chiều cao ở mép phải sidebar; khi sidebar bị ẩn, main content giãn ra và một control `>` ở giữa mép trái màn hình mở sidebar lại. Desktop sidebar ưu tiên đủ rộng để tên menu hiển thị đầy đủ thay vì ellipsis. Header module hiển thị thêm description từ `SERVICE_NAME_DESCRIBE`; sidebar chỉ giữ tên menu ngắn gọn thay vì tooltip/detail description.
 
-Tab state được giữ theo browser session cho module/language hiện tại: Menu, Knowledge, API Docs, Quiz và Interview được lazy-mount lần đầu rồi giữ mounted khi user đổi tab. Vì vậy manual expand/collapse, lựa chọn Quiz và Interview answer state gần nhất không tự reset chỉ vì tab đang bị ẩn. Khi đổi module/language, component key/reset boundary tạo state mới phù hợp context mới.
+Tab state được giữ theo browser session cho module/language hiện tại: Knowledge, API Docs, Quiz và Interview được lazy-mount lần đầu rồi giữ mounted khi user đổi tab. Vì vậy manual expand/collapse, lựa chọn Quiz và Interview answer state gần nhất không tự reset chỉ vì tab đang bị ẩn. Khi đổi module/language, component key/reset boundary tạo state mới phù hợp context mới.
 
-Menu và API Docs mặc định collapsed. Knowledge cũng bắt đầu chưa mở section nào, nhưng cho phép **nhiều section mở đồng thời**. Content Markdown của section đã load được cache trong panel để quay lại tab không phải fetch lại ngay.
+API Docs mặc định collapsed. Knowledge cũng bắt đầu chưa mở section nào, nhưng cho phép **nhiều section mở đồng thời**. Content Markdown của section đã load được cache trong panel để quay lại tab không phải fetch lại ngay.
 
 Knowledge category strip hỗ trợ cả nút cuộn trái/phải và pointer drag ngang. Pointer chỉ chuyển sang drag sau threshold nhỏ (>5px); click bình thường vẫn chọn category, còn click phát sinh sau một drag thật sự bị suppress để tránh đổi category ngoài ý muốn. Cursor `grab/grabbing` phản ánh state tương tác này.
 
@@ -1014,7 +1014,7 @@ Swagger tiếp tục có giá trị như API experiment tool, nhưng không còn
 **Đã triển khai trong repository standalone:**
 
 - React 19 + TypeScript + Vite + React Router; trang Home, Learning, Project, About Me; theme, VI/EN, dynamic metadata/favicon, mobile-responsive styling.
-- Java topic picker, module tree/dashboard, Roadmap timeline, Overview, Menu, Knowledge renderer, API Docs reference, Quiz, Interview, Reference và tìm kiếm/filter từ static catalog/index.
+- Java topic picker, module tree/dashboard, Roadmap timeline, Overview, Knowledge renderer, API Docs reference, Quiz, Interview, Reference và tìm kiếm/filter từ static catalog/index.
 - Static Java ZIP consumer có checksum/manifest verification, asset URL mapping và isolated `dist/language/java` sync; derived navigation (~121 KB), 295 per-module detail files và content count summary (~46 KB ở dataset 2026-10-12) cho progressive render, không bắt menu đợi full catalog/hàng trăm content requests.
 - Hai pipeline tách biệt: `java-learning` publisher tạo Release `java-data` rồi `repository_dispatch` sang `learning-platform` để chạy CI/CD website; người dùng chủ động Build JAR kích hoạt workflow riêng trong `java-learning`, tạo Release `local-run`, **không deploy lại frontend**.
 - Production Cloudflare Worker with static assets; Local Run available by module type without feature toggles. The Worker checks its GitHub secret, module/fingerprint and same-origin requirements, using DO single-flight and an IP rate limit. Preview has isolated bindings and can dispatch with GitHub credentials.

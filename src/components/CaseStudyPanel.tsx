@@ -61,7 +61,7 @@ export function CaseStudyPanel({ path }: CaseStudyPanelProps) {
             const hintExpanded = expandedHints.has(index);
             const analysisExpanded = expandedAnalysis.has(index);
             return (
-              <article key={index} className="interview-card">
+              <article key={index} className="interview-card case-study-card">
                 <div className="interview-card__topline">
                   <span className="interview-card__number">{language === 'vi' ? 'Tình huống' : 'Case'} {index + 1}</span>
                 </div>

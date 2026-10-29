@@ -58,6 +58,9 @@
   --knowledge-lessons-bg: #142c31;
   --knowledge-lessons-border: #36747a;
   --knowledge-lessons-text: #95e5dd;
+  --case-study-knowledge-bg: #17283a;
+  --case-study-knowledge-border: #345475;
+  --case-study-knowledge-heading: #a0cfff;
 
   /* Capability colors stay identical in light and dark themes. */
   --overview-bg: #2b3038;
@@ -138,6 +141,9 @@
   --knowledge-lessons-bg: #e6f5f3;
   --knowledge-lessons-border: #83bbb4;
   --knowledge-lessons-text: #17665e;
+  --case-study-knowledge-bg: #e9f3ff;
+  --case-study-knowledge-border: #a7c6ed;
+  --case-study-knowledge-heading: #205b99;
 }
 
 * {
@@ -4942,22 +4948,38 @@ pre {
   white-space: pre-wrap;
 }
 
+.case-study-card > .markdown-content,
+.case-study-knowledge > .markdown-content {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.case-study-card > .markdown-content > :last-child,
+.case-study-knowledge > .markdown-content > :last-child {
+  margin-bottom: 0;
+}
+
 .case-study-knowledge {
-  margin: 22px 0 18px;
+  margin: 14px 0 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--case-study-knowledge-border);
+  border-radius: 8px;
+  background: var(--case-study-knowledge-bg);
   color: var(--text-soft);
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.6;
 }
 
 .case-study-knowledge h4 {
-  margin: 0 0 10px;
-  color: var(--text);
+  margin: 0 0 6px;
+  color: var(--case-study-knowledge-heading);
   font-size: 13px;
 }
 
 .case-study-disclosures {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .section-intro {

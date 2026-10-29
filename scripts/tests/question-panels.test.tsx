@@ -142,7 +142,8 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
     assert.match(container.textContent ?? '', /First situation/);
     assert.match(container.textContent ?? '', /Kiến thức áp dụng/);
     assert.match(container.textContent ?? '', /SRP/);
-    const caseCard = container.querySelector('.interview-card') as HTMLElement;
+    const caseCard = container.querySelector('.case-study-card') as HTMLElement;
+    assert.ok(caseCard, 'Case Study has a dedicated class for scoped layout and theme styling');
     const knowledge = caseCard.querySelector('.case-study-knowledge') as HTMLElement;
     const hint = button('Gợi ý');
     const analysis = button('Phân tích và mã nguồn gợi ý');

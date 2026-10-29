@@ -41,7 +41,7 @@ test('Real modules toggle filters counted entries; errors retain the tree and su
     await act(async () => root.render(
       <MemoryRouter><LanguageProvider><ModuleSidebar
         nodes={nodes} activeModuleId="VALID" knowledgeCounts={{ VALID: 1 }}
-        quizCounts={{}} interviewCounts={{}} apiCounts={{}} roadmapAvailability={{}}
+        quizCounts={{}} interviewCounts={{}} caseStudyCounts={{}} apiCounts={{}} roadmapAvailability={{}}
         contentCountsState={state} onRetryContentCounts={() => { retried++; }}
       /></LanguageProvider></MemoryRouter>,
     ));

@@ -4942,6 +4942,24 @@ pre {
   white-space: pre-wrap;
 }
 
+.case-study-knowledge {
+  margin: 22px 0 18px;
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.case-study-knowledge h4 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.case-study-disclosures {
+  display: grid;
+  gap: 12px;
+}
+
 .section-intro {
   margin-bottom: 4px;
 }

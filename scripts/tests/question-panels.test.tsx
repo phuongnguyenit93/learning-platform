@@ -105,7 +105,7 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
   }
 });
 
-test('Case Study renders selected module group and reveals resolution and code on demand', async () => {
+test('Case Study shows knowledge first and reveals hints and analysis independently', async () => {
   const browser = new Window({ url: 'http://localhost:5000' });
   const keys = ['window', 'document', 'navigator', 'HTMLElement', 'Event', 'MutationObserver', 'DOMException', 'IS_REACT_ACT_ENVIRONMENT'] as const;
   const values: unknown[] = [browser, browser.document, browser.navigator, browser.HTMLElement, browser.Event, browser.MutationObserver, browser.DOMException, true];
@@ -140,13 +140,36 @@ test('Case Study renders selected module group and reveals resolution and code o
       <LanguageProvider><CaseStudyPanel path="/module/ASPECT/casestudy/vi/index.json" /></LanguageProvider>,
     ));
     assert.match(container.textContent ?? '', /First situation/);
+    assert.match(container.textContent ?? '', /Kiến thức áp dụng/);
+    assert.match(container.textContent ?? '', /SRP/);
+    const caseCard = container.querySelector('.interview-card') as HTMLElement;
+    const knowledge = caseCard.querySelector('.case-study-knowledge') as HTMLElement;
+    const hint = button('Gợi ý');
+    const analysis = button('Phân tích và mã nguồn gợi ý');
+    assert.ok(knowledge.compareDocumentPosition(hint) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.ok(hint.compareDocumentPosition(analysis) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.equal(hint.getAttribute('aria-expanded'), 'false');
+    assert.equal(analysis.getAttribute('aria-expanded'), 'false');
+    assert.doesNotMatch(container.textContent ?? '', /Split responsibilities/);
     assert.doesNotMatch(container.textContent ?? '', /class Billing/);
-    await act(async () => { button('Phân tích và lời giải').click(); });
+    assert.doesNotMatch(container.textContent ?? '', /Hướng xử lý|Minh họa và mã nguồn/);
+    await act(async () => { hint.click(); });
+    assert.equal(hint.getAttribute('aria-expanded'), 'true');
     assert.match(container.textContent ?? '', /Split responsibilities/);
+    assert.doesNotMatch(container.textContent ?? '', /class Billing/);
+    await act(async () => { analysis.click(); });
+    assert.equal(analysis.getAttribute('aria-expanded'), 'true');
+    assert.match(container.textContent ?? '', /class Billing/);
+    await act(async () => { hint.click(); });
+    assert.doesNotMatch(container.textContent ?? '', /Split responsibilities/);
     assert.match(container.textContent ?? '', /class Billing/);
     await act(async () => { button('Second group').click(); });
     assert.match(container.textContent ?? '', /Second situation/);
     assert.doesNotMatch(container.textContent ?? '', /First situation/);
+    assert.match(container.textContent ?? '', /SRP/);
+    assert.equal(button('Gợi ý').getAttribute('aria-expanded'), 'false');
+    assert.equal(button('Phân tích và mã nguồn gợi ý').getAttribute('aria-expanded'), 'false');
+    assert.doesNotMatch(container.textContent ?? '', /class Billing/);
   } finally {
     await act(async () => root.unmount());
     await browser.happyDOM.abort();

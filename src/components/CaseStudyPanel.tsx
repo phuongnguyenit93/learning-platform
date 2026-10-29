@@ -14,14 +14,16 @@ export function CaseStudyPanel({ path }: CaseStudyPanelProps) {
     useQuestionChapterSelection(path, 'casestudy', null);
   const documentPath = selected?.documentPath;
   const [cases, setCases] = useState<CaseStudyItem[]>([]);
-  const [expanded, setExpanded] = useState<Set<number>>(() => new Set());
+  const [expandedHints, setExpandedHints] = useState<Set<number>>(() => new Set());
+  const [expandedAnalysis, setExpandedAnalysis] = useState<Set<number>>(() => new Set());
   const [loadedPath, setLoadedPath] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
     setCases([]);
-    setExpanded(new Set());
+    setExpandedHints(new Set());
+    setExpandedAnalysis(new Set());
     setError(null);
     setLoadedPath(null);
     if (!documentPath || selected?.questionCount === 0) {
@@ -56,34 +58,52 @@ export function CaseStudyPanel({ path }: CaseStudyPanelProps) {
       ) : (
         <section className="interview-list">
           {cases.map((item, index) => {
-            const isExpanded = expanded.has(index);
+            const hintExpanded = expandedHints.has(index);
+            const analysisExpanded = expandedAnalysis.has(index);
             return (
               <article key={index} className="interview-card">
                 <div className="interview-card__topline">
                   <span className="interview-card__number">{language === 'vi' ? 'Tình huống' : 'Case'} {index + 1}</span>
                 </div>
                 <div className="markdown-content"><MermaidMarkdown>{item.situation}</MermaidMarkdown></div>
-                <button type="button" className={`interview-answer-toggle${isExpanded ? ' is-open' : ''}`}
-                  aria-expanded={isExpanded}
-                  onClick={() => setExpanded((current) => {
-                    const next = new Set(current);
-                    if (next.has(index)) next.delete(index);
-                    else next.add(index);
-                    return next;
-                  })}>
-                  <span>{language === 'vi' ? 'Phân tích và lời giải' : 'Analysis and solution'}</span>
-                  <span aria-hidden="true">{isExpanded ? '−' : '+'}</span>
-                </button>
-                {isExpanded && (
-                  <div className="interview-answer">
-                    <h4>{language === 'vi' ? 'Hướng xử lý' : 'Resolution'}</h4>
-                    <div className="markdown-content"><MermaidMarkdown>{item.resolve}</MermaidMarkdown></div>
-                    <h4>{language === 'vi' ? 'Kiến thức áp dụng' : 'Relevant knowledge'}</h4>
-                    <div className="markdown-content"><MermaidMarkdown>{item.knowledge}</MermaidMarkdown></div>
-                    <h4>{language === 'vi' ? 'Minh họa và mã nguồn' : 'Example and code'}</h4>
-                    <div className="markdown-content"><MermaidMarkdown>{item.code}</MermaidMarkdown></div>
+                <div className="case-study-knowledge">
+                  <h4>{language === 'vi' ? 'Kiến thức áp dụng' : 'Relevant knowledge'}</h4>
+                  <div className="markdown-content"><MermaidMarkdown>{item.knowledge}</MermaidMarkdown></div>
+                </div>
+                <div className="case-study-disclosures">
+                  <div>
+                    <button type="button" className={`interview-answer-toggle${hintExpanded ? ' is-open' : ''}`}
+                      aria-expanded={hintExpanded}
+                      onClick={() => setExpandedHints((current) => {
+                        const next = new Set(current);
+                        if (next.has(index)) next.delete(index);
+                        else next.add(index);
+                        return next;
+                      })}>
+                      <span>{language === 'vi' ? 'Gợi ý' : 'Hint'}</span>
+                      <span aria-hidden="true">{hintExpanded ? '−' : '+'}</span>
+                    </button>
+                    {hintExpanded && (
+                      <div className="interview-answer markdown-content"><MermaidMarkdown>{item.resolve}</MermaidMarkdown></div>
+                    )}
                   </div>
-                )}
+                  <div>
+                    <button type="button" className={`interview-answer-toggle${analysisExpanded ? ' is-open' : ''}`}
+                      aria-expanded={analysisExpanded}
+                      onClick={() => setExpandedAnalysis((current) => {
+                        const next = new Set(current);
+                        if (next.has(index)) next.delete(index);
+                        else next.add(index);
+                        return next;
+                      })}>
+                      <span>{language === 'vi' ? 'Phân tích và mã nguồn gợi ý' : 'Analysis and suggested code'}</span>
+                      <span aria-hidden="true">{analysisExpanded ? '−' : '+'}</span>
+                    </button>
+                    {analysisExpanded && (
+                      <div className="interview-answer markdown-content"><MermaidMarkdown>{item.code}</MermaidMarkdown></div>
+                    )}
+                  </div>
+                </div>
               </article>
             );
           })}

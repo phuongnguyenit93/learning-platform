@@ -338,6 +338,29 @@ questions:
 
 `Reference Answer / Câu trả lời tham khảo` bắt đầu collapsed; mỗi item có thể mở độc lập và nhiều answer có thể cùng mở. Related Knowledge/API chỉ xuất hiện khi target từ dataset resolve được; Markdown lazy-load, rich HTML sanitized.
 
+### STEP 6/7: module-wide Quiz, Interview, Case Study
+
+Các module mới author ba file `content/quiz/{language}/quiz.yml`,
+`content/interview/{language}/interview.yml` và
+`content/casestudy/{language}/casestudy.yml`, mỗi file có nhiều group
+(`groupID`, `groupName`, `questions` hoặc `cases`). Producer `java-learning`
+phát hành **read-only** thành `/module/{routeId}/{kind}/{language}/index.json`
+với `mode: groups`, `chapters` là danh sách group tương thích với bộ chọn hiện có
+(mỗi entry có `id`, `title`, `questionCount`, `path: groups/{groupID}.yml`).
+Mỗi file `groups/{groupID}.yml` chứa `questions` (Quiz/Interview) hoặc
+`cases` (Case Study). Nguồn chapter-local trước đây vẫn được hỗ trợ khi module
+chưa có file assessment cấp module.
+
+Quiz mới không cần author `id` từng câu: consumer dùng đường dẫn group và
+questionIndex 1-based làm identity ổn định, vẫn dựa trên `answer.id` A/B/C/D
+để chấm đáp án. Interview render `answer` dưới dạng Markdown; Case Study render
+`situation`, `resolve`, `knowledge`, `code`, phần giải pháp/code mở theo yêu cầu.
+Các dữ liệu mới lưu `readmeRelated.anchorList` (nhiều ID Knowledge) nguyên vẹn
+trong static YAML. Tạm thời UI không hiển thị Related Knowledge cho kiểu mới,
+không chọn tùy tiện một anchor hay tự sinh `apiRelated`. Resolver nhiều liên kết
+là giai đoạn riêng. Các liên kết `readmeRelated.file/anchor` và `apiRelated`
+của chapter-local legacy tiếp tục hoạt động như trước.
+
 ---
 
 ## 11. Static-first data architecture

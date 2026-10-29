@@ -8,6 +8,7 @@ interface PickerProps {
   chapters: ReturnType<typeof sortQuestionChapters>;
   selectedId: string | null;
   onSelect: (id: string) => void;
+  mode?: 'groups' | 'chapters';
 }
 
 export function useQuestionChapterSelection(path: string | undefined, kind: QuestionKind, knowledgeIndex: KnowledgeIndex | null) {
@@ -45,16 +46,23 @@ export function useQuestionChapterSelection(path: string | undefined, kind: Ques
     ?? chapters.find((chapter) => chapter.questionCount > 0)
     ?? chapters[0];
 
-  return { chapters, selected, selectChapter: setRequestedId, loading, error, totalQuestions: index?.totalQuestions ?? 0 };
+  return { chapters, selected, selectChapter: setRequestedId, loading, error,
+    mode: index?.mode ?? 'chapters', totalQuestions: index?.totalQuestions ?? 0 };
 }
 
-export function QuestionChapterPicker({ kind, chapters, selectedId, onSelect }: PickerProps) {
+export function QuestionChapterPicker({ kind, chapters, selectedId, onSelect, mode = 'chapters' }: PickerProps) {
   const { language } = useLanguage();
+  const isGroups = mode === 'groups';
+  const isCases = kind === 'casestudy';
   return (
-    <nav className="question-chapter-picker" aria-label={language === 'vi' ? 'Chọn chương' : 'Choose a chapter'}>
+    <nav className="question-chapter-picker" aria-label={isGroups
+      ? (language === 'vi' ? 'Chọn nhóm' : 'Choose a group')
+      : (language === 'vi' ? 'Chọn chương' : 'Choose a chapter')}>
       <div className="question-chapter-picker__heading">
-        <strong>{language === 'vi' ? 'Chương' : 'Chapters'}</strong>
-        <span>{chapters.reduce((total, chapter) => total + chapter.questionCount, 0)} {language === 'vi' ? 'câu hỏi' : 'questions'}</span>
+        <strong>{isGroups ? (language === 'vi' ? 'Nhóm' : 'Groups') : (language === 'vi' ? 'Chương' : 'Chapters')}</strong>
+        <span>{chapters.reduce((total, chapter) => total + chapter.questionCount, 0)} {isCases
+          ? (language === 'vi' ? 'tình huống' : 'cases')
+          : (language === 'vi' ? 'câu hỏi' : 'questions')}</span>
       </div>
       <div className="question-chapter-picker__list">
         {chapters.map((chapter) => (

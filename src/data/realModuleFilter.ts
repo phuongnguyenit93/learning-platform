@@ -4,6 +4,7 @@ export interface ModuleContentCounts {
   knowledge: Record<string, number>;
   quiz: Record<string, number>;
   interview: Record<string, number>;
+  casestudy?: Record<string, number>;
   api: Record<string, number>;
 }
 
@@ -14,6 +15,7 @@ export function isCountedRealModule(node: ModuleCatalogNode, counts: ModuleConte
   return (counts.knowledge[id] ?? 0) > 0
     || (counts.quiz[id] ?? 0) > 0
     || (counts.interview[id] ?? 0) > 0
+    || (counts.casestudy?.[id] ?? 0) > 0
     || (counts.api[id] ?? 0) > 0;
 }
 

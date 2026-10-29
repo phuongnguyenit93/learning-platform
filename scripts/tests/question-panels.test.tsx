@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { stringify } from 'yaml';
 import { InterviewPanel } from '../../src/components/InterviewPanel';
 import { QuizPanel } from '../../src/components/QuizPanel';
+import { CaseStudyPanel } from '../../src/components/CaseStudyPanel';
 import { LanguageProvider } from '../../src/state/LanguageContext';
 import type { KnowledgeIndex } from '../../src/types/learning';
 
@@ -95,6 +96,59 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
     assert.doesNotMatch(container.textContent ?? '', /Answer first/);
   } finally {
     await act(async () => { root.unmount(); });
+    await browser.happyDOM.abort();
+    globalThis.fetch = originalFetch;
+    keys.forEach((key, index) => {
+      if (saved[index]) Object.defineProperty(globalThis, key, saved[index]);
+      else Reflect.deleteProperty(globalThis, key);
+    });
+  }
+});
+
+test('Case Study renders selected module group and reveals resolution and code on demand', async () => {
+  const browser = new Window({ url: 'http://localhost:5000' });
+  const keys = ['window', 'document', 'navigator', 'HTMLElement', 'Event', 'MutationObserver', 'DOMException', 'IS_REACT_ACT_ENVIRONMENT'] as const;
+  const values: unknown[] = [browser, browser.document, browser.navigator, browser.HTMLElement, browser.Event, browser.MutationObserver, browser.DOMException, true];
+  const saved = keys.map((key) => Object.getOwnPropertyDescriptor(globalThis, key));
+  keys.forEach((key, index) => Object.defineProperty(globalThis, key, { configurable: true, writable: true, value: values[index] }));
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = (async (url: URL | RequestInfo) => {
+    const request = String(url);
+    if (request.endsWith('/index.json')) {
+      return new Response(JSON.stringify({ mode: 'groups', totalQuestions: 2, chapters: [
+        { id: 'group-1', title: 'First group', questionCount: 1, path: 'groups/1.yml' },
+        { id: 'group-2', title: 'Second group', questionCount: 1, path: 'groups/2.yml' },
+      ] }), { status: 200 });
+    }
+    const isSecond = request.endsWith('/groups/2.yml');
+    return new Response(stringify({ cases: [{
+      situation: isSecond ? 'Second situation' : 'First situation',
+      resolve: 'Split responsibilities', knowledge: 'SRP',
+      code: 'class Billing {}', readmeRelated: { anchorList: ['solid-002'] },
+    }] }), { status: 200 });
+  }) as typeof fetch;
+  const container = browser.document.createElement('main');
+  browser.document.body.append(container);
+  const root = createRoot(container);
+  const button = (text: string) => {
+    const found = [...container.querySelectorAll('button')].find((item) => item.textContent?.includes(text));
+    assert.ok(found, `Missing button ${text}`);
+    return found as HTMLButtonElement;
+  };
+  try {
+    await act(async () => root.render(
+      <LanguageProvider><CaseStudyPanel path="/module/ASPECT/casestudy/vi/index.json" /></LanguageProvider>,
+    ));
+    assert.match(container.textContent ?? '', /First situation/);
+    assert.doesNotMatch(container.textContent ?? '', /class Billing/);
+    await act(async () => { button('Phân tích và lời giải').click(); });
+    assert.match(container.textContent ?? '', /Split responsibilities/);
+    assert.match(container.textContent ?? '', /class Billing/);
+    await act(async () => { button('Second group').click(); });
+    assert.match(container.textContent ?? '', /Second situation/);
+    assert.doesNotMatch(container.textContent ?? '', /First situation/);
+  } finally {
+    await act(async () => root.unmount());
     await browser.happyDOM.abort();
     globalThis.fetch = originalFetch;
     keys.forEach((key, index) => {

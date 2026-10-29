@@ -42,7 +42,7 @@ export async function buildModuleContentCounts(javaRoot = 'dist/language/java', 
         // Interview/Quiz releases now publish per-chapter question.yml files
         // and a compact index.json with the total. Older releases contain one
         // module-wide YAML; support both during the producer transition.
-        if (type === 'quiz' || type === 'interview') {
+        if (type === 'quiz' || type === 'interview' || type === 'casestudy') {
           const indexPath = source.replace(/question\.yml$/, 'index.json');
           let indexContent;
           if (indexPath === source && source.endsWith('.json')) {
@@ -94,6 +94,7 @@ export async function buildModuleContentCounts(javaRoot = 'dist/language/java', 
         knowledge: await count(module.knowledge?.[language], 'knowledge'),
         quiz: await count(module.quiz?.[language], 'quiz'),
         interview: await count(module.interview?.[language], 'interview'),
+        casestudy: await count(module.casestudy?.[language], 'casestudy'),
         apiDocs: await count(module.api?.[language], 'api'),
       };
     }

@@ -33,7 +33,7 @@ test('one derived content summary preserves numeric badges without browser docum
   const originalCatalog = await readFile(join(javaRoot, 'module-catalog.json'), 'utf8');
   const output = join(root, 'module-content-counts.json');
   const result = await buildModuleContentCounts(javaRoot, output);
-  assert.deepEqual(result.locales.vi.EXAMPLE, { knowledge: 4, quiz: 2, interview: 1, apiDocs: 1 });
+  assert.deepEqual(result.locales.vi.EXAMPLE, { knowledge: 4, quiz: 2, interview: 1, casestudy: 0, apiDocs: 1 });
   assert.deepEqual(result.locales.vi, result.locales.en);
   assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), result);
   assert.equal(await readFile(join(javaRoot, 'module-catalog.json'), 'utf8'), originalCatalog,

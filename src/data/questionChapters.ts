@@ -1,7 +1,7 @@
 import { fetchJavaAsset } from './javaAsset';
 import type { KnowledgeIndex } from '../types/learning';
 
-export type QuestionKind = 'quiz' | 'interview';
+export type QuestionKind = 'quiz' | 'interview' | 'casestudy';
 
 export interface QuestionChapter {
   id: string;
@@ -13,6 +13,7 @@ export interface QuestionChapter {
 export interface QuestionChapterIndex {
   chapters: QuestionChapter[];
   totalQuestions: number;
+  mode?: 'groups';
 }
 
 export interface ResolvedQuestionChapter extends QuestionChapter {
@@ -27,14 +28,15 @@ export function questionIndexPath(path: string, kind: QuestionKind): string {
 
 /** Only allow one chapter below the index's own /menu/ directory. */
 export function resolveQuestionChapterPath(indexPath: string, chapterPath: string): string {
-  if (!/^menu\/[a-zA-Z0-9][a-zA-Z0-9._-]*\/question\.yml$/.test(chapterPath)
+  if (!/^(?:menu\/[a-zA-Z0-9][a-zA-Z0-9._-]*\/question\.yml|groups\/[1-9]\d*\.yml)$/.test(chapterPath)
     || chapterPath.split('/').some((segment) => segment === '..' || segment === '.')) {
     throw new Error(`Invalid question chapter path: ${chapterPath}`);
   }
   const base = new URL(indexPath, 'https://java-assets.invalid');
   const resolved = new URL(chapterPath, base);
   const allowedRoot = base.pathname.slice(0, base.pathname.lastIndexOf('/') + 1);
-  if (resolved.origin !== base.origin || !resolved.pathname.startsWith(`${allowedRoot}menu/`)) {
+  if (resolved.origin !== base.origin || !(resolved.pathname.startsWith(`${allowedRoot}menu/`)
+    || resolved.pathname.startsWith(`${allowedRoot}groups/`))) {
     throw new Error(`Question chapter path escapes index directory: ${chapterPath}`);
   }
   return resolved.pathname;
@@ -43,6 +45,7 @@ export function resolveQuestionChapterPath(indexPath: string, chapterPath: strin
 export function parseQuestionChapterIndex(value: unknown, indexPath: string): {
   chapters: ResolvedQuestionChapter[];
   totalQuestions: number;
+  mode: 'chapters' | 'groups';
 } {
   if (!isRecord(value) || !Array.isArray(value.chapters)
     || !Number.isSafeInteger(value.totalQuestions) || (value.totalQuestions as number) < 0) {
@@ -70,7 +73,13 @@ export function parseQuestionChapterIndex(value: unknown, indexPath: string): {
   if (chapters.reduce((sum, chapter) => sum + chapter.questionCount, 0) !== value.totalQuestions) {
     throw new Error('Invalid question index: totalQuestions does not match chapter counts.');
   }
-  return { chapters, totalQuestions: value.totalQuestions as number };
+  if (value.mode !== undefined && value.mode !== 'groups') {
+    throw new Error('Invalid question index mode.');
+  }
+  if (value.mode === 'groups' && chapters.some((chapter) => !chapter.path.startsWith('groups/'))) {
+    throw new Error('Group index must reference group documents.');
+  }
+  return { chapters, totalQuestions: value.totalQuestions as number, mode: value.mode === 'groups' ? 'groups' : 'chapters' };
 }
 
 export async function loadQuestionChapterIndex(path: string, kind: QuestionKind) {

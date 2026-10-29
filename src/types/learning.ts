@@ -6,6 +6,7 @@ export interface ModuleStats {
   knowledge: number;
   quiz: number;
   interview: number;
+  casestudy?: number;
   apiDocs: number;
 }
 
@@ -53,6 +54,7 @@ export interface LearningModule {
   reference?: string;
   quiz: Partial<Record<Language, string>>;
   interview: Partial<Record<Language, string>>;
+  casestudy: Partial<Record<Language, string>>;
   api: Partial<Record<Language, string>>;
   capabilities: CapabilityState;
 }
@@ -85,6 +87,7 @@ export interface ModuleCatalogNode {
   roadmap?: Partial<Record<Language, string>>;
   quiz?: Partial<Record<Language, string>>;
   interview?: Partial<Record<Language, string>>;
+  casestudy?: Partial<Record<Language, string>>;
   api?: Partial<Record<Language, string>>;
   codeExplorer?: string;
   children: ModuleCatalogNode[];

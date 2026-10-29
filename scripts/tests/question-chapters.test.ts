@@ -47,6 +47,31 @@ test('malformed counts, duplicate ids and unsafe chapter paths are rejected', ()
   }
 });
 
+test('module group indexes resolve only local group documents and keep group order', () => {
+  const path = '/module/OBJECT_ORIENTED_PROGRAMMING/casestudy/vi/index.json';
+  assert.equal(questionIndexPath(path, 'casestudy'), path);
+  const groups = [
+    { id: 'group-1', title: 'OOP foundations', questionCount: 12, path: 'groups/1.yml' },
+    { id: 'group-2', title: 'Design', questionCount: 14, path: 'groups/2.yml' },
+  ];
+  const index = parseQuestionChapterIndex({ mode: 'groups', chapters: groups, totalQuestions: 26 }, path);
+  assert.equal(index.mode, 'groups');
+  assert.deepEqual(index.chapters.map((item) => item.documentPath), [
+    '/module/OBJECT_ORIENTED_PROGRAMMING/casestudy/vi/groups/1.yml',
+    '/module/OBJECT_ORIENTED_PROGRAMMING/casestudy/vi/groups/2.yml',
+  ]);
+  assert.deepEqual(sortQuestionChapters(index.chapters, knowledge).map((item) => item.id),
+    ['group-1', 'group-2']);
+  for (const candidate of ['groups/../secret.yml', 'groups/0.yml', 'groups/1.yml/other',
+    'groups/a.yml', 'groups/1%2eyml', 'menu/1.First/question.yml']) {
+    assert.throws(() => parseQuestionChapterIndex({
+      mode: 'groups',
+      chapters: [{ ...groups[0], path: candidate }],
+      totalQuestions: 12,
+    }, path));
+  }
+});
+
 test('anchor-only Knowledge references are scoped to chapter; legacy file references remain global', () => {
   const firstChapter = buildQuestionKnowledgeResolver(knowledge, '1.First');
   assert.equal(firstChapter({ file: '', anchor: 'shared-anchor' })?.content, '/first.md');

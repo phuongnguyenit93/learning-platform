@@ -44,7 +44,7 @@ function localReference(javaRoot, value) {
 function visitModules(node, javaRoot, references) {
   ensure(node && typeof node === 'object' && Array.isArray(node.children), 'Invalid catalog node');
   if (node.kind === 'MODULE') {
-    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'api', 'reference', 'codeExplorer']) {
+    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'casestudy', 'api', 'reference', 'codeExplorer']) {
       const field = node[kind];
       if (!field) continue;
       const values = typeof field === 'object' ? Object.values(field) : [field];

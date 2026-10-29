@@ -29,8 +29,8 @@ test('content counts read chapter indexes and accept a legacy YAML release', asy
       await save(`module/TEST/${kind}/en/question.yml`, 'questions:\n  - question: One\n');
     }
     const result = await buildModuleContentCounts(javaRoot, output);
-    assert.deepEqual(result.locales.vi.TEST, { knowledge: 0, quiz: 3, interview: 2, apiDocs: 0 });
-    assert.deepEqual(result.locales.en.TEST, { knowledge: 0, quiz: 1, interview: 1, apiDocs: 0 });
+    assert.deepEqual(result.locales.vi.TEST, { knowledge: 0, quiz: 3, interview: 2, casestudy: 0, apiDocs: 0 });
+    assert.deepEqual(result.locales.en.TEST, { knowledge: 0, quiz: 1, interview: 1, casestudy: 0, apiDocs: 0 });
     assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), result);
   } finally {
     await rm(workspace, { force: true, recursive: true });

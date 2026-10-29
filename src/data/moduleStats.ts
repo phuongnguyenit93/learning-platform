@@ -5,6 +5,7 @@ export function resolveModuleStats(_moduleId: string): ModuleStats {
     knowledge: 0,
     quiz: 0,
     interview: 0,
+    casestudy: 0,
     apiDocs: 0,
   };
 }

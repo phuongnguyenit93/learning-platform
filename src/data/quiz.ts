@@ -17,19 +17,19 @@ export async function loadQuizDocument(path: string): Promise<QuizDocument> {
   }
 
   const parsed = parse(await response.text()) as unknown;
-  return parseQuizDocument(parsed);
+  return parseQuizDocument(parsed, path);
 }
 
 export async function loadQuizQuestionCount(path: string): Promise<number> {
   return (await loadQuizDocument(path)).questions.length;
 }
 
-function parseQuizDocument(value: unknown): QuizDocument {
+function parseQuizDocument(value: unknown, sourcePath: string): QuizDocument {
   if (!isRecord(value) || !Array.isArray(value.questions)) {
     throw new Error('Invalid Quiz document: questions must be an array.');
   }
 
-  const questions = value.questions.map((question, index) => parseQuestion(question, index));
+  const questions = value.questions.map((question, index) => parseQuestion(question, index, sourcePath));
   const ids = questions.map((question) => question.id);
 
   if (new Set(ids).size !== ids.length) {
@@ -39,15 +39,21 @@ function parseQuizDocument(value: unknown): QuizDocument {
   return { questions };
 }
 
-function parseQuestion(value: unknown, index: number): QuizQuestion {
+function parseQuestion(value: unknown, index: number, sourcePath: string): QuizQuestion {
   if (!isRecord(value)) {
     throw new Error(`Invalid Quiz question at index ${index}.`);
   }
 
-  const id = asNonBlankString(value.id, `questions[${index}].id`);
+  // STEP 6/7 module groups use their group and 1-based index as stable identity.
+  // Legacy chapter questions keep their authored IDs.
+  const id = value.id === undefined && /\/groups\/[1-9]\d*\.yml$/.test(sourcePath)
+    ? `${sourcePath}#${index + 1}`
+    : asNonBlankString(value.id, `questions[${index}].id`);
   const question = asNonBlankString(value.question, `questions[${index}].question`);
   const readmeRelated = parseReadmeRelated(value.readmeRelated, `questions[${index}].readmeRelated`);
-  const apiRelated = parseApiRelated(value.apiRelated, `questions[${index}].apiRelated`);
+  const apiRelated = value.apiRelated === undefined
+    ? { controller: '', methodSignature: '' }
+    : parseApiRelated(value.apiRelated, `questions[${index}].apiRelated`);
 
   if (!Array.isArray(value.answers) || value.answers.length !== 4) {
     throw new Error(`Invalid Quiz question '${id}': answers must contain exactly four items.`);
@@ -75,6 +81,13 @@ function parseQuestion(value: unknown, index: number): QuizQuestion {
 function parseReadmeRelated(value: unknown, path: string) {
   if (!isRecord(value)) {
     throw new Error(`Invalid Quiz value at ${path}: expected an object.`);
+  }
+  // Group assessments retain anchorList; multi-link UI is a separate phase.
+  if (Array.isArray(value.anchorList)) {
+    if (!value.anchorList.every((anchor) => typeof anchor === 'string')) {
+      throw new Error(`Invalid Quiz value at ${path}.anchorList.`);
+    }
+    return { file: '', anchor: '' };
   }
 
   return {

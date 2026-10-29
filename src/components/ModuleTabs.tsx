@@ -1,7 +1,7 @@
 import { useLanguage } from '../state/LanguageContext';
 import type { ModuleStats } from '../types/learning';
 
-export type ModuleTab = 'overview' | 'roadmap' | 'reference' | 'knowledge' | 'quiz' | 'interview' | 'api' | 'execution' | 'feedback';
+export type ModuleTab = 'overview' | 'roadmap' | 'reference' | 'knowledge' | 'quiz' | 'interview' | 'casestudy' | 'api' | 'execution' | 'feedback';
 
 interface ModuleTabsProps {
   activeTab: ModuleTab;
@@ -19,6 +19,7 @@ const tabs: Array<{ id: ModuleTab; vi: string; en: string; countKey?: keyof Modu
   { id: 'api', vi: 'API Docs', en: 'API Docs', countKey: 'apiDocs' },
   { id: 'quiz', vi: 'Quiz', en: 'Quiz', countKey: 'quiz' },
   { id: 'interview', vi: 'Interview', en: 'Interview', countKey: 'interview' },
+  { id: 'casestudy', vi: 'Case Study', en: 'Case Study', countKey: 'casestudy' },
   { id: 'execution', vi: 'Local Run', en: 'Local Run' },
 ];
 
@@ -32,7 +33,7 @@ export function ModuleTabs({ activeTab, stats, referenceEnabled, executionEnable
           (tab.id !== 'execution' || executionEnabled)
           && (tab.id !== 'reference' || referenceEnabled)
         )).map((tab) => {
-          const count = tab.countKey ? stats[tab.countKey] : 0;
+          const count = tab.countKey ? (stats[tab.countKey] ?? 0) : 0;
 
           return (
             <button

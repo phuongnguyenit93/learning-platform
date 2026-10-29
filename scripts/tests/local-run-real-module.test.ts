@@ -17,7 +17,7 @@ test('Real module requires a positive counted item, not metadata, hasContent or 
     knowledge: { vi: '/module/empty/knowledge.json' },
   } as Partial<ModuleCatalogNode>);
   assert.equal(isCountedRealModule(falsePositive, empty), false);
-  for (const key of ['knowledge', 'quiz', 'interview', 'api'] as const) {
+  for (const key of ['knowledge', 'quiz', 'interview', 'casestudy', 'api'] as const) {
     assert.equal(isCountedRealModule(falsePositive, { ...empty, [key]: { EMPTY: 1 } }), true, key);
     assert.equal(isCountedRealModule(falsePositive, { ...empty, [key]: { EMPTY: 0 } }), false, key);
   }
@@ -40,4 +40,11 @@ test('Counts of the selected language determine the qualified Real module set', 
   const en = projectCountedRealModules(nodes, { ...empty, quiz: { EN_ONLY: 2 } });
   assert.deepEqual(vi.map((node) => node.routeId), ['VI_ONLY']);
   assert.deepEqual(en.map((node) => node.routeId), ['EN_ONLY']);
+});
+
+test('Case Study-only modules remain in the real-module navigation', () => {
+  const nodes = [moduleNode('CASE_ONLY'), moduleNode('EMPTY')];
+  assert.deepEqual(projectCountedRealModules(nodes, {
+    ...empty, casestudy: { CASE_ONLY: 12 },
+  }).map((node) => node.routeId), ['CASE_ONLY']);
 });

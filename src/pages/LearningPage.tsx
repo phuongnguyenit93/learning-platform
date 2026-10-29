@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { ApiDocsPanel } from '../components/ApiDocsPanel';
 import { KnowledgePanel } from '../components/KnowledgePanel';
 import { InterviewPanel } from '../components/InterviewPanel';
+import { CaseStudyPanel } from '../components/CaseStudyPanel';
 import { LearningSearch } from '../components/LearningSearch';
 import { LocalRunPanel } from '../components/LocalRunPanel';
 import { ModuleSidebar } from '../components/ModuleSidebar';
@@ -48,6 +49,7 @@ export function LearningPage() {
   const [knowledgeCounts, setKnowledgeCounts] = useState<Record<string, number>>({});
   const [quizCounts, setQuizCounts] = useState<Record<string, number>>({});
   const [interviewCounts, setInterviewCounts] = useState<Record<string, number>>({});
+  const [caseStudyCounts, setCaseStudyCounts] = useState<Record<string, number>>({});
   const [apiCounts, setApiCounts] = useState<Record<string, number>>({});
   const [countsLoad, setCountsLoad] = useState<{ language: string; status: 'loading' | 'ready' | 'error' } | null>(null);
   const [countsReload, setCountsReload] = useState(0);
@@ -137,6 +139,7 @@ export function LearningPage() {
   const referencePath = activeModule?.reference;
   const quizPath = activeModule?.quiz[language];
   const interviewPath = activeModule?.interview[language];
+  const caseStudyPath = activeModule?.casestudy[language];
   const apiPath = activeModule?.api[language];
   const displayedStats = useMemo(
     () => ({
@@ -144,9 +147,10 @@ export function LearningPage() {
       knowledge: knowledgeIndex?.sectionCount ?? knowledgeCounts[activeModuleId] ?? 0,
       quiz: quizCounts[activeModuleId] ?? 0,
       interview: interviewCounts[activeModuleId] ?? 0,
+      casestudy: caseStudyCounts[activeModuleId] ?? 0,
       apiDocs: apiCounts[activeModuleId] ?? 0,
     }),
-    [activeModuleId, activeStats, apiCounts, interviewCounts, knowledgeCounts, knowledgeIndex, quizCounts],
+    [activeModuleId, activeStats, apiCounts, interviewCounts, caseStudyCounts, knowledgeCounts, knowledgeIndex, quizCounts],
   );
 
   useEffect(() => {
@@ -185,6 +189,7 @@ export function LearningPage() {
         setKnowledgeCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.knowledge])));
         setQuizCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.quiz])));
         setInterviewCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.interview])));
+        setCaseStudyCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.casestudy ?? 0])));
         setApiCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.apiDocs])));
         setCountsLoad({ language, status: 'ready' });
       })
@@ -195,6 +200,7 @@ export function LearningPage() {
           setKnowledgeCounts({});
           setQuizCounts({});
           setInterviewCounts({});
+          setCaseStudyCounts({});
           setApiCounts({});
           setCountsLoad({ language, status: 'error' });
         }
@@ -317,6 +323,7 @@ export function LearningPage() {
         knowledgeCounts={knowledgeCounts}
         quizCounts={quizCounts}
         interviewCounts={interviewCounts}
+        caseStudyCounts={caseStudyCounts}
         apiCounts={apiCounts}
         roadmapAvailability={roadmapAvailability}
         contentCountsState={contentCountsState}
@@ -482,6 +489,11 @@ export function LearningPage() {
                 knowledgeIndex={knowledgeIndex}
                 apiBasePath={apiPath}
               />
+            </div>
+          )}
+          {visitedTabs.has('casestudy') && (
+            <div hidden={activeTab !== 'casestudy'}>
+              <CaseStudyPanel key={`${activeModule.id}:casestudy`} path={caseStudyPath} />
             </div>
           )}
           {visitedTabs.has('api') && (

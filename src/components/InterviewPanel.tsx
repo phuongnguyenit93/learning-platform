@@ -32,7 +32,7 @@ type RelatedPanelType = 'knowledge' | 'api';
 
 export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewPanelProps) {
   const { language } = useLanguage();
-  const { chapters, selected, selectChapter, loading: indexLoading, error: indexError } =
+  const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'interview', knowledgeIndex);
   const documentPath = selected?.documentPath;
   const [questions, setQuestions] = useState<InterviewQuestion[]>([]);
@@ -252,7 +252,7 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
 
   return (
     <div className="question-chapter-content">
-      <QuestionChapterPicker kind="interview" chapters={chapters} selectedId={selected?.id ?? null} onSelect={selectChapter} />
+      <QuestionChapterPicker kind="interview" chapters={chapters} mode={mode} selectedId={selected?.id ?? null} onSelect={selectChapter} />
       {(loading || loadedPath !== documentPath) ? (
         <div className="empty-state">
           <strong>{language === 'vi' ? 'Đang tải Interview...' : 'Loading Interview...'}</strong>
@@ -322,7 +322,7 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
             {expanded && (
               <>
                 <div className="interview-answer">
-                  <p>{question.answer}</p>
+                  <div className="markdown-content"><MermaidMarkdown>{question.answer}</MermaidMarkdown></div>
 
                   {(relatedKnowledge || relatedApi) && (
                     <div className="quiz-related-actions">

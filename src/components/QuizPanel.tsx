@@ -40,7 +40,7 @@ const displayLabels = ['A', 'B', 'C', 'D'];
 
 export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps) {
   const { language } = useLanguage();
-  const { chapters, selected, selectChapter, loading: indexLoading, error: indexError } =
+  const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'quiz', knowledgeIndex);
   const documentPath = selected?.documentPath;
   const [questions, setQuestions] = useState<ShuffledQuestion[]>([]);
@@ -277,7 +277,7 @@ export function QuizPanel({ path, knowledgeIndex, apiBasePath }: QuizPanelProps)
 
   return (
     <div className="question-chapter-content">
-      <QuestionChapterPicker kind="quiz" chapters={chapters} selectedId={selected?.id ?? null} onSelect={selectChapter} />
+      <QuestionChapterPicker kind="quiz" chapters={chapters} mode={mode} selectedId={selected?.id ?? null} onSelect={selectChapter} />
       {(loading || loadedPath !== documentPath) ? (
         <div className="empty-state">
           <strong>{language === 'vi' ? 'Đang tải Quiz...' : 'Loading Quiz...'}</strong>

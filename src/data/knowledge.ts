@@ -80,7 +80,10 @@ export function collectKnowledgeSections(
   return collectKnowledgeCategories(nodes).flatMap((category) =>
     (options.sortByDifficulty ? sortKnowledgeSectionsByDifficulty(category.sections) : category.sections)
       .map((section) => ({
-        ...section,
+        id: section.id,
+        title: section.title,
+        content: section.content,
+        difficulty: section.difficulty,
         categoryId: category.id,
         categoryTitle: category.title,
         sourcePath: category.sourcePath,

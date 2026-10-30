@@ -26,8 +26,8 @@ export const MODULE_STEP_TOOLTIPS: Record<string, Record<Language, string>> = {
     en: 'Created Knowledge Markdown for previously empty lessons.',
   },
   '5': {
-    vi: 'Đã rà soát Knowledge, thiết lập Difficulty, isImportant, Summary và Java skeleton; nhập nội dung vào module.',
-    en: 'Reviewed Knowledge, set Difficulty and isImportant, created Summary and Java skeleton, and imported module content.',
+    vi: 'Đã rà soát Knowledge, thiết lập Difficulty và Summary; nhập nội dung vào module.',
+    en: 'Reviewed Knowledge, set Difficulty and Summary, and imported module content.',
   },
   '6': {
     vi: 'Đã xây dựng và kiểm thử API theo từng chương, đồng thời sinh Swagger skeleton.',

@@ -23,7 +23,6 @@ import type {
   KnowledgeSummaryIndex,
   VideoIndex,
 } from '../types/learning';
-import { CustomTooltip } from './CustomTooltip';
 import { KnowledgeVideoPanel } from './KnowledgeVideoPanel';
 
 function resolveDifficultyLabel(difficulty: KnowledgeDifficulty, language: 'vi' | 'en'): string {
@@ -816,7 +815,7 @@ export function KnowledgePanel({
     const summaryOpen = openSummaryId === section.id;
 
     return (
-      <article key={section.id} id={`knowledge-section-${section.id}`} className={`knowledge-card${expanded ? ' is-expanded' : ''}${section.isImportant === true ? ' is-important' : ''}`}>
+      <article key={section.id} id={`knowledge-section-${section.id}`} className={`knowledge-card${expanded ? ' is-expanded' : ''}`}>
         <div className="knowledge-card__sticky">
           <div className="knowledge-card__header">
             <button type="button" className="knowledge-card__trigger"
@@ -827,13 +826,6 @@ export function KnowledgePanel({
               <span className="knowledge-card__title-group">
                 <span className="knowledge-card__title-row">
                   <span className="knowledge-card__title">{formatKnowledgeDisplayTitle(section.title)}</span>
-                  {section.isImportant === true && (
-                    <CustomTooltip content={language === 'vi'
-                      ? 'Kiến thức quan trọng cần phải học'
-                      : 'Essential knowledge you should learn'}>
-                      <span className="knowledge-important-star" role="img" aria-label={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'} title={language === 'vi' ? 'Kiến thức quan trọng cần phải học' : 'Essential knowledge you should learn'}>★</span>
-                    </CustomTooltip>
-                  )}
                 </span>
                 {options.showCategory && (
                   <span className="knowledge-card__category">{section.categoryTitle}</span>

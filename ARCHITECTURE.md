@@ -288,7 +288,7 @@ Knowledge là nội dung static có thể đọc mà không cần module runtime
 /language/java/module/THREAD/knowledge/en/index.json
 ```
 
-Renderer lazy-load section khi người dùng mở, hỗ trợ nhiều section mở đồng thời, category strip arrow-scroll và drag-scroll. Knowledge metadata hiển thị difficulty (`BASIC`, `INTERMEDIATE`, `ADVANCED`) và `isImportant` khi data cung cấp. Không chỉnh sửa Markdown hoặc metadata ở frontend.
+Renderer lazy-load section khi người dùng mở, hỗ trợ nhiều section mở đồng thời, category strip arrow-scroll và drag-scroll. Knowledge metadata hiển thị difficulty (`BASIC`, `INTERMEDIATE`, `ADVANCED`). Không chỉnh sửa Markdown hoặc metadata ở frontend.
 
 Related APIs được suy ra từ quan hệ `readmeRelated` có trong API YAML; không tự tạo relation thứ hai. Content UI chỉ render nội dung trusted-structured và sanitize rich HTML khi cần.
 
@@ -405,7 +405,7 @@ Ordering API reference bám Knowledge linkage: controller theo chapter của eff
 
 HTML trong `execution` phải được sanitize trước khi render. Method detail giữ split `Execution | Related Knowledge`; phần API Docs **không thực hiện HTTP request chạy API**, không thay thế Swagger hoặc debugger thực sự. Execution Context/live API runtime là một capability khác và hiện không nằm trong scope deploy website static.
 
-API Docs/Knowledge/Menu giữ expand/collapse gần nhất trong cùng module/language khi đổi tab; lần đầu API Docs collapsed. Các nhãn được hiển thị chỉ dựa vào metadata kỹ thuật còn tồn tại như Difficulty và `isImportant`.
+API Docs/Knowledge/Menu giữ expand/collapse gần nhất trong cùng module/language khi đổi tab; lần đầu API Docs collapsed. Các nhãn được hiển thị chỉ dựa vào metadata kỹ thuật còn tồn tại như Difficulty.
 
 ---
 

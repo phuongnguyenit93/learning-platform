@@ -13,7 +13,7 @@ const knowledge: KnowledgeIndex = {
     kind: 'CATEGORY', id: 'ch1', title: 'Tư duy OOP', sourcePath: 'chapter.md',
     sections: [1, 2].map((n) => ({
       id: `lesson-${n}`, title: `Bài học ${n}`, content: `/lesson-${n}.md`,
-      difficulty: 'BASIC', isImportant: n === 1,
+      difficulty: 'BASIC',
     })),
   }],
 };

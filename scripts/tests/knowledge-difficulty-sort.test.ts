@@ -69,3 +69,14 @@ test('sorts within each chapter only, preserving chapter sequence and stable IDs
   assert.deepEqual(chapters[0].sections.map(({ id }) => id), ['a-advanced', 'a-basic']);
   assert.deepEqual(chapters[1].sections.map(({ id }) => id), ['b-intermediate', 'b-basic']);
 });
+
+test('projects only the published Knowledge fields rather than forwarding extra source metadata', () => {
+  const chapter: KnowledgeCategoryNode = {
+    kind: 'CATEGORY', id: 'chapter', title: 'Chapter', sourcePath: '/chapter.md',
+    sections: [{ ...lesson('one', 'BASIC'), obsoleteMetadata: true } as KnowledgeSection],
+  };
+  assert.deepEqual(collectKnowledgeSections([chapter]), [{
+    id: 'one', title: 'one', content: '/one.md', difficulty: 'BASIC',
+    categoryId: 'chapter', categoryTitle: 'Chapter', sourcePath: '/chapter.md',
+  }]);
+});

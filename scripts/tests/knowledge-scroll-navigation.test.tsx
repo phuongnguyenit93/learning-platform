@@ -23,7 +23,6 @@ const index: KnowledgeIndex = {
       title: `1.${number} Lesson ${number}`,
       content: `/lesson-${number}.md`,
       difficulty: 'BASIC',
-      isImportant: number === 1,
     })),
   }],
 };
@@ -109,14 +108,8 @@ test('manual expand never scrolls; navigation realigns once Markdown arrives', a
   const lessonsToggle = container.querySelector<HTMLButtonElement>('.knowledge-lessons-heading--toggle');
   assert.equal(lessonsToggle?.getAttribute('aria-expanded'), 'false');
   await act(async () => lessonsToggle?.click());
-  const importantCard = container.querySelector('#knowledge-section-oop-1-1');
-  const regularCard = container.querySelector('#knowledge-section-oop-1-2');
-  assert.ok(importantCard?.classList.contains('is-important'), 'essential lesson should be highlighted');
-  assert.ok(importantCard?.querySelector('.knowledge-important-star'), 'essential lesson should have a star');
-  assert.equal(importantCard?.querySelector('.knowledge-important-star')?.getAttribute('title'),
-    'Kiến thức quan trọng cần phải học');
-  assert.equal(regularCard?.classList.contains('is-important'), false, 'regular lesson should remain unhighlighted');
-  assert.equal(regularCard?.querySelector('.knowledge-important-star'), null);
+  assert.ok(container.querySelector('#knowledge-section-oop-1-1'), 'lesson group should display the first card');
+  assert.ok(container.querySelector('#knowledge-section-oop-1-2'), 'lesson group should display the second card');
   const manualButton = container.querySelector<HTMLButtonElement>('#knowledge-section-oop-1-1 button');
   assert.ok(manualButton);
   await act(async () => manualButton.click());

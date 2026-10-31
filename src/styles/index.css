@@ -7552,3 +7552,149 @@ pre {
     animation: none;
   }
 }
+
+/* Module pages use a viewport shell: the shared header, search and tabs stay
+   still while each visited tab owns its own vertical scroll position. */
+body:has(.app-shell--module-viewport) {
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body:has(.app-shell--module-viewport) #root {
+  height: 100%;
+}
+
+.app-shell--module-viewport {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.app-shell--module-viewport > .topbar {
+  position: relative;
+  top: auto;
+  flex: 0 0 auto;
+}
+
+.app-shell--module-viewport .java-learning {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.app-shell--module-viewport .java-section-nav {
+  position: relative;
+  top: auto;
+  flex: 0 0 auto;
+}
+
+.app-shell--module-viewport .learning-layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.app-shell--module-viewport .learning-layout--status {
+  overflow-y: auto;
+}
+
+.app-shell--module-viewport .learning-sidebar {
+  position: relative;
+  top: auto;
+  height: 100%;
+  min-height: 0;
+  overscroll-behavior-y: contain;
+}
+
+.app-shell--module-viewport .learning-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.app-shell--module-viewport .learning-main__topline,
+.app-shell--module-viewport .learning-search,
+.app-shell--module-viewport .module-tab-wrapper {
+  flex: 0 0 auto;
+}
+
+.app-shell--module-viewport .module-tab-wrapper {
+  position: relative;
+  top: auto;
+}
+
+.app-shell--module-viewport .learning-content {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.app-shell--module-viewport .learning-tab-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  padding: 0 2px 60px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.app-shell--module-viewport .learning-tab-panel--inactive {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.app-shell--module-viewport .knowledge-topic-nav {
+  top: 0;
+}
+
+.app-shell--module-viewport .knowledge-card__sticky {
+  top: var(--knowledge-lesson-top, 0px);
+}
+
+@media (max-width: 820px) {
+  .app-shell--module-viewport .learning-layout {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-shell--module-viewport .learning-sidebar {
+    position: absolute;
+    z-index: 50;
+    inset: 0 auto 0 0;
+    width: min(85vw, var(--sidebar-width));
+    height: 100%;
+    box-shadow: 12px 0 32px rgba(0, 0, 0, 0.2);
+  }
+
+  .app-shell--module-viewport .learning-main {
+    width: 100%;
+    grid-column: 1;
+  }
+
+  .app-shell--module-viewport .learning-sidebar-collapse-control {
+    left: calc(min(85vw, var(--sidebar-width)) - 34px);
+  }
+}

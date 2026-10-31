@@ -54,7 +54,9 @@ export function LearningPage() {
   const [countsLoad, setCountsLoad] = useState<{ language: string; status: 'loading' | 'ready' | 'error' } | null>(null);
   const [countsReload, setCountsReload] = useState(0);
   const contentCountsState = countsLoad?.language === language ? countsLoad.status : 'loading';
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(
+    () => window.matchMedia('(max-width: 820px)').matches,
+  );
   const [knowledgeLoading, setKnowledgeLoading] = useState(false);
   const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
   const [activeKnowledgeCategory, setActiveKnowledgeCategory] = useState('all');
@@ -412,9 +414,13 @@ export function LearningPage() {
             </div>
           ) : (
           <>
-          {activeTab === 'overview' && <OverviewPanel module={activeModule} />}
+          {activeTab === 'overview' && (
+            <div className="learning-tab-panel" role="tabpanel" aria-label="Overview">
+              <OverviewPanel module={activeModule} />
+            </div>
+          )}
           {visitedTabs.has('roadmap') && (
-            <div hidden={activeTab !== 'roadmap'}>
+            <div className={`learning-tab-panel${activeTab !== 'roadmap' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Roadmap" aria-hidden={activeTab !== 'roadmap'} inert={activeTab !== 'roadmap'}>
               <RoadmapPanel
                 key={`${activeModule.id}:roadmap`}
                 moduleId={activeModule.id}
@@ -437,7 +443,7 @@ export function LearningPage() {
             </div>
           )}
           {visitedTabs.has('reference') && (
-            <div hidden={activeTab !== 'reference'}>
+            <div className={`learning-tab-panel${activeTab !== 'reference' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Reference" aria-hidden={activeTab !== 'reference'} inert={activeTab !== 'reference'}>
               <ReferencePanel
                 key={`${activeModule.id}:reference`}
                 path={referencePath}
@@ -446,7 +452,7 @@ export function LearningPage() {
             </div>
           )}
           {visitedTabs.has('knowledge') && (
-            <div hidden={activeTab !== 'knowledge'}>
+            <div className={`learning-tab-panel${activeTab !== 'knowledge' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Knowledge" aria-hidden={activeTab !== 'knowledge'} inert={activeTab !== 'knowledge'}>
               <KnowledgePanel
                 key={`${activeModule.id}:knowledge`}
                 index={knowledgeIndex}
@@ -472,7 +478,7 @@ export function LearningPage() {
             </div>
           )}
           {visitedTabs.has('quiz') && (
-            <div hidden={activeTab !== 'quiz'}>
+            <div className={`learning-tab-panel${activeTab !== 'quiz' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Quiz" aria-hidden={activeTab !== 'quiz'} inert={activeTab !== 'quiz'}>
               <QuizPanel
                 key={`${activeModule.id}:quiz`}
                 path={quizPath}
@@ -482,7 +488,7 @@ export function LearningPage() {
             </div>
           )}
           {visitedTabs.has('interview') && (
-            <div hidden={activeTab !== 'interview'}>
+            <div className={`learning-tab-panel${activeTab !== 'interview' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Interview" aria-hidden={activeTab !== 'interview'} inert={activeTab !== 'interview'}>
               <InterviewPanel
                 key={`${activeModule.id}:interview`}
                 path={interviewPath}
@@ -492,12 +498,12 @@ export function LearningPage() {
             </div>
           )}
           {visitedTabs.has('casestudy') && (
-            <div hidden={activeTab !== 'casestudy'}>
+            <div className={`learning-tab-panel${activeTab !== 'casestudy' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Case Study" aria-hidden={activeTab !== 'casestudy'} inert={activeTab !== 'casestudy'}>
               <CaseStudyPanel key={`${activeModule.id}:casestudy`} path={caseStudyPath} />
             </div>
           )}
           {visitedTabs.has('api') && (
-            <div hidden={activeTab !== 'api'}>
+            <div className={`learning-tab-panel${activeTab !== 'api' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="API Docs" aria-hidden={activeTab !== 'api'} inert={activeTab !== 'api'}>
               <ApiDocsPanel
                 codeExplorerUrl={readyDetails?.codeExplorer}
                 key={`${activeModule.id}:api`}
@@ -523,24 +529,28 @@ export function LearningPage() {
             </div>
           )}
           {activeTab === 'execution' && activeModule.capabilities.execution && (
-            <LocalRunPanel
-              key={`${activeModule.id}:${activeModule.sourceFingerprint}`}
-              moduleId={activeModule.id}
-              moduleName={activeModule.shortName}
-              sourceFingerprint={activeModule.sourceFingerprint}
-              moduleType={activeModuleNode?.moduleType}
-            />
+            <div className="learning-tab-panel" role="tabpanel" aria-label="Local Run">
+              <LocalRunPanel
+                key={`${activeModule.id}:${activeModule.sourceFingerprint}`}
+                moduleId={activeModule.id}
+                moduleName={activeModule.shortName}
+                sourceFingerprint={activeModule.sourceFingerprint}
+                moduleType={activeModuleNode?.moduleType}
+              />
+            </div>
           )}
           {activeTab === 'feedback' && (
-            <section className="feedback-panel">
-              <span className="feedback-panel__eyebrow">MODULE FEEDBACK</span>
-              <h2>Feedback</h2>
-              <p>
-                {language === 'vi'
-                  ? 'Khu vực feedback dành riêng cho module hiện tại.'
-                  : 'Feedback area for the current module.'}
-              </p>
-            </section>
+            <div className="learning-tab-panel" role="tabpanel" aria-label="Feedback">
+              <section className="feedback-panel">
+                <span className="feedback-panel__eyebrow">MODULE FEEDBACK</span>
+                <h2>Feedback</h2>
+                <p>
+                  {language === 'vi'
+                    ? 'Khu vực feedback dành riêng cho module hiện tại.'
+                    : 'Feedback area for the current module.'}
+                </p>
+              </section>
+            </div>
           )}
           </>
           )}

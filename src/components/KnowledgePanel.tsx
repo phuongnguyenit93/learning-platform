@@ -424,6 +424,16 @@ export function KnowledgePanel({
       const topicNav = topicNavRef.current;
       if (!section || !topicNav) return;
 
+      const tabScroller = section.closest<HTMLElement>('.learning-tab-panel');
+      if (tabScroller) {
+        // Module tabs scroll independently from the page. Keep the selected
+        // lesson just beneath the sticky Knowledge category navigation.
+        tabScroller.scrollTop += section.getBoundingClientRect().top
+          - tabScroller.getBoundingClientRect().top
+          - topicNav.getBoundingClientRect().height - 12;
+        return;
+      }
+
       const headerHeight = document.querySelector<HTMLElement>('.topbar')?.getBoundingClientRect().height ?? 0;
       const moduleTabsHeight = document.querySelector<HTMLElement>('.module-tab-wrapper')?.getBoundingClientRect().height ?? 0;
       const topicNavHeight = topicNav.getBoundingClientRect().height;
@@ -468,6 +478,16 @@ export function KnowledgePanel({
     if (!topicNav || !moduleTabs) return;
 
     const updateStickyPositions = () => {
+      if (panelRef.current?.closest('.learning-tab-panel')) {
+        // The module header and tabs are outside the tab scroll viewport.
+        moduleTabs.style.removeProperty('top');
+        topicNav.style.top = '0px';
+        panelRef.current.style.setProperty(
+          '--knowledge-lesson-top', `${topicNav.getBoundingClientRect().height}px`,
+        );
+        return;
+      }
+
       const headerHeight = header?.getBoundingClientRect().height ?? 0;
       const tabsHeight = moduleTabs.getBoundingClientRect().height;
       moduleTabs.style.top = `${headerHeight}px`;
@@ -498,13 +518,15 @@ export function KnowledgePanel({
     if (!openSummaryId) return;
     let frame = 0;
     summaryEnteredStickyRef.current = false;
+    const tabScroller = panelRef.current?.closest<HTMLElement>('.learning-tab-panel');
     const checkOwner = () => {
       frame = 0;
       const card = document.getElementById(`knowledge-section-${openSummaryId}`);
       const sticky = card?.querySelector<HTMLElement>('.knowledge-card__sticky');
-      const top = panelRef.current
+      const stickyTop = panelRef.current
         ? Number.parseFloat(panelRef.current.style.getPropertyValue('--knowledge-lesson-top')) || 0
         : 0;
+      const top = (tabScroller?.getBoundingClientRect().top ?? 0) + stickyTop;
       if (!card || !sticky) {
         setOpenSummaryId(null);
         return;
@@ -522,10 +544,10 @@ export function KnowledgePanel({
     const schedule = () => {
       if (!frame) frame = window.requestAnimationFrame(checkOwner);
     };
-    window.addEventListener('scroll', schedule, { passive: true });
+    (tabScroller ?? window).addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     return () => {
-      window.removeEventListener('scroll', schedule);
+      (tabScroller ?? window).removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       if (frame) window.cancelAnimationFrame(frame);
     };

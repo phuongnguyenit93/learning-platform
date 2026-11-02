@@ -4,7 +4,6 @@ import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadApiDocs, resolveOperationKnowledgeKeys } from '../data/apiDocs';
 import { fetchJavaAsset } from '../data/javaAsset';
 import {
-  collectKnowledgeCategories,
   collectKnowledgeSections,
   formatKnowledgeDisplayTitle,
 } from '../data/knowledge';
@@ -146,19 +145,6 @@ export function ApiDocsPanel({
       })
       .filter((controller): controller is ApiDocController => controller !== null);
   }, [document, searchQuery]);
-
-  const knowledgeTitleBySourcePath = useMemo(() => {
-    if (!knowledgeIndex) {
-      return new Map<string, string>();
-    }
-
-    return new Map(
-      collectKnowledgeCategories(knowledgeIndex.tree).map((category) => [
-        category.sourcePath,
-        formatKnowledgeDisplayTitle(category.title),
-      ]),
-    );
-  }, [knowledgeIndex]);
 
   const knowledgeSectionByKey = useMemo(() => {
     if (!knowledgeIndex) {
@@ -399,10 +385,6 @@ export function ApiDocsPanel({
         <div className="api-controller-list">
           {visibleControllers.map((controller) => {
             const controllerOpen = queryActive || expandedControllers.has(controller.name);
-            const knowledgeTitle = controller.readmeRelated.file
-              ? knowledgeTitleBySourcePath.get(controller.readmeRelated.file)
-              : undefined;
-
             return (
               <article key={controller.name} className={`api-controller${controllerOpen ? ' is-expanded' : ''}`}>
                 <button
@@ -413,7 +395,6 @@ export function ApiDocsPanel({
                 >
                   <span className="api-controller__copy">
                     <span className="api-controller__title-row">
-                      {knowledgeTitle && <span className="api-controller__knowledge">{knowledgeTitle}</span>}
                       <strong>{controller.title}</strong>
                     </span>
                     <span className="api-controller__name">{controller.name}</span>

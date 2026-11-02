@@ -135,8 +135,8 @@ export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
                             </>
                           ) : (
                             <p className="case-study-source__unavailable" role="status">{language === 'vi'
-                              ? 'Mã nguồn thực tế chưa được phát hành cho module này. Cần publish dữ liệu STEP 9 để xem trong Monaco Editor.'
-                              : 'The STEP 9 Java source material is not published for this module yet.'}</p>
+                              ? 'Mã nguồn thực tế chưa được phát hành cho module này. Cần publish dữ liệu STEP 8 để xem trong Monaco Editor.'
+                              : 'The STEP 8 Java source material is not published for this module yet.'}</p>
                           )}
                         </div>
                       )}

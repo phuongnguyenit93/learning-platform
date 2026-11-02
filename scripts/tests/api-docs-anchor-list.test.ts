@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { collectApiKnowledgeRelations, resolveOperationKnowledgeKeys } from '../../src/data/apiDocs';
+import { buildDocument, collectApiKnowledgeRelations, resolveOperationKnowledgeKeys } from '../../src/data/apiDocs';
 import type { ApiDocsDocument, KnowledgeIndex } from '../../src/types/learning';
 
 const index = {
@@ -19,8 +19,6 @@ const document: ApiDocsDocument = {
     title: 'Group 1',
     description: '',
     descriptionHtml: '',
-    chapterOrder: null,
-    readmeRelated: {},
     operations: [{
       id: 'Group1Controller:executeCase1()',
       controllerName: 'Group1Controller',
@@ -64,4 +62,27 @@ test('unknown Knowledge ids are ignored rather than linked to the wrong chapter'
     readmeRelated: { anchorList: ['does-not-exist', 'solid-002'] },
   };
   assert.deepEqual(resolveOperationKnowledgeKeys(controller, operation, index), ['chapter.md#solid-002']);
+});
+
+test('parameter descriptions belong to each API method even when names match', () => {
+  const result = buildDocument({
+    controllerDescriptions: { DemoController: { description: '<h2>Demo</h2>' } },
+    apiExecutions: {},
+    apiDescriptions: {
+      DemoController: {
+        'first(String)': {
+          usage: true,
+          params: [{ name: 'mode', summary: 'CPU', description: 'CPU-specific mode' }],
+        },
+        'second(String)': {
+          usage: true,
+          params: [{ name: 'mode', summary: 'Allocation', description: 'Allocation-specific mode' }],
+        },
+      },
+    },
+  }, null);
+  const first = result.controllers[0].operations.find((op) => op.methodSignature === 'first(String)');
+  const second = result.controllers[0].operations.find((op) => op.methodSignature === 'second(String)');
+  assert.equal(first?.params[0].description, 'CPU-specific mode');
+  assert.equal(second?.params[0].description, 'Allocation-specific mode');
 });

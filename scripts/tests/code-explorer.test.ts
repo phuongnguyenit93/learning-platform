@@ -145,7 +145,7 @@ test('malformed index and cross-material references fail closed', async (t) => {
   assert.throws(() => loadCodeExplorer('/module/../../private/index.json'), /Invalid Code Explorer material URL/);
 });
 
-test('accepts STEP9 case-scoped material URL without weakening path validation', async (t) => {
+test('accepts STEP8_EXPLORER case-scoped material URL without weakening path validation', async (t) => {
   const data = fixture('TEST_SCOPED');
   const scoped = '/module/TEST_SCOPED/code-explorer/casestudy/groups/1/cases/3/index.json';
   const oldBase = data.base;

@@ -395,13 +395,12 @@ Catalog: api.{lang}
 /language/java/module/{ROUTE_ID}/api/{lang}/
 ├── controller-description.yml
 ├── api-descriptions.yml
-├── api-execution.yml
-└── api-params.yml
+└── api-execution.yml
 ```
 
-`controller-description.yml` mô tả controller và `readmeRelated.file`; `api-descriptions.yml` chứa method signature, HTTP metadata, descriptions và relation; `api-execution.yml` là guided execution HTML; `api-params.yml` mô tả parameters. UI chỉ consume files được dataset cung cấp; không tự synthesize thiếu source.
+`controller-description.yml` mô tả controller; `api-descriptions.yml` chứa method signature, HTTP metadata, descriptions, `params[].{name,summary,description}` theo từng method và relation; `api-execution.yml` là guided execution HTML. UI chỉ consume files được dataset cung cấp; không tự synthesize thiếu source.
 
-Ordering API reference bám Knowledge linkage: controller theo chapter của effective `readmeRelated.file`; method theo vị trí `readmeRelated.anchor` trong README. Fallback cần deterministic khi mapping thiếu. `readmeRelated` là relation duy nhất giữa API và Knowledge; `Related Knowledge` ở API Docs và `Related APIs` popup ở Knowledge suy ra từ cùng dữ liệu đó.
+Ordering API reference: controller theo tên với thứ tự số tự nhiên (`Group2` trước `Group10`); method theo vị trí Knowledge được trỏ bởi `readmeRelated.anchor` hoặc `readmeRelated.anchorList`, fallback theo method signature khi thiếu mapping. `readmeRelated` ở từng method là relation duy nhất giữa API và Knowledge; `Related Knowledge` ở API Docs và `Related APIs` popup ở Knowledge suy ra từ cùng dữ liệu đó.
 
 HTML trong `execution` phải được sanitize trước khi render. Method detail giữ split `Execution | Related Knowledge`; phần API Docs **không thực hiện HTTP request chạy API**, không thay thế Swagger hoặc debugger thực sự. Execution Context/live API runtime là một capability khác và hiện không nằm trong scope deploy website static.
 

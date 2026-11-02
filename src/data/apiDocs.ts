@@ -15,7 +15,6 @@ interface ApiDocsSourceBundle {
   controllerDescriptions: Record<string, unknown>;
   apiDescriptions: Record<string, unknown>;
   apiExecutions: Record<string, unknown>;
-  apiParams: Record<string, unknown>;
 }
 
 const sourceCache = new Map<string, Promise<ApiDocsSourceBundle>>();
@@ -66,13 +65,11 @@ async function loadApiDocsSource(basePath: string): Promise<ApiDocsSourceBundle>
     fetchText(`${normalizedBasePath}/controller-description.yml`),
     fetchText(`${normalizedBasePath}/api-descriptions.yml`),
     fetchText(`${normalizedBasePath}/api-execution.yml`),
-    fetchText(`${normalizedBasePath}/api-params.yml`),
   ])
-    .then(([controllerDescriptions, apiDescriptions, apiExecutions, apiParams]) => ({
+    .then(([controllerDescriptions, apiDescriptions, apiExecutions]) => ({
       controllerDescriptions: asRecord(parse(controllerDescriptions)),
       apiDescriptions: asRecord(parse(apiDescriptions)),
       apiExecutions: asRecord(parse(apiExecutions)),
-      apiParams: asRecord(parse(apiParams)),
     }))
     .catch((error: unknown) => {
       sourceCache.delete(normalizedBasePath);
@@ -94,17 +91,6 @@ function normalizeReadmeRelated(value: unknown): ApiReadmeRelated {
     ...(file ? { file } : {}),
     ...(anchor ? { anchor } : {}),
   };
-}
-
-function resolveChapterOrder(file: string | undefined): number | null {
-  if (!file) {
-    return null;
-  }
-
-  const firstSegment = file.split(/[\\/]/)[0]?.trim() ?? '';
-  const match = firstSegment.match(/^(\d+)/);
-
-  return match ? Number.parseInt(match[1], 10) : null;
 }
 
 function decodeBasicHtmlEntities(value: string): string {
@@ -140,17 +126,17 @@ function extractControllerDescription(descriptionHtml: string): string {
 }
 
 function resolveParamDefinitions(
-  paramNames: string[],
-  apiParams: Record<string, unknown>,
+  params: unknown,
 ): ApiParamDefinition[] {
-  return paramNames.map((name) => {
-    const definition = asRecord(apiParams[name]);
+  if (!Array.isArray(params)) return [];
+  return params.map((item) => {
+    const definition = asRecord(item);
     return {
-      name,
+      name: asString(definition.name).trim(),
       summary: asString(definition.summary).trim(),
       description: asString(definition.description).trim(),
     };
-  });
+  }).filter((param) => param.name.length > 0);
 }
 
 function buildReadmeAnchorOrder(index: KnowledgeIndex | null): Map<string, number> {
@@ -175,12 +161,11 @@ function buildReadmeAnchorOrder(index: KnowledgeIndex | null): Map<string, numbe
 
 function sortOperations(
   operations: ApiDocOperation[],
-  controllerReadmeFile: string | undefined,
   readmeAnchorOrder: Map<string, number>,
 ): ApiDocOperation[] {
   return [...operations].sort((left, right) => {
-    const leftFile = left.readmeRelated.file || controllerReadmeFile;
-    const rightFile = right.readmeRelated.file || controllerReadmeFile;
+    const leftFile = left.readmeRelated.file;
+    const rightFile = right.readmeRelated.file;
     const leftKey = leftFile && left.readmeRelated.anchor
       ? `${leftFile}#${left.readmeRelated.anchor}`
       : left.readmeRelated.anchorList?.[0] ?? '';
@@ -206,7 +191,7 @@ function sortOperations(
   });
 }
 
-function buildDocument(
+export function buildDocument(
   source: ApiDocsSourceBundle,
   knowledgeIndex: KnowledgeIndex | null,
 ): ApiDocsDocument {
@@ -216,7 +201,6 @@ function buildDocument(
   Object.entries(source.apiDescriptions).forEach(([controllerName, methodsValue]) => {
     const controllerDescription = asRecord(source.controllerDescriptions[controllerName]);
     const descriptionHtml = asString(controllerDescription.description).trim();
-    const controllerReadmeRelated = normalizeReadmeRelated(controllerDescription.readmeRelated);
     const executionController = asRecord(source.apiExecutions[controllerName]);
     const operations: ApiDocOperation[] = [];
 
@@ -232,7 +216,6 @@ function buildDocument(
       const mappingPaths = asStringArray(method.mappingPaths);
       const methodName = asString(method.methodName).trim() || methodSignature.replace(/\(.*/, '');
       const operationReadmeRelated = normalizeReadmeRelated(method.readmeRelated);
-      const paramNames = asStringArray(method.params);
 
       operations.push({
         id: `${controllerName}:${methodSignature}`,
@@ -246,7 +229,7 @@ function buildDocument(
         executionHtml: asString(execution.execution).trim(),
         consumes: asStringArray(method.consumes),
         produces: asStringArray(method.produces),
-        params: resolveParamDefinitions(paramNames, source.apiParams),
+        params: resolveParamDefinitions(method.params),
         readmeRelated: operationReadmeRelated,
       });
     });
@@ -260,27 +243,11 @@ function buildDocument(
       title: extractControllerTitle(descriptionHtml, controllerName),
       description: extractControllerDescription(descriptionHtml),
       descriptionHtml,
-      readmeRelated: controllerReadmeRelated,
-      chapterOrder: resolveChapterOrder(controllerReadmeRelated.file),
-      operations: sortOperations(operations, controllerReadmeRelated.file, readmeAnchorOrder),
+      operations: sortOperations(operations, readmeAnchorOrder),
     });
   });
 
-  controllers.sort((left, right) => {
-    if (left.chapterOrder !== null && right.chapterOrder !== null && left.chapterOrder !== right.chapterOrder) {
-      return left.chapterOrder - right.chapterOrder;
-    }
-
-    if (left.chapterOrder !== null && right.chapterOrder === null) {
-      return -1;
-    }
-
-    if (left.chapterOrder === null && right.chapterOrder !== null) {
-      return 1;
-    }
-
-    return left.name.localeCompare(right.name);
-  });
+  controllers.sort((left, right) => left.name.localeCompare(right.name, undefined, { numeric: true }));
 
   return {
     operationCount: controllers.reduce((count, controller) => count + controller.operations.length, 0),
@@ -318,7 +285,7 @@ export function resolveOperationKnowledgeKeys(
       .map((id) => byId.get(id))
       .filter((key): key is string => Boolean(key));
   }
-  const sourcePath = operation.readmeRelated.file || controller.readmeRelated.file;
+  const sourcePath = operation.readmeRelated.file;
   const anchor = operation.readmeRelated.anchor;
 
   return sourcePath && anchor ? [`${sourcePath}#${anchor}`] : [];

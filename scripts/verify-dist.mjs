@@ -127,35 +127,35 @@ export async function verifyDist(directory = 'dist') {
       const manifest = JSON.parse(await readFile(rootPath, 'utf8'));
       ensure(manifest.version === 1 && manifest.type === 'CASE_STUDY_EXPLORER'
         && manifest.complete === true && Array.isArray(manifest.cases) && manifest.cases.length,
-      'Invalid STEP9 manifest: ' + node.routeId);
+      'Invalid STEP8_EXPLORER manifest: ' + node.routeId);
       const seen = new Set();
       for (const entry of manifest.cases) {
         const g = entry.groupID;
         const c = entry.caseIndex;
         ensure(Number.isSafeInteger(g) && g > 0 && Number.isSafeInteger(c) && c > 0
-          && !seen.has(g + '/' + c), 'Invalid STEP9 case ID');
+          && !seen.has(g + '/' + c), 'Invalid STEP8_EXPLORER case ID');
         seen.add(g + '/' + c);
         const relative = `groups/${g}/cases/${c}/`;
-        ensure(entry.path === relative + 'index.json', 'Invalid STEP9 case path');
+        ensure(entry.path === relative + 'index.json', 'Invalid STEP8_EXPLORER case path');
         const base = join(rootPath, '..', relative);
         const index = JSON.parse(await readFile(join(base, 'index.json'), 'utf8'));
         ensure(index.version === 1 && index.type === 'CODE_EXPLORER'
           && index.id === `casestudy-g${g}-c${c}`
           && Array.isArray(index.files) && index.files.length === entry.files,
-        'Invalid STEP9 case bundle');
+        'Invalid STEP8_EXPLORER case bundle');
         for (const [key, name] of Object.entries({
           symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
         })) {
-          ensure(index[key] === name && await isFile(join(base, name)), 'Missing STEP9 metadata');
+          ensure(index[key] === name && await isFile(join(base, name)), 'Missing STEP8_EXPLORER metadata');
         }
         for (const source of index.files) {
           ensure(typeof source.path === 'string'
             && /^(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/.test(source.path),
-          'Unsafe STEP9 Java path');
+          'Unsafe STEP8_EXPLORER Java path');
           const bytes = await readFile(join(base, 'files', source.path));
           ensure(bytes.length === source.bytes
             && createHash('sha256').update(bytes).digest('hex') === source.sha256,
-          'STEP9 Java checksum mismatch: ' + node.routeId + '/' + relative + source.path);
+          'STEP8_EXPLORER Java checksum mismatch: ' + node.routeId + '/' + relative + source.path);
         }
       }
     }

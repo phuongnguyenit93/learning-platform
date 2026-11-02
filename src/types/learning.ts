@@ -349,8 +349,6 @@ export interface ApiDocController {
   title: string;
   description: string;
   descriptionHtml: string;
-  readmeRelated: ApiReadmeRelated;
-  chapterOrder: number | null;
   operations: ApiDocOperation[];
 }
 

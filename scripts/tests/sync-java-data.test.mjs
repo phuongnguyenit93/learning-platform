@@ -116,7 +116,7 @@ test('Code Explorer Java files are received only with a verified manifest and ch
   assert.throws(() => validateArchive(outside.zip, outside.checksum), /Forbidden ZIP entry type/);
 });
 
-test('STEP9 scoped Java requires complete case manifest, correct SHA and case path', () => {
+test('STEP8_EXPLORER scoped Java requires complete case manifest, correct SHA and case path', () => {
   const scope = 'module/DEMO/code-explorer/casestudy/groups/1/cases/1/';
   const accepted = fixture({ caseExplorer: true });
   const parsed = validateArchive(accepted.zip, accepted.checksum);
@@ -124,13 +124,13 @@ test('STEP9 scoped Java requires complete case manifest, correct SHA and case pa
   const changed = fixture({ caseExplorer: true, extraEntries: {
     [scope + 'files/demo/Example.java']: utf8('changed source'),
   } });
-  assert.throws(() => validateArchive(changed.zip, changed.checksum), /STEP9 Java checksum mismatch/);
+  assert.throws(() => validateArchive(changed.zip, changed.checksum), /STEP8_EXPLORER Java checksum mismatch/);
   const incomplete = fixture({ caseExplorer: true, extraEntries: {
     'module/DEMO/code-explorer/casestudy/index.json': utf8(JSON.stringify({
       version: 1, type: 'CASE_STUDY_EXPLORER', complete: false, cases: [],
     })),
   } });
-  assert.throws(() => validateArchive(incomplete.zip, incomplete.checksum), /Invalid STEP9 manifest/);
+  assert.throws(() => validateArchive(incomplete.zip, incomplete.checksum), /Invalid STEP8_EXPLORER manifest/);
 });
 
 test('rejects invalid or incompatible manifest', () => {

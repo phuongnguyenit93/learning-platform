@@ -5,7 +5,6 @@ export interface ModuleContentCounts {
   quiz: Record<string, number>;
   interview: Record<string, number>;
   casestudy?: Record<string, number>;
-  api: Record<string, number>;
 }
 
 /** Real modules contain at least one counted item in the selected language. */
@@ -15,8 +14,7 @@ export function isCountedRealModule(node: ModuleCatalogNode, counts: ModuleConte
   return (counts.knowledge[id] ?? 0) > 0
     || (counts.quiz[id] ?? 0) > 0
     || (counts.interview[id] ?? 0) > 0
-    || (counts.casestudy?.[id] ?? 0) > 0
-    || (counts.api[id] ?? 0) > 0;
+    || (counts.casestudy?.[id] ?? 0) > 0;
 }
 
 /** Keep catalog ordering and GROUP ancestors of qualified modules. */

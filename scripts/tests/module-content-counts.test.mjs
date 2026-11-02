@@ -10,15 +10,10 @@ test('one derived content summary preserves numeric badges without browser docum
   t.after(() => rm(root, { force: true, recursive: true }));
   const javaRoot = join(root, 'language', 'java');
   const folder = join(javaRoot, 'module', 'EXAMPLE');
-  await mkdir(join(folder, 'api', 'vi'), { recursive: true });
-  await mkdir(join(folder, 'api', 'en'), { recursive: true });
+  await mkdir(folder, { recursive: true });
   await writeFile(join(folder, 'knowledge.json'), JSON.stringify({ sectionCount: 4 }));
   await writeFile(join(folder, 'quiz.yml'), 'questions:\n  - id: Q1\n  - id: Q2\n');
   await writeFile(join(folder, 'interview.yml'), 'questions:\n  - question: A\n');
-  for (const language of ['vi', 'en']) {
-    await writeFile(join(folder, 'api', language, 'api-descriptions.yml'),
-      'ExampleController:\n  enabled():\n    usage: true\n  disabled():\n    usage: false\n');
-  }
   const localized = (value) => ({ vi: value, en: value });
   const module = {
     kind: 'MODULE', routeId: 'EXAMPLE', children: [],
@@ -33,7 +28,7 @@ test('one derived content summary preserves numeric badges without browser docum
   const originalCatalog = await readFile(join(javaRoot, 'module-catalog.json'), 'utf8');
   const output = join(root, 'module-content-counts.json');
   const result = await buildModuleContentCounts(javaRoot, output);
-  assert.deepEqual(result.locales.vi.EXAMPLE, { knowledge: 4, quiz: 2, interview: 1, casestudy: 0, apiDocs: 1 });
+  assert.deepEqual(result.locales.vi.EXAMPLE, { knowledge: 4, quiz: 2, interview: 1, casestudy: 0 });
   assert.deepEqual(result.locales.vi, result.locales.en);
   assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), result);
   assert.equal(await readFile(join(javaRoot, 'module-catalog.json'), 'utf8'), originalCatalog,

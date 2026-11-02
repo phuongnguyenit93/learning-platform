@@ -7,7 +7,6 @@ export interface ModuleStats {
   quiz: number;
   interview: number;
   casestudy?: number;
-  apiDocs: number;
 }
 
 export interface RoadmapRelatedModule {
@@ -34,7 +33,6 @@ export interface CapabilityState {
   knowledge: boolean;
   quiz: boolean;
   interview: boolean;
-  apiDocs: boolean;
   execution: boolean;
   download: boolean;
 }
@@ -55,7 +53,6 @@ export interface LearningModule {
   quiz: Partial<Record<Language, string>>;
   interview: Partial<Record<Language, string>>;
   casestudy: Partial<Record<Language, string>>;
-  api: Partial<Record<Language, string>>;
   capabilities: CapabilityState;
 }
 
@@ -279,18 +276,12 @@ export interface QuizReadmeRelated {
   anchor: string;
 }
 
-export interface QuizApiRelated {
-  controller: string;
-  methodSignature: string;
-}
-
 export interface QuizQuestion {
   id: string;
   question: string;
 
 
   readmeRelated: QuizReadmeRelated;
-  apiRelated: QuizApiRelated;
   answers: QuizAnswer[];
   correctAnswerId: QuizAnswerId;
 }
@@ -305,61 +296,8 @@ export interface InterviewQuestion {
 
 
   readmeRelated: QuizReadmeRelated;
-  apiRelated: QuizApiRelated;
 }
 
 export interface InterviewDocument {
   questions: InterviewQuestion[];
-}
-
-export interface ApiReadmeRelated {
-  /** Module-wide Knowledge section ids, no chapter file path required. */
-  anchorList?: string[];
-  /** Legacy chapter API links; retained for existing published modules. */
-  file?: string;
-  anchor?: string;
-}
-
-export interface ApiParamDefinition {
-  name: string;
-  summary: string;
-  description: string;
-}
-
-export interface ApiDocOperation {
-  id: string;
-  controllerName: string;
-  methodSignature: string;
-  methodName: string;
-  httpMethod: string;
-  path: string;
-  summary: string;
-  description: string;
-  executionHtml: string;
-  consumes: string[];
-  produces: string[];
-  params: ApiParamDefinition[];
-  readmeRelated: ApiReadmeRelated;
-
-
-}
-
-export interface ApiDocController {
-  name: string;
-  title: string;
-  description: string;
-  descriptionHtml: string;
-  operations: ApiDocOperation[];
-}
-
-export interface ApiDocsDocument {
-  operationCount: number;
-  controllers: ApiDocController[];
-}
-
-export interface ApiKnowledgeRelation {
-  controller: ApiDocController;
-  operation: ApiDocOperation;
-  sourcePath: string;
-  anchor: string;
 }

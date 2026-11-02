@@ -55,7 +55,7 @@ test('module picker displays per-step hover tooltip without showing Step 0', asy
     await act(async () => root.render(
       <MemoryRouter><LanguageProvider><ModuleSidebar
         nodes={nodes} activeModuleId="OOP" knowledgeCounts={{ OOP: 1, DONE: 1, NEW: 1 }}
-        quizCounts={{}} interviewCounts={{}} apiCounts={{}} roadmapAvailability={{}}
+        quizCounts={{}} interviewCounts={{}} caseStudyCounts={{}} roadmapAvailability={{}}
         contentCountsState="ready" onRetryContentCounts={() => {}}
       /></LanguageProvider></MemoryRouter>,
     ));

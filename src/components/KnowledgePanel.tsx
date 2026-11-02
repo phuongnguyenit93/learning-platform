@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import DOMPurify from 'dompurify';
 import { MermaidMarkdown } from './MermaidMarkdown';
-import { collectApiKnowledgeRelations, loadApiDocs } from '../data/apiDocs';
 import { fetchJavaAsset } from '../data/javaAsset';
 import {
   collectKnowledgeCategories,
@@ -14,8 +12,6 @@ import { loadKnowledgeSummaryChapter, loadKnowledgeSummaryIndex } from '../data/
 import { legacyChapterSummaryRoadmap } from '../data/legacyChapterSummaryRoadmap';
 import { useLanguage } from '../state/LanguageContext';
 import type {
-  ApiDocsDocument,
-  ApiKnowledgeRelation,
   KnowledgeDifficulty,
   KnowledgeIndex,
   KnowledgeSectionRef,
@@ -44,7 +40,6 @@ interface KnowledgePanelProps {
   searchQuery: string;
   activeCategoryId: string;
   selectedSectionId: string | null;
-  apiBasePath?: string;
   videoIndexPath?: string;
   summaryIndexPath?: string;
   onCategoryChange: (categoryId: string) => void;
@@ -59,7 +54,6 @@ export function KnowledgePanel({
   searchQuery,
   activeCategoryId,
   selectedSectionId,
-  apiBasePath,
   videoIndexPath,
   summaryIndexPath,
   onCategoryChange,
@@ -74,13 +68,11 @@ export function KnowledgePanel({
   const [expandedChapterSummaryIds, setExpandedChapterSummaryIds] = useState<Set<string>>(() => new Set());
   const [loadingSectionIds, setLoadingSectionIds] = useState<Set<string>>(() => new Set());
   const [sectionErrors, setSectionErrors] = useState<Record<string, string>>({});
-  const [apiDocument, setApiDocument] = useState<ApiDocsDocument | null>(null);
   const [videoIndex, setVideoIndex] = useState<VideoIndex | null>(null);
   const [summaryIndex, setSummaryIndex] = useState<KnowledgeSummaryIndex | null>(null);
   const [summaryChapters, setSummaryChapters] = useState<Record<string, KnowledgeSummaryChapter>>({});
   const [summaryErrors, setSummaryErrors] = useState<Set<string>>(() => new Set());
   const [openSummaryId, setOpenSummaryId] = useState<string | null>(null);
-  const [previewOperationId, setPreviewOperationId] = useState<string | null>(null);
   const [canScrollTopicsLeft, setCanScrollTopicsLeft] = useState(false);
   const [canScrollTopicsRight, setCanScrollTopicsRight] = useState(false);
   const [draggingTopics, setDraggingTopics] = useState(false);
@@ -174,23 +166,6 @@ export function KnowledgePanel({
   const videoByCategoryId = useMemo(() => new Map(
     (videoIndex?.items ?? []).map((item) => [item.categoryId, item]),
   ), [videoIndex]);
-  const relatedApisByKnowledgeKey = useMemo(() => {
-    const result = new Map<string, ApiKnowledgeRelation[]>();
-
-    if (!apiDocument) {
-      return result;
-    }
-
-    collectApiKnowledgeRelations(apiDocument, index).forEach((relation) => {
-      const key = `${relation.sourcePath}#${relation.anchor}`;
-      const current = result.get(key) ?? [];
-      current.push(relation);
-      result.set(key, current);
-    });
-
-    return result;
-  }, [apiDocument, index]);
-
   useEffect(() => {
     setContentCache({});
     setLoadingSectionIds(new Set());
@@ -247,34 +222,6 @@ export function KnowledgePanel({
   useEffect(() => {
     let active = true;
 
-    setApiDocument(null);
-
-    if (!apiBasePath || !index) {
-      return () => {
-        active = false;
-      };
-    }
-
-    loadApiDocs(apiBasePath, index)
-      .then((result) => {
-        if (active) {
-          setApiDocument(result);
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setApiDocument(null);
-        }
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [apiBasePath, index]);
-
-  useEffect(() => {
-    let active = true;
-
     setVideoIndex(null);
 
     if (!videoIndexPath) {
@@ -299,34 +246,6 @@ export function KnowledgePanel({
       active = false;
     };
   }, [videoIndexPath]);
-
-  useEffect(() => {
-    if (!previewOperationId) {
-      return undefined;
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target;
-      if (target instanceof Element && target.closest('[data-related-api-control]')) {
-        return;
-      }
-      setPreviewOperationId(null);
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setPreviewOperationId(null);
-      }
-    };
-
-    document.addEventListener('pointerdown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('pointerdown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [previewOperationId]);
 
   useEffect(() => {
     if (!selectedSectionId) {
@@ -827,7 +746,6 @@ export function KnowledgePanel({
     const markdown = contentCache[section.content];
     const isLoading = loadingSectionIds.has(section.id);
     const sectionError = sectionErrors[section.id];
-    const relatedApis = relatedApisByKnowledgeKey.get(`${section.sourcePath}#${section.id}`) ?? [];
     const sectionNumber = visibleSectionNumberById.get(section.id);
     const summaryChapter = summaryChapters[section.categoryId];
     const lessonSummary = summaryChapter?.summaries.find((item) => item.id === section.id)
@@ -905,98 +823,6 @@ export function KnowledgePanel({
               </div>
             )}
 
-            {relatedApis.length > 0 && (
-              <section className="knowledge-related-apis">
-                <div className="knowledge-related-apis__heading">
-                  <strong>{language === 'vi' ? 'API liên quan' : 'Related APIs'} · {relatedApis.length}</strong>
-                </div>
-
-                <div className="knowledge-related-apis__list">
-                  {relatedApis.map(({ controller, operation }) => {
-                    const previewOpen = previewOperationId === operation.id;
-                    const sanitizedExecution = operation.executionHtml
-                      ? DOMPurify.sanitize(operation.executionHtml)
-                      : '';
-
-                    return (
-                      <div
-                        key={operation.id}
-                        className="knowledge-related-api-control"
-                        data-related-api-control
-                      >
-                        <button
-                          type="button"
-                          className="knowledge-related-api-row"
-                          onClick={() => setPreviewOperationId((current) => (
-                            current === operation.id ? null : operation.id
-                          ))}
-                        >
-                          <span className={`http-method http-method--${operation.httpMethod.toLowerCase()}`}>
-                            {operation.httpMethod}
-                          </span>
-                          <code>{operation.path || '—'}</code>
-                          <span className="knowledge-related-api-row__copy">
-                            <strong>{operation.summary}</strong>
-                            <small>{controller.title}</small>
-                          </span>
-                        </button>
-
-                        {previewOpen && (
-                          <div className="knowledge-related-api-popover" role="dialog" aria-label={operation.summary}>
-                            <div className="knowledge-related-api-popover__header">
-                              <span className={`http-method http-method--${operation.httpMethod.toLowerCase()}`}>
-                                {operation.httpMethod}
-                              </span>
-                              <code>{operation.path || '—'}</code>
-                            </div>
-
-                            <div className="knowledge-related-api-popover__body">
-                              <div className="knowledge-related-api-popover__basic-info">
-                                <strong>{operation.summary}</strong>
-                                {operation.description && <p>{operation.description}</p>}
-                                <small>{controller.title} · {operation.methodSignature}</small>
-                              </div>
-
-                              <section>
-                                <h4>Execution</h4>
-                                {sanitizedExecution ? (
-                                  <div
-                                    className="api-execution-content"
-                                    dangerouslySetInnerHTML={{ __html: sanitizedExecution }}
-                                  />
-                                ) : (
-                                  <p className="api-operation__empty-detail">
-                                    {language === 'vi' ? 'Chưa có mô tả execution.' : 'No execution description yet.'}
-                                  </p>
-                                )}
-                              </section>
-
-                              {operation.params.length > 0 && (
-                                <section>
-                                  <h4>{language === 'vi' ? 'Tham số' : 'Parameters'}</h4>
-                                  <div className="api-param-list">
-                                    {operation.params.map((param) => (
-                                      <div key={param.name} className="api-param">
-                                        <code>{param.name}</code>
-                                        <span>
-                                          <strong>{param.summary || param.name}</strong>
-                                          {param.description && <small>{param.description}</small>}
-                                        </span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </section>
-                              )}
-                            </div>
-
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            )}
           </div>
         )}
       </article>

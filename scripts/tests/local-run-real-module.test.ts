@@ -9,7 +9,7 @@ function moduleNode(id: string, overrides: Partial<ModuleCatalogNode> = {}): Mod
 function group(id: string, children: ModuleCatalogNode[]): ModuleCatalogNode {
   return { id, name: id, kind: 'GROUP', children } as ModuleCatalogNode;
 }
-const empty: ModuleContentCounts = { knowledge: {}, quiz: {}, interview: {}, api: {} };
+const empty: ModuleContentCounts = { knowledge: {}, quiz: {}, interview: {} };
 
 test('Real module requires a positive counted item, not metadata, hasContent or roadmap', () => {
   const falsePositive = moduleNode('EMPTY', {
@@ -17,7 +17,7 @@ test('Real module requires a positive counted item, not metadata, hasContent or 
     knowledge: { vi: '/module/empty/knowledge.json' },
   } as Partial<ModuleCatalogNode>);
   assert.equal(isCountedRealModule(falsePositive, empty), false);
-  for (const key of ['knowledge', 'quiz', 'interview', 'casestudy', 'api'] as const) {
+  for (const key of ['knowledge', 'quiz', 'interview', 'casestudy'] as const) {
     assert.equal(isCountedRealModule(falsePositive, { ...empty, [key]: { EMPTY: 1 } }), true, key);
     assert.equal(isCountedRealModule(falsePositive, { ...empty, [key]: { EMPTY: 0 } }), false, key);
   }

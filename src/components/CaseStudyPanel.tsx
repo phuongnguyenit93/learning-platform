@@ -1,5 +1,11 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
-import { loadCaseStudyDocument, type CaseStudyItem } from '../data/casestudy';
+import { createElement, Fragment, lazy, Suspense, useEffect, useId, useMemo, useState, type ReactNode } from 'react';
+import DOMPurify from 'dompurify';
+import {
+  loadCaseStudyDocument,
+  type CaseStudyCodeExplanation,
+  type CaseStudyDetailValue,
+  type CaseStudyItem,
+} from '../data/casestudy';
 import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { useLanguage } from '../state/LanguageContext';
@@ -142,6 +148,13 @@ export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
                       )}
                     </div>
                   )}
+                  {item.codeExplanation && (
+                    <CaseStudyCodeExplanationPanel
+                      key={`${documentPath}:${index}`}
+                      explanation={item.codeExplanation}
+                      language={language}
+                    />
+                  )}
                 </div>
               </article>
             );
@@ -149,5 +162,184 @@ export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
         </section>
       )}
     </div>
+  );
+}
+
+// Preserve authored HTML formatting without passing arbitrary attributes, links,
+// event handlers or unsupported elements into the live React DOM. DOMPurify is
+// applied first; the strict element allowlist provides another safety boundary.
+const allowedExplanationTags = new Set([
+  'p', 'br', 'b', 'strong', 'em', 'i', 'u', 's', 'del', 'mark',
+  'ul', 'ol', 'li', 'code', 'pre', 'blockquote', 'h1', 'h2',
+  'h3', 'h4', 'h5', 'h6', 'div', 'span', 'hr', 'table', 'thead',
+  'tbody', 'tr', 'td', 'th',
+]);
+const blockedExplanationTags = new Set([
+  'script', 'style', 'iframe', 'img', 'svg', 'math', 'object',
+  'embed', 'link', 'meta', 'base', 'form', 'input', 'textarea',
+  'select', 'button', 'video', 'audio', 'source', 'picture',
+  'canvas', 'template', 'noscript', 'frame', 'frameset',
+]);
+
+function safeExplanationNode(node: Node, key: string): ReactNode {
+  if (node.nodeType === 3) return node.textContent;
+  if (node.nodeType !== 1) return null;
+  const element = node as Element;
+  const tag = element.tagName.toLowerCase();
+  if (blockedExplanationTags.has(tag)) return null;
+  const children = Array.from(element.childNodes).map((child, index) => (
+    safeExplanationNode(child, `${key}-${index}`)
+  ));
+  // Unknown harmless wrappers, including links, keep their authored text but
+  // never carry attributes or become executable/navigation elements.
+  if (!allowedExplanationTags.has(tag)) return createElement(Fragment, { key }, ...children);
+  return createElement(tag, { key }, ...children);
+}
+
+function AuthoredHtml({ html }: { html: string }) {
+  const content = useMemo(() => {
+    // DOMPurify's ESM default is a factory in non-browser test environments.
+    const purifier = typeof DOMPurify.sanitize === 'function' ? DOMPurify : DOMPurify(window);
+    const sanitized = purifier.sanitize(html, { USE_PROFILES: { html: true } });
+    const template = document.createElement('template');
+    template.innerHTML = sanitized;
+    return Array.from(template.content.childNodes).map((node, index) => (
+      safeExplanationNode(node, String(index))
+    ));
+  }, [html]);
+  return <div className="case-study-explanation__rich markdown-content">{content}</div>;
+}
+
+/** Authored strings support safe HTML; structured values remain React-escaped. */
+function AuthoredDetail({ value }: { value: CaseStudyDetailValue }) {
+  if (typeof value !== 'string') {
+    return (
+      <pre className="case-study-explanation__structured"><code>{
+        typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)
+      }</code></pre>
+    );
+  }
+  return <AuthoredHtml html={value} />;
+}
+
+function DetailRow({
+  label,
+  value,
+}: {
+  label: string;
+  value?: CaseStudyDetailValue;
+}) {
+  if (value === undefined) return null;
+  return (
+    <div className="case-study-explanation__detail">
+      <strong>{label}</strong>
+      <AuthoredDetail value={value} />
+    </div>
+  );
+}
+
+function CaseStudyCodeExplanationPanel({
+  explanation,
+  language,
+}: {
+  explanation: CaseStudyCodeExplanation;
+  language: 'vi' | 'en';
+}) {
+  const uid = useId();
+  const [expanded, setExpanded] = useState(false);
+  const [howOpen, setHowOpen] = useState(false);
+  const [situationsOpen, setSituationsOpen] = useState(false);
+  const scenarios = explanation.situations ?? [];
+  const [selectedId, setSelectedId] = useState(() => scenarios[0]?.id);
+  const selected = scenarios.find((scenario) => scenario.id === selectedId) ?? scenarios[0];
+
+  // An absent child is omitted altogether, rather than displaying an empty accordion.
+  if (!explanation.howItWorksHtml && scenarios.length === 0) return null;
+
+  return (
+    <section className="case-study-explanation">
+      <button type="button" className={`interview-answer-toggle case-study-explanation__toggle${expanded ? ' is-open' : ''}`}
+        aria-expanded={expanded} aria-controls={`${uid}-explanation`}
+        onClick={() => setExpanded((current) => !current)}>
+        <span>{language === 'vi' ? 'Giải thích mã nguồn' : 'Source code explanation'}</span>
+        <span aria-hidden="true">{expanded ? '−' : '+'}</span>
+      </button>
+      {expanded && (
+        <div className="case-study-explanation__body" id={`${uid}-explanation`}>
+          {explanation.howItWorksHtml && (
+            <div>
+              <button type="button"
+                className={`interview-answer-toggle case-study-explanation__subtoggle${howOpen ? ' is-open' : ''}`}
+                aria-expanded={howOpen} aria-controls={`${uid}-how`}
+                onClick={() => setHowOpen((current) => !current)}>
+                <span>{language === 'vi' ? 'Cách hoạt động' : 'How it works'}</span>
+                <span aria-hidden="true">{howOpen ? '−' : '+'}</span>
+              </button>
+              {howOpen && (
+                <div className="case-study-explanation__panel" id={`${uid}-how`}>
+                  <AuthoredDetail value={explanation.howItWorksHtml} />
+                </div>
+              )}
+            </div>
+          )}
+          {scenarios.length > 0 && (
+            <div>
+              <button type="button"
+                className={`interview-answer-toggle case-study-explanation__subtoggle${situationsOpen ? ' is-open' : ''}`}
+                aria-expanded={situationsOpen} aria-controls={`${uid}-situations`}
+                onClick={() => setSituationsOpen((current) => !current)}>
+                <span>{language === 'vi' ? 'Các tình huống xảy ra' : 'Possible scenarios'}</span>
+                <span aria-hidden="true">{situationsOpen ? '−' : '+'}</span>
+              </button>
+              {situationsOpen && selected && (
+                <div className="case-study-explanation__panel" id={`${uid}-situations`}>
+                  <div className="case-study-explanation__choices" role="tablist"
+                    aria-label={language === 'vi' ? 'Chọn tình huống' : 'Choose scenario'}>
+                    {scenarios.map((scenario) => (
+                      <button key={scenario.id} type="button" role="tab"
+                        aria-selected={selected.id === scenario.id}
+                        aria-controls={`${uid}-scenario-detail`}
+                        className={`case-study-explanation__choice${selected.id === scenario.id ? ' is-active' : ''}`}
+                        onClick={() => setSelectedId(scenario.id)}>{scenario.title}</button>
+                    ))}
+                  </div>
+                  <div className="case-study-explanation__scenario" role="tabpanel"
+                    id={`${uid}-scenario-detail`}>
+                    <h4>{selected.title}</h4>
+                    {selected.description && <AuthoredDetail value={selected.description} />}
+                    {selected.detailDescription && <AuthoredDetail value={selected.detailDescription} />}
+                    <div className="case-study-explanation__details">
+                      <DetailRow label={language === 'vi' ? 'Đầu vào' : 'Input'} value={selected.input} />
+                      <DetailRow label={language === 'vi' ? 'Trạng thái' : 'Status'} value={selected.status} />
+                      <DetailRow label={language === 'vi' ? 'Phản hồi' : 'Response'} value={selected.response} />
+                    </div>
+                    {selected.observations && (
+                      <section className="case-study-explanation__observations">
+                        <h5>{language === 'vi' ? 'Quan sát' : 'Observations'}</h5>
+                        {selected.observations.map((observation, index) => (
+                          <div key={index} className="case-study-explanation__observation">
+                            <DetailRow label={language === 'vi' ? 'Loại' : 'Type'} value={observation.type} />
+                            <DetailRow label={language === 'vi' ? 'Nguồn' : 'Source'} value={observation.source} />
+                            <DetailRow label={language === 'vi' ? 'Chương trình' : 'Program'} value={observation.program} />
+                            {observation.expect && (
+                              <div className="case-study-explanation__expect">
+                                <strong>{language === 'vi' ? 'Kỳ vọng' : 'Expected'}</strong>
+                                <DetailRow label={language === 'vi' ? 'Từ khóa' : 'Keyword'} value={observation.expect.keyword} />
+                                <DetailRow label={language === 'vi' ? 'Kết quả' : 'Results'} value={observation.expect.results} />
+                                <DetailRow label={language === 'vi' ? 'Kết luận' : 'Conclusion'} value={observation.expect.conclusion} />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </section>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+    </section>
   );
 }

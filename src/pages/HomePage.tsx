@@ -9,13 +9,13 @@ export function HomePage() {
       ? {
           title: 'Trang chủ đang được cập nhật',
           description:
-            'Nội dung của trang chủ vẫn đang trong quá trình hoàn thiện. Bạn có thể chuyển sang tab Learning để xem các module, Knowledge và API Docs hiện có.',
+            'Nội dung của trang chủ vẫn đang trong quá trình hoàn thiện. Bạn có thể chuyển sang tab Learning để xem các module, Knowledge, Quiz và Interview hiện có.',
           action: 'Đi tới Learning',
         }
       : {
           title: 'Home page is being updated',
           description:
-            'The home page is still being completed. You can continue to the Learning tab to explore the available modules, Knowledge, and API Docs.',
+            'The home page is still being completed. You can continue to the Learning tab to explore the available modules, Knowledge, Quiz, and Interview.',
           action: 'Go to Learning',
         };
 

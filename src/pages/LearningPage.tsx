@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { ApiDocsPanel } from '../components/ApiDocsPanel';
 import { KnowledgePanel } from '../components/KnowledgePanel';
 import { InterviewPanel } from '../components/InterviewPanel';
 import { CaseStudyPanel } from '../components/CaseStudyPanel';
@@ -50,7 +49,6 @@ export function LearningPage() {
   const [quizCounts, setQuizCounts] = useState<Record<string, number>>({});
   const [interviewCounts, setInterviewCounts] = useState<Record<string, number>>({});
   const [caseStudyCounts, setCaseStudyCounts] = useState<Record<string, number>>({});
-  const [apiCounts, setApiCounts] = useState<Record<string, number>>({});
   const [countsLoad, setCountsLoad] = useState<{ language: string; status: 'loading' | 'ready' | 'error' } | null>(null);
   const [countsReload, setCountsReload] = useState(0);
   const contentCountsState = countsLoad?.language === language ? countsLoad.status : 'loading';
@@ -142,7 +140,6 @@ export function LearningPage() {
   const quizPath = activeModule?.quiz[language];
   const interviewPath = activeModule?.interview[language];
   const caseStudyPath = activeModule?.casestudy[language];
-  const apiPath = activeModule?.api[language];
   const displayedStats = useMemo(
     () => ({
       ...activeStats,
@@ -150,9 +147,8 @@ export function LearningPage() {
       quiz: quizCounts[activeModuleId] ?? 0,
       interview: interviewCounts[activeModuleId] ?? 0,
       casestudy: caseStudyCounts[activeModuleId] ?? 0,
-      apiDocs: apiCounts[activeModuleId] ?? 0,
     }),
-    [activeModuleId, activeStats, apiCounts, interviewCounts, caseStudyCounts, knowledgeCounts, knowledgeIndex, quizCounts],
+    [activeModuleId, activeStats, interviewCounts, caseStudyCounts, knowledgeCounts, knowledgeIndex, quizCounts],
   );
 
   useEffect(() => {
@@ -192,7 +188,6 @@ export function LearningPage() {
         setQuizCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.quiz])));
         setInterviewCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.interview])));
         setCaseStudyCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.casestudy ?? 0])));
-        setApiCounts(Object.fromEntries(entries.map(([id, count]) => [id, count.apiDocs])));
         setCountsLoad({ language, status: 'ready' });
       })
       .catch(() => {
@@ -203,7 +198,6 @@ export function LearningPage() {
           setQuizCounts({});
           setInterviewCounts({});
           setCaseStudyCounts({});
-          setApiCounts({});
           setCountsLoad({ language, status: 'error' });
         }
       });
@@ -326,7 +320,6 @@ export function LearningPage() {
         quizCounts={quizCounts}
         interviewCounts={interviewCounts}
         caseStudyCounts={caseStudyCounts}
-        apiCounts={apiCounts}
         roadmapAvailability={roadmapAvailability}
         contentCountsState={contentCountsState}
         onRetryContentCounts={() => setCountsReload((value) => value + 1)}
@@ -461,7 +454,6 @@ export function LearningPage() {
                 searchQuery={searchQuery}
                 activeCategoryId={activeKnowledgeCategory}
                 selectedSectionId={selectedKnowledgeSection}
-                apiBasePath={apiPath}
                 videoIndexPath={videoPath}
                 summaryIndexPath={summaryPath}
                 onCategoryChange={(categoryId) => {
@@ -483,7 +475,6 @@ export function LearningPage() {
                 key={`${activeModule.id}:quiz`}
                 path={quizPath}
                 knowledgeIndex={knowledgeIndex}
-                apiBasePath={apiPath}
               />
             </div>
           )}
@@ -493,7 +484,6 @@ export function LearningPage() {
                 key={`${activeModule.id}:interview`}
                 path={interviewPath}
                 knowledgeIndex={knowledgeIndex}
-                apiBasePath={apiPath}
               />
             </div>
           )}
@@ -501,32 +491,6 @@ export function LearningPage() {
             <div className={`learning-tab-panel${activeTab !== 'casestudy' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Case Study" aria-hidden={activeTab !== 'casestudy'} inert={activeTab !== 'casestudy'}>
               <CaseStudyPanel key={`${activeModule.id}:casestudy`}
                 path={caseStudyPath} explorerUrl={readyDetails?.caseStudyExplorer} />
-            </div>
-          )}
-          {visitedTabs.has('api') && (
-            <div className={`learning-tab-panel${activeTab !== 'api' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="API Docs" aria-hidden={activeTab !== 'api'} inert={activeTab !== 'api'}>
-              <ApiDocsPanel
-                codeExplorerUrl={readyDetails?.codeExplorer}
-                key={`${activeModule.id}:api`}
-                basePath={apiPath}
-                knowledgeIndex={knowledgeIndex}
-                searchQuery={searchQuery}
-                onDownload={() => {
-                  if (!activeModule.capabilities.execution) {
-                    return;
-                  }
-
-                  setVisitedTabs((current) => {
-                    const next = new Set(current);
-                    next.add('execution');
-                    return next;
-                  });
-                  setActiveTab('execution');
-                  const next = new URLSearchParams(routeSearchParams);
-                  next.set('tab', 'execution');
-                  navigate({ search: `?${next}` }, { replace: true });
-                }}
-              />
             </div>
           )}
           {activeTab === 'execution' && activeModule.capabilities.execution && (

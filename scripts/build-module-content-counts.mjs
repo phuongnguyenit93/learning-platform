@@ -35,7 +35,7 @@ export async function buildModuleContentCounts(javaRoot = 'dist/language/java', 
 
   async function count(value, type) {
     if (!value) return 0;
-    const source = safeJavaPath(root, type === 'api' ? `${value}/api-descriptions.yml` : value);
+    const source = safeJavaPath(root, value);
     const cacheKey = `${type}:${source}`;
     if (!readCounts.has(cacheKey)) {
       readCounts.set(cacheKey, (async () => {
@@ -74,11 +74,6 @@ export async function buildModuleContentCounts(javaRoot = 'dist/language/java', 
           return index.sectionCount;
         }
         const parsed = parseYaml(content);
-        if (type === 'api') {
-          return Object.values(parsed ?? {}).reduce((sum, methods) => (
-            sum + Object.values(methods ?? {}).filter((item) => item && item.usage !== false).length
-          ), 0);
-        }
         if (!Array.isArray(parsed?.questions)) throw new Error(`Invalid ${type} questions at ${source}`);
         return parsed.questions.length;
       })());
@@ -95,7 +90,6 @@ export async function buildModuleContentCounts(javaRoot = 'dist/language/java', 
         quiz: await count(module.quiz?.[language], 'quiz'),
         interview: await count(module.interview?.[language], 'interview'),
         casestudy: await count(module.casestudy?.[language], 'casestudy'),
-        apiDocs: await count(module.api?.[language], 'api'),
       };
     }
     locales[language] = counts;

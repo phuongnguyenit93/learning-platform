@@ -59,11 +59,11 @@ Frontend không chạy trong JVM; React chạy trong browser. `npm run dev` dùn
 
 React quản lý UI/components; TypeScript kiểm tra type; Vite build và HMR; React Router xử lý clean client URLs và legacy redirects; CSS dùng semantic class names. Theme có Light/Dark, ưu tiên `prefers-color-scheme` lần đầu và giữ lựa chọn của user trong `localStorage`.
 
-Semantic color convention: Overview gray, Knowledge blue, Quiz amber, Interview teal, API Docs red, Local Run purple, Download green. Các màu là UI convention chứ không quyết định availability.
+Semantic color convention: Overview gray, Knowledge blue, Quiz amber, Interview teal, Local Run purple, Download green. Các màu là UI convention chứ không quyết định availability.
 
 ### 1.4 Runtime boundaries
 
-- Learning pages, Knowledge, Roadmap, Quiz, Interview và API reference đọc static assets, không cần application server của module.
+- Learning pages, Knowledge, Roadmap, Quiz, Interview và Case Study đọc static assets, không cần application server của module.
 - Cloudflare Static Assets xử lý SPA deep links bằng `not_found_handling: single-page-application`.
 - Local Run is available for published runnable SERVLET/REACTIVE modules without frontend/backend enable toggles. The Cloudflare Worker validates GitHub credentials, same-origin requests, published fingerprint, Durable Object deduplication and rate limits. Preview keeps isolated DO and limiter bindings; with a GitHub secret it can also dispatch. UI visibility is not API authorization.
 - Các ngôn ngữ khác ngoài Java có thể có producer/dataset riêng về sau; không giả định tất cả source đều là Java.
@@ -72,7 +72,7 @@ Semantic color convention: Overview gray, Knowledge blue, Quiz amber, Interview 
 
 ## 2. Bài toán sản phẩm
 
-Người học cần một điểm truy cập thống nhất cho Overview, Roadmap, Knowledge, Quiz, Interview và API Docs mà không phải khởi động ứng dụng riêng cho từng module. Content không nên phụ thuộc vào Swagger hay runtime đang chạy; Swagger/live execution chỉ là capability tùy chọn. Các module chỉ có tài liệu hoặc quiz vẫn phải đọc được trên browser.
+Người học cần một điểm truy cập thống nhất cho Overview, Roadmap, Knowledge, Quiz, Interview và Case Study mà không phải khởi động ứng dụng riêng cho từng module. Nội dung học đọc được độc lập với module runtime; các module chỉ có tài liệu hoặc Quiz vẫn có thể học trên browser.
 
 **Nguyên tắc:** website là lớp trình bày nội dung đã xuất bản; không biên dịch module hoặc tự tạo knowledge tại runtime.
 
@@ -80,14 +80,14 @@ Người học cần một điểm truy cập thống nhất cho Overview, Roadm
 
 ## 3. Ý tưởng chính
 
-Learning Platform là entry point chung cho nhiều lĩnh vực học; Java Knowledge là nhánh nội dung hiện có. UI không hard-code cấu trúc chương trình học hay nội dung từng module. Catalog quyết định hierarchy, source data quyết định Knowledge/Quiz/Interview/API, còn React quyết định cách người dùng điều hướng và tương tác.
+Learning Platform là entry point chung cho nhiều lĩnh vực học; Java Knowledge là nhánh nội dung hiện có. UI không hard-code cấu trúc chương trình học hay nội dung từng module. Catalog quyết định hierarchy, source data quyết định Knowledge/Quiz/Interview/Case Study, còn React quyết định cách người dùng điều hướng và tương tác.
 
 ```text
 Learning Platform
 ├── Learning topic picker (Java / JavaScript / NodeJS)
 │   └── Java Knowledge
 │       ├── Overview / Roadmap / Menu / Knowledge
-│       ├── Quiz / Interview / API Docs
+│       ├── Quiz / Interview / Case Study
 │       └── Local Run (runnable SERVLET/REACTIVE, production enabled)
 ├── Project
 └── About Me
@@ -126,7 +126,7 @@ Ví dụ với module runnable `THREAD`:
 ```text
 Thread & Concurrency
 
-[Overview] [Menu] [Roadmap] [Knowledge] [API Docs] [Quiz] [Interview] [Local Run]
+[Overview] [Menu] [Roadmap] [Knowledge] [Quiz] [Interview] [Case Study] [Local Run]
 
 Progress
 ████████░░
@@ -143,8 +143,8 @@ Quiz
 Interview
 46 questions
 
-API Docs
-78 experiments
+Case Study
+14 examples
 ```
 
 Ví dụ với module không runnable:
@@ -164,7 +164,7 @@ Quiz
 25 questions
 ```
 
-Frontend đã dựng navigation shell và các static panels Overview/Menu/Roadmap/Knowledge/API Docs/Quiz/Interview. `Local Run` có UI hai khung Build/Download JAR + Run Locally và **đã hoạt động trên Production** cho module đủ điều kiện; backend Worker quản lý Build/reuse, GitHub Actions build JAR và Release cung cấp file download (xem mục 13).
+Frontend đã dựng navigation shell và các static panels Overview/Menu/Roadmap/Knowledge/Quiz/Interview/Case Study. `Local Run` có UI hai khung Build/Download JAR + Run Locally và **đã hoạt động trên Production** cho module đủ điều kiện; backend Worker quản lý Build/reuse, GitHub Actions build JAR và Release cung cấp file download (xem mục 13).
 
 `Roadmap` nằm kế bên `Menu` nhưng có responsibility khác:
 
@@ -230,7 +230,7 @@ dist/language/java/module-catalog.json
 ├── root / children / kind (GROUP or MODULE)
 ├── routeId / serviceName / moduleType / description
 ├── sourceFingerprint (khi được cung cấp)
-├── overview / knowledge / roadmap / quiz / interview / api / reference
+├── overview / knowledge / roadmap / quiz / interview / casestudy / reference
 └── localized static paths and counts
 ```
 
@@ -243,7 +243,7 @@ dist/language/java/module-catalog.json
 Consumer cần phân biệt **declared/capability in catalog**, **available static data** và **runtime service hiện có**. Không suy luận một module có thể build JAR chỉ vì `moduleType` là `SERVLET` hoặc `REACTIVE`.
 
 ```text
-Knowledge / Roadmap / Quiz / Interview / API Docs
+Knowledge / Roadmap / Quiz / Interview / Case Study
 → dựa trên localized paths, metadata và static asset thực tế
 
 Local Run
@@ -272,7 +272,7 @@ module path
 available capabilities
 ```
 
-`SERVICE_NAME_DESCRIBE` hiện là description chính hiển thị ngay dưới tên module ở Learning header. Sidebar chỉ hiển thị tên menu ngắn gọn và capability badges; Roadmap dùng badge tròn `R` theo màu semantic của tab Roadmap, còn Knowledge/Quiz/Interview/API Docs dùng count badge. Không lặp lại detailed description dưới dạng tooltip.
+`SERVICE_NAME_DESCRIBE` hiện là description chính hiển thị ngay dưới tên module ở Learning header. Sidebar chỉ hiển thị tên menu ngắn gọn và capability badges; Roadmap dùng badge tròn `R` theo màu semantic của tab Roadmap, còn Knowledge/Quiz/Interview/Case Study dùng count badge. Không lặp lại detailed description dưới dạng tooltip.
 
 Frontend không tự thêm hoặc sửa metadata nguồn; chỉ render các trường đã có trong catalog và localized static assets.
 
@@ -290,20 +290,20 @@ Knowledge là nội dung static có thể đọc mà không cần module runtime
 
 Renderer lazy-load section khi người dùng mở, hỗ trợ nhiều section mở đồng thời, category strip arrow-scroll và drag-scroll. Knowledge metadata hiển thị difficulty (`BASIC`, `INTERMEDIATE`, `ADVANCED`). Không chỉnh sửa Markdown hoặc metadata ở frontend.
 
-Related APIs được suy ra từ quan hệ `readmeRelated` có trong API YAML; không tự tạo relation thứ hai. Content UI chỉ render nội dung trusted-structured và sanitize rich HTML khi cần.
+Nội dung Knowledge chỉ tải khi người học mở bài; Markdown và sơ đồ được xử lý trong renderer và làm sạch HTML/SVG khi cần.
 
 ---
 
 ## 10. Quiz
 
-Quiz đọc localized YAML từ Catalog, là capability tách biệt với Knowledge/Swagger và không yêu cầu backend.
+Quiz đọc localized YAML từ Catalog, là capability riêng và không yêu cầu backend.
 
 Contract cho single-choice:
 
 - Mỗi câu có 4 answers với stable identity `A/B/C/D`, chính xác 1 `correctAnswerId` và explanation của từng answer.
 - Shuffle vị trí answer **một lần khi load context**, nhưng giữ canonical `answer.id` để kiểm tra đúng/sai và explanation.
-- `readmeRelated` và `apiRelated` chỉ hiện khi data thực tế resolve được; không tự suy diễn mapping. Không có badge trạng thái sinh nội dung hoặc kiểm duyệt.
-- Related Knowledge/API được mở theo điều kiện UI sau khi người dùng chọn đáp án đúng; trạng thái chọn phải được giữ khi đổi tab trong cùng module/language.
+- `readmeRelated` chỉ hiện khi dữ liệu thực tế resolve được; không tự suy diễn mapping. Không có badge trạng thái sinh nội dung hoặc kiểm duyệt.
+- Related Knowledge được mở sau khi người dùng chọn đáp án đúng; trạng thái chọn phải được giữ khi đổi tab trong cùng module/language.
 
 Ví dụ shape dữ liệu consumer:
 
@@ -357,15 +357,15 @@ questionIndex 1-based làm identity ổn định, vẫn dựa trên `answer.id` 
 `situation`, `resolve`, `knowledge`, `code`, phần giải pháp/code mở theo yêu cầu.
 Các dữ liệu mới lưu `readmeRelated.anchorList` (nhiều ID Knowledge) nguyên vẹn
 trong static YAML. Tạm thời UI không hiển thị Related Knowledge cho kiểu mới,
-không chọn tùy tiện một anchor hay tự sinh `apiRelated`. Resolver nhiều liên kết
-là giai đoạn riêng. Các liên kết `readmeRelated.file/anchor` và `apiRelated`
+không chọn tùy tiện một anchor. Resolver nhiều liên kết
+là giai đoạn riêng. Các liên kết `readmeRelated.file/anchor`
 của chapter-local legacy tiếp tục hoạt động như trước.
 
 ---
 
 ## 11. Static-first data architecture
 
-Các tab học tập chủ yếu dùng static data. Website không yêu cầu database, login hay REST business API để render Catalog, Roadmap, Knowledge, Quiz, Interview và API Docs.
+Các tab học tập chủ yếu dùng static data. Website không yêu cầu database, login hay REST business API để render Catalog, Roadmap, Knowledge, Quiz, Interview và Case Study.
 
 ```text
 java-learning/main → publish-java-data.yml → Release java-data
@@ -385,26 +385,11 @@ Progress/selection/filter cá nhân có thể lưu trong browser; sync nhiều t
 
 ---
 
-## 12. API Docs / API Execution
+## 12. Case Study và Code Explorer
 
-API Docs là **static reference**. Frontend parse localized YAML/API metadata đã publish; không tự scan Java source hoặc host Swagger runtime.
+Case Study đọc nội dung tình huống, hướng xử lý, kiến thức áp dụng và ví dụ Java từ dữ liệu tĩnh đã phát hành. Khi catalog cung cấp `caseStudyExplorer`, người học có thể mở Code Explorer dùng Monaco để đọc nguồn và điều hướng symbol/reference. Code Explorer sử dụng các file index, symbol, reference và `api-map.json` thuộc gói source explorer; `api-map.json` là metadata điều hướng mã nguồn, không phải tài liệu API hiển thị trên tab riêng.
 
-```text
-Catalog: api.{lang}
-   ↓
-/language/java/module/{ROUTE_ID}/api/{lang}/
-├── controller-description.yml
-├── api-descriptions.yml
-└── api-execution.yml
-```
-
-`controller-description.yml` mô tả controller; `api-descriptions.yml` chứa method signature, HTTP metadata, descriptions, `params[].{name,summary,description}` theo từng method và relation; `api-execution.yml` là guided execution HTML. UI chỉ consume files được dataset cung cấp; không tự synthesize thiếu source.
-
-Ordering API reference: controller theo tên với thứ tự số tự nhiên (`Group2` trước `Group10`); method theo vị trí Knowledge được trỏ bởi `readmeRelated.anchor` hoặc `readmeRelated.anchorList`, fallback theo method signature khi thiếu mapping. `readmeRelated` ở từng method là relation duy nhất giữa API và Knowledge; `Related Knowledge` ở API Docs và `Related APIs` popup ở Knowledge suy ra từ cùng dữ liệu đó.
-
-HTML trong `execution` phải được sanitize trước khi render. Method detail giữ split `Execution | Related Knowledge`; phần API Docs **không thực hiện HTTP request chạy API**, không thay thế Swagger hoặc debugger thực sự. Execution Context/live API runtime là một capability khác và hiện không nằm trong scope deploy website static.
-
-API Docs/Knowledge/Menu giữ expand/collapse gần nhất trong cùng module/language khi đổi tab; lần đầu API Docs collapsed. Các nhãn được hiển thị chỉ dựa vào metadata kỹ thuật còn tồn tại như Difficulty.
+Frontend giữ nội dung và trạng thái panel khi chuyển giữa các tab đã xem trong cùng module. Các ví dụ không yêu cầu người học chạy ứng dụng Java để đọc mã nguồn.
 
 ---
 
@@ -610,7 +595,7 @@ Ngày 2026-10-12: 44/44 frontend/Local Run tests (bao gồm React component moun
 
 ## 14. Download
 
-Trong API Docs, action `Download` điều hướng tới tab Local Run (nếu capability đã bật), thay vì cung cấp placeholder popup riêng. Production đã triển khai backend; nếu Worker tạm thời lỗi hoặc thiếu cấu hình, UI vẫn có thể **đọc/tải một JAR public đã tồn tại** qua Release, nhưng không cho rằng có thể dispatch mới. Các trạng thái Build/Download phụ thuộc vào xác minh fingerprint và API health tại thời điểm thao tác.
+Tab `Local Run` cung cấp thao tác Build/Download JAR cho module hỗ trợ. Production đã triển khai backend; nếu Worker tạm thời lỗi hoặc thiếu cấu hình, UI vẫn có thể **đọc/tải một JAR public đã tồn tại** qua Release, nhưng không cho rằng có thể dispatch mới. Các trạng thái Build/Download phụ thuộc vào xác minh fingerprint và API health tại thời điểm thao tác.
 
 Artifact nào đó có thể là source archive, library JAR hoặc executable JAR; không được đánh đồng tất cả JAR đều runnable. Contract hiện tại của Local Run tập trung vào **executable JAR** nhận qua GitHub Release, không có tính năng Docker Bundle/WAR download trong standalone frontend.
 
@@ -859,7 +844,7 @@ Full tree / Đầy đủ
 
 Real modules / Module thật
 → đây là content filter của Portal, không phải định nghĩa physical real module theo upstream module registry metadata
--> A MODULE qualifies only when Knowledge + Quiz + Interview + API Docs > 0 in the active locale
+-> A MODULE qualifies only when Knowledge + Quiz + Interview + Case Study > 0 in the active locale
 -> Roadmap presence, content paths and hasContent do NOT qualify a module
 -> while counts are loading or unavailable, show the complete tree with explicit status/Retry; never classify unknown counts as zero
 → giữ GROUP ancestor cần thiết để bảo toàn hierarchy
@@ -867,13 +852,13 @@ Real modules / Module thật
 → không flatten thành list
 ```
 
-MODULE đạt điều kiện `Module thật` **không có permanent background riêng**. Badge `R` của Roadmap cùng Knowledge/Quiz/Interview/API count badges là tín hiệu content availability; background persistent chỉ dành cho active/selected module. Directional hover color/wave chỉ xuất hiện khi pointer/focus đi vào interactive row.
+MODULE đạt điều kiện `Module thật` **không có permanent background riêng**. Badge `R` của Roadmap cùng Knowledge/Quiz/Interview/Case Study count badges là tín hiệu content availability; background persistent chỉ dành cho active/selected module. Directional hover color/wave chỉ xuất hiện khi pointer/focus đi vào interactive row.
 
 Toàn sidebar có thể đóng/mở độc lập với tree branch state. Control đóng sidebar nằm giữa chiều cao ở mép phải sidebar; khi sidebar bị ẩn, main content giãn ra và một control `>` ở giữa mép trái màn hình mở sidebar lại. Desktop sidebar ưu tiên đủ rộng để tên menu hiển thị đầy đủ thay vì ellipsis. Header module hiển thị thêm description từ `SERVICE_NAME_DESCRIBE`; sidebar chỉ giữ tên menu ngắn gọn thay vì tooltip/detail description.
 
-Tab state được giữ theo browser session cho module/language hiện tại: Knowledge, API Docs, Quiz và Interview được lazy-mount lần đầu rồi giữ mounted khi user đổi tab. Vì vậy manual expand/collapse, lựa chọn Quiz và Interview answer state gần nhất không tự reset chỉ vì tab đang bị ẩn. Khi đổi module/language, component key/reset boundary tạo state mới phù hợp context mới.
+Tab state được giữ theo browser session cho module/language hiện tại: Knowledge, Quiz, Interview và Case Study được lazy-mount lần đầu rồi giữ mounted khi user đổi tab. Vì vậy manual expand/collapse, lựa chọn Quiz và Interview answer state gần nhất không tự reset chỉ vì tab đang bị ẩn. Khi đổi module/language, component key/reset boundary tạo state mới phù hợp context mới.
 
-API Docs mặc định collapsed. Knowledge cũng bắt đầu chưa mở section nào, nhưng cho phép **nhiều section mở đồng thời**. Content Markdown của section đã load được cache trong panel để quay lại tab không phải fetch lại ngay.
+Knowledge bắt đầu chưa mở section nào, nhưng cho phép **nhiều section mở đồng thời**. Content Markdown của section đã load được cache trong panel để quay lại tab không phải fetch lại ngay.
 
 Knowledge category strip hỗ trợ cả nút cuộn trái/phải và pointer drag ngang. Pointer chỉ chuyển sang drag sau threshold nhỏ (>5px); click bình thường vẫn chọn category, còn click phát sinh sau một drag thật sự bị suppress để tránh đổi category ngoài ý muốn. Cursor `grab/grabbing` phản ánh state tương tác này.
 
@@ -917,7 +902,7 @@ Use case phù hợp:
 
 - giải thích câu quiz;
 - giải thích README section;
-- giải thích API docs/API execution;
+- giải thích nội dung Case Study và ví dụ Java;
 - giải thích execution vừa chạy.
 
 Không nên để frontend chứa provider secret/API key.
@@ -951,7 +936,7 @@ Target user flow:
                          │
              ┌───────────┼───────────┐
              ▼           ▼           ▼
-         API Docs      Quiz      Interview
+        Case Study     Quiz      Interview
              │
              ▼
       module runnable?
@@ -972,7 +957,7 @@ Portal hướng đến việc liên kết các lớp học tập:
 Theory       → README / Knowledge
 Assessment   → Quiz
 Interview    → reference Q&A dựa trên Knowledge
-Experiment   → API Docs / API Execution
+Experiment   → Case Study / Code Explorer
 Observation  → Execution Context
 ```
 
@@ -1036,7 +1021,7 @@ Swagger tiếp tục có giá trị như API experiment tool, nhưng không còn
 **Đã triển khai trong repository standalone:**
 
 - React 19 + TypeScript + Vite + React Router; trang Home, Learning, Project, About Me; theme, VI/EN, dynamic metadata/favicon, mobile-responsive styling.
-- Java topic picker, module tree/dashboard, Roadmap timeline, Overview, Knowledge renderer, API Docs reference, Quiz, Interview, Reference và tìm kiếm/filter từ static catalog/index.
+- Java topic picker, module tree/dashboard, Roadmap timeline, Overview, Knowledge renderer, Quiz, Interview, Case Study với Code Explorer, Reference và tìm kiếm/filter từ static catalog/index.
 - Static Java ZIP consumer có checksum/manifest verification, asset URL mapping và isolated `dist/language/java` sync; derived navigation (~121 KB), 295 per-module detail files và content count summary (~46 KB ở dataset 2026-10-12) cho progressive render, không bắt menu đợi full catalog/hàng trăm content requests.
 - Hai pipeline tách biệt: `java-learning` publisher tạo Release `java-data` rồi `repository_dispatch` sang `learning-platform` để chạy CI/CD website; người dùng chủ động Build JAR kích hoạt workflow riêng trong `java-learning`, tạo Release `local-run`, **không deploy lại frontend**.
 - Production Cloudflare Worker with static assets; Local Run available by module type without feature toggles. The Worker checks its GitHub secret, module/fingerprint and same-origin requirements, using DO single-flight and an IP rate limit. Preview has isolated bindings and can dispatch with GitHub credentials.

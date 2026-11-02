@@ -139,12 +139,10 @@ export function toLearningModule(node: ModuleCatalogNode, stats: ModuleStats): L
     quiz: node.quiz ?? {},
     interview: node.interview ?? {},
     casestudy: node.casestudy ?? {},
-    api: node.api ?? {},
     capabilities: {
       knowledge: true,
       quiz: true,
       interview: true,
-      apiDocs: true,
       // Only runnable module types offer Local Run; the Worker validates again.
       execution: node.moduleType === 'SERVLET' || node.moduleType === 'REACTIVE',
       download: true,

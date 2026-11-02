@@ -35,16 +35,15 @@ async function fixture(t) {
   await write('module-details/EXAMPLE.json', JSON.stringify({ kind: 'MODULE', routeId: 'EXAMPLE' }));
   await write('module-content-counts.json', JSON.stringify({
     version: 1, locales: {
-      vi: { EXAMPLE: { knowledge: 1, quiz: 0, interview: 0, apiDocs: 0 } },
-      en: { EXAMPLE: { knowledge: 0, quiz: 0, interview: 0, apiDocs: 0 } },
+      vi: { EXAMPLE: { knowledge: 1, quiz: 0, interview: 0, casestudy: 0 } },
+      en: { EXAMPLE: { knowledge: 0, quiz: 0, interview: 0, casestudy: 0 } },
     },
   }));
   await write('language/java/module/EXAMPLE/knowledge/vi/index.json', '{}');
-  await write('language/java/module/EXAMPLE/api/vi/api-descriptions.yml', 'api: {}');
   return { root, write };
 }
 
-test('dist verifier accepts Java files, API metadata directories, and compiled frontend', async (t) => {
+test('dist verifier accepts Java files and compiled frontend while ignoring legacy API metadata', async (t) => {
   const { root } = await fixture(t);
   await verifyDist(root);
 });

@@ -229,7 +229,7 @@ run requires confirmation. Run instructions cover Windows/macOS/Linux,
 clipboard errors, and opening localhost only after starting the JAR.
 
 **Real modules** in the Learning sidebar means at least one content-count item
-(Knowledge, Quiz, Interview or API Docs) for the active language. Roadmap
+(Knowledge, Quiz, Interview or Case Study) for the active language. Roadmap
 metadata, content paths and `hasContent` are not evidence of a counted item.
 If the count summary is loading or unavailable, the sidebar does not prune
 modules or guess at their counts; it shows the full tree with a loading/error

@@ -36,9 +36,6 @@ function parseQuestion(value: unknown, index: number): InterviewQuestion {
     question: asNonBlankString(value.question, `questions[${index}].question`),
     answer: asNonBlankString(value.answer, `questions[${index}].answer`),
     readmeRelated: parseReadmeRelated(value.readmeRelated, `questions[${index}].readmeRelated`),
-    apiRelated: value.apiRelated === undefined
-      ? { controller: '', methodSignature: '' }
-      : parseApiRelated(value.apiRelated, `questions[${index}].apiRelated`),
   };
 }
 
@@ -56,17 +53,6 @@ function parseReadmeRelated(value: unknown, path: string) {
   return {
     file: value.file === undefined ? '' : asString(value.file, `${path}.file`),
     anchor: asString(value.anchor, `${path}.anchor`),
-  };
-}
-
-function parseApiRelated(value: unknown, path: string) {
-  if (!isRecord(value)) {
-    throw new Error(`Invalid Interview value at ${path}: expected an object.`);
-  }
-
-  return {
-    controller: asString(value.controller, `${path}.controller`),
-    methodSignature: asString(value.methodSignature, `${path}.methodSignature`),
   };
 }
 

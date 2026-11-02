@@ -51,10 +51,6 @@ function parseQuestion(value: unknown, index: number, sourcePath: string): QuizQ
     : asNonBlankString(value.id, `questions[${index}].id`);
   const question = asNonBlankString(value.question, `questions[${index}].question`);
   const readmeRelated = parseReadmeRelated(value.readmeRelated, `questions[${index}].readmeRelated`);
-  const apiRelated = value.apiRelated === undefined
-    ? { controller: '', methodSignature: '' }
-    : parseApiRelated(value.apiRelated, `questions[${index}].apiRelated`);
-
   if (!Array.isArray(value.answers) || value.answers.length !== 4) {
     throw new Error(`Invalid Quiz question '${id}': answers must contain exactly four items.`);
   }
@@ -72,7 +68,6 @@ function parseQuestion(value: unknown, index: number, sourcePath: string): QuizQ
     id,
     question,
     readmeRelated,
-    apiRelated,
     answers,
     correctAnswerId,
   };
@@ -93,17 +88,6 @@ function parseReadmeRelated(value: unknown, path: string) {
   return {
     file: value.file === undefined ? '' : asString(value.file, `${path}.file`),
     anchor: asString(value.anchor, `${path}.anchor`),
-  };
-}
-
-function parseApiRelated(value: unknown, path: string) {
-  if (!isRecord(value)) {
-    throw new Error(`Invalid Quiz value at ${path}: expected an object.`);
-  }
-
-  return {
-    controller: asString(value.controller, `${path}.controller`),
-    methodSignature: asString(value.methodSignature, `${path}.methodSignature`),
   };
 }
 

@@ -1,16 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import DOMPurify from 'dompurify';
 import { MermaidMarkdown } from './MermaidMarkdown';
-import { loadApiDocs } from '../data/apiDocs';
 import { loadInterviewDocument } from '../data/interview';
 import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
 import { fetchJavaAsset } from '../data/javaAsset';
 import { buildQuestionKnowledgeResolver, formatKnowledgeDisplayTitle } from '../data/knowledge';
 import { useLanguage } from '../state/LanguageContext';
 import type {
-  ApiDocController,
-  ApiDocOperation,
-  ApiDocsDocument,
   InterviewQuestion,
   KnowledgeIndex,
   KnowledgeSectionRef,
@@ -20,17 +15,11 @@ import { CustomTooltip } from './CustomTooltip';
 interface InterviewPanelProps {
   path?: string;
   knowledgeIndex: KnowledgeIndex | null;
-  apiBasePath?: string;
 }
 
-interface ResolvedApiRelated {
-  controller: ApiDocController;
-  operation: ApiDocOperation;
-}
+type RelatedPanelType = 'knowledge';
 
-type RelatedPanelType = 'knowledge' | 'api';
-
-export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewPanelProps) {
+export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
   const { language } = useLanguage();
   const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'interview', knowledgeIndex);
@@ -41,7 +30,6 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
   const [knowledgeContentCache, setKnowledgeContentCache] = useState<Record<string, string>>({});
   const [knowledgeLoadingPaths, setKnowledgeLoadingPaths] = useState<Set<string>>(() => new Set());
   const [knowledgeErrors, setKnowledgeErrors] = useState<Record<string, string>>({});
-  const [apiDocument, setApiDocument] = useState<ApiDocsDocument | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadedPath, setLoadedPath] = useState<string | null>(null);
@@ -103,50 +91,10 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
     };
   }, [documentPath, selected?.questionCount]);
 
-  useEffect(() => {
-    let active = true;
-
-    setApiDocument(null);
-
-    if (!apiBasePath) {
-      return () => {
-        active = false;
-      };
-    }
-
-    loadApiDocs(apiBasePath, knowledgeIndex)
-      .then((document) => {
-        if (active) {
-          setApiDocument(document);
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setApiDocument(null);
-        }
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [apiBasePath, knowledgeIndex]);
-
   const resolveRelatedKnowledge = useMemo(
     () => buildQuestionKnowledgeResolver(knowledgeIndex, selected?.path.split('/')[1] ?? selected?.id),
     [knowledgeIndex, selected?.id, selected?.path],
   );
-
-  const apiByKey = useMemo(() => {
-    const result = new Map<string, ResolvedApiRelated>();
-
-    apiDocument?.controllers.forEach((controller) => {
-      controller.operations.forEach((operation) => {
-        result.set(`${controller.name}#${operation.methodSignature}`, { controller, operation });
-      });
-    });
-
-    return result;
-  }, [apiDocument]);
 
   const ensureKnowledgeContent = useCallback((section: KnowledgeSectionRef) => {
     if (
@@ -213,10 +161,6 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
     ensureKnowledgeContent(section);
   };
 
-  const openRelatedApi = (questionKey: string) => {
-    setRelatedPanelByQuestion((current) => ({ ...current, [questionKey]: 'api' }));
-  };
-
   const closeRelatedPanel = (questionKey: string) => {
     setRelatedPanelByQuestion((current) => {
       if (current[questionKey] === undefined) {
@@ -268,10 +212,6 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
         const expanded = expandedAnswers.has(index);
         const questionKey = String(index);
         const relatedKnowledge = resolveRelatedKnowledge(question.readmeRelated);
-        const apiKey = question.apiRelated.controller && question.apiRelated.methodSignature
-          ? `${question.apiRelated.controller}#${question.apiRelated.methodSignature}`
-          : '';
-        const relatedApi = apiKey ? apiByKey.get(apiKey) : undefined;
         const activeRelatedPanel = relatedPanelByQuestion[questionKey];
         const knowledgeMarkdown = relatedKnowledge
           ? knowledgeContentCache[relatedKnowledge.content]
@@ -283,11 +223,6 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
           ? knowledgeErrors[relatedKnowledge.content]
           : undefined;
         const activeRelatedKnowledge = activeRelatedPanel === 'knowledge' ? relatedKnowledge : undefined;
-        const activeRelatedApi = activeRelatedPanel === 'api' ? relatedApi : undefined;
-        const sanitizedApiExecution = relatedApi?.operation.executionHtml
-          ? DOMPurify.sanitize(relatedApi.operation.executionHtml)
-          : '';
-
         return (
           <article key={questionKey} className="interview-card">
             <div className="interview-card__topline">
@@ -324,7 +259,7 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
                 <div className="interview-answer">
                   <div className="markdown-content"><MermaidMarkdown>{question.answer}</MermaidMarkdown></div>
 
-                  {(relatedKnowledge || relatedApi) && (
+                  {relatedKnowledge && (
                     <div className="quiz-related-actions">
                       {relatedKnowledge && (
                         <button
@@ -335,20 +270,11 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
                           Related Knowledge
                         </button>
                       )}
-                      {relatedApi && (
-                        <button
-                          type="button"
-                          className={`quiz-related-action quiz-related-action--api${activeRelatedPanel === 'api' ? ' is-active' : ''}`}
-                          onClick={() => openRelatedApi(questionKey)}
-                        >
-                          Related API
-                        </button>
-                      )}
                     </div>
                   )}
                 </div>
 
-                {(activeRelatedKnowledge || activeRelatedApi) && (
+                {activeRelatedKnowledge && (
                   <div className="quiz-related-panel">
                     <button
                       type="button"
@@ -383,57 +309,6 @@ export function InterviewPanel({ path, knowledgeIndex, apiBasePath }: InterviewP
                           )}
                           {!knowledgeLoading && !knowledgeError && knowledgeMarkdown !== undefined && (
                             <MermaidMarkdown>{knowledgeMarkdown}</MermaidMarkdown>
-                          )}
-                        </div>
-                      </>
-                    ) : activeRelatedApi ? (
-                      <>
-                        <div className="quiz-related-panel__header quiz-related-panel__header--api">
-                          <div>
-                            <span>{language === 'vi' ? 'API liên quan' : 'Related API'}</span>
-                            <strong>{activeRelatedApi.operation.summary}</strong>
-                            <small>{activeRelatedApi.controller.title} · {activeRelatedApi.operation.methodSignature}</small>
-                          </div>
-                          <div className="quiz-related-panel__api-route">
-                            <span className={`http-method http-method--${activeRelatedApi.operation.httpMethod.toLowerCase()}`}>
-                              {activeRelatedApi.operation.httpMethod}
-                            </span>
-                            <code>{activeRelatedApi.operation.path || '—'}</code>
-                          </div>
-                        </div>
-
-                        <div className="quiz-related-panel__content">
-                          {activeRelatedApi.operation.description && <p>{activeRelatedApi.operation.description}</p>}
-
-                          <section>
-                            <h4>Execution</h4>
-                            {sanitizedApiExecution ? (
-                              <div
-                                className="api-execution-content"
-                                dangerouslySetInnerHTML={{ __html: sanitizedApiExecution }}
-                              />
-                            ) : (
-                              <p className="api-operation__empty-detail">
-                                {language === 'vi' ? 'Chưa có mô tả execution.' : 'No execution description yet.'}
-                              </p>
-                            )}
-                          </section>
-
-                          {activeRelatedApi.operation.params.length > 0 && (
-                            <section>
-                              <h4>{language === 'vi' ? 'Tham số' : 'Parameters'}</h4>
-                              <div className="api-param-list">
-                                {activeRelatedApi.operation.params.map((param) => (
-                                  <div key={param.name} className="api-param">
-                                    <code>{param.name}</code>
-                                    <span>
-                                      <strong>{param.summary || param.name}</strong>
-                                      {param.description && <small>{param.description}</small>}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            </section>
                           )}
                         </div>
                       </>

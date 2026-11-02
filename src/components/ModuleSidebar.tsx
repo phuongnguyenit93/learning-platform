@@ -23,7 +23,6 @@ interface ModuleSidebarProps {
   quizCounts: Record<string, number>;
   interviewCounts: Record<string, number>;
   caseStudyCounts: Record<string, number>;
-  apiCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
   contentCountsState: 'loading' | 'ready' | 'error';
   onRetryContentCounts: () => void;
@@ -37,7 +36,6 @@ interface TreeNodeProps {
   quizCounts: Record<string, number>;
   interviewCounts: Record<string, number>;
   caseStudyCounts: Record<string, number>;
-  apiCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
   filter: string;
   knowledgeSearchActive: boolean;
@@ -214,7 +212,6 @@ function ModuleBadges({
   quizCounts,
   interviewCounts,
   caseStudyCounts,
-  apiCounts,
   roadmapAvailability,
 }: {
   routeId: string;
@@ -222,17 +219,15 @@ function ModuleBadges({
   quizCounts: Record<string, number>;
   interviewCounts: Record<string, number>;
   caseStudyCounts: Record<string, number>;
-  apiCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
 }) {
   const knowledgeCount = knowledgeCounts[routeId] ?? 0;
   const quizCount = quizCounts[routeId] ?? 0;
   const interviewCount = interviewCounts[routeId] ?? 0;
   const caseStudyCount = caseStudyCounts[routeId] ?? 0;
-  const apiCount = apiCounts[routeId] ?? 0;
   const hasRoadmap = roadmapAvailability[routeId] === true;
 
-  if (knowledgeCount === 0 && quizCount === 0 && interviewCount === 0 && caseStudyCount === 0 && apiCount === 0 && !hasRoadmap) {
+  if (knowledgeCount === 0 && quizCount === 0 && interviewCount === 0 && caseStudyCount === 0 && !hasRoadmap) {
     return null;
   }
 
@@ -263,11 +258,6 @@ function ModuleBadges({
           {caseStudyCount}
         </span>
       )}
-      {apiCount > 0 && (
-        <span className="module-tree__badge module-tree__badge--api" title="API Docs">
-          {apiCount}
-        </span>
-      )}
     </span>
   );
 }
@@ -281,7 +271,6 @@ function ModulePickerPopup({
   quizCounts,
   interviewCounts,
   caseStudyCounts,
-  apiCounts,
   roadmapAvailability,
   popupRef,
   onMouseEnter,
@@ -296,7 +285,6 @@ function ModulePickerPopup({
   quizCounts: Record<string, number>;
   interviewCounts: Record<string, number>;
   caseStudyCounts: Record<string, number>;
-  apiCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
   popupRef: React.RefObject<HTMLDivElement | null>;
   onMouseEnter: () => void;
@@ -377,7 +365,6 @@ function ModulePickerPopup({
                 quizCounts={quizCounts}
                 interviewCounts={interviewCounts}
                 caseStudyCounts={caseStudyCounts}
-                apiCounts={apiCounts}
                 roadmapAvailability={roadmapAvailability}
               />
               <span className="module-picker__open-cue" aria-hidden="true">›</span>
@@ -399,7 +386,6 @@ function ModulePickerRow({
   quizCounts,
   interviewCounts,
   caseStudyCounts,
-  apiCounts,
   roadmapAvailability,
 }: {
   group: ModuleCatalogNode;
@@ -410,7 +396,6 @@ function ModulePickerRow({
   quizCounts: Record<string, number>;
   interviewCounts: Record<string, number>;
   caseStudyCounts: Record<string, number>;
-  apiCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
 }) {
   const [pickerVisible, setPickerVisible] = useState(false);
@@ -606,7 +591,6 @@ function ModulePickerRow({
           quizCounts={quizCounts}
           interviewCounts={interviewCounts}
           caseStudyCounts={caseStudyCounts}
-          apiCounts={apiCounts}
           roadmapAvailability={roadmapAvailability}
           popupRef={pickerPopupRef}
           onMouseEnter={openPicker}
@@ -626,7 +610,6 @@ function TreeNode({
   quizCounts,
   interviewCounts,
   caseStudyCounts,
-  apiCounts,
   roadmapAvailability,
   filter,
   knowledgeSearchActive,
@@ -657,7 +640,7 @@ function TreeNode({
   const isActive = isModule && node.routeId === activeModuleId;
   const structuralModule = isModule && hasInlineChildren;
   const isRealModule = isCountedRealModule(node, {
-    knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts, api: apiCounts,
+    knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts,
   });
   const displayName = formatCatalogName(node.name);
   const pickerEntries = useMemo<ModulePickerEntry[]>(() => {
@@ -700,7 +683,6 @@ function TreeNode({
         quizCounts={quizCounts}
         interviewCounts={interviewCounts}
         caseStudyCounts={caseStudyCounts}
-        apiCounts={apiCounts}
         roadmapAvailability={roadmapAvailability}
       />
     );
@@ -717,7 +699,6 @@ function TreeNode({
         quizCounts={quizCounts}
         interviewCounts={interviewCounts}
         caseStudyCounts={caseStudyCounts}
-        apiCounts={apiCounts}
         roadmapAvailability={roadmapAvailability}
       />
     );
@@ -750,7 +731,6 @@ function TreeNode({
           quizCounts={quizCounts}
           interviewCounts={interviewCounts}
           caseStudyCounts={caseStudyCounts}
-          apiCounts={apiCounts}
           roadmapAvailability={roadmapAvailability}
         />
       )}
@@ -825,7 +805,6 @@ function TreeNode({
               quizCounts={quizCounts}
               interviewCounts={interviewCounts}
               caseStudyCounts={caseStudyCounts}
-              apiCounts={apiCounts}
               roadmapAvailability={roadmapAvailability}
             />
           )}
@@ -840,7 +819,6 @@ function TreeNode({
               quizCounts={quizCounts}
               interviewCounts={interviewCounts}
               caseStudyCounts={caseStudyCounts}
-              apiCounts={apiCounts}
               roadmapAvailability={roadmapAvailability}
               filter={filter}
               knowledgeSearchActive={knowledgeSearchActive}
@@ -863,7 +841,6 @@ export function ModuleSidebar({
   quizCounts,
   interviewCounts,
   caseStudyCounts,
-  apiCounts,
   roadmapAvailability,
   contentCountsState,
   onRetryContentCounts,
@@ -955,11 +932,11 @@ export function ModuleSidebar({
     () => nodes.reduce(
       (count, node) => count + collectRealModules(node)
         .filter((moduleNode) => isCountedRealModule(moduleNode, {
-          knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts, api: apiCounts,
+          knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts,
         })).length,
       0,
     ),
-    [apiCounts, interviewCounts, caseStudyCounts, knowledgeCounts, nodes, quizCounts],
+    [interviewCounts, caseStudyCounts, knowledgeCounts, nodes, quizCounts],
   );
   const visibleNodes = useMemo(
     () => {
@@ -970,12 +947,11 @@ export function ModuleSidebar({
       // A count summary that is loading or has failed is not evidence of empty modules.
       return realModulesOnly && contentCountsState === 'ready'
         ? projectCountedRealModules(nodes, {
-          knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts, api: apiCounts,
+          knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts,
         })
         : nodes;
     },
     [
-      apiCounts,
       interviewCounts,
       caseStudyCounts,
       knowledgeCounts,
@@ -1190,7 +1166,6 @@ export function ModuleSidebar({
             quizCounts={quizCounts}
             interviewCounts={interviewCounts}
             caseStudyCounts={caseStudyCounts}
-            apiCounts={apiCounts}
             roadmapAvailability={roadmapAvailability}
             filter={knowledgeSearchActive ? '' : filter}
             knowledgeSearchActive={knowledgeSearchActive}

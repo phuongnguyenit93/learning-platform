@@ -313,6 +313,9 @@ export interface InterviewDocument {
 }
 
 export interface ApiReadmeRelated {
+  /** Module-wide Knowledge section ids, no chapter file path required. */
+  anchorList?: string[];
+  /** Legacy chapter API links; retained for existing published modules. */
   file?: string;
   anchor?: string;
 }

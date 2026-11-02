@@ -181,7 +181,7 @@ export function KnowledgePanel({
       return result;
     }
 
-    collectApiKnowledgeRelations(apiDocument).forEach((relation) => {
+    collectApiKnowledgeRelations(apiDocument, index).forEach((relation) => {
       const key = `${relation.sourcePath}#${relation.anchor}`;
       const current = result.get(key) ?? [];
       current.push(relation);
@@ -189,7 +189,7 @@ export function KnowledgePanel({
     });
 
     return result;
-  }, [apiDocument]);
+  }, [apiDocument, index]);
 
   useEffect(() => {
     setContentCache({});

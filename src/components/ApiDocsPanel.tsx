@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import DOMPurify from 'dompurify';
 import { MermaidMarkdown } from './MermaidMarkdown';
-import { loadApiDocs, resolveOperationKnowledgeKey } from '../data/apiDocs';
+import { loadApiDocs, resolveOperationKnowledgeKeys } from '../data/apiDocs';
 import { fetchJavaAsset } from '../data/javaAsset';
 import {
   collectKnowledgeCategories,
@@ -221,9 +221,10 @@ export function ApiDocsPanel({
   const resolveLinkedKnowledge = (
     controller: ApiDocController,
     operation: ApiDocOperation,
-  ): KnowledgeSectionRef | undefined => {
-    const key = resolveOperationKnowledgeKey(controller, operation);
-    return key ? knowledgeSectionByKey.get(key) : undefined;
+  ): KnowledgeSectionRef[] => {
+    return resolveOperationKnowledgeKeys(controller, operation, knowledgeIndex)
+      .map((key) => knowledgeSectionByKey.get(key))
+      .filter((item): item is KnowledgeSectionRef => Boolean(item));
   };
 
   const ensureKnowledgeContent = useCallback((section: KnowledgeSectionRef) => {
@@ -278,15 +279,12 @@ export function ApiDocsPanel({
           return;
         }
 
-        const section = resolveLinkedKnowledge(controller, operation);
-        if (section) {
-          ensureKnowledgeContent(section);
-        }
+        resolveLinkedKnowledge(controller, operation).forEach(ensureKnowledgeContent);
       });
     });
-  }, [document, ensureKnowledgeContent, knowledgeDetailsOperations, knowledgeSectionByKey]);
+  }, [document, ensureKnowledgeContent, knowledgeDetailsOperations, knowledgeSectionByKey, knowledgeIndex]);
 
-  const toggleKnowledgeDetails = (operationId: string, section: KnowledgeSectionRef) => {
+  const toggleKnowledgeDetails = (operationId: string, sections: KnowledgeSectionRef[]) => {
     const opening = !knowledgeDetailsOperations.has(operationId);
 
     setKnowledgeDetailsOperations((current) => {
@@ -300,7 +298,7 @@ export function ApiDocsPanel({
     });
 
     if (opening) {
-      ensureKnowledgeContent(section);
+      sections.forEach(ensureKnowledgeContent);
     }
   };
 
@@ -433,18 +431,12 @@ export function ApiDocsPanel({
                         ? DOMPurify.sanitize(operation.executionHtml)
                         : '';
                       const linkedKnowledge = resolveLinkedKnowledge(controller, operation);
-                      const knowledgeDetailsOpen = linkedKnowledge
+                      const knowledgeDetailsOpen = linkedKnowledge.length > 0
                         ? knowledgeDetailsOperations.has(operation.id)
                         : false;
-                      const knowledgeMarkdown = linkedKnowledge
-                        ? knowledgeContentCache[linkedKnowledge.content]
-                        : undefined;
-                      const knowledgeLoading = linkedKnowledge
-                        ? knowledgeLoadingPaths.has(linkedKnowledge.content)
-                        : false;
-                      const knowledgeError = linkedKnowledge
-                        ? knowledgeErrors[linkedKnowledge.content]
-                        : undefined;
+                      const sanitizedDescription = operation.description.includes('<')
+                        ? DOMPurify.sanitize(operation.description)
+                        : '';
 
                       return (
                         <article
@@ -462,10 +454,12 @@ export function ApiDocsPanel({
                                 {operation.httpMethod}
                               </span>
                               <code>{operation.path || '—'}</code>
-                              <span className="api-operation__copy">
+                              <div className="api-operation__copy">
                                 <strong>{operation.summary}</strong>
-                                <span>{operation.description}</span>
-                              </span>
+                                {sanitizedDescription
+                                  ? <div className="api-operation__description" dangerouslySetInnerHTML={{ __html: sanitizedDescription }} />
+                                  : <span>{operation.description}</span>}
+                              </div>
                             </button>
                             {codeExplorerUrl && (
                               <button type="button" className={'api-operation__source-toggle' + (sourceOpen ? ' is-open' : '')}
@@ -475,7 +469,7 @@ export function ApiDocsPanel({
                                 &lt;/&gt; {sourceOpen ? (language === 'vi' ? 'Đóng Source' : 'Close Source') : 'Source'}
                               </button>
                             )}
-                            {operationOpen && linkedKnowledge && (
+                            {operationOpen && linkedKnowledge.length > 0 && (
                               <button
                                 type="button"
                                 className={`api-operation__knowledge-toggle${knowledgeDetailsOpen ? ' is-open' : ''}`}
@@ -518,32 +512,33 @@ export function ApiDocsPanel({
                                   )}
                                 </section>
 
-                                {knowledgeDetailsOpen && linkedKnowledge && (
+                                {knowledgeDetailsOpen && linkedKnowledge.length > 0 && (
                                   <section className="api-operation__detail-section api-operation__knowledge-pane">
-                                    <div className="api-operation__knowledge-heading">
-                                      <div>
-                                        <span>{language === 'vi' ? 'Kiến thức liên quan' : 'Related Knowledge'}</span>
-                                        <strong>{formatKnowledgeDisplayTitle(linkedKnowledge.title)}</strong>
+                                    {linkedKnowledge.map((section) => (
+                                      <div key={section.sourcePath + '#' + section.id}>
+                                        <div className="api-operation__knowledge-heading">
+                                          <div>
+                                            <span>{language === 'vi' ? 'Kiến thức liên quan' : 'Related Knowledge'}</span>
+                                            <strong>{formatKnowledgeDisplayTitle(section.title)}</strong>
+                                          </div>
+                                        </div>
+                                        {knowledgeLoadingPaths.has(section.content) && (
+                                          <div className="knowledge-section-status">
+                                            {language === 'vi' ? 'Đang tải nội dung...' : 'Loading content...'}
+                                          </div>
+                                        )}
+                                        {knowledgeErrors[section.content] && (
+                                          <div className="knowledge-section-status knowledge-section-status--error">
+                                            {knowledgeErrors[section.content]}
+                                          </div>
+                                        )}
+                                        {knowledgeContentCache[section.content] !== undefined && (
+                                          <div className="markdown-content api-operation__knowledge-markdown">
+                                            <MermaidMarkdown>{knowledgeContentCache[section.content]}</MermaidMarkdown>
+                                          </div>
+                                        )}
                                       </div>
-                                    </div>
-
-                                    {knowledgeLoading && (
-                                      <div className="knowledge-section-status">
-                                        {language === 'vi' ? 'Đang tải nội dung...' : 'Loading content...'}
-                                      </div>
-                                    )}
-
-                                    {!knowledgeLoading && knowledgeError && (
-                                      <div className="knowledge-section-status knowledge-section-status--error">
-                                        {knowledgeError}
-                                      </div>
-                                    )}
-
-                                    {!knowledgeLoading && knowledgeMarkdown !== undefined && (
-                                      <div className="markdown-content api-operation__knowledge-markdown">
-                                        <MermaidMarkdown>{knowledgeMarkdown}</MermaidMarkdown>
-                                      </div>
-                                    )}
+                                    ))}
                                   </section>
                                 )}
                               </div>

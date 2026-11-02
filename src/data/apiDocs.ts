@@ -87,8 +87,10 @@ function normalizeReadmeRelated(value: unknown): ApiReadmeRelated {
   const related = asRecord(value);
   const file = asString(related.file).trim();
   const anchor = asString(related.anchor).trim();
+  const anchorList = asStringArray(related.anchorList);
 
   return {
+    ...(Array.isArray(related.anchorList) ? { anchorList } : {}),
     ...(file ? { file } : {}),
     ...(anchor ? { anchor } : {}),
   };
@@ -162,6 +164,8 @@ function buildReadmeAnchorOrder(index: KnowledgeIndex | null): Map<string, numbe
   collectKnowledgeCategories(index.tree).forEach((category) => {
     category.sections.forEach((section) => {
       result.set(`${category.sourcePath}#${section.id}`, order);
+      // Section IDs are unique in the module-wide catalog.
+      if (!result.has(section.id)) result.set(section.id, order);
       order += 1;
     });
   });
@@ -179,10 +183,10 @@ function sortOperations(
     const rightFile = right.readmeRelated.file || controllerReadmeFile;
     const leftKey = leftFile && left.readmeRelated.anchor
       ? `${leftFile}#${left.readmeRelated.anchor}`
-      : '';
+      : left.readmeRelated.anchorList?.[0] ?? '';
     const rightKey = rightFile && right.readmeRelated.anchor
       ? `${rightFile}#${right.readmeRelated.anchor}`
-      : '';
+      : right.readmeRelated.anchorList?.[0] ?? '';
     const leftOrder = leftKey ? readmeAnchorOrder.get(leftKey) : undefined;
     const rightOrder = rightKey ? readmeAnchorOrder.get(rightKey) : undefined;
 
@@ -297,27 +301,38 @@ export async function loadApiOperationCount(basePath: string): Promise<number> {
   return buildDocument(source, null).operationCount;
 }
 
-export function resolveOperationKnowledgeKey(
+export function resolveOperationKnowledgeKeys(
   controller: ApiDocController,
   operation: ApiDocOperation,
-): string | null {
+  index: KnowledgeIndex | null,
+): string[] {
+  if (operation.readmeRelated.anchorList) {
+    if (!index) return [];
+    const byId = new Map<string, string | null>();
+    collectKnowledgeCategories(index.tree).forEach((category) => {
+      category.sections.forEach((section) => {
+        byId.set(section.id, byId.has(section.id) ? null : `${category.sourcePath}#${section.id}`);
+      });
+    });
+    return operation.readmeRelated.anchorList
+      .map((id) => byId.get(id))
+      .filter((key): key is string => Boolean(key));
+  }
   const sourcePath = operation.readmeRelated.file || controller.readmeRelated.file;
   const anchor = operation.readmeRelated.anchor;
 
-  return sourcePath && anchor ? `${sourcePath}#${anchor}` : null;
+  return sourcePath && anchor ? [`${sourcePath}#${anchor}`] : [];
 }
 
-export function collectApiKnowledgeRelations(document: ApiDocsDocument): ApiKnowledgeRelation[] {
+export function collectApiKnowledgeRelations(
+  document: ApiDocsDocument,
+  index: KnowledgeIndex | null = null,
+): ApiKnowledgeRelation[] {
   return document.controllers.flatMap((controller) =>
-    controller.operations.flatMap((operation) => {
-      const sourcePath = operation.readmeRelated.file || controller.readmeRelated.file;
-      const anchor = operation.readmeRelated.anchor;
-
-      if (!sourcePath || !anchor) {
-        return [];
-      }
-
-      return [{ controller, operation, sourcePath, anchor }];
-    }),
+    controller.operations.flatMap((operation) =>
+      resolveOperationKnowledgeKeys(controller, operation, index).map((key) => {
+        const separator = key.lastIndexOf('#');
+        return { controller, operation, sourcePath: key.slice(0, separator), anchor: key.slice(separator + 1) };
+      })),
   );
 }

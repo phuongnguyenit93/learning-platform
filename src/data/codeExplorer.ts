@@ -65,7 +65,7 @@ export interface ExplorerOperation {
 }
 
 const javaPath = /^(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/;
-const indexPath = /^\/module\/[A-Z0-9_-]+\/code-explorer\/index\.json$/;
+const indexPath = /^\/module\/[A-Z0-9_-]+\/code-explorer\/(?:casestudy\/groups\/[1-9]\d*\/cases\/[1-9]\d*\/)?index\.json$/;
 const materialCache = new Map<string, Promise<CodeExplorerMaterial>>();
 const sourceCache = new Map<string, Promise<string>>();
 

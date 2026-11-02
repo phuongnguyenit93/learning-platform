@@ -37,6 +37,7 @@ interface Props {
   materialUrl: string;
   request: ExplorerRequest | null;
   onClose: () => void;
+  caseScope?: { groupID: number; caseIndex: number };
 }
 
 interface Position {
@@ -70,7 +71,7 @@ function FileTree({ node, selected, open }: {
   </details>;
 }
 
-export default function CodeExplorerPanel({ materialUrl, request, onClose }: Props) {
+export default function CodeExplorerPanel({ materialUrl, request, onClose, caseScope }: Props) {
   const { language } = useLanguage();
   const { theme } = useTheme();
   const [material, setMaterial] = useState<CodeExplorerMaterial | null>(null);
@@ -92,6 +93,9 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
   const locationRef = useRef<Position | undefined>(undefined);
   locationRef.current = location;
   const routeId = materialUrl.match(/^\/module\/([A-Z0-9_-]+)\//)?.[1] ?? '';
+  const modelRoot = '/' + routeId + '/' + (caseScope
+    ? 'casestudy/g' + caseScope.groupID + '/c' + caseScope.caseIndex + '/'
+    : '');
 
   const openAt = useCallback((next: Position) => {
     setAlternatives([]);
@@ -154,6 +158,21 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
   }, [material, request, language, symbols, openAt]);
 
   useEffect(() => {
+    if (!material || !caseScope || request) return;
+    const methodName = 'executeCase' + caseScope.caseIndex;
+    const controllerName = '/controller/Group' + caseScope.groupID + 'Controller.java';
+    const matches = material.symbols.filter((item) =>
+      item.kind === 'METHOD' && item.name === methodName && item.file.endsWith(controllerName));
+    if (matches.length !== 1) {
+      setNotice(language === 'vi'
+        ? 'Không thể xác định duy nhất method Controller của Case Study.'
+        : 'Unable to locate the unique Case Study controller method.');
+      return;
+    }
+    openAt({ path: matches[0].file, line: matches[0].line, column: matches[0].column });
+  }, [material, request, caseScope?.groupID, caseScope?.caseIndex, language, openAt]);
+
+  useEffect(() => {
     if (!material || !location) { setCode(null); return; }
     let active = true;
     setCode(null);
@@ -185,7 +204,7 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
     }
     disposables.current.forEach((item) => item.dispose());
     const sourcePath = (uri: monaco.Uri): string | null => {
-      const prefix = '/' + routeId + '/';
+      const prefix = modelRoot;
       return uri.scheme === 'code-explorer' && uri.path.startsWith(prefix)
         ? uri.path.slice(prefix.length) : null;
     };
@@ -257,7 +276,29 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
     window.addEventListener('keydown', handleModifier);
     window.addEventListener('keyup', handleModifier);
     window.addEventListener('blur', resetLink);
+    // In the nested Case Study scroll panel Monaco's wheel event can fail to
+    // reach its own scroll listener. Route vertical wheel input directly to the
+    // Monaco viewport while it has room to scroll; at either edge, let the
+    // surrounding page continue scrolling normally.
+    const editorArea = editor.getDomNode()?.closest<HTMLElement>('.code-explorer__editor');
+    const scrollOnWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey
+        || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      const viewport = editor.getLayoutInfo().height;
+      const maxScrollTop = Math.max(0, editor.getScrollHeight() - viewport);
+      if (maxScrollTop === 0) return;
+      const unit = event.deltaMode === WheelEvent.DOM_DELTA_LINE ? 16
+        : event.deltaMode === WheelEvent.DOM_DELTA_PAGE ? viewport : 1;
+      const oldTop = editor.getScrollTop();
+      const nextTop = Math.max(0, Math.min(maxScrollTop, oldTop + event.deltaY * unit));
+      if (nextTop === oldTop) return;
+      event.preventDefault();
+      event.stopPropagation();
+      editor.setScrollTop(nextTop);
+    };
+    editorArea?.addEventListener('wheel', scrollOnWheel, { capture: true, passive: false });
     disposables.current = [
+      { dispose: () => editorArea?.removeEventListener('wheel', scrollOnWheel, true) },
       // Decorations collections have clear(), not dispose().
       { dispose: () => linkDecoration.clear() },
       { dispose: () => {
@@ -288,7 +329,7 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
             const symbol = bundle.symbols.find((entry) => entry.id === id);
             if (!symbol) return [];
             return [{
-              uri: api.Uri.from({ scheme: 'code-explorer', path: '/' + routeId + '/' + symbol.file }),
+              uri: api.Uri.from({ scheme: 'code-explorer', path: modelRoot + symbol.file }),
               range: new api.Range(symbol.line, symbol.column, symbol.endLine, symbol.endColumn),
             }];
           });
@@ -325,7 +366,7 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
         }
       }),
     ];
-  }, [routeId]);
+  }, [modelRoot]);
 
   const jump = (direction: number) =>
     setNavigation((previous) => ({
@@ -352,7 +393,9 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
     </div>}
     {material && <>
       <div className="code-explorer__toolbar">
-        <span>{material.files.length} files · {material.endpoints.length} APIs</span>
+        <span>{material.files.length} files · {caseScope
+          ? `Group ${caseScope.groupID} / Case ${caseScope.caseIndex}`
+          : `${material.endpoints.length} APIs`}</span>
         <div>
           <button type="button" aria-label="Go back" disabled={navigation.index <= 0} onClick={() => jump(-1)}>←</button>
           <button type="button" aria-label="Go forward" disabled={navigation.index >= navigation.entries.length - 1} onClick={() => jump(1)}>→</button>
@@ -364,13 +407,13 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
             <strong>EXPLORER</strong>
             <small>{scopedFileCount}/{material.files.length} {language === 'vi' ? 'file' : 'files'}</small>
           </div>
-          <select className="code-explorer__scope-select" aria-label="Filter Java source files"
+          {!caseScope && <select className="code-explorer__scope-select" aria-label="Filter Java source files"
             value={selectedScope} disabled={!controllerFile}
             onChange={(event) => setTreeScope(event.target.value as ExplorerTreeScope)}>
             <option value="PACKAGE">{language === 'vi' ? 'Chương' : 'Chapter'}: {chapterName || '—'}</option>
             <option value="CONTROLLER">{language === 'vi' ? 'Chỉ Controller' : 'Controller only'}</option>
             <option value="MODULE">{language === 'vi' ? 'Toàn bộ module' : 'Entire module'}</option>
-          </select>
+          </select>}
           {activeOutsideScope && location && (
             <div className="code-explorer__outside-scope">
               <small>{language === 'vi' ? 'File đang mở ngoài bộ lọc' : 'Open file outside filter'}</small>
@@ -400,19 +443,23 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose }: Pro
               ))}
             </div>
           )}
-          {!location && <div className="code-explorer__status">{language === 'vi'
-            ? 'Chọn file hoặc nhấn Source tại một API.' : 'Select a Java file or open Source from an API.'}</div>}
+          {!location && <div className="code-explorer__status">{caseScope
+            ? (language === 'vi' ? 'Chọn file Java của case.' : 'Select a Java file for this case.')
+            : (language === 'vi'
+              ? 'Chọn file hoặc nhấn Source tại một API.' : 'Select a Java file or open Source from an API.')}</div>}
           {sourceError && <div className="code-explorer__status" role="alert">{sourceError}</div>}
           {location && code === null && !sourceError && <div className="code-explorer__status">Loading Java source...</div>}
           {location && code !== null && <>
             <div className="code-explorer__breadcrumb" title={location.path}>{location.path}</div>
             <div className="code-explorer__editor">
-              <Editor path={monaco.Uri.from({ scheme: 'code-explorer', path: '/' + routeId + '/' + location.path }).toString()}
+              <Editor path={monaco.Uri.from({ scheme: 'code-explorer', path: modelRoot + location.path }).toString()}
                 language="java" value={code} theme={theme === 'dark' ? 'vs-dark' : 'vs'}
                 onMount={mounted}
                 options={{ readOnly: true, domReadOnly: true, minimap: { enabled: false },
                   fontSize: 12, lineNumbersMinChars: 3, automaticLayout: true,
-                  scrollBeyondLastLine: false, folding: true, wordWrap: 'off' }}
+                  scrollBeyondLastLine: false, folding: true, wordWrap: 'off',
+                  scrollbar: { vertical: 'visible', horizontal: 'auto',
+                    handleMouseWheel: true, alwaysConsumeMouseWheel: false } }}
                 saveViewState />
             </div>
           </>}

@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { loadCaseStudyDocument, type CaseStudyItem } from '../data/casestudy';
 import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { useLanguage } from '../state/LanguageContext';
 
+const CodeExplorerPanel = lazy(() => import('./CodeExplorerPanel'));
+
 interface CaseStudyPanelProps {
   path?: string;
+  explorerUrl?: string;
 }
 
-export function CaseStudyPanel({ path }: CaseStudyPanelProps) {
+export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
   const { language } = useLanguage();
   const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'casestudy', null);
@@ -18,12 +21,16 @@ export function CaseStudyPanel({ path }: CaseStudyPanelProps) {
   const [expandedAnalysis, setExpandedAnalysis] = useState<Set<number>>(() => new Set());
   const [loadedPath, setLoadedPath] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [sourceCase, setSourceCase] = useState<number | null>(null);
+  const groupID = mode === 'groups' ? selected?.id.match(/^group-([1-9]\d*)$/)?.[1] : undefined;
+  const validExplorer = explorerUrl && /^\/module\/[A-Z0-9_-]+\/code-explorer\/casestudy\/index\.json$/.test(explorerUrl);
 
   useEffect(() => {
     let active = true;
     setCases([]);
     setExpandedHints(new Set());
     setExpandedAnalysis(new Set());
+    setSourceCase(null);
     setError(null);
     setLoadedPath(null);
     if (!documentPath || selected?.questionCount === 0) {
@@ -103,6 +110,38 @@ export function CaseStudyPanel({ path }: CaseStudyPanelProps) {
                       <div className="interview-answer markdown-content"><MermaidMarkdown>{item.code}</MermaidMarkdown></div>
                     )}
                   </div>
+                  {groupID && (
+                    <div className="case-study-source">
+                      <button type="button" className={`interview-answer-toggle case-study-source__toggle${sourceCase === index ? ' is-open' : ''}`}
+                        aria-expanded={sourceCase === index}
+                        aria-controls={`case-study-source-${groupID}-${index + 1}`}
+                        onClick={() => setSourceCase((current) => current === index ? null : index)}>
+                        <span>{language === 'vi' ? 'Mã nguồn thực tế' : 'Actual Java source'}</span>
+                        <span aria-hidden="true">{sourceCase === index ? '−' : '+'}</span>
+                      </button>
+                      {sourceCase === index && (
+                        <div id={`case-study-source-${groupID}-${index + 1}`} className="case-study-source__content">
+                          {validExplorer ? (
+                            <>
+                              <p className="case-study-source__description">{language === 'vi'
+                                ? 'Java source của tình huống này, được lọc từ STEP 8. Ctrl+Click hoặc F12 để mở định nghĩa có liên kết.'
+                                : 'Case-scoped Java source from STEP 8. Ctrl+Click or F12 to navigate indexed definitions.'}</p>
+                              <Suspense fallback={<div className="code-explorer__status">{language === 'vi' ? 'Đang mở Monaco Editor...' : 'Opening Monaco Editor...'}</div>}>
+                                <CodeExplorerPanel key={`${groupID}:${index + 1}`}
+                                  materialUrl={explorerUrl!.replace(/index\.json$/, `groups/${groupID}/cases/${index + 1}/index.json`)}
+                                  caseScope={{ groupID: Number(groupID), caseIndex: index + 1 }}
+                                  request={null} onClose={() => setSourceCase(null)} />
+                              </Suspense>
+                            </>
+                          ) : (
+                            <p className="case-study-source__unavailable" role="status">{language === 'vi'
+                              ? 'Mã nguồn thực tế chưa được phát hành cho module này. Cần publish dữ liệu STEP 9 để xem trong Monaco Editor.'
+                              : 'The STEP 9 Java source material is not published for this module yet.'}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </article>
             );

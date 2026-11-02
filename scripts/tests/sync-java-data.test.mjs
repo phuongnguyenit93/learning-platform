@@ -10,12 +10,13 @@ import { assertExpectedRelease, downloadAndValidate, parseChecksum, syncJavaData
 const utf8 = (text) => new TextEncoder().encode(text);
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
-function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false, explorer = false } = {}) {
+function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false, explorer = false, caseExplorer = false } = {}) {
   const catalog = utf8(JSON.stringify({
     version: 1,
     root: {
       kind: 'GROUP', children: [{ kind: 'MODULE', routeId: 'DEMO', children: [],
-        ...(explorer ? { codeExplorer: '/module/DEMO/code-explorer/index.json' } : {}) }],
+        ...(explorer ? { codeExplorer: '/module/DEMO/code-explorer/index.json' } : {}),
+        ...(caseExplorer ? { caseStudyExplorer: '/module/DEMO/code-explorer/casestudy/index.json' } : {}) }],
     },
   }));
   const source = utf8('package demo;\npublic class Example {}\n');
@@ -30,12 +31,30 @@ function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false,
     'module/DEMO/code-explorer/api-map.json': utf8('{"version":1,"endpoints":[]}'),
     'module/DEMO/code-explorer/files/demo/Example.java': source,
   } : {};
+  const caseBase = 'module/DEMO/code-explorer/casestudy/';
+  const scope = caseBase + 'groups/1/cases/1/';
+  const caseEntries = caseExplorer ? {
+    [caseBase + 'index.json']: utf8(JSON.stringify({
+      version: 1, type: 'CASE_STUDY_EXPLORER', complete: true,
+      cases: [{ groupID: 1, caseIndex: 1, path: 'groups/1/cases/1/index.json', files: 1 }],
+    })),
+    [scope + 'index.json']: utf8(JSON.stringify({
+      version: 1, type: 'CODE_EXPLORER', id: 'casestudy-g1-c1',
+      files: [{ path: 'demo/Example.java', bytes: source.length, sha256: sha256(source) }],
+      symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+    })),
+    [scope + 'symbols.json']: utf8('{"version":1,"symbols":[]}'),
+    [scope + 'references.json']: utf8('{"version":1,"references":[]}'),
+    [scope + 'api-map.json']: utf8('{"version":1,"endpoints":[]}'),
+    [scope + 'files/demo/Example.java']: source,
+  } : {};
   const dataFiles = {
     'module-catalog.json': catalog,
     'module/DEMO/overview/vi.md': utf8('# Demo\n'),
     'search/knowledge-search.vi.json': utf8('{"version":1,"documents":[]}'),
     'search/knowledge-search.en.json': utf8('{"version":1,"documents":[]}'),
     ...explorerEntries,
+    ...caseEntries,
     ...extraEntries,
   };
   if (omitSearch) {
@@ -95,6 +114,23 @@ test('Code Explorer Java files are received only with a verified manifest and ch
   assert.throws(() => validateArchive(unclaimed.zip, unclaimed.checksum), /Unclaimed Code Explorer Java/);
   const outside = fixture({ extraEntries: { 'module/DEMO/api/demo/Example.java': utf8('not allowed') } });
   assert.throws(() => validateArchive(outside.zip, outside.checksum), /Forbidden ZIP entry type/);
+});
+
+test('STEP9 scoped Java requires complete case manifest, correct SHA and case path', () => {
+  const scope = 'module/DEMO/code-explorer/casestudy/groups/1/cases/1/';
+  const accepted = fixture({ caseExplorer: true });
+  const parsed = validateArchive(accepted.zip, accepted.checksum);
+  assert.equal(parsed.files.has(scope + 'files/demo/Example.java'), true);
+  const changed = fixture({ caseExplorer: true, extraEntries: {
+    [scope + 'files/demo/Example.java']: utf8('changed source'),
+  } });
+  assert.throws(() => validateArchive(changed.zip, changed.checksum), /STEP9 Java checksum mismatch/);
+  const incomplete = fixture({ caseExplorer: true, extraEntries: {
+    'module/DEMO/code-explorer/casestudy/index.json': utf8(JSON.stringify({
+      version: 1, type: 'CASE_STUDY_EXPLORER', complete: false, cases: [],
+    })),
+  } });
+  assert.throws(() => validateArchive(incomplete.zip, incomplete.checksum), /Invalid STEP9 manifest/);
 });
 
 test('rejects invalid or incompatible manifest', () => {

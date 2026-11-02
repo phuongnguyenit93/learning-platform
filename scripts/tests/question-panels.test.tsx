@@ -147,10 +147,13 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
     const knowledge = caseCard.querySelector('.case-study-knowledge') as HTMLElement;
     const hint = button('Gợi ý');
     const analysis = button('Phân tích và mã nguồn gợi ý');
+    const source = button('Mã nguồn thực tế');
     assert.ok(knowledge.compareDocumentPosition(hint) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
     assert.ok(hint.compareDocumentPosition(analysis) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.ok(analysis.compareDocumentPosition(source) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
     assert.equal(hint.getAttribute('aria-expanded'), 'false');
     assert.equal(analysis.getAttribute('aria-expanded'), 'false');
+    assert.equal(source.getAttribute('aria-expanded'), 'false');
     assert.doesNotMatch(container.textContent ?? '', /Split responsibilities/);
     assert.doesNotMatch(container.textContent ?? '', /class Billing/);
     assert.doesNotMatch(container.textContent ?? '', /Hướng xử lý|Minh họa và mã nguồn/);
@@ -161,6 +164,11 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
     await act(async () => { analysis.click(); });
     assert.equal(analysis.getAttribute('aria-expanded'), 'true');
     assert.match(container.textContent ?? '', /class Billing/);
+    await act(async () => { source.click(); });
+    assert.equal(source.getAttribute('aria-expanded'), 'true');
+    assert.match(container.textContent ?? '', /chưa được phát hành/);
+    await act(async () => { source.click(); });
+    assert.equal(source.getAttribute('aria-expanded'), 'false');
     await act(async () => { hint.click(); });
     assert.doesNotMatch(container.textContent ?? '', /Split responsibilities/);
     assert.match(container.textContent ?? '', /class Billing/);
@@ -170,6 +178,7 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
     assert.match(container.textContent ?? '', /SRP/);
     assert.equal(button('Gợi ý').getAttribute('aria-expanded'), 'false');
     assert.equal(button('Phân tích và mã nguồn gợi ý').getAttribute('aria-expanded'), 'false');
+    assert.equal(button('Mã nguồn thực tế').getAttribute('aria-expanded'), 'false');
     assert.doesNotMatch(container.textContent ?? '', /class Billing/);
   } finally {
     await act(async () => root.unmount());

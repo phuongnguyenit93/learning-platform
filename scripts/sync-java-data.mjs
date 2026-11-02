@@ -16,7 +16,7 @@ const RELEASE = 'https://github.com/phuongnguyenit93/java-learning/releases/down
 const ZIP_NAME = 'java-learning-data.zip';
 const CHECKSUM_NAME = 'java-learning-data.zip.sha256';
 const ALLOWED_EXTENSIONS = new Set(['.json', '.yml', '.yaml', '.md']);
-const CODE_EXPLORER_JAVA = /^module\/[A-Z0-9_-]+\/code-explorer\/files\/(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/;
+const CODE_EXPLORER_JAVA = /^module\/[A-Z0-9_-]+\/code-explorer\/(?:casestudy\/groups\/[1-9]\d*\/cases\/[1-9]\d*\/)?files\/(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/;
 const MANAGED_NAMES = new Set(['module-catalog.json', 'module', 'search']);
 const MAX_DOWNLOAD_BYTES = 120 * 1024 * 1024;
 const MAX_EXTRACTED_BYTES = 300 * 1024 * 1024;
@@ -106,6 +106,64 @@ function verifyCodeExplorerFiles(files, catalog) {
         const bytes = files.get(relative);
         assert(bytes && bytes.length === entry.bytes && sha256(bytes) === entry.sha256,
           `Code Explorer source checksum mismatch: ${relative}`);
+      }
+    }
+    if (node.kind === 'MODULE' && node.caseStudyExplorer !== undefined) {
+      const route = node.routeId;
+      const prefix = `module/${route}/code-explorer/casestudy/`;
+      assert(node.caseStudyExplorer === `/${prefix}index.json`, 'Invalid STEP9 catalog path');
+      const manifestBytes = files.get(prefix + 'index.json');
+      assert(manifestBytes, 'Missing STEP9 manifest');
+      const manifest = JSON.parse(decode(manifestBytes));
+      assert(manifest.version === 1 && manifest.type === 'CASE_STUDY_EXPLORER'
+        && manifest.complete === true && Array.isArray(manifest.cases) && manifest.cases.length,
+      'Invalid STEP9 manifest');
+      const seen = new Set();
+      for (const entry of manifest.cases) {
+        const g = entry.groupID;
+        const c = entry.caseIndex;
+        assert(Number.isSafeInteger(g) && g > 0 && Number.isSafeInteger(c) && c > 0,
+          'Invalid STEP9 group/case');
+        const caseKey = g + '/' + c;
+        assert(!seen.has(caseKey), 'Duplicate STEP9 case');
+        seen.add(caseKey);
+        const location = `groups/${g}/cases/${c}/`;
+        assert(entry.path === location + 'index.json', 'Invalid STEP9 case index path');
+        const casePrefix = prefix + location;
+        const indexBytes = files.get(casePrefix + 'index.json');
+        assert(indexBytes, 'Missing STEP9 case index');
+        const index = JSON.parse(decode(indexBytes));
+        assert(index.version === 1 && index.type === 'CODE_EXPLORER'
+          && index.id === `casestudy-g${g}-c${c}`
+          && Array.isArray(index.files) && index.files.length === entry.files,
+        'Invalid STEP9 case index');
+        for (const [key, expected] of Object.entries({
+          symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+        })) {
+          assert(index[key] === expected && files.has(casePrefix + expected),
+            'Invalid STEP9 metadata: ' + key);
+        }
+        const sourcePaths = new Set();
+        for (const source of index.files) {
+          assert(source && typeof source.path === 'string'
+            && CODE_EXPLORER_JAVA.test('module/' + route + '/code-explorer/files/' + source.path),
+          'Unsafe STEP9 Java path');
+          const relative = casePrefix + 'files/' + source.path;
+          assert(!claimed.has(relative) && !sourcePaths.has(source.path), 'Duplicate STEP9 Java path');
+          claimed.add(relative);
+          sourcePaths.add(source.path);
+          const bytes = files.get(relative);
+          assert(bytes && bytes.length === source.bytes && sha256(bytes) === source.sha256,
+            'STEP9 Java checksum mismatch: ' + relative);
+        }
+        const symbols = JSON.parse(decode(files.get(casePrefix + 'symbols.json'))).symbols;
+        const refs = JSON.parse(decode(files.get(casePrefix + 'references.json'))).references;
+        assert(Array.isArray(symbols) && Array.isArray(refs) &&
+          symbols.every((s) => sourcePaths.has(s.file)) &&
+          refs.every((r) => sourcePaths.has(r.file)), 'STEP9 invalid symbols/references');
+        const ids = new Set(symbols.map((s) => s.id));
+        assert(refs.every((r) => Array.isArray(r.targets) && r.targets.every((target) => ids.has(target))),
+          'STEP9 unresolved index target');
       }
     }
     for (const child of node.children ?? []) visit(child);

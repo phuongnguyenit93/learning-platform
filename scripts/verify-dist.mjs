@@ -44,7 +44,7 @@ function localReference(javaRoot, value) {
 function visitModules(node, javaRoot, references) {
   ensure(node && typeof node === 'object' && Array.isArray(node.children), 'Invalid catalog node');
   if (node.kind === 'MODULE') {
-    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'casestudy', 'api', 'reference', 'codeExplorer']) {
+    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'casestudy', 'api', 'reference', 'codeExplorer', 'caseStudyExplorer']) {
       const field = node[kind];
       if (!field) continue;
       const values = typeof field === 'object' ? Object.values(field) : [field];
@@ -120,6 +120,43 @@ export async function verifyDist(directory = 'dist') {
         ensure(bytes.length === file.bytes
           && createHash('sha256').update(bytes).digest('hex') === file.sha256,
         `Invalid Code Explorer Java checksum: ${node.routeId}/${file.path}`);
+      }
+    }
+    if (node.kind === 'MODULE' && node.caseStudyExplorer) {
+      const rootPath = localReference(java, node.caseStudyExplorer);
+      const manifest = JSON.parse(await readFile(rootPath, 'utf8'));
+      ensure(manifest.version === 1 && manifest.type === 'CASE_STUDY_EXPLORER'
+        && manifest.complete === true && Array.isArray(manifest.cases) && manifest.cases.length,
+      'Invalid STEP9 manifest: ' + node.routeId);
+      const seen = new Set();
+      for (const entry of manifest.cases) {
+        const g = entry.groupID;
+        const c = entry.caseIndex;
+        ensure(Number.isSafeInteger(g) && g > 0 && Number.isSafeInteger(c) && c > 0
+          && !seen.has(g + '/' + c), 'Invalid STEP9 case ID');
+        seen.add(g + '/' + c);
+        const relative = `groups/${g}/cases/${c}/`;
+        ensure(entry.path === relative + 'index.json', 'Invalid STEP9 case path');
+        const base = join(rootPath, '..', relative);
+        const index = JSON.parse(await readFile(join(base, 'index.json'), 'utf8'));
+        ensure(index.version === 1 && index.type === 'CODE_EXPLORER'
+          && index.id === `casestudy-g${g}-c${c}`
+          && Array.isArray(index.files) && index.files.length === entry.files,
+        'Invalid STEP9 case bundle');
+        for (const [key, name] of Object.entries({
+          symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+        })) {
+          ensure(index[key] === name && await isFile(join(base, name)), 'Missing STEP9 metadata');
+        }
+        for (const source of index.files) {
+          ensure(typeof source.path === 'string'
+            && /^(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/.test(source.path),
+          'Unsafe STEP9 Java path');
+          const bytes = await readFile(join(base, 'files', source.path));
+          ensure(bytes.length === source.bytes
+            && createHash('sha256').update(bytes).digest('hex') === source.sha256,
+          'STEP9 Java checksum mismatch: ' + node.routeId + '/' + relative + source.path);
+        }
       }
     }
     for (const child of node.children ?? []) await checkExplorer(child);

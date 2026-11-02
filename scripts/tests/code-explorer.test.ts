@@ -144,3 +144,21 @@ test('malformed index and cross-material references fail closed', async (t) => {
   await assert.rejects(loadCodeExplorer(data.index), /missing source file/);
   assert.throws(() => loadCodeExplorer('/module/../../private/index.json'), /Invalid Code Explorer material URL/);
 });
+
+test('accepts STEP9 case-scoped material URL without weakening path validation', async (t) => {
+  const data = fixture('TEST_SCOPED');
+  const scoped = '/module/TEST_SCOPED/code-explorer/casestudy/groups/1/cases/3/index.json';
+  const oldBase = data.base;
+  const newBase = '/language/java/module/TEST_SCOPED/code-explorer/casestudy/groups/1/cases/3/';
+  t.mock.method(globalThis, 'fetch', async (url: RequestInfo | URL) => {
+    const value = data.responses[String(url).replace(newBase, oldBase)];
+    return value === undefined
+      ? new Response('Not found', { status: 404 })
+      : new Response(typeof value === 'string' ? value : JSON.stringify(value), { status: 200 });
+  });
+  const material = await loadCodeExplorer(scoped);
+  assert.equal(material.files.length, 2);
+  assert.equal(await loadCodeExplorerFile(material, data.service), 'public class SampleService {}');
+  assert.throws(() => loadCodeExplorer('/module/TEST_SCOPED/code-explorer/casestudy/groups/1/cases/0/index.json'),
+    /Invalid Code Explorer material URL/);
+});

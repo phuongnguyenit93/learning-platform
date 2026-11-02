@@ -499,7 +499,8 @@ export function LearningPage() {
           )}
           {visitedTabs.has('casestudy') && (
             <div className={`learning-tab-panel${activeTab !== 'casestudy' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Case Study" aria-hidden={activeTab !== 'casestudy'} inert={activeTab !== 'casestudy'}>
-              <CaseStudyPanel key={`${activeModule.id}:casestudy`} path={caseStudyPath} />
+              <CaseStudyPanel key={`${activeModule.id}:casestudy`}
+                path={caseStudyPath} explorerUrl={readyDetails?.caseStudyExplorer} />
             </div>
           )}
           {visitedTabs.has('api') && (

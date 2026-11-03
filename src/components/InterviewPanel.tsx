@@ -14,7 +14,7 @@ import type {
 interface InterviewPanelProps {
   path?: string;
   knowledgeIndex: KnowledgeIndex | null;
-  onNavigateToKnowledge: (section: KnowledgeSectionRef) => void;
+  onNavigateToKnowledge: (section: KnowledgeSectionRef, origin: HTMLButtonElement) => void;
 }
 
 export function InterviewPanel({ path, knowledgeIndex, onNavigateToKnowledge }: InterviewPanelProps) {

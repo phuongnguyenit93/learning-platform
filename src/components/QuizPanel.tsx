@@ -15,7 +15,7 @@ import { RelatedKnowledgeList } from './RelatedKnowledgeList';
 interface QuizPanelProps {
   path?: string;
   knowledgeIndex: KnowledgeIndex | null;
-  onNavigateToKnowledge: (section: KnowledgeSectionRef) => void;
+  onNavigateToKnowledge: (section: KnowledgeSectionRef, origin: HTMLButtonElement) => void;
 }
 
 interface ShuffledQuestion extends Omit<QuizQuestion, 'answers'> {

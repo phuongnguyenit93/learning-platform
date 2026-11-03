@@ -217,9 +217,11 @@ export function useReadingFullscreen(ready = true) {
   return { panelRef, fullscreenMode: shared?.fullscreenMode ?? fullscreenMode, toggleFullscreen };
 }
 
-export function ReadingFullscreenToolbar({ fullscreenMode, onToggle }: {
+export function ReadingFullscreenToolbar({ fullscreenMode, onToggle, backLabel, onBack }: {
   fullscreenMode: FullscreenMode;
   onToggle: () => void;
+  backLabel?: string;
+  onBack?: () => void;
 }) {
   const { language } = useLanguage();
   const fullscreen = Boolean(fullscreenMode);
@@ -228,6 +230,16 @@ export function ReadingFullscreenToolbar({ fullscreenMode, onToggle }: {
     : (language === 'vi' ? 'Toàn màn hình' : 'Fullscreen');
   return (
     <div className="reading-fullscreen-toolbar">
+      {onBack && backLabel && (
+        <button type="button" className="reading-fullscreen-button reading-return-button"
+          onClick={onBack} aria-label={backLabel} title={backLabel}>
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"
+            strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6M9 12h11" />
+          </svg>
+          <span>{backLabel}</span>
+        </button>
+      )}
       <button type="button" className="reading-fullscreen-button" onClick={onToggle}
         aria-label={label} aria-pressed={fullscreen} title={fullscreen ? `${label} (Esc)` : label}>
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor"

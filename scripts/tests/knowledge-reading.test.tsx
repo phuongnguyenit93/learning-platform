@@ -60,6 +60,50 @@ test('Knowledge fullscreen controls stay with the category navigation and can ex
     assert.equal(sticky.children[0].className, 'knowledge-topic-nav');
     assert.equal(sticky.children[1].className, 'reading-fullscreen-toolbar');
     assert.equal((sticky as HTMLElement).style.top, '0px');
+    assert.equal(panel.querySelector('.reading-return-button'), null,
+      'Opening Knowledge directly must not show an assessment return button');
+
+    let returned = 0;
+    for (const [kind, label] of [
+      ['quiz', 'Quay lại Quiz'],
+      ['interview', 'Quay lại Interview'],
+      ['casestudy', 'Quay lại Case Study'],
+    ] as const) {
+      await act(async () => root.render(
+        <LanguageProvider>
+          <div className="module-tab-wrapper" />
+          <div className="learning-main learning-main--reading">
+            <div className="learning-tab-panel">
+              <KnowledgePanel index={index} loading={false} error={null} searchQuery=""
+                activeCategoryId="all" selectedSectionId={null} returnToAssessment={kind}
+                onReturnToAssessment={() => { returned += 1; }}
+                onCategoryChange={() => {}} onSectionChange={() => {}} onNavigateToSection={() => {}} />
+            </div>
+          </div>
+        </LanguageProvider>,
+      ));
+      const toolbar = host.querySelector('.knowledge-sticky-controls .reading-fullscreen-toolbar');
+      assert.ok(toolbar);
+      assert.deepEqual([...toolbar.querySelectorAll('button')].map((button) => button.textContent?.trim()),
+        [label, 'Toàn màn hình'], 'return action must sit immediately beside fullscreen');
+      await act(async () => (toolbar.querySelector('.reading-return-button') as HTMLButtonElement).click());
+      assert.equal(returned, kind === 'quiz' ? 1 : kind === 'interview' ? 2 : 3);
+    }
+
+    await act(async () => root.render(
+      <LanguageProvider>
+        <div className="module-tab-wrapper" />
+        <div className="learning-main learning-main--reading">
+          <div className="learning-tab-panel">
+            <KnowledgePanel index={index} loading={false} error={null} searchQuery=""
+              activeCategoryId="all" selectedSectionId={null}
+              onCategoryChange={() => {}} onSectionChange={() => {}} onNavigateToSection={() => {}} />
+          </div>
+        </div>
+      </LanguageProvider>,
+    ));
+    assert.equal(host.querySelector('.reading-return-button'), null,
+      'After return, ordinary Knowledge must not retain the button');
 
     // Simulate mobile browsers without native element fullscreen support.
     Object.defineProperty(panel, 'requestFullscreen', { configurable: true, value: undefined });

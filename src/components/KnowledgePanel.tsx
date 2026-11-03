@@ -47,6 +47,8 @@ interface KnowledgePanelProps {
   onCategoryChange: (categoryId: string) => void;
   onSectionChange: (sectionId: string | null) => void;
   onNavigateToSection: (categoryId: string, sectionId: string) => void;
+  returnToAssessment?: 'quiz' | 'interview' | 'casestudy' | null;
+  onReturnToAssessment?: () => void;
 }
 
 export function KnowledgePanel({
@@ -62,6 +64,8 @@ export function KnowledgePanel({
   onCategoryChange,
   onSectionChange,
   onNavigateToSection,
+  returnToAssessment,
+  onReturnToAssessment,
 }: KnowledgePanelProps) {
   const { language } = useLanguage();
   const [contentCache, setContentCache] = useState<Record<string, string>>({});
@@ -1042,7 +1046,13 @@ export function KnowledgePanel({
           </div>
         )}
       </div>
-      <ReadingFullscreenToolbar fullscreenMode={fullscreenMode} onToggle={toggleFullscreen} />
+      <ReadingFullscreenToolbar fullscreenMode={fullscreenMode} onToggle={toggleFullscreen}
+        backLabel={returnToAssessment && onReturnToAssessment
+          ? `${language === 'vi' ? 'Quay lại' : 'Back to'} ${{
+            quiz: 'Quiz', interview: 'Interview', casestudy: 'Case Study',
+          }[returnToAssessment]}`
+          : undefined}
+        onBack={returnToAssessment ? onReturnToAssessment : undefined} />
       </div>
 
       <div className="knowledge-list">

@@ -6,7 +6,7 @@ import type { KnowledgeIndex, KnowledgeSectionRef, QuizReadmeRelated } from '../
 export interface RelatedKnowledgeListProps {
   related?: QuizReadmeRelated;
   knowledgeIndex: KnowledgeIndex | null;
-  onNavigateToKnowledge: (section: KnowledgeSectionRef) => void;
+  onNavigateToKnowledge: (section: KnowledgeSectionRef, origin: HTMLButtonElement) => void;
 }
 
 /** Only the link list is shared. Quiz, Interview and Case Study own their
@@ -36,7 +36,7 @@ export function RelatedKnowledgeList({ related, knowledgeIndex, onNavigateToKnow
       {sections.map((section) => (
         <li key={`${section.sourcePath}#${section.id}`}>
           <button type="button" className="related-knowledge-list__link"
-            onClick={() => onNavigateToKnowledge(section)}
+            onClick={(event) => onNavigateToKnowledge(section, event.currentTarget)}
             title={language === 'vi' ? 'Mở bài học trong Knowledge' : 'Open lesson in Knowledge'}>
             <span className="related-knowledge-list__title">
               <span className="related-knowledge-list__chapter">{section.categoryTitle}</span>

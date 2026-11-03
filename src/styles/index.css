@@ -7033,6 +7033,8 @@ body:has(.app-shell--module-viewport) #root {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
   min-height: 42px;
   padding: 4px 8px;
   border-bottom: 1px solid var(--border);
@@ -7061,6 +7063,10 @@ body:has(.app-shell--module-viewport) #root {
   color: var(--text);
   background: var(--surface-hover);
   border-color: var(--border-strong);
+}
+
+.reading-return-button {
+  color: var(--text);
 }
 
 /* Assessment relations share the same compact list. Their containers are

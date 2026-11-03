@@ -9,7 +9,7 @@ import { ModuleSidebar } from '../components/ModuleSidebar';
 import { ModuleTabs, type ModuleTab } from '../components/ModuleTabs';
 import { OverviewPanel } from '../components/OverviewPanel';
 import { QuizPanel } from '../components/QuizPanel';
-import { ReadingFullscreenContext, useModuleReadingFullscreen } from '../components/ReadingFullscreen';
+import { getReadingScroller, ReadingFullscreenContext, useModuleReadingFullscreen } from '../components/ReadingFullscreen';
 import { ReferencePanel } from '../components/ReferencePanel';
 import { RoadmapPanel } from '../components/RoadmapPanel';
 import {
@@ -26,6 +26,14 @@ import { useLanguage } from '../state/LanguageContext';
 import type { KnowledgeIndex, KnowledgeSectionRef, ModuleCatalog, ModuleCatalogNode } from '../types/learning';
 
 const readingTabs = new Set<ModuleTab>(['knowledge', 'quiz', 'interview', 'casestudy']);
+type AssessmentTab = 'quiz' | 'interview' | 'casestudy';
+type AssessmentReturnPoint = {
+  moduleId: string;
+  tab: AssessmentTab;
+  scrollTop: number;
+  origin: HTMLButtonElement;
+  originOffset: number;
+};
 
 export function LearningPage() {
   const { moduleId } = useParams();
@@ -63,13 +71,32 @@ export function LearningPage() {
   const [activeKnowledgeCategory, setActiveKnowledgeCategory] = useState('all');
   const [selectedKnowledgeSection, setSelectedKnowledgeSection] = useState<string | null>(null);
   const [knowledgeNavigationRequest, setKnowledgeNavigationRequest] = useState(0);
+  // Only populated by an assessment's “Related knowledge” link, never by
+  // ordinary Knowledge navigation or browser history.
+  const [assessmentReturn, setAssessmentReturn] = useState<AssessmentReturnPoint | null>(null);
+  const pendingAssessmentRestore = useRef<AssessmentReturnPoint | null>(null);
   const mainRef = useRef<HTMLElement>(null);
   const readingFullscreen = useModuleReadingFullscreen(mainRef);
   const readingScrollPositions = useRef<Partial<Record<ModuleTab, number>>>({});
   const readingTabActive = readingTabs.has(activeTab);
   const routeSearchKey = routeSearchParams.toString();
 
-  const navigateToRelatedKnowledge = (section: KnowledgeSectionRef) => {
+  const navigateToRelatedKnowledge = (
+    sourceTab: AssessmentTab, section: KnowledgeSectionRef, origin: HTMLButtonElement,
+  ) => {
+    const sourcePanel = origin.closest<HTMLElement>('.reading-fullscreen-surface');
+    const scroller = getReadingScroller(sourcePanel) ?? mainRef.current;
+    const scrollTop = scroller?.scrollTop ?? readingScrollPositions.current[sourceTab] ?? 0;
+    readingScrollPositions.current[sourceTab] = scrollTop;
+    setAssessmentReturn({
+      tab: sourceTab,
+      moduleId: moduleId ?? '',
+      scrollTop,
+      origin,
+      originOffset: scroller
+        ? origin.getBoundingClientRect().top - scroller.getBoundingClientRect().top
+        : 0,
+    });
     setSearchQuery('');
     setActiveKnowledgeCategory(section.categoryId);
     setSelectedKnowledgeSection(section.id);
@@ -78,9 +105,34 @@ export function LearningPage() {
     setActiveTab('knowledge');
   };
 
+  const returnToAssessment = () => {
+    if (!assessmentReturn || assessmentReturn.moduleId !== (moduleId ?? '')) return;
+    readingScrollPositions.current[assessmentReturn.tab] = assessmentReturn.scrollTop;
+    pendingAssessmentRestore.current = assessmentReturn;
+    setAssessmentReturn(null);
+    setActiveTab(assessmentReturn.tab);
+  };
+
   useLayoutEffect(() => {
     if (readingTabActive && mainRef.current) {
-      mainRef.current.scrollTop = readingScrollPositions.current[activeTab] ?? 0;
+      const scroller = mainRef.current;
+      scroller.scrollTop = readingScrollPositions.current[activeTab] ?? 0;
+      const restore = pendingAssessmentRestore.current;
+      if (restore?.tab === activeTab) {
+        pendingAssessmentRestore.current = null;
+        const sourcePanel = restore.origin.closest<HTMLElement>('.reading-fullscreen-surface');
+        const sourceScroller = getReadingScroller(sourcePanel) ?? scroller;
+        sourceScroller.scrollTop = restore.scrollTop;
+        // The source tab stays mounted. Anchor to the exact clicked lesson
+        // link even if expanding Knowledge changed the reading pane height.
+        if (restore.origin.isConnected) {
+          const offset = restore.origin.getBoundingClientRect().top
+            - sourceScroller.getBoundingClientRect().top - restore.originOffset;
+          if (Number.isFinite(offset)) sourceScroller.scrollTop += offset;
+          restore.origin.focus({ preventScroll: true });
+        }
+        readingScrollPositions.current[activeTab] = sourceScroller.scrollTop;
+      }
     }
   }, [activeTab, moduleId, readingTabActive]);
 
@@ -245,6 +297,8 @@ export function LearningPage() {
     setSearchQuery('');
     setActiveKnowledgeCategory('all');
     setSelectedKnowledgeSection(null);
+    setAssessmentReturn(null);
+    pendingAssessmentRestore.current = null;
     readingScrollPositions.current = {};
     if (mainRef.current) mainRef.current.scrollTop = 0;
     setVisitedTabs(new Set<ModuleTab>([activeTab]));
@@ -258,6 +312,8 @@ export function LearningPage() {
     const categoryId = routeSearchParams.get('category')?.trim() || 'all';
     const sectionId = routeSearchParams.get('section')?.trim() || null;
 
+    setAssessmentReturn(null);
+    pendingAssessmentRestore.current = null;
     setSearchQuery('');
     setActiveKnowledgeCategory(categoryId);
     setSelectedKnowledgeSection(sectionId);
@@ -397,6 +453,8 @@ export function LearningPage() {
             referenceEnabled={Boolean(referencePath)}
             executionEnabled={activeModule.capabilities.execution}
             onChange={(tab) => {
+              setAssessmentReturn(null);
+              pendingAssessmentRestore.current = null;
               setActiveTab(tab);
               if (tab === 'execution' || routeSearchParams.get('tab') === 'execution') {
                 const next = new URLSearchParams(routeSearchParams);
@@ -451,6 +509,8 @@ export function LearningPage() {
                 knowledgeIndex={knowledgeIndex}
                 searchQuery={searchQuery}
                 onSelectKnowledge={(categoryId) => {
+                  setAssessmentReturn(null);
+                  pendingAssessmentRestore.current = null;
                   setSearchQuery('');
                   setActiveKnowledgeCategory(categoryId);
                   setSelectedKnowledgeSection(null);
@@ -496,6 +556,9 @@ export function LearningPage() {
                   setActiveKnowledgeCategory(categoryId);
                   setSelectedKnowledgeSection(sectionId);
                 }}
+                returnToAssessment={assessmentReturn?.moduleId === (moduleId ?? '')
+                  ? assessmentReturn.tab : null}
+                onReturnToAssessment={returnToAssessment}
               />
             </div>
           )}
@@ -505,7 +568,7 @@ export function LearningPage() {
                 key={`${activeModule.id}:quiz`}
                 path={quizPath}
                 knowledgeIndex={knowledgeIndex}
-                onNavigateToKnowledge={navigateToRelatedKnowledge}
+                onNavigateToKnowledge={(section, origin) => navigateToRelatedKnowledge('quiz', section, origin)}
               />
             </div>
           )}
@@ -515,7 +578,7 @@ export function LearningPage() {
                 key={`${activeModule.id}:interview`}
                 path={interviewPath}
                 knowledgeIndex={knowledgeIndex}
-                onNavigateToKnowledge={navigateToRelatedKnowledge}
+                onNavigateToKnowledge={(section, origin) => navigateToRelatedKnowledge('interview', section, origin)}
               />
             </div>
           )}
@@ -523,7 +586,8 @@ export function LearningPage() {
             <div className={`learning-tab-panel${activeTab !== 'casestudy' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Case Study" aria-hidden={activeTab !== 'casestudy'} inert={activeTab !== 'casestudy'}>
               <CaseStudyPanel key={`${activeModule.id}:casestudy`}
                 path={caseStudyPath} explorerUrl={readyDetails?.caseStudyExplorer}
-                knowledgeIndex={knowledgeIndex} onNavigateToKnowledge={navigateToRelatedKnowledge} />
+                knowledgeIndex={knowledgeIndex}
+                onNavigateToKnowledge={(section, origin) => navigateToRelatedKnowledge('casestudy', section, origin)} />
             </div>
           )}
           {activeTab === 'execution' && activeModule.capabilities.execution && (

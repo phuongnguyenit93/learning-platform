@@ -19,7 +19,7 @@ interface CaseStudyPanelProps {
   path?: string;
   explorerUrl?: string;
   knowledgeIndex: KnowledgeIndex | null;
-  onNavigateToKnowledge: (section: KnowledgeSectionRef) => void;
+  onNavigateToKnowledge: (section: KnowledgeSectionRef, origin: HTMLButtonElement) => void;
 }
 
 export function CaseStudyPanel({ path, explorerUrl, knowledgeIndex, onNavigateToKnowledge }: CaseStudyPanelProps) {

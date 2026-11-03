@@ -45,6 +45,9 @@ jobs:
       - name: Test Java Data Consumer and URL mapping
         run: npm run test:data
 
+      - name: Test assessment and related Knowledge navigation
+        run: npm run test:questions
+
       - name: Test public GitHub Release lookup and Worker fallback
         run: npm run test:local-run
 

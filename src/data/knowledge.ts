@@ -111,3 +111,31 @@ export function buildQuestionKnowledgeResolver(index: KnowledgeIndex | null, cha
     return byAnchor.get(related.anchor) ?? undefined;
   };
 }
+
+/** Module-wide assessment links can point across chapters, unlike legacy
+ * single-chapter references. Ambiguous IDs must never navigate by guesswork. */
+export function resolveAssessmentKnowledgeLinks(
+  index: KnowledgeIndex | null,
+  related: QuizReadmeRelated | undefined,
+): KnowledgeSectionRef[] {
+  if (!index || !related) return [];
+  const all = collectKnowledgeSections(index.tree);
+  const byAnchor = new Map<string, KnowledgeSectionRef | null>();
+  const byPath = new Map<string, KnowledgeSectionRef>();
+  for (const section of all) {
+    byAnchor.set(section.id, byAnchor.has(section.id) ? null : section);
+    byPath.set(`${section.sourcePath}#${section.id}`, section);
+  }
+  const anchors = related.anchorList ?? (related.anchor ? [related.anchor] : []);
+  const seen = new Set<string>();
+  return anchors.flatMap((anchor) => {
+    const section = related.file && !related.anchorList
+      ? (byPath.get(`${related.file}#${anchor}`) ?? byAnchor.get(anchor))
+      : byAnchor.get(anchor);
+    if (!section) return [];
+    const key = `${section.sourcePath}#${section.id}`;
+    if (seen.has(key)) return [];
+    seen.add(key);
+    return [section];
+  });
+}

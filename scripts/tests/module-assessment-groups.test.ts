@@ -32,11 +32,13 @@ test('Quiz module group generates stable question IDs and keeps correct-answer e
   assert.equal(document.questions[0].id, `${path}#1`);
   assert.equal(document.questions[0].correctAnswerId, 'B');
   assert.equal(document.questions[0].answers[1].explanation, 'Second reason');
-  assert.deepEqual(document.questions[0].readmeRelated, { file: '', anchor: '' });
+  assert.deepEqual(document.questions[0].readmeRelated, {
+    file: '', anchor: '', anchorList: ['oop-basic-001', 'oop-basic-006'],
+  });
   assert.equal('apiRelated' in document.questions[0], false);
 });
 
-test('Interview module group reads long authored Markdown answers without invented relations', async () => {
+test('Interview module group preserves authored Markdown answers and Knowledge links', async () => {
   const yaml = `questions:
   - question: Why?
     answer: |
@@ -52,7 +54,9 @@ test('Interview module group reads long authored Markdown answers without invent
     () => loadInterviewDocument('/module/OBJECT_ORIENTED_PROGRAMMING/interview/vi/groups/1.yml'));
   assert.equal(document.questions.length, 1);
   assert.match(document.questions[0].answer, /\*\*Responsibility\*\*/);
-  assert.deepEqual(document.questions[0].readmeRelated, { file: '', anchor: '' });
+  assert.deepEqual(document.questions[0].readmeRelated, {
+    file: '', anchor: '', anchorList: ['class-design-001'],
+  });
 });
 
 test('Case Study group preserves situation, resolution, knowledge and multiline source code', async () => {
@@ -72,6 +76,7 @@ test('Case Study group preserves situation, resolution, knowledge and multiline 
   assert.equal(cases.length, 1);
   assert.equal(cases[0].resolve, 'Split responsibilities');
   assert.match(cases[0].code, /class Billing/);
+  assert.deepEqual(cases[0].readmeRelated, { file: '', anchor: '', anchorList: ['solid-002'] });
   assert.throws(() => parseCaseStudyDocument({ cases: [{ situation: 'Only situation' }] }), /resolve/);
 });
 

@@ -1,5 +1,6 @@
 import { parse } from 'yaml';
 import { fetchJavaAsset } from './javaAsset';
+import type { QuizReadmeRelated } from '../types/learning';
 
 /** Optional authored execution metadata. No runtime API requests are needed. */
 export type CaseStudyDetailValue =
@@ -40,6 +41,7 @@ export interface CaseStudyItem {
   knowledge: string;
   code: string;
   codeExplanation?: CaseStudyCodeExplanation;
+  readmeRelated?: QuizReadmeRelated;
 }
 
 function nonEmpty(value: unknown, field: string): string {
@@ -147,6 +149,29 @@ function parseCodeExplanation(value: unknown): CaseStudyCodeExplanation | undefi
   };
 }
 
+function parseCaseStudyReadmeRelated(value: unknown, index: number): QuizReadmeRelated | undefined {
+  if (value === undefined) return undefined;
+  const related = record(value);
+  if (!related) throw new Error(`Invalid Case Study item ${index + 1}: readmeRelated must be an object.`);
+  if (related.anchorList !== undefined && !Array.isArray(related.anchorList)) {
+    throw new Error(`Invalid Case Study item ${index + 1}: anchorList must be an array.`);
+  }
+  if (Array.isArray(related.anchorList)) {
+    if (!related.anchorList.every((anchor) => typeof anchor === 'string')) {
+      throw new Error(`Invalid Case Study item ${index + 1}: anchorList must contain strings.`);
+    }
+    return { file: '', anchor: '', anchorList: [...related.anchorList] as string[] };
+  }
+  if ((related.file !== undefined && typeof related.file !== 'string')
+    || (related.anchor !== undefined && typeof related.anchor !== 'string')) {
+    throw new Error(`Invalid Case Study item ${index + 1}: readmeRelated file/anchor must be strings.`);
+  }
+  return {
+    file: typeof related.file === 'string' ? related.file.trim() : '',
+    anchor: typeof related.anchor === 'string' ? related.anchor.trim() : '',
+  };
+}
+
 export function parseCaseStudyDocument(value: unknown): CaseStudyItem[] {
   if (!value || typeof value !== 'object' || !('cases' in value) || !Array.isArray(value.cases)) {
     throw new Error('Invalid Case Study document: cases must be an array.');
@@ -157,12 +182,14 @@ export function parseCaseStudyDocument(value: unknown): CaseStudyItem[] {
     }
     const caseItem = item as Record<string, unknown>;
     const codeExplanation = parseCodeExplanation(caseItem.codeExplanation);
+    const readmeRelated = parseCaseStudyReadmeRelated(caseItem.readmeRelated, index);
     return {
       situation: nonEmpty(caseItem.situation, `cases[${index}].situation`),
       resolve: nonEmpty(caseItem.resolve, `cases[${index}].resolve`),
       knowledge: nonEmpty(caseItem.knowledge, `cases[${index}].knowledge`),
       code: nonEmpty(caseItem.code, `cases[${index}].code`),
       ...(codeExplanation ? { codeExplanation } : {}),
+      ...(readmeRelated ? { readmeRelated } : {}),
     };
   });
 }

@@ -47,7 +47,7 @@ function parseReadmeRelated(value: unknown, path: string) {
     if (!value.anchorList.every((anchor) => typeof anchor === 'string')) {
       throw new Error(`Invalid Interview value at ${path}.anchorList.`);
     }
-    return { file: '', anchor: '' };
+    return { file: '', anchor: '', anchorList: [...value.anchorList] as string[] };
   }
 
   return {

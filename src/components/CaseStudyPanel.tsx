@@ -8,17 +8,21 @@ import {
 } from '../data/casestudy';
 import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
 import { QuestionReadingFrame } from './ReadingFullscreen';
+import { RelatedKnowledgeList } from './RelatedKnowledgeList';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { useLanguage } from '../state/LanguageContext';
+import type { KnowledgeIndex, KnowledgeSectionRef } from '../types/learning';
 
 const CodeExplorerPanel = lazy(() => import('./CodeExplorerPanel'));
 
 interface CaseStudyPanelProps {
   path?: string;
   explorerUrl?: string;
+  knowledgeIndex: KnowledgeIndex | null;
+  onNavigateToKnowledge: (section: KnowledgeSectionRef) => void;
 }
 
-export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
+export function CaseStudyPanel({ path, explorerUrl, knowledgeIndex, onNavigateToKnowledge }: CaseStudyPanelProps) {
   const { language } = useLanguage();
   const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'casestudy', null);
@@ -85,6 +89,11 @@ export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
                   <h4>{language === 'vi' ? 'Kiến thức áp dụng' : 'Relevant knowledge'}</h4>
                   <div className="markdown-content"><MermaidMarkdown>{item.knowledge}</MermaidMarkdown></div>
                 </div>
+                <section className="assessment-related assessment-related--casestudy">
+                  <h4>{language === 'vi' ? 'Kiến thức liên quan' : 'Related knowledge'}</h4>
+                  <RelatedKnowledgeList related={item.readmeRelated} knowledgeIndex={knowledgeIndex}
+                    onNavigateToKnowledge={onNavigateToKnowledge} />
+                </section>
                 <div className="case-study-disclosures">
                   <div>
                     <button type="button" className={`interview-answer-toggle${hintExpanded ? ' is-open' : ''}`}

@@ -23,7 +23,7 @@ import { loadModuleContentCounts } from '../data/moduleContentCounts';
 import { loadKnowledgeIndex } from '../data/knowledge';
 import { resolveModuleStats } from '../data/moduleStats';
 import { useLanguage } from '../state/LanguageContext';
-import type { KnowledgeIndex, ModuleCatalog, ModuleCatalogNode } from '../types/learning';
+import type { KnowledgeIndex, KnowledgeSectionRef, ModuleCatalog, ModuleCatalogNode } from '../types/learning';
 
 const readingTabs = new Set<ModuleTab>(['knowledge', 'quiz', 'interview', 'casestudy']);
 
@@ -62,11 +62,21 @@ export function LearningPage() {
   const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
   const [activeKnowledgeCategory, setActiveKnowledgeCategory] = useState('all');
   const [selectedKnowledgeSection, setSelectedKnowledgeSection] = useState<string | null>(null);
+  const [knowledgeNavigationRequest, setKnowledgeNavigationRequest] = useState(0);
   const mainRef = useRef<HTMLElement>(null);
   const readingFullscreen = useModuleReadingFullscreen(mainRef);
   const readingScrollPositions = useRef<Partial<Record<ModuleTab, number>>>({});
   const readingTabActive = readingTabs.has(activeTab);
   const routeSearchKey = routeSearchParams.toString();
+
+  const navigateToRelatedKnowledge = (section: KnowledgeSectionRef) => {
+    setSearchQuery('');
+    setActiveKnowledgeCategory(section.categoryId);
+    setSelectedKnowledgeSection(section.id);
+    setKnowledgeNavigationRequest((current) => current + 1);
+    setVisitedTabs((current) => current.has('knowledge') ? current : new Set([...current, 'knowledge']));
+    setActiveTab('knowledge');
+  };
 
   useLayoutEffect(() => {
     if (readingTabActive && mainRef.current) {
@@ -473,6 +483,7 @@ export function LearningPage() {
                 searchQuery={searchQuery}
                 activeCategoryId={activeKnowledgeCategory}
                 selectedSectionId={selectedKnowledgeSection}
+                navigationRequestKey={knowledgeNavigationRequest}
                 videoIndexPath={videoPath}
                 summaryIndexPath={summaryPath}
                 onCategoryChange={(categoryId) => {
@@ -494,6 +505,7 @@ export function LearningPage() {
                 key={`${activeModule.id}:quiz`}
                 path={quizPath}
                 knowledgeIndex={knowledgeIndex}
+                onNavigateToKnowledge={navigateToRelatedKnowledge}
               />
             </div>
           )}
@@ -503,13 +515,15 @@ export function LearningPage() {
                 key={`${activeModule.id}:interview`}
                 path={interviewPath}
                 knowledgeIndex={knowledgeIndex}
+                onNavigateToKnowledge={navigateToRelatedKnowledge}
               />
             </div>
           )}
           {visitedTabs.has('casestudy') && (
             <div className={`learning-tab-panel${activeTab !== 'casestudy' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Case Study" aria-hidden={activeTab !== 'casestudy'} inert={activeTab !== 'casestudy'}>
               <CaseStudyPanel key={`${activeModule.id}:casestudy`}
-                path={caseStudyPath} explorerUrl={readyDetails?.caseStudyExplorer} />
+                path={caseStudyPath} explorerUrl={readyDetails?.caseStudyExplorer}
+                knowledgeIndex={knowledgeIndex} onNavigateToKnowledge={navigateToRelatedKnowledge} />
             </div>
           )}
           {activeTab === 'execution' && activeModule.capabilities.execution && (

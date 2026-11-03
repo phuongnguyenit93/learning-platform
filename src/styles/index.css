@@ -7100,6 +7100,90 @@ body:has(.app-shell--module-viewport) #root {
   border-color: var(--border-strong);
 }
 
+/* Assessment relations share the same compact list. Their containers are
+   intentionally different: Quiz/Interview are expandable, Case Study is not. */
+.assessment-related {
+  margin-top: 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface-raised);
+  overflow: hidden;
+}
+
+.assessment-related > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  font-weight: 750;
+  font-size: 13px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.assessment-related > summary::-webkit-details-marker { display: none; }
+.assessment-related > summary::after { content: '+'; font-size: 18px; font-weight: 400; }
+.assessment-related[open] > summary::after { content: '−'; }
+.assessment-related > summary:hover { background: var(--surface-hover); }
+.assessment-related > summary:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+
+.assessment-related--casestudy {
+  padding: 12px 14px;
+}
+
+.assessment-related--casestudy > h4 {
+  margin: 0 0 9px;
+  font-size: 13px;
+}
+
+.related-knowledge-list {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 9px;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.assessment-related--casestudy .related-knowledge-list {
+  padding: 0;
+  border-top: 0;
+}
+
+.related-knowledge-list__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--text);
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.related-knowledge-list__link:hover,
+.related-knowledge-list__link:focus-visible {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.related-knowledge-list__chapter { color: var(--blue); font-weight: 700; }
+.related-knowledge-list__separator { color: var(--text-muted); }
+.related-knowledge-list__arrow { flex: 0 0 auto; color: var(--text-soft); }
+.related-knowledge-list__empty {
+  margin: 0;
+  padding: 10px 14px 13px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
 /* Quiz, Interview and Case Study retain their chapter picker in the fullscreen
    surface; its toolbar stays above the questions when scrolling either way. */
 .question-reading-frame {

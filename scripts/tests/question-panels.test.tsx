@@ -11,17 +11,23 @@ import { LanguageProvider, useLanguage } from '../../src/state/LanguageContext';
 import type { KnowledgeIndex } from '../../src/types/learning';
 
 const knowledge: KnowledgeIndex = {
-  version: 1, moduleId: 'ASPECT', language: 'vi', categoryCount: 0, sectionCount: 0,
+  version: 1, moduleId: 'ASPECT', language: 'vi', categoryCount: 2, sectionCount: 2,
   tree: [
-    { kind: 'FOLDER', id: '1.First', title: 'First', children: [] },
-    { kind: 'FOLDER', id: '2.Second', title: 'Second', children: [] },
+    { kind: 'FOLDER', id: '1.First', title: 'First', children: [{
+      kind: 'CATEGORY', id: 'solid', title: 'Nguyên lý SOLID', sourcePath: 'solid',
+      sections: [{ id: 'solid-002', title: '2. Trách nhiệm đơn', content: '/knowledge/solid.md', difficulty: 'BASIC' }],
+    }] },
+    { kind: 'FOLDER', id: '2.Second', title: 'Second', children: [{
+      kind: 'CATEGORY', id: 'oop-basic', title: 'Tư duy OOP', sourcePath: 'oop-basic',
+      sections: [{ id: 'oop-basic-001', title: '1. Object là gì?', content: '/knowledge/oop.md', difficulty: 'BASIC' }],
+    }] },
   ],
 };
 
 function question(kind: 'quiz' | 'interview', label: string) {
   const common = {
     question: `Question ${label}`,
-    readmeRelated: { anchor: 'anchor' },
+    readmeRelated: { anchorList: ['solid-002', 'oop-basic-001'] },
     // Old Java releases can still contain this field; the UI ignores it.
     apiRelated: { controller: 'LegacyController', methodSignature: 'execute()' },
   };
@@ -40,6 +46,7 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
   keys.forEach((key, index) => Object.defineProperty(globalThis, key, { configurable: true, writable: true, value: values[index] }));
   const originalFetch = globalThis.fetch;
   const calls: string[] = [];
+  const navigated: string[] = [];
   globalThis.fetch = (async (url: URL | RequestInfo) => {
     const request = String(url);
     calls.push(request);
@@ -62,8 +69,8 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
     const path = `/module/ASPECT/${kind}/vi/question.yml`;
     await act(async () => {
       root.render(<LanguageProvider>{kind === 'quiz'
-        ? <QuizPanel path={path} knowledgeIndex={knowledge} />
-        : <InterviewPanel path={path} knowledgeIndex={knowledge} />}</LanguageProvider>);
+        ? <QuizPanel path={path} knowledgeIndex={knowledge} onNavigateToKnowledge={(section) => navigated.push(section.id)} />
+        : <InterviewPanel path={path} knowledgeIndex={knowledge} onNavigateToKnowledge={(section) => navigated.push(section.id)} />}</LanguageProvider>);
     });
   };
   const button = (text: string) => {
@@ -88,6 +95,13 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
     await act(async () => { button('Option A').click(); });
     assert.match(container.textContent ?? '', /Explanation A/);
     assert.doesNotMatch(container.textContent ?? '', /Related API/);
+    const quizCard = container.querySelector('.quiz-card') as HTMLElement;
+    const quizExplanation = quizCard.querySelector('.quiz-explanation') as HTMLElement;
+    const quizRelated = quizCard.querySelector('.assessment-related--quiz') as HTMLElement;
+    assert.ok(quizExplanation.compareDocumentPosition(quizRelated) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.equal(quizRelated.querySelectorAll('.related-knowledge-list__link').length, 2);
+    await act(async () => (quizRelated.querySelector('.related-knowledge-list__link') as HTMLButtonElement).click());
+    assert.deepEqual(navigated, ['solid-002']);
 
     await render('interview');
     assert.equal(container.querySelector('.reading-fullscreen-button')?.textContent?.trim(), 'Toàn màn hình');
@@ -96,6 +110,12 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
     await act(async () => { button('Câu trả lời tham khảo').click(); });
     assert.match(container.textContent ?? '', /Answer first/);
     assert.doesNotMatch(container.textContent ?? '', /Related API/);
+    const interviewCard = container.querySelector('.interview-card') as HTMLElement;
+    const interviewRelated = interviewCard.querySelector('.assessment-related--interview') as HTMLElement;
+    const interviewAnswer = interviewCard.querySelector('.interview-answer') as HTMLElement;
+    assert.ok(interviewAnswer.compareDocumentPosition(interviewRelated) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
+    await act(async () => (interviewRelated.querySelectorAll('.related-knowledge-list__link')[1] as HTMLButtonElement).click());
+    assert.deepEqual(navigated, ['solid-002', 'oop-basic-001']);
     await act(async () => { button('Second').click(); });
     assert.match(container.textContent ?? '', /Question second/);
     assert.doesNotMatch(container.textContent ?? '', /Question first/);
@@ -137,6 +157,7 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
   const container = browser.document.createElement('main');
   browser.document.body.append(container);
   const root = createRoot(container);
+  const navigated: string[] = [];
   const button = (text: string) => {
     const found = [...container.querySelectorAll('button')].find((item) => item.textContent?.includes(text));
     assert.ok(found, `Missing button ${text}`);
@@ -144,7 +165,8 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
   };
   try {
     await act(async () => root.render(
-      <LanguageProvider><CaseStudyPanel path="/module/ASPECT/casestudy/vi/index.json" /></LanguageProvider>,
+      <LanguageProvider><CaseStudyPanel path="/module/ASPECT/casestudy/vi/index.json"
+        knowledgeIndex={knowledge} onNavigateToKnowledge={(section) => navigated.push(section.id)} /></LanguageProvider>,
     ));
     assert.equal(container.querySelector('.reading-fullscreen-button')?.textContent?.trim(), 'Toàn màn hình');
     assert.match(container.textContent ?? '', /First situation/);
@@ -152,11 +174,18 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
     assert.match(container.textContent ?? '', /SRP/);
     const caseCard = container.querySelector('.case-study-card') as HTMLElement;
     assert.ok(caseCard, 'Case Study has a dedicated class for scoped layout and theme styling');
-    const knowledge = caseCard.querySelector('.case-study-knowledge') as HTMLElement;
+    const caseKnowledge = caseCard.querySelector('.case-study-knowledge') as HTMLElement;
+    const related = caseCard.querySelector('.assessment-related--casestudy') as HTMLElement;
+    assert.ok(related);
+    assert.equal(related.tagName, 'SECTION');
+    assert.ok(caseKnowledge.compareDocumentPosition(related) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.equal(related.querySelectorAll('.related-knowledge-list__link').length, 1);
+    await act(async () => (related.querySelector('.related-knowledge-list__link') as HTMLButtonElement).click());
+    assert.deepEqual(navigated, ['solid-002']);
     const hint = button('Gợi ý');
     const analysis = button('Phân tích và mã nguồn gợi ý');
     const source = button('Mã nguồn thực tế');
-    assert.ok(knowledge.compareDocumentPosition(hint) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
+    assert.ok(caseKnowledge.compareDocumentPosition(hint) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
     assert.ok(hint.compareDocumentPosition(analysis) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
     assert.ok(analysis.compareDocumentPosition(source) & browser.Node.DOCUMENT_POSITION_FOLLOWING);
     assert.equal(hint.getAttribute('aria-expanded'), 'false');
@@ -256,7 +285,8 @@ test('Case Study source explanation shows only authored panels, switches scenari
     await act(async () => root.render(
       <LanguageProvider>
         <SwitchLanguage />
-        <CaseStudyPanel path="/module/ASPECT/casestudy/vi/index.json" />
+        <CaseStudyPanel path="/module/ASPECT/casestudy/vi/index.json"
+          knowledgeIndex={knowledge} onNavigateToKnowledge={() => {}} />
       </LanguageProvider>,
     ));
     const explanations = container.querySelectorAll('.case-study-explanation');

@@ -1,36 +1,29 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadInterviewDocument } from '../data/interview';
 import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
 import { QuestionReadingFrame } from './ReadingFullscreen';
-import { fetchJavaAsset } from '../data/javaAsset';
-import { buildQuestionKnowledgeResolver, formatKnowledgeDisplayTitle } from '../data/knowledge';
+import { RelatedKnowledgeList } from './RelatedKnowledgeList';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   InterviewQuestion,
   KnowledgeIndex,
   KnowledgeSectionRef,
 } from '../types/learning';
-import { CustomTooltip } from './CustomTooltip';
 
 interface InterviewPanelProps {
   path?: string;
   knowledgeIndex: KnowledgeIndex | null;
+  onNavigateToKnowledge: (section: KnowledgeSectionRef) => void;
 }
 
-type RelatedPanelType = 'knowledge';
-
-export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
+export function InterviewPanel({ path, knowledgeIndex, onNavigateToKnowledge }: InterviewPanelProps) {
   const { language } = useLanguage();
   const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'interview', knowledgeIndex);
   const documentPath = selected?.documentPath;
   const [questions, setQuestions] = useState<InterviewQuestion[]>([]);
   const [expandedAnswers, setExpandedAnswers] = useState<Set<number>>(() => new Set());
-  const [relatedPanelByQuestion, setRelatedPanelByQuestion] = useState<Record<string, RelatedPanelType>>({});
-  const [knowledgeContentCache, setKnowledgeContentCache] = useState<Record<string, string>>({});
-  const [knowledgeLoadingPaths, setKnowledgeLoadingPaths] = useState<Set<string>>(() => new Set());
-  const [knowledgeErrors, setKnowledgeErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadedPath, setLoadedPath] = useState<string | null>(null);
@@ -38,13 +31,9 @@ export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
   useEffect(() => {
     let active = true;
 
-    setKnowledgeContentCache({});
-    setKnowledgeLoadingPaths(new Set());
-    setKnowledgeErrors({});
     setError(null);
     setQuestions([]);
     setExpandedAnswers(new Set());
-    setRelatedPanelByQuestion({});
     setLoadedPath(null);
 
     if (!documentPath || selected?.questionCount === 0) {
@@ -67,12 +56,6 @@ export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
         setExpandedAnswers((current) => new Set(
           [...current].filter((index) => index < document.questions.length),
         ));
-        setRelatedPanelByQuestion((current) => Object.fromEntries(
-          Object.entries(current).filter(([questionKey]) => {
-            const index = Number(questionKey);
-            return Number.isInteger(index) && index >= 0 && index < document.questions.length;
-          }),
-        ));
         setLoadedPath(documentPath);
         setLoading(false);
       })
@@ -91,88 +74,6 @@ export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
       active = false;
     };
   }, [documentPath, selected?.questionCount]);
-
-  const resolveRelatedKnowledge = useMemo(
-    () => buildQuestionKnowledgeResolver(knowledgeIndex, selected?.path.split('/')[1] ?? selected?.id),
-    [knowledgeIndex, selected?.id, selected?.path],
-  );
-
-  const ensureKnowledgeContent = useCallback((section: KnowledgeSectionRef) => {
-    if (
-      knowledgeContentCache[section.content] !== undefined
-      || knowledgeLoadingPaths.has(section.content)
-    ) {
-      return;
-    }
-
-    setKnowledgeErrors((current) => {
-      if (current[section.content] === undefined) {
-        return current;
-      }
-
-      const next = { ...current };
-      delete next[section.content];
-      return next;
-    });
-    setKnowledgeLoadingPaths((current) => new Set(current).add(section.content));
-
-    fetchJavaAsset(section.content)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Unable to load Knowledge: ${response.status} ${response.statusText}`);
-        }
-
-        return response.text();
-      })
-      .then((markdown) => {
-        setKnowledgeContentCache((current) => ({ ...current, [section.content]: markdown }));
-      })
-      .catch((caught: unknown) => {
-        setKnowledgeErrors((current) => ({
-          ...current,
-          [section.content]: caught instanceof Error ? caught.message : 'Unable to load Knowledge.',
-        }));
-      })
-      .finally(() => {
-        setKnowledgeLoadingPaths((current) => {
-          const next = new Set(current);
-          next.delete(section.content);
-          return next;
-        });
-      });
-  }, [knowledgeContentCache, knowledgeLoadingPaths]);
-
-  useEffect(() => {
-    questions.forEach((question, index) => {
-      const questionKey = String(index);
-      if (relatedPanelByQuestion[questionKey] !== 'knowledge') {
-        return;
-      }
-
-      const relatedKnowledge = resolveRelatedKnowledge(question.readmeRelated);
-
-      if (relatedKnowledge) {
-        ensureKnowledgeContent(relatedKnowledge);
-      }
-    });
-  }, [ensureKnowledgeContent, resolveRelatedKnowledge, questions, relatedPanelByQuestion]);
-
-  const openRelatedKnowledge = (questionKey: string, section: KnowledgeSectionRef) => {
-    setRelatedPanelByQuestion((current) => ({ ...current, [questionKey]: 'knowledge' }));
-    ensureKnowledgeContent(section);
-  };
-
-  const closeRelatedPanel = (questionKey: string) => {
-    setRelatedPanelByQuestion((current) => {
-      if (current[questionKey] === undefined) {
-        return current;
-      }
-
-      const next = { ...current };
-      delete next[questionKey];
-      return next;
-    });
-  };
 
   if (indexLoading) {
     return (
@@ -213,18 +114,6 @@ export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
       {questions.map((question, index) => {
         const expanded = expandedAnswers.has(index);
         const questionKey = String(index);
-        const relatedKnowledge = resolveRelatedKnowledge(question.readmeRelated);
-        const activeRelatedPanel = relatedPanelByQuestion[questionKey];
-        const knowledgeMarkdown = relatedKnowledge
-          ? knowledgeContentCache[relatedKnowledge.content]
-          : undefined;
-        const knowledgeLoading = relatedKnowledge
-          ? knowledgeLoadingPaths.has(relatedKnowledge.content)
-          : false;
-        const knowledgeError = relatedKnowledge
-          ? knowledgeErrors[relatedKnowledge.content]
-          : undefined;
-        const activeRelatedKnowledge = activeRelatedPanel === 'knowledge' ? relatedKnowledge : undefined;
         return (
           <article key={questionKey} className="interview-card">
             <div className="interview-card__topline">
@@ -257,68 +146,15 @@ export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
             </button>
 
             {expanded && (
-              <>
-                <div className="interview-answer">
-                  <div className="markdown-content"><MermaidMarkdown>{question.answer}</MermaidMarkdown></div>
-
-                  {relatedKnowledge && (
-                    <div className="quiz-related-actions">
-                      {relatedKnowledge && (
-                        <button
-                          type="button"
-                          className={`quiz-related-action quiz-related-action--knowledge${activeRelatedPanel === 'knowledge' ? ' is-active' : ''}`}
-                          onClick={() => openRelatedKnowledge(questionKey, relatedKnowledge)}
-                        >
-                          Related Knowledge
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {activeRelatedKnowledge && (
-                  <div className="quiz-related-panel">
-                    <button
-                      type="button"
-                      className="quiz-related-panel__close"
-                      aria-label={language === 'vi' ? 'Đóng nội dung liên quan' : 'Close related content'}
-                      title={language === 'vi' ? 'Đóng' : 'Close'}
-                      onClick={() => closeRelatedPanel(questionKey)}
-                    >
-                      ×
-                    </button>
-
-                    {activeRelatedKnowledge ? (
-                      <>
-                        <div className="quiz-related-panel__header">
-                          <div>
-                            <span>{language === 'vi' ? 'Kiến thức liên quan' : 'Related Knowledge'}</span>
-                            <strong>{formatKnowledgeDisplayTitle(activeRelatedKnowledge.title)}</strong>
-                            <small>{activeRelatedKnowledge.categoryTitle}</small>
-                          </div>
-                        </div>
-
-                        <div className="quiz-related-panel__content markdown-content">
-                          {knowledgeLoading && (
-                            <div className="knowledge-section-status">
-                              {language === 'vi' ? 'Đang tải nội dung...' : 'Loading content...'}
-                            </div>
-                          )}
-                          {!knowledgeLoading && knowledgeError && (
-                            <div className="knowledge-section-status knowledge-section-status--error">
-                              {knowledgeError}
-                            </div>
-                          )}
-                          {!knowledgeLoading && !knowledgeError && knowledgeMarkdown !== undefined && (
-                            <MermaidMarkdown>{knowledgeMarkdown}</MermaidMarkdown>
-                          )}
-                        </div>
-                      </>
-                    ) : null}
-                  </div>
-                )}
-              </>
+              <div className="interview-answer">
+                <div className="markdown-content"><MermaidMarkdown>{question.answer}</MermaidMarkdown></div>
+              </div>
             )}
+            <details className="assessment-related assessment-related--interview">
+              <summary>{language === 'vi' ? 'Kiến thức liên quan' : 'Related knowledge'}</summary>
+              <RelatedKnowledgeList related={question.readmeRelated} knowledgeIndex={knowledgeIndex}
+                onNavigateToKnowledge={onNavigateToKnowledge} />
+            </details>
           </article>
         );
       })}

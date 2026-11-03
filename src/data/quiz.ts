@@ -77,12 +77,12 @@ function parseReadmeRelated(value: unknown, path: string) {
   if (!isRecord(value)) {
     throw new Error(`Invalid Quiz value at ${path}: expected an object.`);
   }
-  // Group assessments retain anchorList; multi-link UI is a separate phase.
+  // Group assessments retain the full STEP 7 anchorList for multi-link UI.
   if (Array.isArray(value.anchorList)) {
     if (!value.anchorList.every((anchor) => typeof anchor === 'string')) {
       throw new Error(`Invalid Quiz value at ${path}.anchorList.`);
     }
-    return { file: '', anchor: '' };
+    return { file: '', anchor: '', anchorList: [...value.anchorList] as string[] };
   }
 
   return {

@@ -274,6 +274,7 @@ export interface QuizAnswer {
 export interface QuizReadmeRelated {
   file: string;
   anchor: string;
+  anchorList?: string[];
 }
 
 export interface QuizQuestion {

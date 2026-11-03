@@ -41,6 +41,7 @@ interface KnowledgePanelProps {
   searchQuery: string;
   activeCategoryId: string;
   selectedSectionId: string | null;
+  navigationRequestKey?: number;
   videoIndexPath?: string;
   summaryIndexPath?: string;
   onCategoryChange: (categoryId: string) => void;
@@ -55,6 +56,7 @@ export function KnowledgePanel({
   searchQuery,
   activeCategoryId,
   selectedSectionId,
+  navigationRequestKey = 0,
   videoIndexPath,
   summaryIndexPath,
   onCategoryChange,
@@ -105,6 +107,15 @@ export function KnowledgePanel({
   const hoveredCategory = categories.find((category) => category.id === hoveredCategoryId);
   const selectedSectionExpanded = selectedSectionId !== null && expandedSectionIds.has(selectedSectionId);
   const selectedSection = allSections.find((section) => section.id === selectedSectionId);
+
+  // Following a related-lesson link must scroll even if the same lesson was
+  // selected before the reader switched back to an assessment tab.
+  useEffect(() => {
+    if (!navigationRequestKey) return;
+    manuallyExpandedSectionRef.current = null;
+    autoScrollCancelledRef.current = false;
+    setNavigationSerial((value) => value + 1);
+  }, [navigationRequestKey]);
   const selectedSectionSettled = selectedSection === undefined
     || ((contentCache[selectedSection.content] !== undefined
       || (selectedSectionId !== null && sectionErrors[selectedSectionId] !== undefined))
@@ -275,7 +286,7 @@ export function KnowledgePanel({
       next.add(selectedSectionId);
       return next;
     });
-  }, [selectedSectionId, allSections]);
+  }, [selectedSectionId, allSections, navigationRequestKey]);
 
   useEffect(() => {
     const sectionsToLoad = allSections.filter((section) => (

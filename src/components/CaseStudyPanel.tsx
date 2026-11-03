@@ -7,6 +7,7 @@ import {
   type CaseStudyItem,
 } from '../data/casestudy';
 import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
+import { QuestionReadingFrame } from './ReadingFullscreen';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { useLanguage } from '../state/LanguageContext';
 
@@ -61,6 +62,7 @@ export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
   if (!chapters.length) return <div className="empty-state"><strong>{language === 'vi' ? 'Case Study chưa có dữ liệu' : 'No Case Study data yet'}</strong></div>;
 
   return (
+    <QuestionReadingFrame>
     <div className="question-chapter-content">
       <QuestionChapterPicker kind="casestudy" chapters={chapters} mode={mode}
         selectedId={selected?.id ?? null} onSelect={selectChapter} />
@@ -162,6 +164,7 @@ export function CaseStudyPanel({ path, explorerUrl }: CaseStudyPanelProps) {
         </section>
       )}
     </div>
+    </QuestionReadingFrame>
   );
 }
 

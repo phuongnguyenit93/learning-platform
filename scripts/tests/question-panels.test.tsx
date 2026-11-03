@@ -73,6 +73,7 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
   };
   try {
     await render('quiz');
+    assert.equal(container.querySelector('.reading-fullscreen-button')?.textContent?.trim(), 'Toàn màn hình');
     assert.match(container.textContent ?? '', /Question first/);
     assert.equal(container.querySelector('[class*="__governance"]'), null);
     assert.doesNotMatch(container.textContent ?? '', /Question second/);
@@ -89,6 +90,7 @@ test('Quiz and Interview choose only the selected chapter and keep their questio
     assert.doesNotMatch(container.textContent ?? '', /Related API/);
 
     await render('interview');
+    assert.equal(container.querySelector('.reading-fullscreen-button')?.textContent?.trim(), 'Toàn màn hình');
     assert.match(container.textContent ?? '', /Question first/);
     assert.equal(container.querySelector('[class*="__governance"]'), null);
     await act(async () => { button('Câu trả lời tham khảo').click(); });
@@ -144,6 +146,7 @@ test('Case Study shows knowledge first and reveals hints and analysis independen
     await act(async () => root.render(
       <LanguageProvider><CaseStudyPanel path="/module/ASPECT/casestudy/vi/index.json" /></LanguageProvider>,
     ));
+    assert.equal(container.querySelector('.reading-fullscreen-button')?.textContent?.trim(), 'Toàn màn hình');
     assert.match(container.textContent ?? '', /First situation/);
     assert.match(container.textContent ?? '', /Kiến thức áp dụng/);
     assert.match(container.textContent ?? '', /SRP/);

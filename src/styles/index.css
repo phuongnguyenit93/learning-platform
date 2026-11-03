@@ -7020,11 +7020,12 @@ body:has(.app-shell--module-viewport) #root {
   top: var(--knowledge-lesson-top, 0px);
 }
 
-/* Knowledge reads in the whole right pane. The site header and the Java
-   Overview/Knowledge switch remain outside this scroll viewport; the module
-   heading, search and content tabs now scroll away above the lesson list. */
-.app-shell--module-viewport .learning-main--knowledge-reading {
+/* Four reading tabs scroll the whole right pane. Removing the original top
+   padding from the scroll viewport fixes the sticky gap where lesson content
+   could appear above the chapter navigation. */
+.app-shell--module-viewport .learning-main--reading {
   display: block;
+  padding-top: 0;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior-y: contain;
@@ -7032,12 +7033,16 @@ body:has(.app-shell--module-viewport) #root {
   scrollbar-width: thin;
 }
 
-.app-shell--module-viewport .learning-main--knowledge-reading .learning-content {
+.app-shell--module-viewport .learning-main--reading > .learning-main__topline {
+  margin-top: 28px;
+}
+
+.app-shell--module-viewport .learning-main--reading .learning-content {
   display: block;
   overflow: visible;
 }
 
-.app-shell--module-viewport .learning-main--knowledge-reading .learning-tab-panel:not(.learning-tab-panel--inactive) {
+.app-shell--module-viewport .learning-main--reading .learning-tab-panel:not(.learning-tab-panel--inactive) {
   height: auto;
   min-height: 0;
   overflow: visible;
@@ -7049,7 +7054,7 @@ body:has(.app-shell--module-viewport) #root {
 .knowledge-sticky-controls {
   position: sticky;
   top: 0;
-  z-index: 70;
+  z-index: 90;
   margin-bottom: 12px;
   background: var(--layout-bg);
 }
@@ -7061,40 +7066,62 @@ body:has(.app-shell--module-viewport) #root {
   padding-bottom: 0;
 }
 
-.knowledge-reader-toolbar {
+.reading-fullscreen-toolbar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  height: 38px;
-  padding: 0 8px;
+  justify-content: center;
+  min-height: 42px;
+  padding: 4px 8px;
   border-bottom: 1px solid var(--border);
   background: var(--layout-bg);
 }
 
-.knowledge-reader-toolbar__fullscreen {
-  display: grid;
-  place-items: center;
-  width: 30px;
-  height: 30px;
-  padding: 0;
+.reading-fullscreen-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 30px;
+  padding: 4px 14px;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--surface-raised);
   color: var(--text-soft);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
   cursor: pointer;
 }
 
-.knowledge-reader-toolbar__fullscreen:hover,
-.knowledge-reader-toolbar__fullscreen:focus-visible {
+.reading-fullscreen-button:hover,
+.reading-fullscreen-button:focus-visible {
   color: var(--text);
   background: var(--surface-hover);
   border-color: var(--border-strong);
 }
 
-/* Request browser fullscreen for Knowledge only, with a fixed-page fallback
-   on browsers that do not support fullscreen for arbitrary elements. */
-.knowledge-panel:fullscreen,
-.knowledge-panel.is-focus-mode {
+/* Quiz, Interview and Case Study retain their chapter picker in the fullscreen
+   surface; its toolbar stays above the questions when scrolling either way. */
+.question-reading-frame {
+  min-width: 0;
+  overflow: visible;
+}
+
+.question-reading-frame__sticky {
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  margin-bottom: 14px;
+  background: var(--layout-bg);
+}
+
+.app-shell--module-viewport .learning-main--reading .question-chapter-picker {
+  top: 56px;
+}
+
+/* Browser fullscreen is preferred; focus mode is the mobile fallback. */
+.reading-fullscreen-surface:fullscreen,
+.reading-fullscreen-surface.is-focus-mode {
   position: fixed;
   inset: 0;
   box-sizing: border-box;
@@ -7112,7 +7139,7 @@ body:has(.app-shell--module-viewport) #root {
   background: var(--layout-bg);
 }
 
-.knowledge-panel.is-focus-mode {
+.reading-fullscreen-surface.is-focus-mode {
   z-index: 1000;
 }
 
@@ -7126,6 +7153,18 @@ body:has(.app-shell--module-viewport) #root {
   width: 100%;
   max-width: 1600px;
   margin-inline: auto;
+}
+
+@media (max-width: 1100px) {
+  .app-shell--module-viewport .learning-main--reading .question-chapter-picker {
+    position: static;
+  }
+}
+
+@media (max-width: 820px) {
+  .app-shell--module-viewport .learning-main--reading > .learning-main__topline {
+    margin-top: 20px;
+  }
 }
 
 @media (max-width: 820px) {

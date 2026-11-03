@@ -4,6 +4,7 @@ import { Window } from 'happy-dom';
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { KnowledgePanel } from '../../src/components/KnowledgePanel';
+import { QuestionReadingFrame } from '../../src/components/ReadingFullscreen';
 import { LanguageProvider } from '../../src/state/LanguageContext';
 import type { KnowledgeIndex } from '../../src/types/learning';
 
@@ -56,20 +57,20 @@ test('Knowledge fullscreen controls stay with the category navigation and can ex
     const sticky = panel.querySelector('.knowledge-sticky-controls');
     assert.ok(sticky);
     assert.equal(sticky.children[0].className, 'knowledge-topic-nav');
-    assert.equal(sticky.children[1].className, 'knowledge-reader-toolbar');
+    assert.equal(sticky.children[1].className, 'reading-fullscreen-toolbar');
     assert.equal((sticky as HTMLElement).style.top, '0px');
 
     // Simulate mobile browsers without native element fullscreen support.
     Object.defineProperty(panel, 'requestFullscreen', { configurable: true, value: undefined });
-    const button = panel.querySelector<HTMLButtonElement>('.knowledge-reader-toolbar__fullscreen');
+    const button = panel.querySelector<HTMLButtonElement>('.reading-fullscreen-button');
     assert.ok(button);
-    assert.match(button.getAttribute('aria-label') ?? '', /Phóng toàn màn hình/);
+    assert.equal(button.textContent?.trim(), 'Toàn màn hình');
     await act(async () => button.click());
     assert.ok(panel.classList.contains('is-focus-mode'));
     assert.match(button.getAttribute('aria-label') ?? '', /Thoát toàn màn hình/);
     await act(async () => browser.dispatchEvent(new browser.KeyboardEvent('keydown', { key: 'Escape' })));
     assert.equal(panel.classList.contains('is-focus-mode'), false);
-    assert.match(button.getAttribute('aria-label') ?? '', /Phóng toàn màn hình/);
+    assert.equal(button.textContent?.trim(), 'Toàn màn hình');
 
     // Desktop path: native fullscreenchange updates the toolbar in both directions.
     Object.defineProperty(panel, 'requestFullscreen', { configurable: true, value: async () => {
@@ -83,7 +84,29 @@ test('Knowledge fullscreen controls stay with the category navigation and can ex
     await act(async () => button.click());
     assert.match(button.getAttribute('aria-label') ?? '', /Thoát toàn màn hình/);
     await act(async () => button.click());
-    assert.match(button.getAttribute('aria-label') ?? '', /Phóng toàn màn hình/);
+    assert.equal(button.textContent?.trim(), 'Toàn màn hình');
+
+    // The same fullscreen toolbar is used by question-based reading tabs.
+    await act(async () => root.render(
+      <LanguageProvider>
+        <div className="learning-main learning-main--reading">
+          <div className="learning-tab-panel">
+            <QuestionReadingFrame><article>Quiz content remains mounted</article></QuestionReadingFrame>
+          </div>
+        </div>
+      </LanguageProvider>,
+    ));
+    const questionFrame = host.querySelector<HTMLElement>('.question-reading-frame');
+    assert.ok(questionFrame);
+    assert.ok(questionFrame.querySelector('.question-reading-frame__sticky .reading-fullscreen-toolbar'));
+    const questionButton = questionFrame.querySelector<HTMLButtonElement>('.reading-fullscreen-button');
+    assert.ok(questionButton);
+    Object.defineProperty(questionFrame, 'requestFullscreen', { configurable: true, value: undefined });
+    await act(async () => questionButton.click());
+    assert.ok(questionFrame.classList.contains('is-focus-mode'));
+    assert.match(questionFrame.textContent ?? '', /Quiz content remains mounted/);
+    await act(async () => browser.dispatchEvent(new browser.KeyboardEvent('keydown', { key: 'Escape' })));
+    assert.equal(questionFrame.classList.contains('is-focus-mode'), false);
   } finally {
     await act(async () => root.unmount());
     await browser.happyDOM.abort();

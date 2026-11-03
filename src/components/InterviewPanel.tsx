@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { MermaidMarkdown } from './MermaidMarkdown';
 import { loadInterviewDocument } from '../data/interview';
 import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionChapterPicker';
+import { QuestionReadingFrame } from './ReadingFullscreen';
 import { fetchJavaAsset } from '../data/javaAsset';
 import { buildQuestionKnowledgeResolver, formatKnowledgeDisplayTitle } from '../data/knowledge';
 import { useLanguage } from '../state/LanguageContext';
@@ -195,6 +196,7 @@ export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
   }
 
   return (
+    <QuestionReadingFrame>
     <div className="question-chapter-content">
       <QuestionChapterPicker kind="interview" chapters={chapters} mode={mode} selectedId={selected?.id ?? null} onSelect={selectChapter} />
       {(loading || loadedPath !== documentPath) ? (
@@ -323,6 +325,7 @@ export function InterviewPanel({ path, knowledgeIndex }: InterviewPanelProps) {
     </section>
       )}
     </div>
+    </QuestionReadingFrame>
   );
 }
 

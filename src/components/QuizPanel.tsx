@@ -13,6 +13,7 @@ import type {
   QuizQuestion,
 } from '../types/learning';
 import { CustomTooltip } from './CustomTooltip';
+import { QuestionReadingFrame } from './ReadingFullscreen';
 
 interface QuizPanelProps {
   path?: string;
@@ -220,6 +221,7 @@ export function QuizPanel({ path, knowledgeIndex }: QuizPanelProps) {
   }
 
   return (
+    <QuestionReadingFrame>
     <div className="question-chapter-content">
       <QuestionChapterPicker kind="quiz" chapters={chapters} mode={mode} selectedId={selected?.id ?? null} onSelect={selectChapter} />
       {(loading || loadedPath !== documentPath) ? (
@@ -364,6 +366,7 @@ export function QuizPanel({ path, knowledgeIndex }: QuizPanelProps) {
     </section>
       )}
     </div>
+    </QuestionReadingFrame>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { KnowledgePanel } from '../components/KnowledgePanel';
 import { InterviewPanel } from '../components/InterviewPanel';
@@ -23,6 +23,8 @@ import { loadKnowledgeIndex } from '../data/knowledge';
 import { resolveModuleStats } from '../data/moduleStats';
 import { useLanguage } from '../state/LanguageContext';
 import type { KnowledgeIndex, ModuleCatalog, ModuleCatalogNode } from '../types/learning';
+
+const readingTabs = new Set<ModuleTab>(['knowledge', 'quiz', 'interview', 'casestudy']);
 
 export function LearningPage() {
   const { moduleId } = useParams();
@@ -59,7 +61,16 @@ export function LearningPage() {
   const [knowledgeError, setKnowledgeError] = useState<string | null>(null);
   const [activeKnowledgeCategory, setActiveKnowledgeCategory] = useState('all');
   const [selectedKnowledgeSection, setSelectedKnowledgeSection] = useState<string | null>(null);
+  const mainRef = useRef<HTMLElement>(null);
+  const readingScrollPositions = useRef<Partial<Record<ModuleTab, number>>>({});
+  const readingTabActive = readingTabs.has(activeTab);
   const routeSearchKey = routeSearchParams.toString();
+
+  useLayoutEffect(() => {
+    if (readingTabActive && mainRef.current) {
+      mainRef.current.scrollTop = readingScrollPositions.current[activeTab] ?? 0;
+    }
+  }, [activeTab, moduleId, readingTabActive]);
 
   useEffect(() => {
     let active = true;
@@ -222,6 +233,8 @@ export function LearningPage() {
     setSearchQuery('');
     setActiveKnowledgeCategory('all');
     setSelectedKnowledgeSection(null);
+    readingScrollPositions.current = {};
+    if (mainRef.current) mainRef.current.scrollTop = 0;
     setVisitedTabs(new Set<ModuleTab>([activeTab]));
   }, [activeModule?.id]);
 
@@ -349,7 +362,10 @@ export function LearningPage() {
         </button>
       )}
 
-      <section className={`learning-main${activeTab === 'knowledge' ? ' learning-main--knowledge-reading' : ''}`}>
+      <section ref={mainRef} className={`learning-main${readingTabActive ? ' learning-main--reading' : ''}`}
+        onScroll={(event) => {
+          if (readingTabActive) readingScrollPositions.current[activeTab] = event.currentTarget.scrollTop;
+        }}>
         <div className="learning-main__topline">
           <div>
             <span className="eyebrow">{activeModule.path.join(' / ')}</span>

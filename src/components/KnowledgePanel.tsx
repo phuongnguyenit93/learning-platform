@@ -349,9 +349,11 @@ export function KnowledgePanel({
       if (scroller) {
         // The reading pane owns the scroll. Account for both sticky rows so
         // navigating to a lesson never hides its heading behind the controls.
+        const stickyClearance = Number.parseFloat(
+          panelRef.current?.style.getPropertyValue('--knowledge-lesson-top') ?? '',
+        ) || (stickyControlsRef.current?.getBoundingClientRect().height ?? topicNav.getBoundingClientRect().height);
         scroller.scrollTop += section.getBoundingClientRect().top
-          - scroller.getBoundingClientRect().top
-          - (stickyControlsRef.current?.getBoundingClientRect().height ?? topicNav.getBoundingClientRect().height) - 12;
+          - scroller.getBoundingClientRect().top - stickyClearance - 12;
         return;
       }
 
@@ -403,9 +405,11 @@ export function KnowledgePanel({
       if (getReadingScroller(panelRef.current)) {
         // Reading mode and fullscreen scroll inside their own viewport.
         moduleTabs.style.removeProperty('top');
-        stickyControls.style.top = '0px';
+        const fullscreenTabsHeight = panelRef.current?.closest('.learning-main--reading-fullscreen')
+          ? moduleTabs.getBoundingClientRect().height : 0;
+        stickyControls.style.top = `${fullscreenTabsHeight}px`;
         panelRef.current?.style.setProperty(
-          '--knowledge-lesson-top', `${stickyControls.getBoundingClientRect().height}px`,
+          '--knowledge-lesson-top', `${fullscreenTabsHeight + stickyControls.getBoundingClientRect().height}px`,
         );
         return;
       }

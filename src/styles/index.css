@@ -7119,6 +7119,65 @@ body:has(.app-shell--module-viewport) #root {
   top: 56px;
 }
 
+/* Fullscreen is owned by the shared module reading pane, not an individual
+   lesson or question. Keep the four reading tabs available when navigating. */
+.app-shell--module-viewport .learning-main--reading-fullscreen {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  padding: 0 16px 48px;
+  background: var(--layout-bg);
+  --reading-tabs-height: 48px;
+}
+
+.app-shell--module-viewport .learning-main--fullscreen-focus {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.app-shell--module-viewport .learning-main--reading-fullscreen > .learning-main__topline,
+.app-shell--module-viewport .learning-main--reading-fullscreen > .learning-search {
+  display: none;
+}
+
+.app-shell--module-viewport .learning-main--reading-fullscreen .module-tab-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 120;
+  background: var(--layout-bg);
+}
+
+.app-shell--module-viewport .learning-main--reading-fullscreen .module-tabs-row {
+  margin-bottom: 0;
+}
+
+.app-shell--module-viewport .learning-main--reading-fullscreen .module-tabs__button--overview,
+.app-shell--module-viewport .learning-main--reading-fullscreen .module-tabs__button--roadmap,
+.app-shell--module-viewport .learning-main--reading-fullscreen .module-tabs__button--reference,
+.app-shell--module-viewport .learning-main--reading-fullscreen .module-tabs__button--execution,
+.app-shell--module-viewport .learning-main--reading-fullscreen .module-tabs__button--feedback {
+  display: none;
+}
+
+.app-shell--module-viewport .learning-main--reading-fullscreen .knowledge-sticky-controls,
+.app-shell--module-viewport .learning-main--reading-fullscreen .question-reading-frame__sticky {
+  top: var(--reading-tabs-height);
+}
+
+.app-shell--module-viewport .learning-main--reading-fullscreen .question-chapter-picker {
+  top: calc(var(--reading-tabs-height) + 56px);
+}
+
+.app-shell--module-viewport .learning-main--reading-fullscreen .learning-content {
+  width: 100%;
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
 /* Browser fullscreen is preferred; focus mode is the mobile fallback. */
 .reading-fullscreen-surface:fullscreen,
 .reading-fullscreen-surface.is-focus-mode {

@@ -1,7 +1,119 @@
-import { useEffect, useRef, useState, type PropsWithChildren } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, type PropsWithChildren, type RefObject } from 'react';
 import { useLanguage } from '../state/LanguageContext';
 
 type FullscreenMode = 'native' | 'focus' | null;
+
+type ReadingFullscreenControls = {
+  fullscreenMode: FullscreenMode;
+  toggleFullscreen: () => void;
+};
+
+/** Fullscreen lives on the shared module pane, keeping tab navigation mounted
+ * and interactive while readers switch Knowledge / Quiz / Interview / Cases. */
+export const ReadingFullscreenContext = createContext<ReadingFullscreenControls | null>(null);
+
+function getActiveReadingPanel(main: HTMLElement): HTMLElement | null {
+  return main.querySelector<HTMLElement>(
+    '.learning-tab-panel:not(.learning-tab-panel--inactive) .reading-fullscreen-surface',
+  );
+}
+
+function readingOffset(main: HTMLElement): number {
+  const panel = getActiveReadingPanel(main);
+  if (!panel) return 0;
+  return Math.max(0, main.getBoundingClientRect().top - panel.getBoundingClientRect().top);
+}
+
+function alignReadingPosition(main: HTMLElement, offset: number, fullscreen: boolean): void {
+  const panel = getActiveReadingPanel(main);
+  if (!panel) return;
+  const tabsHeight = fullscreen
+    ? (main.querySelector<HTMLElement>('.module-tab-wrapper')?.getBoundingClientRect().height ?? 0)
+    : 0;
+  main.scrollTop += panel.getBoundingClientRect().top
+    - main.getBoundingClientRect().top + offset - tabsHeight;
+}
+
+export function useModuleReadingFullscreen(mainRef: RefObject<HTMLElement | null>): ReadingFullscreenControls {
+  const [fullscreenMode, setFullscreenMode] = useState<FullscreenMode>(null);
+  const modeRef = useRef<FullscreenMode>(null);
+  const offsetRef = useRef(0);
+
+  const toggleFullscreen = () => {
+    const main = mainRef.current;
+    if (!main || !main.classList.contains('learning-main--reading')) return;
+    if (document.fullscreenElement === main) {
+      void document.exitFullscreen();
+      return;
+    }
+    if (modeRef.current === 'focus') {
+      const offset = readingOffset(main);
+      modeRef.current = null;
+      setFullscreenMode(null);
+      window.requestAnimationFrame(() => alignReadingPosition(main, offset, false));
+      return;
+    }
+
+    offsetRef.current = readingOffset(main);
+    const activateFocusMode = () => {
+      modeRef.current = 'focus';
+      setFullscreenMode('focus');
+      window.requestAnimationFrame(() => alignReadingPosition(main, offsetRef.current, true));
+    };
+    if (typeof main.requestFullscreen === 'function') {
+      void main.requestFullscreen().catch(activateFocusMode);
+    } else {
+      activateFocusMode();
+    }
+  };
+
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      const main = mainRef.current;
+      if (!main) return;
+      if (document.fullscreenElement === main) {
+        modeRef.current = 'native';
+        setFullscreenMode('native');
+        window.requestAnimationFrame(() => alignReadingPosition(main, offsetRef.current, true));
+      } else if (modeRef.current === 'native') {
+        modeRef.current = null;
+        setFullscreenMode(null);
+        window.requestAnimationFrame(() => alignReadingPosition(main, offsetRef.current, false));
+      }
+    };
+    const trackReading = (event: Event) => {
+      const main = mainRef.current;
+      if (main && event.target === main && modeRef.current) {
+        offsetRef.current = readingOffset(main);
+      }
+    };
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    // The module pane can mount after the catalog finishes loading. Capture
+    // scroll on document so it still works when the ref was null at mount.
+    document.addEventListener('scroll', trackReading, { capture: true, passive: true });
+    return () => {
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.removeEventListener('scroll', trackReading, true);
+    };
+  }, [mainRef]);
+
+  useEffect(() => {
+    if (fullscreenMode !== 'focus') return;
+    const onEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      const main = mainRef.current;
+      if (!main) return;
+      const offset = readingOffset(main);
+      modeRef.current = null;
+      setFullscreenMode(null);
+      window.requestAnimationFrame(() => alignReadingPosition(main, offset, false));
+    };
+    window.addEventListener('keydown', onEscape);
+    return () => window.removeEventListener('keydown', onEscape);
+  }, [fullscreenMode, mainRef]);
+
+  return { fullscreenMode, toggleFullscreen };
+}
 
 /** All four reading tabs scroll the main pane; fullscreen owns its own scroll. */
 export function getReadingScroller(panel: HTMLElement | null): HTMLElement | null {
@@ -20,6 +132,7 @@ function restoreReadingScroll(panel: HTMLElement, offsetWithinPanel: number): vo
 }
 
 export function useReadingFullscreen(ready = true) {
+  const shared = useContext(ReadingFullscreenContext);
   const panelRef = useRef<HTMLElement>(null);
   const [fullscreenMode, setFullscreenMode] = useState<FullscreenMode>(null);
   const readingOffsetRef = useRef(0);
@@ -34,6 +147,10 @@ export function useReadingFullscreen(ready = true) {
   };
 
   const toggleFullscreen = () => {
+    if (shared) {
+      shared.toggleFullscreen();
+      return;
+    }
     const panel = panelRef.current;
     if (!panel) return;
     if (document.fullscreenElement === panel) {
@@ -62,6 +179,7 @@ export function useReadingFullscreen(ready = true) {
   };
 
   useEffect(() => {
+    if (shared) return;
     const panel = panelRef.current;
     if (!panel) return;
     const onFullscreenChange = () => {
@@ -85,18 +203,18 @@ export function useReadingFullscreen(ready = true) {
       document.removeEventListener('fullscreenchange', onFullscreenChange);
       panel.removeEventListener('scroll', rememberFullscreenScroll);
     };
-  }, [ready]);
+  }, [ready, shared]);
 
   useEffect(() => {
-    if (fullscreenMode !== 'focus') return;
+    if (shared || fullscreenMode !== 'focus') return;
     const onEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') exitFocusMode();
     };
     window.addEventListener('keydown', onEscape);
     return () => window.removeEventListener('keydown', onEscape);
-  }, [fullscreenMode]);
+  }, [fullscreenMode, shared]);
 
-  return { panelRef, fullscreenMode, toggleFullscreen };
+  return { panelRef, fullscreenMode: shared?.fullscreenMode ?? fullscreenMode, toggleFullscreen };
 }
 
 export function ReadingFullscreenToolbar({ fullscreenMode, onToggle }: {

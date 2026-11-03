@@ -9,6 +9,7 @@ import { ModuleSidebar } from '../components/ModuleSidebar';
 import { ModuleTabs, type ModuleTab } from '../components/ModuleTabs';
 import { OverviewPanel } from '../components/OverviewPanel';
 import { QuizPanel } from '../components/QuizPanel';
+import { ReadingFullscreenContext, useModuleReadingFullscreen } from '../components/ReadingFullscreen';
 import { ReferencePanel } from '../components/ReferencePanel';
 import { RoadmapPanel } from '../components/RoadmapPanel';
 import {
@@ -62,6 +63,7 @@ export function LearningPage() {
   const [activeKnowledgeCategory, setActiveKnowledgeCategory] = useState('all');
   const [selectedKnowledgeSection, setSelectedKnowledgeSection] = useState<string | null>(null);
   const mainRef = useRef<HTMLElement>(null);
+  const readingFullscreen = useModuleReadingFullscreen(mainRef);
   const readingScrollPositions = useRef<Partial<Record<ModuleTab, number>>>({});
   const readingTabActive = readingTabs.has(activeTab);
   const routeSearchKey = routeSearchParams.toString();
@@ -362,7 +364,8 @@ export function LearningPage() {
         </button>
       )}
 
-      <section ref={mainRef} className={`learning-main${readingTabActive ? ' learning-main--reading' : ''}`}
+      <ReadingFullscreenContext.Provider value={readingFullscreen}>
+      <section ref={mainRef} className={`learning-main${readingTabActive ? ' learning-main--reading' : ''}${readingFullscreen.fullscreenMode ? ' learning-main--reading-fullscreen' : ''}${readingFullscreen.fullscreenMode === 'focus' ? ' learning-main--fullscreen-focus' : ''}`}
         onScroll={(event) => {
           if (readingTabActive) readingScrollPositions.current[activeTab] = event.currentTarget.scrollTop;
         }}>
@@ -537,6 +540,7 @@ export function LearningPage() {
           )}
         </div>
       </section>
+      </ReadingFullscreenContext.Provider>
     </main>
   );
 }

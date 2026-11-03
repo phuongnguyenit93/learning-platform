@@ -33,6 +33,21 @@ function resolveDifficultyLabel(difficulty: KnowledgeDifficulty, language: 'vi' 
   return language === 'vi' ? 'CƠ BẢN' : 'BASIC';
 }
 
+function getKnowledgeScroller(panel: HTMLElement | null): HTMLElement | null {
+  if (!panel) return null;
+  if (document.fullscreenElement === panel || panel.classList.contains('is-focus-mode')) return panel;
+  return panel.closest<HTMLElement>('.learning-main--knowledge-reading')
+    ?? panel.closest<HTMLElement>('.learning-tab-panel');
+}
+
+function restoreKnowledgeScroll(panel: HTMLElement, offsetWithinPanel: number): void {
+  const scroller = panel.closest<HTMLElement>('.learning-main--knowledge-reading')
+    ?? panel.closest<HTMLElement>('.learning-tab-panel');
+  if (!scroller) return;
+  scroller.scrollTop += panel.getBoundingClientRect().top
+    - scroller.getBoundingClientRect().top + offsetWithinPanel;
+}
+
 interface KnowledgePanelProps {
   index: KnowledgeIndex | null;
   loading: boolean;
@@ -79,11 +94,15 @@ export function KnowledgePanel({
   const [navigationSerial, setNavigationSerial] = useState(0);
   const [hoveredCategoryId, setHoveredCategoryId] = useState<string | null>(null);
   const [hoverMenuLeft, setHoverMenuLeft] = useState(8);
+  const [fullscreenMode, setFullscreenMode] = useState<'native' | 'focus' | null>(null);
   const manuallyExpandedSectionRef = useRef<string | null>(null);
   const lastNavigationKeyRef = useRef<string | null>(null);
   const autoScrollCancelledRef = useRef(false);
   const topicNavRef = useRef<HTMLDivElement>(null);
+  const stickyControlsRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLElement>(null);
+  const fullscreenScrollRef = useRef(0);
+  const nativeFullscreenRef = useRef(false);
   const summaryEnteredStickyRef = useRef(false);
   const topicStripRef = useRef<HTMLDivElement>(null);
   const topicButtonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -162,6 +181,69 @@ export function KnowledgePanel({
   const visibleSectionNumberById = useMemo(() => new Map(
     visibleSections.map((section, indexInList) => [section.id, indexInList + 1]),
   ), [visibleSections]);
+
+  const toggleFullscreen = () => {
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    if (document.fullscreenElement === panel) {
+      void document.exitFullscreen();
+      return;
+    }
+    if (fullscreenMode === 'focus') {
+      const offset = panel.scrollTop;
+      setFullscreenMode(null);
+      window.requestAnimationFrame(() => restoreKnowledgeScroll(panel, offset));
+      return;
+    }
+
+    const scroller = getKnowledgeScroller(panel);
+    fullscreenScrollRef.current = scroller
+      ? Math.max(0, scroller.getBoundingClientRect().top - panel.getBoundingClientRect().top)
+      : 0;
+
+    const activateFocusMode = () => {
+      setFullscreenMode('focus');
+      window.requestAnimationFrame(() => { panel.scrollTop = fullscreenScrollRef.current; });
+    };
+
+    if (typeof panel.requestFullscreen === 'function') {
+      void panel.requestFullscreen().catch(activateFocusMode);
+    } else {
+      activateFocusMode();
+    }
+  };
+
+  useEffect(() => {
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const onFullscreenChange = () => {
+      if (document.fullscreenElement === panel) {
+        nativeFullscreenRef.current = true;
+        setFullscreenMode('native');
+        window.requestAnimationFrame(() => { panel.scrollTop = fullscreenScrollRef.current; });
+      } else if (nativeFullscreenRef.current) {
+        nativeFullscreenRef.current = false;
+        // Leaving native fullscreen can reset panel.scrollTop before this
+        // event fires, so use the last observed reading position.
+        const offset = fullscreenScrollRef.current;
+        setFullscreenMode(null);
+        window.requestAnimationFrame(() => restoreKnowledgeScroll(panel, offset));
+      }
+    };
+
+    const rememberFullscreenScroll = () => {
+      if (document.fullscreenElement === panel) fullscreenScrollRef.current = panel.scrollTop;
+    };
+
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    panel.addEventListener('scroll', rememberFullscreenScroll, { passive: true });
+    return () => {
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      panel.removeEventListener('scroll', rememberFullscreenScroll);
+    };
+  }, [index?.moduleId, loading]);
 
   const videoByCategoryId = useMemo(() => new Map(
     (videoIndex?.items ?? []).map((item) => [item.categoryId, item]),
@@ -343,19 +425,19 @@ export function KnowledgePanel({
       const topicNav = topicNavRef.current;
       if (!section || !topicNav) return;
 
-      const tabScroller = section.closest<HTMLElement>('.learning-tab-panel');
-      if (tabScroller) {
-        // Module tabs scroll independently from the page. Keep the selected
-        // lesson just beneath the sticky Knowledge category navigation.
-        tabScroller.scrollTop += section.getBoundingClientRect().top
-          - tabScroller.getBoundingClientRect().top
-          - topicNav.getBoundingClientRect().height - 12;
+      const scroller = getKnowledgeScroller(panelRef.current);
+      if (scroller) {
+        // The reading pane owns the scroll. Account for both sticky rows so
+        // navigating to a lesson never hides its heading behind the controls.
+        scroller.scrollTop += section.getBoundingClientRect().top
+          - scroller.getBoundingClientRect().top
+          - (stickyControlsRef.current?.getBoundingClientRect().height ?? topicNav.getBoundingClientRect().height) - 12;
         return;
       }
 
       const headerHeight = document.querySelector<HTMLElement>('.topbar')?.getBoundingClientRect().height ?? 0;
       const moduleTabsHeight = document.querySelector<HTMLElement>('.module-tab-wrapper')?.getBoundingClientRect().height ?? 0;
-      const topicNavHeight = topicNav.getBoundingClientRect().height;
+      const topicNavHeight = stickyControlsRef.current?.getBoundingClientRect().height ?? topicNav.getBoundingClientRect().height;
       const visibleTop = headerHeight + moduleTabsHeight + topicNavHeight + 12;
 
       // Resolve the real DOM target by section id. Only the clearance above
@@ -392,17 +474,18 @@ export function KnowledgePanel({
 
   useEffect(() => {
     const topicNav = topicNavRef.current;
+    const stickyControls = stickyControlsRef.current;
     const header = document.querySelector<HTMLElement>('.topbar');
     const moduleTabs = document.querySelector<HTMLElement>('.module-tab-wrapper');
-    if (!topicNav || !moduleTabs) return;
+    if (!topicNav || !stickyControls || !moduleTabs) return;
 
     const updateStickyPositions = () => {
-      if (panelRef.current?.closest('.learning-tab-panel')) {
-        // The module header and tabs are outside the tab scroll viewport.
+      if (getKnowledgeScroller(panelRef.current)) {
+        // Reading mode and fullscreen scroll inside their own viewport.
         moduleTabs.style.removeProperty('top');
-        topicNav.style.top = '0px';
-        panelRef.current.style.setProperty(
-          '--knowledge-lesson-top', `${topicNav.getBoundingClientRect().height}px`,
+        stickyControls.style.top = '0px';
+        panelRef.current?.style.setProperty(
+          '--knowledge-lesson-top', `${stickyControls.getBoundingClientRect().height}px`,
         );
         return;
       }
@@ -410,10 +493,10 @@ export function KnowledgePanel({
       const headerHeight = header?.getBoundingClientRect().height ?? 0;
       const tabsHeight = moduleTabs.getBoundingClientRect().height;
       moduleTabs.style.top = `${headerHeight}px`;
-      topicNav.style.top = `${headerHeight + tabsHeight}px`;
+      stickyControls.style.top = `${headerHeight + tabsHeight}px`;
       panelRef.current?.style.setProperty(
         '--knowledge-lesson-top',
-        `${headerHeight + tabsHeight + topicNav.getBoundingClientRect().height}px`,
+        `${headerHeight + tabsHeight + stickyControls.getBoundingClientRect().height}px`,
       );
     };
 
@@ -421,23 +504,37 @@ export function KnowledgePanel({
     const resizeObserver = new ResizeObserver(updateStickyPositions);
     if (header) resizeObserver.observe(header);
     resizeObserver.observe(moduleTabs);
-    resizeObserver.observe(topicNav);
+    resizeObserver.observe(stickyControls);
     window.addEventListener('resize', updateStickyPositions);
 
     return () => {
       resizeObserver.disconnect();
       window.removeEventListener('resize', updateStickyPositions);
       moduleTabs.style.removeProperty('top');
-      topicNav.style.removeProperty('top');
+      stickyControls.style.removeProperty('top');
       panelRef.current?.style.removeProperty('--knowledge-lesson-top');
     };
-  }, []);
+  }, [fullscreenMode, index?.moduleId, loading]);
+
+  useEffect(() => {
+    if (fullscreenMode !== 'focus') return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      const panel = panelRef.current;
+      if (!panel) return;
+      const offset = panel.scrollTop;
+      setFullscreenMode(null);
+      window.requestAnimationFrame(() => restoreKnowledgeScroll(panel, offset));
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [fullscreenMode]);
 
   useEffect(() => {
     if (!openSummaryId) return;
     let frame = 0;
     summaryEnteredStickyRef.current = false;
-    const tabScroller = panelRef.current?.closest<HTMLElement>('.learning-tab-panel');
+    const tabScroller = getKnowledgeScroller(panelRef.current);
     const checkOwner = () => {
       frame = 0;
       const card = document.getElementById(`knowledge-section-${openSummaryId}`);
@@ -878,7 +975,8 @@ export function KnowledgePanel({
   }
 
   return (
-    <section className="knowledge-panel" ref={panelRef}>
+    <section className={`knowledge-panel${fullscreenMode === 'focus' ? ' is-focus-mode' : ''}`} ref={panelRef}>
+      <div className="knowledge-sticky-controls" ref={stickyControlsRef}>
       <div
         ref={topicNavRef}
         className="knowledge-topic-nav"
@@ -1022,6 +1120,31 @@ export function KnowledgePanel({
             </div>
           </div>
         )}
+      </div>
+      <div className="knowledge-reader-toolbar">
+        <button
+          type="button"
+          className="knowledge-reader-toolbar__fullscreen"
+          onClick={toggleFullscreen}
+          aria-pressed={Boolean(fullscreenMode)}
+          aria-label={fullscreenMode
+            ? (language === 'vi' ? 'Thoát toàn màn hình' : 'Exit fullscreen')
+            : (language === 'vi' ? 'Phóng toàn màn hình bài học' : 'Fullscreen reading mode')}
+          title={fullscreenMode
+            ? (language === 'vi' ? 'Thu nhỏ (Esc)' : 'Exit fullscreen (Esc)')
+            : (language === 'vi' ? 'Phóng toàn màn hình' : 'Fullscreen')}
+        >
+          {fullscreenMode ? (
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M9 3v6H3M15 21v-6h6M3 9l6-6M21 15l-6 6" />
+            </svg>
+          ) : (
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5" />
+            </svg>
+          )}
+        </button>
+      </div>
       </div>
 
       <div className="knowledge-list">

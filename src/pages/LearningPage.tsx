@@ -349,7 +349,7 @@ export function LearningPage() {
         </button>
       )}
 
-      <section className="learning-main">
+      <section className={`learning-main${activeTab === 'knowledge' ? ' learning-main--knowledge-reading' : ''}`}>
         <div className="learning-main__topline">
           <div>
             <span className="eyebrow">{activeModule.path.join(' / ')}</span>

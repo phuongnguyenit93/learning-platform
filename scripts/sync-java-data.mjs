@@ -16,7 +16,7 @@ const RELEASE = 'https://github.com/phuongnguyenit93/java-learning/releases/down
 const ZIP_NAME = 'java-learning-data.zip';
 const CHECKSUM_NAME = 'java-learning-data.zip.sha256';
 const ALLOWED_EXTENSIONS = new Set(['.json', '.yml', '.yaml', '.md']);
-const CODE_EXPLORER_JAVA = /^module\/[A-Z0-9_-]+\/code-explorer\/(?:casestudy\/groups\/[1-9]\d*\/cases\/[1-9]\d*\/)?files\/(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/;
+const CODE_EXPLORER_JAVA = /^module\/[A-Z0-9_-]+\/code-explorer\/casestudy\/groups\/[1-9]\d*\/cases\/[1-9]\d*\/files\/(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/;
 const MANAGED_NAMES = new Set(['module-catalog.json', 'module', 'search']);
 const MAX_DOWNLOAD_BYTES = 120 * 1024 * 1024;
 const MAX_EXTRACTED_BYTES = 300 * 1024 * 1024;
@@ -74,40 +74,7 @@ function countModules(node) {
 function verifyCodeExplorerFiles(files, catalog) {
   const claimed = new Set();
   function visit(node) {
-    if (node.kind === 'MODULE' && node.codeExplorer !== undefined) {
-      const route = node.routeId;
-      assert(/^[A-Z0-9_-]{1,128}$/.test(route), 'Invalid Code Explorer module routeId');
-      const prefix = `module/${route}/code-explorer/`;
-      assert(node.codeExplorer === `/${prefix}index.json`, `Invalid Code Explorer catalog path for ${route}`);
-      const encoded = files.get(`${prefix}index.json`);
-      assert(encoded, `Missing Code Explorer index for ${route}`);
-      let index;
-      try {
-        index = JSON.parse(decode(encoded));
-      } catch (error) {
-        throw new Error(`Invalid Code Explorer index for ${route}: ${error.message}`);
-      }
-      assert(index.version === 1 && index.type === 'CODE_EXPLORER'
-        && typeof index.id === 'string' && Array.isArray(index.files) && index.files.length > 0,
-      `Invalid Code Explorer manifest for ${route}`);
-      for (const [key, expected] of Object.entries({
-        symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
-      })) {
-        assert(index[key] === expected && files.has(prefix + expected),
-          `Missing or invalid Code Explorer index asset: ${route}/${key}`);
-      }
-      for (const entry of index.files) {
-        assert(entry && typeof entry.path === 'string'
-          && CODE_EXPLORER_JAVA.test(prefix + 'files/' + entry.path),
-        `Unsafe Code Explorer source path: ${route}`);
-        const relative = prefix + 'files/' + entry.path;
-        assert(!claimed.has(relative), `Duplicate Code Explorer source: ${relative}`);
-        claimed.add(relative);
-        const bytes = files.get(relative);
-        assert(bytes && bytes.length === entry.bytes && sha256(bytes) === entry.sha256,
-          `Code Explorer source checksum mismatch: ${relative}`);
-      }
-    }
+    assert(node.codeExplorer === undefined, 'Retired module-wide Code Explorer catalog field');
     if (node.kind === 'MODULE' && node.caseStudyExplorer !== undefined) {
       const route = node.routeId;
       const prefix = `module/${route}/code-explorer/casestudy/`;
@@ -138,7 +105,7 @@ function verifyCodeExplorerFiles(files, catalog) {
           && Array.isArray(index.files) && index.files.length === entry.files,
         'Invalid STEP8_EXPLORER case index');
         for (const [key, expected] of Object.entries({
-          symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+          symbols: 'symbols.json', references: 'references.json',
         })) {
           assert(index[key] === expected && files.has(casePrefix + expected),
             'Invalid STEP8_EXPLORER metadata: ' + key);
@@ -146,7 +113,7 @@ function verifyCodeExplorerFiles(files, catalog) {
         const sourcePaths = new Set();
         for (const source of index.files) {
           assert(source && typeof source.path === 'string'
-            && CODE_EXPLORER_JAVA.test('module/' + route + '/code-explorer/files/' + source.path),
+          && CODE_EXPLORER_JAVA.test(casePrefix + 'files/' + source.path),
           'Unsafe STEP8_EXPLORER Java path');
           const relative = casePrefix + 'files/' + source.path;
           assert(!claimed.has(relative) && !sourcePaths.has(source.path), 'Duplicate STEP8_EXPLORER Java path');
@@ -170,6 +137,8 @@ function verifyCodeExplorerFiles(files, catalog) {
   }
   visit(catalog.root);
   for (const name of files.keys()) {
+    assert(!/^module\/[A-Z0-9_-]+\/code-explorer\/(?:index|symbols|references|api-map)\.json$/.test(name),
+      `Unexpected retired module-wide Code Explorer asset: ${name}`);
     if (name.endsWith('.java')) {
       assert(claimed.has(name), `Unclaimed Code Explorer Java source: ${name}`);
     }

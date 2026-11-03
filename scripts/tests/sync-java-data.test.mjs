@@ -10,27 +10,15 @@ import { assertExpectedRelease, downloadAndValidate, parseChecksum, syncJavaData
 const utf8 = (text) => new TextEncoder().encode(text);
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex');
 
-function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false, explorer = false, caseExplorer = false } = {}) {
+function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false, caseExplorer = false } = {}) {
   const catalog = utf8(JSON.stringify({
     version: 1,
     root: {
       kind: 'GROUP', children: [{ kind: 'MODULE', routeId: 'DEMO', children: [],
-        ...(explorer ? { codeExplorer: '/module/DEMO/code-explorer/index.json' } : {}),
         ...(caseExplorer ? { caseStudyExplorer: '/module/DEMO/code-explorer/casestudy/index.json' } : {}) }],
     },
   }));
   const source = utf8('package demo;\npublic class Example {}\n');
-  const explorerEntries = explorer ? {
-    'module/DEMO/code-explorer/index.json': utf8(JSON.stringify({
-      version: 1, type: 'CODE_EXPLORER', id: 'demo', files: [
-        { path: 'demo/Example.java', bytes: source.length, sha256: sha256(source) },
-      ], symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
-    })),
-    'module/DEMO/code-explorer/symbols.json': utf8('{"version":1,"symbols":[]}'),
-    'module/DEMO/code-explorer/references.json': utf8('{"version":1,"references":[]}'),
-    'module/DEMO/code-explorer/api-map.json': utf8('{"version":1,"endpoints":[]}'),
-    'module/DEMO/code-explorer/files/demo/Example.java': source,
-  } : {};
   const caseBase = 'module/DEMO/code-explorer/casestudy/';
   const scope = caseBase + 'groups/1/cases/1/';
   const caseEntries = caseExplorer ? {
@@ -41,11 +29,10 @@ function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false,
     [scope + 'index.json']: utf8(JSON.stringify({
       version: 1, type: 'CODE_EXPLORER', id: 'casestudy-g1-c1',
       files: [{ path: 'demo/Example.java', bytes: source.length, sha256: sha256(source) }],
-      symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+      symbols: 'symbols.json', references: 'references.json',
     })),
     [scope + 'symbols.json']: utf8('{"version":1,"symbols":[]}'),
     [scope + 'references.json']: utf8('{"version":1,"references":[]}'),
-    [scope + 'api-map.json']: utf8('{"version":1,"endpoints":[]}'),
     [scope + 'files/demo/Example.java']: source,
   } : {};
   const dataFiles = {
@@ -53,7 +40,6 @@ function fixture({ extraEntries = {}, overrideManifest = {}, omitSearch = false,
     'module/DEMO/overview/vi.md': utf8('# Demo\n'),
     'search/knowledge-search.vi.json': utf8('{"version":1,"documents":[]}'),
     'search/knowledge-search.en.json': utf8('{"version":1,"documents":[]}'),
-    ...explorerEntries,
     ...caseEntries,
     ...extraEntries,
   };
@@ -103,15 +89,15 @@ test('rejects dangerous paths, source code, executables and unexpected roots', (
   }
 });
 
-test('Code Explorer Java files are received only with a verified manifest and checked SHA', () => {
-  const valid = fixture({ explorer: true });
-  const parsed = validateArchive(valid.zip, valid.checksum);
-  assert.equal(parsed.files.has('module/DEMO/code-explorer/files/demo/Example.java'), true);
+test('retired module-wide Code Explorer Java files are rejected instead of silently published', () => {
   const sourcePath = 'module/DEMO/code-explorer/files/demo/Example.java';
-  const tampered = fixture({ explorer: true, extraEntries: { [sourcePath]: utf8('public class Changed {}') } });
-  assert.throws(() => validateArchive(tampered.zip, tampered.checksum), /checksum mismatch/);
   const unclaimed = fixture({ extraEntries: { [sourcePath]: utf8('public class Example {}') } });
-  assert.throws(() => validateArchive(unclaimed.zip, unclaimed.checksum), /Unclaimed Code Explorer Java/);
+  assert.throws(() => validateArchive(unclaimed.zip, unclaimed.checksum), /Forbidden ZIP entry type/);
+  const orphanCasePath = 'module/DEMO/code-explorer/casestudy/groups/1/cases/1/files/demo/Example.java';
+  const orphan = fixture({ extraEntries: { [orphanCasePath]: utf8('public class Example {}') } });
+  assert.throws(() => validateArchive(orphan.zip, orphan.checksum), /Unclaimed Code Explorer Java/);
+  const stale = fixture({ extraEntries: { 'module/DEMO/code-explorer/index.json': utf8('{}') } });
+  assert.throws(() => validateArchive(stale.zip, stale.checksum), /Unclaimed|Unexpected|Unsafe|invalid/i);
   const outside = fixture({ extraEntries: { 'module/DEMO/api/demo/Example.java': utf8('not allowed') } });
   assert.throws(() => validateArchive(outside.zip, outside.checksum), /Forbidden ZIP entry type/);
 });

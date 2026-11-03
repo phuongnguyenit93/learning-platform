@@ -147,7 +147,7 @@ export function CaseStudyPanel({ path, explorerUrl, knowledgeIndex, onNavigateTo
                                 <CodeExplorerPanel key={`${groupID}:${index + 1}`}
                                   materialUrl={explorerUrl!.replace(/index\.json$/, `groups/${groupID}/cases/${index + 1}/index.json`)}
                                   caseScope={{ groupID: Number(groupID), caseIndex: index + 1 }}
-                                  request={null} onClose={() => setSourceCase(null)} />
+                                  onClose={() => setSourceCase(null)} />
                               </Suspense>
                             </>
                           ) : (

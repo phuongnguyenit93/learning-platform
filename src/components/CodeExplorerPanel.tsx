@@ -1,26 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Editor, { loader, type OnMount } from '@monaco-editor/react';
 import * as monaco from 'monaco-editor/editor/editor.api.js';
 import 'monaco-editor/languages/definitions/java/register.js';
 import 'monaco-editor/editor/contrib/find/browser/findController.js';
 import EditorWorker from 'monaco-editor/editor/editor.worker.js?worker';
 import {
-  findCodeExplorerApi,
   findCodeReference,
   loadCodeExplorer,
   loadCodeExplorerFile,
   type CodeExplorerMaterial,
-  type ExplorerOperation,
   type ExplorerSymbol,
   type ExplorerTreeNode,
 } from '../data/codeExplorer';
-import {
-  countExplorerTreeFiles,
-  explorerChapterPath,
-  isExplorerPathVisible,
-  scopeExplorerTree,
-  type ExplorerTreeScope,
-} from '../data/codeExplorerScope';
 import { useTheme } from '../state/ThemeContext';
 import { useLanguage } from '../state/LanguageContext';
 
@@ -28,16 +19,10 @@ import { useLanguage } from '../state/LanguageContext';
 loader.config({ monaco });
 Object.assign(self, { MonacoEnvironment: { getWorker: () => new EditorWorker() } });
 
-export interface ExplorerRequest {
-  sequence: number;
-  operation: ExplorerOperation;
-}
-
 interface Props {
   materialUrl: string;
-  request: ExplorerRequest | null;
   onClose: () => void;
-  caseScope?: { groupID: number; caseIndex: number };
+  caseScope: { groupID: number; caseIndex: number };
 }
 
 interface Position {
@@ -71,7 +56,7 @@ function FileTree({ node, selected, open }: {
   </details>;
 }
 
-export default function CodeExplorerPanel({ materialUrl, request, onClose, caseScope }: Props) {
+export default function CodeExplorerPanel({ materialUrl, onClose, caseScope }: Props) {
   const { language } = useLanguage();
   const { theme } = useTheme();
   const [material, setMaterial] = useState<CodeExplorerMaterial | null>(null);
@@ -83,19 +68,16 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose, caseS
   const [sourceError, setSourceError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [alternatives, setAlternatives] = useState<ExplorerSymbol[]>([]);
-  const [treeScope, setTreeScope] = useState<ExplorerTreeScope>('PACKAGE');
   const materialRef = useRef<CodeExplorerMaterial | null>(null);
   const openRef = useRef<(position: Position) => void>(() => {});
-  const lastRequest = useRef<number | null>(null);
   const disposables = useRef<monaco.IDisposable[]>([]);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const location = navigation.entries[navigation.index];
   const locationRef = useRef<Position | undefined>(undefined);
   locationRef.current = location;
   const routeId = materialUrl.match(/^\/module\/([A-Z0-9_-]+)\//)?.[1] ?? '';
-  const modelRoot = '/' + routeId + '/' + (caseScope
-    ? 'casestudy/g' + caseScope.groupID + '/c' + caseScope.caseIndex + '/'
-    : '');
+  const modelRoot = '/' + routeId + '/casestudy/g' + caseScope.groupID
+    + '/c' + caseScope.caseIndex + '/';
 
   const openAt = useCallback((next: Position) => {
     setAlternatives([]);
@@ -119,7 +101,6 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose, caseS
     setLoadError(null);
     setNavigation({ entries: [], index: -1 });
     setTabs([]);
-    lastRequest.current = null;
     loadCodeExplorer(materialUrl).then((value) => {
       if (active) setMaterial(value);
     }).catch((reason: unknown) => {
@@ -128,37 +109,8 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose, caseS
     return () => { active = false; };
   }, [materialUrl, retry]);
 
-  const symbols = useMemo(() =>
-    new Map(material?.symbols.map((symbol) => [symbol.id, symbol]) ?? []), [material]);
-  const controllerFile = useMemo(() => material && request
-    ? findCodeExplorerApi(material, request.operation)?.file : undefined, [material, request]);
-  const selectedScope = controllerFile ? treeScope : 'MODULE';
-  const scopedTree = useMemo(() => scopeExplorerTree(material?.tree ?? [], controllerFile, selectedScope),
-    [material, controllerFile, selectedScope]);
-  const scopedFileCount = useMemo(() => countExplorerTreeFiles(scopedTree), [scopedTree]);
-  const chapterName = controllerFile ? explorerChapterPath(controllerFile).split('/').pop() : '';
-  const activeOutsideScope = Boolean(location && controllerFile
-    && !isExplorerPathVisible(location.path, controllerFile, selectedScope));
-
   useEffect(() => {
-    if (!material || !request || lastRequest.current === request.sequence) return;
-    lastRequest.current = request.sequence;
-    const endpoint = findCodeExplorerApi(material, request.operation);
-    if (!endpoint) {
-      setNotice(language === 'vi'
-        ? 'API chưa được đóng gói trong Code Explorer V1. Bạn vẫn có thể duyệt các file.'
-        : 'This API is not packaged in V1. You can still browse the source files.');
-      return;
-    }
-    const target = endpoint.targets.length === 1 ? symbols.get(endpoint.targets[0]) : undefined;
-    openAt({ path: target?.file ?? endpoint.file, line: target?.line ?? 1, column: target?.column ?? 1 });
-    if (endpoint.status !== 'RESOLVED') {
-      setNotice(language === 'vi' ? 'Không thể xác định duy nhất method.' : 'The method could not be uniquely resolved.');
-    }
-  }, [material, request, language, symbols, openAt]);
-
-  useEffect(() => {
-    if (!material || !caseScope || request) return;
+    if (!material) return;
     const methodName = 'executeCase' + caseScope.caseIndex;
     const controllerName = '/controller/Group' + caseScope.groupID + 'Controller.java';
     const matches = material.symbols.filter((item) =>
@@ -170,7 +122,7 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose, caseS
       return;
     }
     openAt({ path: matches[0].file, line: matches[0].line, column: matches[0].column });
-  }, [material, request, caseScope?.groupID, caseScope?.caseIndex, language, openAt]);
+  }, [material, caseScope.groupID, caseScope.caseIndex, language, openAt]);
 
   useEffect(() => {
     if (!material || !location) { setCode(null); return; }
@@ -387,15 +339,13 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose, caseS
       <span><strong>Source Explorer</strong><small>{language === 'vi' ? 'Java · chỉ đọc' : 'Java · read-only'}</small></span>
       <button type="button" onClick={onClose} aria-label="Close Source Explorer">✕</button>
     </header>
-    {!material && !loadError && <div className="code-explorer__status">{language === 'vi' ? 'Đang tải material...' : 'Loading material...'}</div>}
+    {!material && !loadError && <div className="code-explorer__status">{language === 'vi' ? 'Đang tải mã nguồn Case Study...' : 'Loading Case Study source...'}</div>}
     {loadError && <div className="code-explorer__status" role="alert">{loadError}
       <button type="button" onClick={() => setRetry((n) => n + 1)}>{language === 'vi' ? 'Thử lại' : 'Retry'}</button>
     </div>}
     {material && <>
       <div className="code-explorer__toolbar">
-        <span>{material.files.length} files · {caseScope
-          ? `Group ${caseScope.groupID} / Case ${caseScope.caseIndex}`
-          : `${material.endpoints.length} APIs`}</span>
+        <span>{material.files.length} files · Group {caseScope.groupID} / Case {caseScope.caseIndex}</span>
         <div>
           <button type="button" aria-label="Go back" disabled={navigation.index <= 0} onClick={() => jump(-1)}>←</button>
           <button type="button" aria-label="Go forward" disabled={navigation.index >= navigation.entries.length - 1} onClick={() => jump(1)}>→</button>
@@ -405,23 +355,9 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose, caseS
         <nav className="code-explorer__tree" aria-label="Java source files">
           <div className="code-explorer__tree-heading">
             <strong>EXPLORER</strong>
-            <small>{scopedFileCount}/{material.files.length} {language === 'vi' ? 'file' : 'files'}</small>
+            <small>{material.files.length} {language === 'vi' ? 'file' : 'files'}</small>
           </div>
-          {!caseScope && <select className="code-explorer__scope-select" aria-label="Filter Java source files"
-            value={selectedScope} disabled={!controllerFile}
-            onChange={(event) => setTreeScope(event.target.value as ExplorerTreeScope)}>
-            <option value="PACKAGE">{language === 'vi' ? 'Chương' : 'Chapter'}: {chapterName || '—'}</option>
-            <option value="CONTROLLER">{language === 'vi' ? 'Chỉ Controller' : 'Controller only'}</option>
-            <option value="MODULE">{language === 'vi' ? 'Toàn bộ module' : 'Entire module'}</option>
-          </select>}
-          {activeOutsideScope && location && (
-            <div className="code-explorer__outside-scope">
-              <small>{language === 'vi' ? 'File đang mở ngoài bộ lọc' : 'Open file outside filter'}</small>
-              <button type="button" className="code-explorer__file is-active" title={location.path}
-                onClick={() => openFile(location.path)}>☕ {location.path.split('/').pop()}</button>
-            </div>
-          )}
-          {scopedTree.map((node) =>
+          {material.tree.map((node) =>
             <FileTree key={node.path} node={node} selected={location?.path} open={openFile} />)}
         </nav>
         <div className="code-explorer__main">
@@ -443,10 +379,8 @@ export default function CodeExplorerPanel({ materialUrl, request, onClose, caseS
               ))}
             </div>
           )}
-          {!location && <div className="code-explorer__status">{caseScope
-            ? (language === 'vi' ? 'Chọn file Java của case.' : 'Select a Java file for this case.')
-            : (language === 'vi'
-              ? 'Chọn file hoặc nhấn Source tại một API.' : 'Select a Java file or open Source from an API.')}</div>}
+          {!location && <div className="code-explorer__status">{language === 'vi'
+            ? 'Chọn file Java của case.' : 'Select a Java file for this case.'}</div>}
           {sourceError && <div className="code-explorer__status" role="alert">{sourceError}</div>}
           {location && code === null && !sourceError && <div className="code-explorer__status">Loading Java source...</div>}
           {location && code !== null && <>

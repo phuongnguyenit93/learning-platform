@@ -44,7 +44,8 @@ function localReference(javaRoot, value) {
 function visitModules(node, javaRoot, references) {
   ensure(node && typeof node === 'object' && Array.isArray(node.children), 'Invalid catalog node');
   if (node.kind === 'MODULE') {
-    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'casestudy', 'reference', 'codeExplorer', 'caseStudyExplorer']) {
+    ensure(node.codeExplorer === undefined, 'Retired module-wide Code Explorer catalog field');
+    for (const kind of ['overview', 'knowledge', 'roadmap', 'video', 'quiz', 'interview', 'casestudy', 'reference', 'caseStudyExplorer']) {
       const field = node[kind];
       if (!field) continue;
       const values = typeof field === 'object' ? Object.values(field) : [field];
@@ -100,28 +101,6 @@ export async function verifyDist(directory = 'dist') {
 
   // Validate the actual published Java bytes, not just the catalog's index.
   async function checkExplorer(node) {
-    if (node.kind === 'MODULE' && node.codeExplorer) {
-      const path = localReference(java, node.codeExplorer);
-      const index = JSON.parse(await readFile(path, 'utf8'));
-      ensure(index.version === 1 && index.type === 'CODE_EXPLORER'
-        && Array.isArray(index.files) && index.files.length > 0,
-      `Invalid Code Explorer material: ${node.routeId}`);
-      for (const [key, filename] of Object.entries({
-        symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
-      })) {
-        ensure(index[key] === filename && await isFile(join(path, '..', filename)),
-          `Missing Code Explorer metadata: ${node.routeId}/${key}`);
-      }
-      for (const file of index.files) {
-        ensure(typeof file.path === 'string'
-          && /^(?:[A-Za-z0-9_$-]+\/)*[A-Za-z0-9_$-]+\.java$/.test(file.path),
-        `Invalid Code Explorer Java path: ${node.routeId}`);
-        const bytes = await readFile(join(path, '..', 'files', file.path));
-        ensure(bytes.length === file.bytes
-          && createHash('sha256').update(bytes).digest('hex') === file.sha256,
-        `Invalid Code Explorer Java checksum: ${node.routeId}/${file.path}`);
-      }
-    }
     if (node.kind === 'MODULE' && node.caseStudyExplorer) {
       const rootPath = localReference(java, node.caseStudyExplorer);
       const manifest = JSON.parse(await readFile(rootPath, 'utf8'));
@@ -144,7 +123,7 @@ export async function verifyDist(directory = 'dist') {
           && Array.isArray(index.files) && index.files.length === entry.files,
         'Invalid STEP8_EXPLORER case bundle');
         for (const [key, name] of Object.entries({
-          symbols: 'symbols.json', references: 'references.json', apiMap: 'api-map.json',
+          symbols: 'symbols.json', references: 'references.json',
         })) {
           ensure(index[key] === name && await isFile(join(base, name)), 'Missing STEP8_EXPLORER metadata');
         }

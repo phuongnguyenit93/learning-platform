@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { Header } from './components/Header';
+import { AiChatWidget } from './components/AiChatWidget';
 import { PageMetadata } from './components/PageMetadata';
 import { HomePage } from './pages/HomePage';
 import { LearningPage } from './pages/LearningPage';
@@ -53,6 +54,7 @@ export function App() {
         <Route path="/my-cv" element={<LegacyMyCvRedirect />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <AiChatWidget />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useLanguage } from '../state/LanguageContext';
 
 type ProviderId = 'gemini' | 'groq' | 'openrouter' | 'cloudflare';
 type Stage = 'providers' | 'api-key' | 'chat';
-type IconName = 'expand' | 'shrink' | 'close' | 'plus' | 'back' | 'eye' | 'eye-off' | 'arrow' | 'key';
+type IconName = 'expand' | 'shrink' | 'close' | 'restart' | 'back' | 'eye' | 'eye-off' | 'arrow' | 'key';
 
 const providers: Array<{
   id: ProviderId;
@@ -40,7 +40,8 @@ const translations = {
     close: 'Đóng AI Support',
     expand: 'Phóng to toàn màn hình',
     shrink: 'Thu về cửa sổ nhỏ',
-    newChat: 'Trò chuyện mới',
+    restart: 'Bắt đầu lại',
+    restartHint: 'Xóa cuộc trò chuyện hiện tại và chọn lại trợ lý AI',
     chooseTitle: 'Chọn trợ lý AI',
     chooseIntro: 'Chọn một nhà cung cấp để bắt đầu cuộc trò chuyện.',
     privateKey: 'Dùng API key của bạn',
@@ -68,7 +69,8 @@ const translations = {
     close: 'Close AI Support',
     expand: 'Expand to full screen',
     shrink: 'Return to popup',
-    newChat: 'New chat',
+    restart: 'Start over',
+    restartHint: 'Clear the current conversation and choose another AI assistant',
     chooseTitle: 'Choose your AI assistant',
     chooseIntro: 'Choose a provider to start a conversation.',
     privateKey: 'Use your own API key',
@@ -97,7 +99,7 @@ function Icon({ name }: { name: IconName }) {
     expand: <><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5" /></>,
     shrink: <><path d="M3 8h5V3M21 8h-5V3M3 16h5v5M21 16h-5v5" /></>,
     close: <path d="M18 6 6 18M6 6l12 12" />,
-    plus: <path d="M12 5v14M5 12h14" />,
+    restart: <><path d="M3 11a9 9 0 1 1 2.5 6.2" /><path d="M3 3v8h8" /></>,
     back: <><path d="m15 18-6-6 6-6" /><path d="M9 12h12" /></>,
     eye: <><path d="M2 12s3.7-6 10-6 10 6 10 6-3.7 6-10 6S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></>,
     'eye-off': <><path d="m3 3 18 18M10.6 6.1A10.7 10.7 0 0 1 12 6c6.3 0 10 6 10 6a15 15 0 0 1-3.2 3.5M6.6 6.6C3.7 8.4 2 12 2 12s3.7 6 10 6a10.7 10.7 0 0 0 4.2-.8" /><path d="M10 10a3 3 0 0 0 4 4" /></>,
@@ -172,9 +174,12 @@ export function AiChatWidget() {
               <strong id="ai-chat-title">{t.assistant}</strong>
             </div>
             <div className="ai-chat__header-actions">
-              <button type="button" className="ai-chat__new" onClick={restart}>
-                <Icon name="plus" /> <span>{t.newChat}</span>
-              </button>
+              {stage !== 'providers' && (
+                <button type="button" className="ai-chat__icon-btn" onClick={restart}
+                  title={`${t.restart} · ${t.restartHint}`} aria-label={t.restart}>
+                  <Icon name="restart" />
+                </button>
+              )}
               <button type="button" className="ai-chat__icon-btn" onClick={() => setFullscreen((current) => !current)}
                 title={fullscreen ? t.shrink : t.expand} aria-label={fullscreen ? t.shrink : t.expand}>
                 <Icon name={fullscreen ? 'shrink' : 'expand'} />

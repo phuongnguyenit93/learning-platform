@@ -7394,32 +7394,6 @@ body:has(.app-shell--module-viewport) #root {
   cursor: pointer;
 }
 
-.ai-chat__new {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  min-height: 34px;
-  padding: 0 10px;
-  border: 1px solid #2c68d7;
-  border-radius: 999px;
-  background: #2864e9;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.ai-chat__new svg {
-  width: 15px;
-  height: 15px;
-}
-
-.ai-chat__new:hover {
-  background: #1e59d9;
-}
-
 .ai-chat__icon-btn {
   display: grid;
   flex: 0 0 auto;
@@ -7873,17 +7847,6 @@ body:has(.app-shell--module-viewport) #root {
   .ai-chat__setup {
     padding-right: 16px;
     padding-left: 16px;
-  }
-}
-
-@media (max-width: 360px) {
-  .ai-chat__new > span {
-    display: none;
-  }
-
-  .ai-chat__new {
-    width: 34px;
-    padding: 0;
   }
 }
 

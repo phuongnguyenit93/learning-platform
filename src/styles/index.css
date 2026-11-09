@@ -7315,7 +7315,7 @@ body:has(.app-shell--module-viewport) #root {
   align-items: center;
   gap: 10px;
   min-height: 52px;
-  padding: 8px 15px 8px 9px;
+  padding: 8px 18px;
   border: 1px solid var(--border-strong);
   border-radius: 999px;
   background: var(--surface-raised);
@@ -7331,22 +7331,6 @@ body:has(.app-shell--module-viewport) #root {
   transform: translateY(-3px);
   border-color: var(--blue);
   box-shadow: 0 16px 44px var(--shadow);
-}
-
-.ai-chat__launcher > svg {
-  color: var(--blue);
-}
-
-.ai-chat__owl {
-  display: inline-grid;
-  flex: 0 0 auto;
-  place-items: center;
-  width: 33px;
-  height: 33px;
-  border-radius: 50%;
-  background: var(--surface-hover);
-  font-size: 23px;
-  line-height: 1;
 }
 
 .ai-chat__panel {
@@ -7398,15 +7382,6 @@ body:has(.app-shell--module-viewport) #root {
 .ai-chat__identity strong {
   font-size: 15px;
   font-weight: 800;
-}
-
-.ai-chat__subtitle {
-  overflow: hidden;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 650;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .ai-chat__header-actions {
@@ -7775,14 +7750,6 @@ body:has(.app-shell--module-viewport) #root {
   text-align: center;
 }
 
-.ai-chat__owl--welcome {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 19px;
-  background: transparent;
-  font-size: 48px;
-}
-
 .ai-chat__welcome > p {
   margin: 12px 0 0;
   color: var(--text-soft);
@@ -7901,10 +7868,6 @@ body:has(.app-shell--module-viewport) #root {
 
   .ai-chat__header {
     padding: 10px 12px;
-  }
-
-  .ai-chat__subtitle {
-    display: none;
   }
 
   .ai-chat__setup {

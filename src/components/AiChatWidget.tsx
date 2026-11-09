@@ -3,7 +3,7 @@ import { useLanguage } from '../state/LanguageContext';
 
 type ProviderId = 'gemini' | 'groq' | 'openrouter' | 'cloudflare';
 type Stage = 'providers' | 'api-key' | 'chat';
-type IconName = 'chat' | 'expand' | 'shrink' | 'close' | 'plus' | 'back' | 'eye' | 'eye-off' | 'arrow' | 'key';
+type IconName = 'expand' | 'shrink' | 'close' | 'plus' | 'back' | 'eye' | 'eye-off' | 'arrow' | 'key';
 
 const providers: Array<{
   id: ProviderId;
@@ -35,9 +35,9 @@ const providers: Array<{
 
 const translations = {
   vi: {
-    assistant: 'Trợ giảng AI',
-    open: 'Mở trợ giảng AI',
-    close: 'Đóng trợ giảng AI',
+    assistant: 'AI Support',
+    open: 'Mở AI Support',
+    close: 'Đóng AI Support',
     expand: 'Phóng to toàn màn hình',
     shrink: 'Thu về cửa sổ nhỏ',
     newChat: 'Trò chuyện mới',
@@ -55,7 +55,7 @@ const translations = {
     getKey: 'Lấy API key',
     continue: 'Tiếp tục',
     back: 'Chọn AI khác',
-    welcome: 'Xin chào! Mình là trợ giảng AI.',
+    welcome: 'Xin chào! Mình là AI Support.',
     welcomeIntro: 'Bạn đã chọn',
     readyNote: 'Giao diện đã sẵn sàng. Tính năng gửi câu hỏi đến AI sẽ được kết nối ở bước tiếp theo.',
     composer: 'Nhắn tin sẽ được bật sau khi kết nối API…',
@@ -63,9 +63,9 @@ const translations = {
     pending: 'Chưa kết nối API · Đang hoàn thiện giao diện',
   },
   en: {
-    assistant: 'AI Tutor',
-    open: 'Open AI tutor',
-    close: 'Close AI tutor',
+    assistant: 'AI Support',
+    open: 'Open AI Support',
+    close: 'Close AI Support',
     expand: 'Expand to full screen',
     shrink: 'Return to popup',
     newChat: 'New chat',
@@ -83,7 +83,7 @@ const translations = {
     getKey: 'Get an API key',
     continue: 'Continue',
     back: 'Choose another AI',
-    welcome: 'Hello! I’m your AI tutor.',
+    welcome: 'Hello! I’m AI Support.',
     welcomeIntro: 'You selected',
     readyNote: 'The interface is ready. Sending questions to the AI will be connected in the next step.',
     composer: 'Messaging will be available after the API is connected…',
@@ -94,7 +94,6 @@ const translations = {
 
 function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, ReactNode> = {
-    chat: <><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 1 1 21 11.5Z" /><path d="M8 11.5h9M8 15h5" /></>,
     expand: <><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5" /></>,
     shrink: <><path d="M3 8h5V3M21 8h-5V3M3 16h5v5M21 16h-5v5" /></>,
     close: <path d="M18 6 6 18M6 6l12 12" />,
@@ -161,9 +160,7 @@ export function AiChatWidget() {
       {!open && (
         <button type="button" className="ai-chat__launcher" onClick={() => setOpen(true)}
           aria-label={t.open} aria-expanded={false} aria-controls="ai-chat-panel">
-          <span className="ai-chat__owl" aria-hidden="true">🦉</span>
           <span>{t.assistant}</span>
-          <Icon name="chat" />
         </button>
       )}
 
@@ -172,9 +169,7 @@ export function AiChatWidget() {
           role="dialog" aria-modal="false" aria-labelledby="ai-chat-title">
           <header className="ai-chat__header">
             <div className="ai-chat__identity">
-              <span className="ai-chat__owl" aria-hidden="true">🦉</span>
-              <strong id="ai-chat-title">{language === 'vi' ? 'Cú' : 'Owl'}</strong>
-              <span className="ai-chat__subtitle">{t.assistant}</span>
+              <strong id="ai-chat-title">{t.assistant}</strong>
             </div>
             <div className="ai-chat__header-actions">
               <button type="button" className="ai-chat__new" onClick={restart}>
@@ -250,7 +245,6 @@ export function AiChatWidget() {
 
             {stage === 'chat' && selectedProvider && (
               <div className="ai-chat__welcome">
-                <span className="ai-chat__owl ai-chat__owl--welcome" aria-hidden="true">🦉</span>
                 <h2>{t.welcome}</h2>
                 <p>{t.welcomeIntro} <strong>{selectedProvider.name}</strong>.</p>
                 <p className="ai-chat__ready-note">{t.readyNote}</p>

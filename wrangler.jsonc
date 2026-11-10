@@ -32,6 +32,14 @@
         "limit": 3,
         "period": 60
       }
+    },
+    {
+      "name": "AI_CHAT_RATE_LIMITER",
+      "namespace_id": "9217346",
+      "simple": {
+        "limit": 12,
+        "period": 60
+      }
     }
   ],
   "previews": {
@@ -49,6 +57,14 @@
         "namespace_id": "9217345",
         "simple": {
           "limit": 3,
+          "period": 60
+        }
+      },
+      {
+        "name": "AI_CHAT_RATE_LIMITER",
+        "namespace_id": "9217347",
+        "simple": {
+          "limit": 12,
           "period": 60
         }
       }

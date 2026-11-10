@@ -66,12 +66,15 @@ test('AI Support uses an icon-only start-over action and resets the selected pro
       .find((button) => button.textContent?.includes('Workers AI'));
     assert.ok(workers);
     await act(async () => workers.click());
-    assert.ok(host.querySelector('.ai-chat__welcome'));
+    assert.ok(host.querySelector('.ai-chat__key-form'),
+      'Workers AI now requires the visitor’s Account ID and API Token');
+    assert.ok(host.querySelector<HTMLInputElement>('#ai-chat-account-id'));
+    assert.ok(host.querySelector<HTMLInputElement>('#ai-chat-key'));
     const resetAfterWorkers = host.querySelector<HTMLButtonElement>('[aria-label="Bắt đầu lại"]');
     assert.ok(resetAfterWorkers);
     await act(async () => resetAfterWorkers.click());
     assert.ok(host.querySelector('.ai-chat__providers'));
-    assert.equal(host.querySelector('.ai-chat__welcome'), null);
+    assert.equal(host.querySelector('.ai-chat__key-form'), null);
     assert.equal(host.querySelector('[aria-label="Bắt đầu lại"]'), null);
   } finally {
     await act(async () => root.unmount());

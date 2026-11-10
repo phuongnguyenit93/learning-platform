@@ -12,6 +12,20 @@ import {
   type GroqModelId, type GroqTurn,
 } from '../data/groqDirect';
 import {
+  OPENROUTER_DEFAULT_MODEL, OPENROUTER_FREE_MODELS_URL, OPENROUTER_MODELS,
+  OPENROUTER_USAGE_URL, OpenRouterApiError, streamOpenRouterMessage,
+  type OpenRouterModelId, type OpenRouterTurn,
+} from '../data/openRouterDirect';
+import {
+  CLOUDFLARE_AI_DEFAULT_MODEL, CLOUDFLARE_AI_DOCS_URL,
+  CLOUDFLARE_AI_MODELS, CLOUDFLARE_AI_USAGE_URL,
+  type CloudflareAiModelId,
+} from '../data/cloudflareModels';
+import {
+  CloudflareAiApiError, streamCloudflareAiMessage,
+  type CloudflareAiTurn,
+} from '../data/cloudflareDirect';
+import {
   AI_SUPPORT_TOPIC_EVENT, formatAiSupportQuestion, type AiSupportTopic,
 } from '../data/aiSupportTopic';
 
@@ -45,7 +59,8 @@ const providers: Array<{
   },
   {
     id: 'cloudflare', name: 'Workers AI', mark: '☁',
-    description: { vi: 'Cloudflare · Không cần key', en: 'Cloudflare · No key needed' },
+    description: { vi: 'Cloudflare · Dùng quota của bạn', en: 'Cloudflare · Your own quota' },
+    keyUrl: CLOUDFLARE_AI_DOCS_URL,
   },
 ];
 
@@ -61,7 +76,7 @@ const translations = {
     chooseTitle: 'Chọn trợ lý AI',
     chooseIntro: 'Chọn một nhà cung cấp để bắt đầu cuộc trò chuyện.',
     privateKey: 'Dùng API key của bạn',
-    noKey: 'Không cần API key',
+    noKey: 'Dùng API key của bạn',
     keyTitle: 'Kết nối với',
     keyIntro: 'Nhập API key cá nhân để sử dụng nhà cung cấp này.',
     keyLabel: 'API key của bạn',
@@ -91,6 +106,40 @@ const translations = {
     groqThinking: 'Groq đang trả lời…',
     groqModel: 'Chọn model Groq',
     groqUsage: 'Xem API Usage Limits trên Groq Console',
+    openRouterReady: 'Hãy đặt câu hỏi. Hội thoại chỉ được giữ trong phiên trang hiện tại.',
+    openRouterComposer: 'Nhắn tin cho OpenRouter…',
+    openRouterThinking: 'OpenRouter đang trả lời…',
+    openRouterModel: 'Chọn model OpenRouter',
+    openRouterUsage: 'Xem API Usage trên OpenRouter',
+    openRouterModelsLink: 'Xem thêm các model miễn phí trên OpenRouter',
+    cloudflareAccount: 'Cloudflare Account ID',
+    cloudflareAccountPlaceholder: '32 ký tự hex trong Cloudflare Dashboard',
+    cloudflareToken: 'Cloudflare Workers AI API Token',
+    cloudflareKeyIntro: 'Nhập Account ID và Workers AI API Token riêng của bạn.',
+    cloudflareKeyHelp: 'Token được chuyển qua Worker của website để gọi Workers AI bằng quota tài khoản bạn; không lưu token hoặc nội dung trò chuyện. Không dùng Global API Key.',
+    cloudflareReady: 'Hãy đặt câu hỏi. Inference sử dụng quota Workers AI của tài khoản Cloudflare bạn.',
+    cloudflareComposer: 'Nhắn tin cho Workers AI…',
+    cloudflareThinking: 'Workers AI đang trả lời…',
+    cloudflareModel: 'Chọn model Workers AI',
+    cloudflareUsage: 'Xem Workers AI Usage trên Cloudflare Dashboard',
+    cloudflareErrors: {
+      auth: 'Account ID hoặc API Token không hợp lệ / không có quyền Workers AI. Hãy kiểm tra lại.',
+      quota: 'Giới hạn Workers AI hoặc giới hạn proxy đã đạt (429). Hãy thử lại sau.',
+      model: 'Model này chưa khả dụng trên tài khoản Cloudflare của bạn. Chọn model khác.',
+      request: 'Yêu cầu bị từ chối. Kiểm tra Account ID, nội dung và độ dài câu hỏi.',
+      network: 'Không kết nối được Workers AI qua website. Hãy kiểm tra mạng.',
+      server: 'Proxy hoặc Cloudflare Workers AI đang gặp lỗi. Hãy thử lại.',
+      response: 'Workers AI trả về dữ liệu không hoàn chỉnh. Bạn có thể thử lại.',
+    },
+    openRouterErrors: {
+      auth: 'API key OpenRouter không hợp lệ hoặc không được phép sử dụng. Kiểm tra lại trong OpenRouter.',
+      quota: 'OpenRouter đã báo hết hạn mức hoặc không đủ credit (402/429). Hãy xem API Usage.',
+      model: 'Model OpenRouter không khả dụng. Hãy chọn model khác hoặc xem danh sách model miễn phí.',
+      request: 'OpenRouter từ chối yêu cầu. Hãy kiểm tra nội dung hoặc độ dài câu hỏi.',
+      network: 'Không thể kết nối trực tiếp OpenRouter. Hãy kiểm tra mạng, CORS hoặc cấu hình API key.',
+      server: 'OpenRouter hoặc nhà cung cấp model đang gặp lỗi. Hãy thử lại sau.',
+      response: 'Phản hồi OpenRouter không hoàn chỉnh. Bạn có thể thử lại.',
+    },
     groqErrors: {
       auth: 'API key Groq không hợp lệ hoặc chưa được cấp quyền. Hãy kiểm tra lại trong Groq Console.',
       quota: 'Groq đã trả lỗi 429: hết quota hoặc vượt giới hạn tốc độ. Hãy thử lại sau.',
@@ -131,7 +180,7 @@ const translations = {
     chooseTitle: 'Choose your AI assistant',
     chooseIntro: 'Choose a provider to start a conversation.',
     privateKey: 'Use your own API key',
-    noKey: 'No API key required',
+    noKey: 'Use your own API key',
     keyTitle: 'Connect to',
     keyIntro: 'Enter your personal API key for this provider.',
     keyLabel: 'Your API key',
@@ -161,6 +210,40 @@ const translations = {
     groqThinking: 'Groq is responding…',
     groqModel: 'Choose Groq model',
     groqUsage: 'View API Usage Limits in Groq Console',
+    openRouterReady: 'Ask your question. The conversation exists only in this page session.',
+    openRouterComposer: 'Message OpenRouter…',
+    openRouterThinking: 'OpenRouter is responding…',
+    openRouterModel: 'Choose OpenRouter model',
+    openRouterUsage: 'View API Usage on OpenRouter',
+    openRouterModelsLink: 'Explore more free models on OpenRouter',
+    cloudflareAccount: 'Cloudflare Account ID',
+    cloudflareAccountPlaceholder: '32-character hexadecimal account ID',
+    cloudflareToken: 'Cloudflare Workers AI API Token',
+    cloudflareKeyIntro: 'Enter your own Account ID and Workers AI API Token.',
+    cloudflareKeyHelp: 'The token passes through this site’s Worker to use your Cloudflare account quota; neither token nor conversation is stored. Do not use a Global API Key.',
+    cloudflareReady: 'Ask your question. Inference uses your Cloudflare Workers AI quota.',
+    cloudflareComposer: 'Message Workers AI…',
+    cloudflareThinking: 'Workers AI is responding…',
+    cloudflareModel: 'Choose Workers AI model',
+    cloudflareUsage: 'View Workers AI Usage on Cloudflare Dashboard',
+    cloudflareErrors: {
+      auth: 'Invalid Account ID / API Token, or missing Workers AI permission. Check your credentials.',
+      quota: 'Cloudflare inference or site proxy rate limit reached (429). Please try later.',
+      model: 'This model is not available on your Cloudflare account. Choose another model.',
+      request: 'The request was rejected. Check Account ID, prompt and conversation length.',
+      network: 'Unable to connect to Workers AI through this site. Check your network.',
+      server: 'The proxy or Cloudflare Workers AI is temporarily unavailable.',
+      response: 'Workers AI returned an incomplete response. You may retry.',
+    },
+    openRouterErrors: {
+      auth: 'Invalid or unauthorized OpenRouter API key. Check it in OpenRouter.',
+      quota: 'OpenRouter reported a quota or credit issue (402/429). Check your API Usage.',
+      model: 'This OpenRouter model is unavailable. Choose another or browse the free models catalog.',
+      request: 'OpenRouter rejected the request. Check the prompt or conversation length.',
+      network: 'Could not connect directly to OpenRouter. Check the network, CORS and key settings.',
+      server: 'OpenRouter or its model provider is temporarily unavailable. Try again later.',
+      response: 'OpenRouter returned an incomplete response. Please retry.',
+    },
     groqErrors: {
       auth: 'Invalid or unauthorized Groq API key. Check the key in Groq Console.',
       quota: 'Groq returned HTTP 429: rate limit or quota exceeded. Please try later.',
@@ -223,11 +306,16 @@ export function AiChatWidget() {
   const [apiKey, setApiKey] = useState('');
   const [geminiModel, setGeminiModel] = useState<GeminiModelId>(GEMINI_DEFAULT_MODEL);
   const [groqModel, setGroqModel] = useState<GroqModelId>(GROQ_DEFAULT_MODEL);
+  const [openRouterModel, setOpenRouterModel] = useState<OpenRouterModelId>(OPENROUTER_DEFAULT_MODEL);
+  const [cloudflareModel, setCloudflareModel] = useState<CloudflareAiModelId>(CLOUDFLARE_AI_DEFAULT_MODEL);
+  const [cloudflareAccountId, setCloudflareAccountId] = useState('');
   const [showKey, setShowKey] = useState(false);
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [turns, setTurns] = useState<GeminiTurn[]>([]);
   const [groqTurns, setGroqTurns] = useState<GroqTurn[]>([]);
+  const [openRouterTurns, setOpenRouterTurns] = useState<OpenRouterTurn[]>([]);
+  const [cloudflareTurns, setCloudflareTurns] = useState<CloudflareAiTurn[]>([]);
   const [sending, setSending] = useState(false);
   const [failure, setFailure] = useState<ChatFailure | null>(null);
   const [topic, setTopic] = useState<AiSupportTopic | null>(null);
@@ -282,6 +370,8 @@ export function AiChatWidget() {
     setMessages([]);
     setTurns([]);
     setGroqTurns([]);
+    setOpenRouterTurns([]);
+    setCloudflareTurns([]);
     setDraft('');
     setSending(false);
     setFailure(null);
@@ -308,10 +398,13 @@ export function AiChatWidget() {
     resetConversation();
     setGeminiModel(GEMINI_DEFAULT_MODEL);
     setGroqModel(GROQ_DEFAULT_MODEL);
+    setOpenRouterModel(OPENROUTER_DEFAULT_MODEL);
+    setCloudflareModel(CLOUDFLARE_AI_DEFAULT_MODEL);
+    setCloudflareAccountId('');
     setProviderId(id);
     setApiKey('');
     setShowKey(false);
-    setStage(id === 'cloudflare' ? 'chat' : 'api-key');
+    setStage('api-key');
   }
 
   function restart() {
@@ -319,6 +412,9 @@ export function AiChatWidget() {
     setTopic(null);
     setGeminiModel(GEMINI_DEFAULT_MODEL);
     setGroqModel(GROQ_DEFAULT_MODEL);
+    setOpenRouterModel(OPENROUTER_DEFAULT_MODEL);
+    setCloudflareModel(CLOUDFLARE_AI_DEFAULT_MODEL);
+    setCloudflareAccountId('');
     setStage('providers');
     setProviderId(null);
     setApiKey('');
@@ -327,7 +423,10 @@ export function AiChatWidget() {
 
   function acceptKey(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (providerId && apiKey.trim()) setStage('chat');
+    if (providerId && apiKey.trim()
+      && (providerId !== 'cloudflare' || /^[0-9a-f]{32}$/i.test(cloudflareAccountId.trim()))) {
+      setStage('chat');
+    }
   }
 
   function chooseGeminiModel(model: GeminiModelId) {
@@ -342,9 +441,24 @@ export function AiChatWidget() {
     setGroqModel(model);
   }
 
+  function chooseOpenRouterModel(model: OpenRouterModelId) {
+    if (sending || model === openRouterModel) return;
+    resetConversation();
+    setOpenRouterModel(model);
+  }
+
+  function chooseCloudflareModel(model: CloudflareAiModelId) {
+    if (sending || model === cloudflareModel) return;
+    resetConversation();
+    setCloudflareModel(model);
+  }
+
   async function sendMessage(prompt: string) {
     const content = prompt.trim();
-    if (!content || !apiKey.trim() || (providerId !== 'gemini' && providerId !== 'groq')
+    if (!content || !apiKey.trim()
+      || (providerId !== 'gemini' && providerId !== 'groq'
+        && providerId !== 'openrouter' && providerId !== 'cloudflare')
+      || (providerId === 'cloudflare' && !/^[0-9a-f]{32}$/i.test(cloudflareAccountId.trim()))
       || controllerRef.current) return;
 
     const controller = new AbortController();
@@ -369,25 +483,40 @@ export function AiChatWidget() {
       };
       const result = providerId === 'gemini'
         ? await streamGeminiMessage({
-          apiKey, model: geminiModel, prompt: contextualPrompt,
-          turns, signal: controller.signal, onText,
-        })
-        : await streamGroqMessage({
-          apiKey, model: groqModel, prompt: contextualPrompt,
-          turns: groqTurns, signal: controller.signal, onText,
-        });
+            apiKey, model: geminiModel, prompt: contextualPrompt,
+            turns, signal: controller.signal, onText,
+          })
+        : providerId === 'groq'
+          ? await streamGroqMessage({
+              apiKey, model: groqModel, prompt: contextualPrompt,
+              turns: groqTurns, signal: controller.signal, onText,
+            })
+          : providerId === 'openrouter' ? await streamOpenRouterMessage({
+              apiKey, model: openRouterModel, prompt: contextualPrompt,
+              turns: openRouterTurns, signal: controller.signal, onText,
+            }) : await streamCloudflareAiMessage({
+              apiToken: apiKey, accountId: cloudflareAccountId,
+              model: cloudflareModel, prompt: contextualPrompt,
+              turns: cloudflareTurns, signal: controller.signal, onText,
+            });
       if (epoch !== epochRef.current) return;
       if (providerId === 'gemini') {
         setTurns((current) => [...current, result.turn as GeminiTurn]);
-      } else {
+      } else if (providerId === 'groq') {
         setGroqTurns((current) => [...current, result.turn as GroqTurn]);
+      } else if (providerId === 'openrouter') {
+        setOpenRouterTurns((current) => [...current, result.turn as OpenRouterTurn]);
+      } else {
+        setCloudflareTurns((current) => [...current, result.turn as CloudflareAiTurn]);
       }
       setMessages((current) => current.map((message) =>
         message.id === assistantId ? { ...message, text: result.text, streaming: false } : message));
     } catch (error) {
       if (epoch !== epochRef.current || controller.signal.aborted) return;
       setFailure({
-        code: error instanceof GeminiApiError || error instanceof GroqApiError ? error.code : 'network',
+        code: error instanceof GeminiApiError || error instanceof GroqApiError
+          || error instanceof OpenRouterApiError || error instanceof CloudflareAiApiError
+          ? error.code : 'network',
         prompt: content,
       });
       setMessages((current) => current.map((message) =>
@@ -473,7 +602,7 @@ export function AiChatWidget() {
             </aside>
           )}
 
-          <div className={`ai-chat__body ai-chat__body--${stage}${stage === 'chat' && (providerId === 'gemini' || providerId === 'groq') ? ' ai-chat__body--messages' : ''}`}>
+          <div className={`ai-chat__body ai-chat__body--${stage}${stage === 'chat' ? ' ai-chat__body--messages' : ''}`}>
             {stage === 'providers' && (
               <div className="ai-chat__setup">
                 <span className="ai-chat__hero-mark" aria-hidden="true">✦</span>
@@ -492,7 +621,7 @@ export function AiChatWidget() {
                     </button>
                   ))}
                 </div>
-                <p className="ai-chat__setup-note"><Icon name="key" /> {t.privateKey} · {t.noKey}: Workers AI</p>
+                <p className="ai-chat__setup-note"><Icon name="key" /> {t.privateKey}</p>
               </div>
             )}
 
@@ -505,9 +634,20 @@ export function AiChatWidget() {
                   {selectedProvider.mark}
                 </span>
                 <h2>{t.keyTitle} {selectedProvider.name}</h2>
-                <p className="ai-chat__intro">{t.keyIntro}</p>
+                <p className="ai-chat__intro">{providerId === 'cloudflare' ? t.cloudflareKeyIntro : t.keyIntro}</p>
                 <form className="ai-chat__key-form" onSubmit={acceptKey}>
-                  <label htmlFor="ai-chat-key">{t.keyLabel}</label>
+                  {providerId === 'cloudflare' && (
+                    <>
+                      <label htmlFor="ai-chat-account-id">{t.cloudflareAccount}</label>
+                      <div className="ai-chat__key-field">
+                        <input id="ai-chat-account-id" value={cloudflareAccountId}
+                          onInput={(event) => setCloudflareAccountId(event.currentTarget.value)}
+                          placeholder={t.cloudflareAccountPlaceholder} spellCheck={false}
+                          autoComplete="off" maxLength={32} />
+                      </div>
+                    </>
+                  )}
+                  <label htmlFor="ai-chat-key">{providerId === 'cloudflare' ? t.cloudflareToken : t.keyLabel}</label>
                   <div className="ai-chat__key-field">
                     <input id="ai-chat-key" type={showKey ? 'text' : 'password'} value={apiKey}
                       onInput={(event) => setApiKey(event.currentTarget.value)} autoComplete="off" spellCheck={false}
@@ -517,26 +657,28 @@ export function AiChatWidget() {
                       <Icon name={showKey ? 'eye-off' : 'eye'} />
                     </button>
                   </div>
-                  <p className="ai-chat__key-help">{t.keyHelp}</p>
+                  <p className="ai-chat__key-help">{providerId === 'cloudflare' ? t.cloudflareKeyHelp : t.keyHelp}</p>
                   {selectedProvider.keyUrl && (
                     <a className="ai-chat__key-link" href={selectedProvider.keyUrl} target="_blank" rel="noopener noreferrer">
                       {t.getKey} <Icon name="arrow" />
                     </a>
                   )}
-                  <button className="ai-chat__continue" type="submit" disabled={!apiKey.trim()}>
+                  <button className="ai-chat__continue" type="submit"
+                    disabled={!apiKey.trim() || (providerId === 'cloudflare'
+                      && !/^[0-9a-f]{32}$/i.test(cloudflareAccountId.trim()))}>
                     {t.continue} <Icon name="arrow" />
                   </button>
                 </form>
               </div>
             )}
 
-            {stage === 'chat' && (providerId === 'gemini' || providerId === 'groq') && (
+            {stage === 'chat' && (providerId === 'gemini' || providerId === 'groq' || providerId === 'openrouter' || providerId === 'cloudflare') && (
               <div className="ai-chat__transcript" ref={transcriptRef} role="log" aria-label={`${selectedProvider?.name ?? ''} chat`}>
                 {messages.length === 0 && (
                   <div className="ai-chat__welcome">
                     <h2>{t.welcome}</h2>
-                    <p>{t.welcomeIntro} <strong>{selectedProvider?.name}</strong> · {providerId === 'gemini' ? geminiModel : groqModel}</p>
-                    <p className="ai-chat__ready-note">{providerId === 'gemini' ? t.geminiReady : t.groqReady}</p>
+                    <p>{t.welcomeIntro} <strong>{selectedProvider?.name}</strong> · {providerId === 'gemini' ? geminiModel : providerId === 'groq' ? groqModel : providerId === 'openrouter' ? openRouterModel : cloudflareModel}</p>
+                    <p className="ai-chat__ready-note">{providerId === 'gemini' ? t.geminiReady : providerId === 'groq' ? t.groqReady : providerId === 'openrouter' ? t.openRouterReady : t.cloudflareReady}</p>
                   </div>
                 )}
                 {messages.map((message) => (
@@ -552,34 +694,26 @@ export function AiChatWidget() {
                         }}>{message.text}</ReactMarkdown>
                       </div>
                     ) : message.streaming ? (
-                      <p className="ai-chat__streaming">{providerId === 'gemini' ? t.geminiThinking : t.groqThinking}</p>
+                      <p className="ai-chat__streaming">{providerId === 'gemini' ? t.geminiThinking : providerId === 'groq' ? t.groqThinking : providerId === 'openrouter' ? t.openRouterThinking : t.cloudflareThinking}</p>
                     ) : null}
                   </div>
                 ))}
                 {failure && (
                   <div className="ai-chat__chat-error" role="alert">
-                    <p>{providerId === 'gemini' ? t.geminiErrors[failure.code] : t.groqErrors[failure.code]}</p>
+                    <p>{providerId === 'gemini' ? t.geminiErrors[failure.code] : providerId === 'groq' ? t.groqErrors[failure.code] : providerId === 'openrouter' ? t.openRouterErrors[failure.code] : t.cloudflareErrors[failure.code]}</p>
                     <button type="button" onClick={retryMessage} disabled={sending}>{t.geminiRetry}</button>
                   </div>
                 )}
               </div>
             )}
 
-            {stage === 'chat' && selectedProvider && providerId !== 'gemini' && providerId !== 'groq' && (
-              <div className="ai-chat__welcome">
-                <h2>{t.welcome}</h2>
-                <p>{t.welcomeIntro} <strong>{selectedProvider.name}</strong>.</p>
-                <p className="ai-chat__ready-note">{t.readyNote}</p>
-                <button type="button" className="ai-chat__switch" onClick={restart}>{t.back} <Icon name="arrow" /></button>
-              </div>
-            )}
           </div>
 
-          {stage === 'chat' && (providerId === 'gemini' || providerId === 'groq') && (
+          {stage === 'chat' && (providerId === 'gemini' || providerId === 'groq' || providerId === 'openrouter' || providerId === 'cloudflare') && (
             <footer className="ai-chat__footer">
               <div className="ai-chat__model-settings">
-                <label htmlFor={providerId === 'gemini' ? 'ai-chat-gemini-model' : 'ai-chat-groq-model'}>
-                  {providerId === 'gemini' ? t.geminiModel : t.groqModel}
+                <label htmlFor={providerId === 'gemini' ? 'ai-chat-gemini-model' : providerId === 'groq' ? 'ai-chat-groq-model' : providerId === 'openrouter' ? 'ai-chat-openrouter-model' : 'ai-chat-cloudflare-model'}>
+                  {providerId === 'gemini' ? t.geminiModel : providerId === 'groq' ? t.groqModel : providerId === 'openrouter' ? t.openRouterModel : t.cloudflareModel}
                 </label>
                 {providerId === 'gemini' ? (
                 <select id="ai-chat-gemini-model" value={geminiModel}
@@ -590,7 +724,7 @@ export function AiChatWidget() {
                     <option key={model.id} value={model.id}>{model.label}</option>
                   ))}
                 </select>
-                ) : (
+                ) : providerId === 'groq' ? (
                 <select id="ai-chat-groq-model" value={groqModel}
                   disabled={sending}
                   title={t.geminiModelChangeHint}
@@ -599,16 +733,40 @@ export function AiChatWidget() {
                     <option key={model.id} value={model.id}>{model.label}</option>
                   ))}
                 </select>
+                ) : providerId === 'openrouter' ? (
+                <select id="ai-chat-openrouter-model" value={openRouterModel}
+                  disabled={sending}
+                  title={t.geminiModelChangeHint}
+                  onChange={(event) => chooseOpenRouterModel(event.currentTarget.value as OpenRouterModelId)}>
+                  {OPENROUTER_MODELS.map((model) => (
+                    <option key={model.id} value={model.id}>{model.label}</option>
+                  ))}
+                </select>
+                ) : (
+                <select id="ai-chat-cloudflare-model" value={cloudflareModel}
+                  disabled={sending}
+                  title={t.geminiModelChangeHint}
+                  onChange={(event) => chooseCloudflareModel(event.currentTarget.value as CloudflareAiModelId)}>
+                  {CLOUDFLARE_AI_MODELS.map((model) => (
+                    <option key={model.id} value={model.id}>{model.label}</option>
+                  ))}
+                </select>
                 )}
                 <span className="ai-chat__model-hint">{t.geminiModelChangeHint}</span>
-                <a href={providerId === 'gemini' ? 'https://aistudio.google.com/rate-limit' : GROQ_LIMITS_URL}
+                <a href={providerId === 'gemini' ? 'https://aistudio.google.com/rate-limit' : providerId === 'groq' ? GROQ_LIMITS_URL : providerId === 'openrouter' ? OPENROUTER_USAGE_URL : CLOUDFLARE_AI_USAGE_URL}
                   target="_blank" rel="noopener noreferrer" className="ai-chat__usage-link">
-                  {providerId === 'gemini' ? t.geminiUsage : t.groqUsage}
+                  {providerId === 'gemini' ? t.geminiUsage : providerId === 'groq' ? t.groqUsage : providerId === 'openrouter' ? t.openRouterUsage : t.cloudflareUsage}
                 </a>
+                {providerId === 'openrouter' && (
+                  <a href={OPENROUTER_FREE_MODELS_URL} target="_blank"
+                    rel="noopener noreferrer" className="ai-chat__usage-link ai-chat__more-models-link">
+                    {t.openRouterModelsLink}
+                  </a>
+                )}
               </div>
               <form className="ai-chat__composer" onSubmit={submitMessage}>
-                <textarea aria-label={providerId === 'gemini' ? t.geminiComposer : t.groqComposer}
-                  placeholder={providerId === 'gemini' ? t.geminiComposer : t.groqComposer}
+                <textarea aria-label={providerId === 'gemini' ? t.geminiComposer : providerId === 'groq' ? t.groqComposer : providerId === 'openrouter' ? t.openRouterComposer : t.cloudflareComposer}
+                  placeholder={providerId === 'gemini' ? t.geminiComposer : providerId === 'groq' ? t.groqComposer : providerId === 'openrouter' ? t.openRouterComposer : t.cloudflareComposer}
                   rows={1} maxLength={16000} value={draft} disabled={sending}
                   onInput={(event) => setDraft(event.currentTarget.value)}
                   onKeyDown={(event) => {
@@ -625,15 +783,6 @@ export function AiChatWidget() {
             </footer>
           )}
 
-          {stage === 'chat' && providerId !== 'gemini' && providerId !== 'groq' && (
-            <footer className="ai-chat__footer">
-              <div className="ai-chat__composer">
-                <textarea aria-label={t.composer} placeholder={t.composer} rows={1} disabled />
-                <button type="button" disabled aria-label={t.send}><Icon name="arrow" /></button>
-              </div>
-              <p>{t.pending}</p>
-            </footer>
-          )}
         </section>
       )}
     </div>

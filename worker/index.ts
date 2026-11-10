@@ -6,6 +6,7 @@ import {
   type CoordinatorRpcResult,
 } from './local-run/types';
 import type { WorkerEnv } from './types';
+import { handleCloudflareAiChat } from './ai/cloudflare';
 
 export { LocalRunCoordinator };
 
@@ -45,6 +46,7 @@ async function respond(request: Request, env: WorkerEnv): Promise<Response> {
 
   // Unknown API routes must be JSON 404s, not the SPA's index.html.
   const path = url.pathname;
+  if (path === '/api/ai/cloudflare') return handleCloudflareAiChat(request, env);
   if (![
     '/api/local-run/build', '/api/local-run/status', '/api/local-run/artifact',
     '/api/local-run/source/build', '/api/local-run/source/status', '/api/local-run/source/artifact',

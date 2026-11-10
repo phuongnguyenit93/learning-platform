@@ -6,4 +6,5 @@ export interface WorkerEnv {
   GITHUB_ACTION_TOKEN?: string;
   LOCAL_RUN_COORDINATOR: DurableObjectNamespace<LocalRunCoordinator>;
   BUILD_RATE_LIMITER: RateLimit;
+  AI_CHAT_RATE_LIMITER: RateLimit;
 }

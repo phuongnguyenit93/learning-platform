@@ -130,6 +130,46 @@ test('Gemini UI sends chat directly and replays memory; reset clears the session
   });
 });
 
+test('Gemini model selector lists ten models, links to limits, and changes requests without reusing old context or key prompt', async () => {
+  const requests: Array<{ model: string; input: unknown[]; key: string | null }> = [];
+  await withChat((async (_url: RequestInfo | URL, init?: RequestInit) => {
+    const body = JSON.parse(String(init?.body)) as { model: string; input: unknown[] };
+    requests.push({
+      model: body.model, input: body.input,
+      key: new Headers(init?.headers).get('x-goog-api-key'),
+    });
+    return sseReply('Đã trả lời');
+  }) as typeof fetch, async (host, browser) => {
+    const selector = host.querySelector<HTMLSelectElement>('#ai-chat-gemini-model');
+    assert.ok(selector);
+    assert.equal(selector.options.length, 10);
+    assert.equal(selector.value, 'gemini-3.5-flash-lite');
+    const usageLink = host.querySelector<HTMLAnchorElement>('.ai-chat__usage-link');
+    assert.ok(usageLink);
+    assert.equal(usageLink.href, 'https://aistudio.google.com/rate-limit');
+    assert.equal(usageLink.target, '_blank');
+    assert.match(usageLink.rel, /noopener/);
+    assert.match(host.textContent ?? '', /Đổi model sẽ bắt đầu hội thoại mới/);
+
+    await send(host, browser, 'Tin nhắn cho model mặc định');
+    assert.equal(requests[0].model, 'gemini-3.5-flash-lite');
+    assert.equal(host.querySelectorAll('.ai-chat__message--user').length, 1);
+
+    await act(async () => {
+      selector.value = 'gemini-3.8-flash';
+      selector.dispatchEvent(new browser.Event('change', { bubbles: true }));
+    });
+    assert.equal(selector.value, 'gemini-3.8-flash');
+    assert.equal(host.querySelectorAll('.ai-chat__message').length, 0,
+      'Changing models should clear both the visible transcript and stateless memory');
+    assert.match(host.textContent ?? '', /gemini-3.8-flash/);
+    await send(host, browser, 'Tin nhắn model mới');
+    assert.equal(requests[1].model, 'gemini-3.8-flash');
+    assert.equal(requests[1].input.length, 1, 'Previous model steps must not be replayed');
+    assert.equal(requests[1].key, 'test-visitor-key', 'Model changes should retain the API key in RAM');
+  });
+});
+
 test('Gemini quota errors offer retry without duplicating user messages', async () => {
   let calls = 0;
   await withChat((async () => {
@@ -158,6 +198,8 @@ test('Reset aborts an in-flight Gemini request and discards its late result', as
     await send(host, browser, 'Câu hỏi chưa hoàn thành');
     assert.ok(signal);
     assert.equal(signal.aborted, false);
+    assert.equal(host.querySelector<HTMLSelectElement>('#ai-chat-gemini-model')?.disabled, true,
+      'Model selection must be locked while a response is streaming');
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="Bắt đầu lại"]')?.click());
     assert.equal(signal.aborted, true);
     assert.ok(host.querySelector('.ai-chat__providers'));

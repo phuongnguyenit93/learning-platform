@@ -3,8 +3,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useLanguage } from '../state/LanguageContext';
 import {
-  GEMINI_MODEL, GeminiApiError, streamGeminiMessage,
-  type GeminiErrorCode, type GeminiTurn,
+  GEMINI_DEFAULT_MODEL, GEMINI_MODELS, GeminiApiError, streamGeminiMessage,
+  type GeminiErrorCode, type GeminiModelId, type GeminiTurn,
 } from '../data/geminiDirect';
 
 type ProviderId = 'gemini' | 'groq' | 'openrouter' | 'cloudflare';
@@ -75,6 +75,9 @@ const translations = {
     geminiSession: 'Không lưu lịch sử · F5 sẽ xóa cuộc trò chuyện và API key',
     geminiThinking: 'Gemini đang trả lời…',
     geminiRetry: 'Thử lại',
+    geminiModel: 'Chọn model Gemini',
+    geminiModelChangeHint: 'Đổi model sẽ bắt đầu hội thoại mới nhưng giữ API key.',
+    geminiUsage: 'Xem API Usage Limits trên Google AI Studio',
     geminiErrors: {
       auth: 'API key không hợp lệ, chưa được cấp quyền hoặc bị giới hạn. Hãy kiểm tra lại key trong Google AI Studio.',
       quota: 'Gemini đã trả lỗi 429: quá giới hạn tốc độ hoặc hết quota. Hãy thử lại sau.',
@@ -118,6 +121,9 @@ const translations = {
     geminiSession: 'No chat history stored · Refresh clears messages and API key',
     geminiThinking: 'Gemini is responding…',
     geminiRetry: 'Try again',
+    geminiModel: 'Choose Gemini model',
+    geminiModelChangeHint: 'Changing models starts a new chat but keeps your API key.',
+    geminiUsage: 'View API Usage Limits in Google AI Studio',
     geminiErrors: {
       auth: 'Invalid, unauthorized, or restricted API key. Check the key in Google AI Studio.',
       quota: 'Gemini returned HTTP 429: rate limit or quota exceeded. Please try later.',
@@ -159,6 +165,7 @@ export function AiChatWidget() {
   const [stage, setStage] = useState<Stage>('providers');
   const [providerId, setProviderId] = useState<ProviderId | null>(null);
   const [apiKey, setApiKey] = useState('');
+  const [geminiModel, setGeminiModel] = useState<GeminiModelId>(GEMINI_DEFAULT_MODEL);
   const [showKey, setShowKey] = useState(false);
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -207,6 +214,7 @@ export function AiChatWidget() {
 
   function chooseProvider(id: ProviderId) {
     resetConversation();
+    setGeminiModel(GEMINI_DEFAULT_MODEL);
     setProviderId(id);
     setApiKey('');
     setShowKey(false);
@@ -215,6 +223,7 @@ export function AiChatWidget() {
 
   function restart() {
     resetConversation();
+    setGeminiModel(GEMINI_DEFAULT_MODEL);
     setStage('providers');
     setProviderId(null);
     setApiKey('');
@@ -224,6 +233,12 @@ export function AiChatWidget() {
   function acceptKey(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (providerId && apiKey.trim()) setStage('chat');
+  }
+
+  function chooseGeminiModel(model: GeminiModelId) {
+    if (sending || model === geminiModel) return;
+    resetConversation();
+    setGeminiModel(model);
   }
 
   async function sendGemini(prompt: string) {
@@ -245,7 +260,7 @@ export function AiChatWidget() {
     ]);
     try {
       const result = await streamGeminiMessage({
-        apiKey, prompt: content, turns, signal: controller.signal,
+        apiKey, model: geminiModel, prompt: content, turns, signal: controller.signal,
         onText: (text) => {
           if (epoch !== epochRef.current) return;
           setMessages((current) => current.map((message) =>
@@ -381,7 +396,7 @@ export function AiChatWidget() {
                 {messages.length === 0 && (
                   <div className="ai-chat__welcome">
                     <h2>{t.welcome}</h2>
-                    <p>{t.welcomeIntro} <strong>Gemini</strong> · {GEMINI_MODEL}</p>
+                    <p>{t.welcomeIntro} <strong>Gemini</strong> · {geminiModel}</p>
                     <p className="ai-chat__ready-note">{t.geminiReady}</p>
                   </div>
                 )}
@@ -423,6 +438,20 @@ export function AiChatWidget() {
 
           {stage === 'chat' && providerId === 'gemini' && (
             <footer className="ai-chat__footer">
+              <div className="ai-chat__model-settings">
+                <label htmlFor="ai-chat-gemini-model">{t.geminiModel}</label>
+                <select id="ai-chat-gemini-model" value={geminiModel}
+                  disabled={sending}
+                  title={t.geminiModelChangeHint}
+                  onChange={(event) => chooseGeminiModel(event.currentTarget.value as GeminiModelId)}>
+                  {GEMINI_MODELS.map((model) => (
+                    <option key={model.id} value={model.id}>{model.label}</option>
+                  ))}
+                </select>
+                <span className="ai-chat__model-hint">{t.geminiModelChangeHint}</span>
+                <a href="https://aistudio.google.com/rate-limit" target="_blank"
+                  rel="noopener noreferrer" className="ai-chat__usage-link">{t.geminiUsage}</a>
+              </div>
               <form className="ai-chat__composer" onSubmit={submitGemini}>
                 <textarea aria-label={t.geminiComposer} placeholder={t.geminiComposer}
                   rows={1} maxLength={16000} value={draft} disabled={sending}

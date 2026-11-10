@@ -6,7 +6,22 @@
  * Stateless multi-turn: always replay the FULL model steps (including thought
  * signatures), never just the visible assistant text.
  */
-export const GEMINI_MODEL = 'gemini-3.5-flash-lite';
+/** Text-output models supported by the Gemini Interactions API. Availability
+ * and free-tier allowances still depend on the visitor's Google AI project. */
+export const GEMINI_MODELS = [
+  { id: 'gemini-3.8-flash', label: 'Gemini 3.8 Flash' },
+  { id: 'gemini-3.7-flash', label: 'Gemini 3.7 Flash' },
+  { id: 'gemini-3.6-flash', label: 'Gemini 3.6 Flash' },
+  { id: 'gemini-3.5-flash', label: 'Gemini 3.5 Flash' },
+  { id: 'gemini-3.5-flash-lite', label: 'Gemini 3.5 Flash-Lite' },
+  { id: 'gemini-3.1-flash-lite', label: 'Gemini 3.1 Flash-Lite' },
+  { id: 'gemini-3-flash-preview', label: 'Gemini 3 Flash Preview' },
+  { id: 'gemini-2.5-pro', label: 'Gemini 2.5 Pro' },
+  { id: 'gemini-2.5-flash', label: 'Gemini 2.5 Flash' },
+  { id: 'gemini-2.5-flash-lite', label: 'Gemini 2.5 Flash-Lite' },
+] as const;
+export type GeminiModelId = (typeof GEMINI_MODELS)[number]['id'];
+export const GEMINI_DEFAULT_MODEL: GeminiModelId = 'gemini-3.5-flash-lite';
 const INTERACTIONS_URL = 'https://generativelanguage.googleapis.com/v1beta/interactions?alt=sse';
 
 type GeminiUserInput = { type: 'user_input'; content: Array<{ type: 'text'; text: string }> };
@@ -28,6 +43,7 @@ export class GeminiApiError extends Error {
 
 interface StreamGeminiOptions {
   apiKey: string;
+  model: GeminiModelId;
   prompt: string;
   turns: readonly GeminiTurn[];
   signal: AbortSignal;
@@ -65,7 +81,7 @@ function record(value: unknown): Record<string, unknown> | null {
  * model step to preserve thought signatures for future stateless turns.
  */
 export async function streamGeminiMessage({
-  apiKey, prompt, turns, signal, onText, fetcher = fetch,
+  apiKey, model, prompt, turns, signal, onText, fetcher = fetch,
 }: StreamGeminiOptions): Promise<{ text: string; turn: GeminiTurn }> {
   const currentInput = userInput(prompt);
   const input = turns.flatMap((turn) => [turn.userInput, ...turn.responseSteps]);
@@ -79,7 +95,7 @@ export async function streamGeminiMessage({
         'Content-Type': 'application/json',
         'x-goog-api-key': apiKey.trim(),
       },
-      body: JSON.stringify({ model: GEMINI_MODEL, input, store: false, stream: true }),
+      body: JSON.stringify({ model, input, store: false, stream: true }),
       signal,
       cache: 'no-store',
       // Browser keys can be restricted to the caller's website origin.

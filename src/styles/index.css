@@ -7895,6 +7895,52 @@ body:has(.app-shell--module-viewport) #root {
   margin: 0 auto;
 }
 
+.ai-chat__model-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 11px;
+}
+
+.ai-chat__model-settings label {
+  color: var(--text-soft);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.ai-chat__model-settings select {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 9px;
+  background: var(--surface-soft);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ai-chat__model-settings select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ai-chat__model-hint {
+  color: var(--text-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.ai-chat__usage-link {
+  align-self: flex-start;
+  color: var(--blue);
+  font-size: 11px;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .ai-chat__composer {
   display: flex;
   align-items: flex-end;

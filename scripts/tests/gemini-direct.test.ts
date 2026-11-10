@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
-  GEMINI_MODEL, GeminiApiError, streamGeminiMessage, type GeminiTurn,
+  GEMINI_DEFAULT_MODEL, GEMINI_MODELS, GeminiApiError, streamGeminiMessage, type GeminiTurn,
 } from '../../src/data/geminiDirect';
 
 const frame = (event: string, data: object | string) =>
@@ -34,6 +34,13 @@ function successfulResponse(answer: string, signature = 'signature-for-next-turn
   ].join(''));
 }
 
+test('Gemini catalog provides ten distinct text-output models and the current default', () => {
+  assert.equal(GEMINI_MODELS.length, 10);
+  assert.equal(new Set(GEMINI_MODELS.map((model) => model.id)).size, 10);
+  assert.ok(GEMINI_MODELS.some((model) => model.id === GEMINI_DEFAULT_MODEL));
+  assert.ok(GEMINI_MODELS.every((model) => model.label && model.id.startsWith('gemini-')));
+});
+
 test('Gemini direct request streams split SSE chunks; second stateless turn replays thought signatures', async () => {
   const payloads: Record<string, unknown>[] = [];
   const progress: string[] = [];
@@ -46,7 +53,7 @@ test('Gemini direct request streams split SSE chunks; second stateless turn repl
     assert.equal(init?.cache, 'no-store');
     assert.equal(init?.referrerPolicy, 'strict-origin-when-cross-origin');
     const payload = JSON.parse(String(init?.body)) as Record<string, unknown>;
-    assert.equal(payload.model, GEMINI_MODEL);
+    assert.equal(payload.model, GEMINI_DEFAULT_MODEL);
     assert.equal(payload.store, false);
     assert.equal(payload.stream, true);
     assert.ok(!String(url).includes('visitor-secret'));
@@ -55,7 +62,7 @@ test('Gemini direct request streams split SSE chunks; second stateless turn repl
   }) as typeof fetch;
 
   const first = await streamGeminiMessage({
-    apiKey: ' visitor-secret ', prompt: 'Tôi có 2 con mèo',
+    apiKey: ' visitor-secret ', model: GEMINI_DEFAULT_MODEL, prompt: 'Tôi có 2 con mèo',
     turns: [], signal: new AbortController().signal, onText: (value) => progress.push(value), fetcher,
   });
   assert.equal(first.text, 'Xin chào');
@@ -66,7 +73,7 @@ test('Gemini direct request streams split SSE chunks; second stateless turn repl
   ]);
 
   const next = await streamGeminiMessage({
-    apiKey: 'visitor-secret', prompt: 'Tôi có mấy con?',
+    apiKey: 'visitor-secret', model: GEMINI_DEFAULT_MODEL, prompt: 'Tôi có mấy con?',
     turns: [first.turn], signal: new AbortController().signal, onText: () => {}, fetcher,
   });
   assert.equal(next.text, 'Có 2 con');
@@ -89,19 +96,19 @@ test('Gemini rejects invalid keys, quotas, unknown models and network failures w
   ] as const;
   for (const [status, code] of cases) {
     await assert.rejects(streamGeminiMessage({
-      apiKey: 'visitor-secret', prompt: 'Hi', turns: [] as GeminiTurn[],
+      apiKey: 'visitor-secret', model: GEMINI_DEFAULT_MODEL, prompt: 'Hi', turns: [] as GeminiTurn[],
       signal: new AbortController().signal, onText: () => {},
       fetcher: (async () => new Response(JSON.stringify({ error: { message: 'key visitor-secret' } }), { status })) as typeof fetch,
     }), (error: unknown) => error instanceof GeminiApiError && error.code === code &&
       !error.message.includes('visitor-secret'));
   }
   await assert.rejects(streamGeminiMessage({
-    apiKey: 'visitor-secret', prompt: 'Hi', turns: [],
+    apiKey: 'visitor-secret', model: GEMINI_DEFAULT_MODEL, prompt: 'Hi', turns: [],
     signal: new AbortController().signal, onText: () => {},
     fetcher: (async () => { throw new TypeError('Blocked by CORS'); }) as typeof fetch,
   }), (error: unknown) => error instanceof GeminiApiError && error.code === 'network');
   await assert.rejects(streamGeminiMessage({
-    apiKey: 'visitor-secret', prompt: 'Hi', turns: [],
+    apiKey: 'visitor-secret', model: GEMINI_DEFAULT_MODEL, prompt: 'Hi', turns: [],
     signal: new AbortController().signal, onText: () => {},
     fetcher: (async () => new Response(JSON.stringify({
       error: { status: 'INVALID_ARGUMENT', message: 'API key not valid. Please pass a valid API key.' },
@@ -116,7 +123,7 @@ test('Missing completion or thought step cannot be persisted as valid conversati
     frame('step.stop', { index: 0 }),
   ].join('');
   await assert.rejects(streamGeminiMessage({
-    apiKey: 'visitor-secret', prompt: 'Hello', turns: [],
+    apiKey: 'visitor-secret', model: GEMINI_DEFAULT_MODEL, prompt: 'Hello', turns: [],
     signal: new AbortController().signal, onText: () => {},
     fetcher: (async () => streamResponse(noCompletion)) as typeof fetch,
   }), (error: unknown) => error instanceof GeminiApiError && error.code === 'response');
@@ -125,7 +132,7 @@ test('Missing completion or thought step cannot be persisted as valid conversati
     frame('interaction.completed', { interaction: { status: 'completed' } }),
   ].join('');
   await assert.rejects(streamGeminiMessage({
-    apiKey: 'visitor-secret', prompt: 'Hello', turns: [],
+    apiKey: 'visitor-secret', model: GEMINI_DEFAULT_MODEL, prompt: 'Hello', turns: [],
     signal: new AbortController().signal, onText: () => {},
     fetcher: (async () => streamResponse(unsupported)) as typeof fetch,
   }), (error: unknown) => error instanceof GeminiApiError && error.code === 'response');

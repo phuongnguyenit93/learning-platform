@@ -11,8 +11,10 @@ import type {
 } from '../types/learning';
 import { QuestionReadingFrame } from './ReadingFullscreen';
 import { RelatedKnowledgeList } from './RelatedKnowledgeList';
+import { openAiSupportTopic, quizTopic } from '../data/aiSupportTopic';
 
 interface QuizPanelProps {
+  moduleName?: string;
   path?: string;
   knowledgeIndex: KnowledgeIndex | null;
   onNavigateToKnowledge: (section: KnowledgeSectionRef, origin: HTMLButtonElement) => void;
@@ -24,7 +26,7 @@ interface ShuffledQuestion extends Omit<QuizQuestion, 'answers'> {
 
 const displayLabels = ['A', 'B', 'C', 'D'];
 
-export function QuizPanel({ path, knowledgeIndex, onNavigateToKnowledge }: QuizPanelProps) {
+export function QuizPanel({ path, knowledgeIndex, onNavigateToKnowledge, moduleName = '' }: QuizPanelProps) {
   const { language } = useLanguage();
   const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'quiz', knowledgeIndex);
@@ -201,6 +203,16 @@ export function QuizPanel({ path, knowledgeIndex, onNavigateToKnowledge }: QuizP
               <RelatedKnowledgeList related={question.readmeRelated} knowledgeIndex={knowledgeIndex}
                 onNavigateToKnowledge={onNavigateToKnowledge} />
             </details>
+            <button type="button" className="ai-topic-action ai-topic-action--assessment"
+              onClick={() => openAiSupportTopic(quizTopic(
+                moduleName || knowledgeIndex?.moduleId || '',
+                selected?.title ?? '',
+                question.question,
+                question.answers,
+                question.correctAnswerId,
+              ))}>
+              {language === 'vi' ? 'Hỏi AI Support về chủ đề này' : 'Ask AI Support about this topic'}
+            </button>
           </article>
         );
       })}

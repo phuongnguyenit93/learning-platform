@@ -11,6 +11,7 @@ import { loadVideoIndex } from '../data/video';
 import { loadKnowledgeSummaryChapter, loadKnowledgeSummaryIndex } from '../data/knowledgeSummary';
 import { legacyChapterSummaryRoadmap } from '../data/legacyChapterSummaryRoadmap';
 import { useLanguage } from '../state/LanguageContext';
+import { openAiSupportTopic } from '../data/aiSupportTopic';
 import type {
   KnowledgeDifficulty,
   KnowledgeIndex,
@@ -35,6 +36,7 @@ function resolveDifficultyLabel(difficulty: KnowledgeDifficulty, language: 'vi' 
 }
 
 interface KnowledgePanelProps {
+  moduleName?: string;
   index: KnowledgeIndex | null;
   loading: boolean;
   error: string | null;
@@ -52,6 +54,7 @@ interface KnowledgePanelProps {
 }
 
 export function KnowledgePanel({
+  moduleName = '',
   index,
   loading,
   error,
@@ -833,6 +836,15 @@ export function KnowledgePanel({
 
         {expanded && (
           <div className="knowledge-card__body">
+            <button type="button" className="ai-topic-action ai-topic-action--knowledge"
+              onClick={() => openAiSupportTopic({
+                kind: 'knowledge',
+                moduleName: moduleName || index?.moduleId || '',
+                groupTitle: section.categoryTitle,
+                itemTitle: formatKnowledgeDisplayTitle(section.title),
+              })}>
+              {language === 'vi' ? 'Hỏi AI Support về chủ đề này' : 'Ask AI Support about this topic'}
+            </button>
             {isLoading && <div className="knowledge-section-status">{language === 'vi' ? 'Đang tải nội dung...' : 'Loading content...'}</div>}
 
             {!isLoading && sectionError && (

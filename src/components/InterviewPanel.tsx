@@ -5,6 +5,7 @@ import { QuestionChapterPicker, useQuestionChapterSelection } from './QuestionCh
 import { QuestionReadingFrame } from './ReadingFullscreen';
 import { RelatedKnowledgeList } from './RelatedKnowledgeList';
 import { useLanguage } from '../state/LanguageContext';
+import { openAiSupportTopic } from '../data/aiSupportTopic';
 import type {
   InterviewQuestion,
   KnowledgeIndex,
@@ -12,12 +13,13 @@ import type {
 } from '../types/learning';
 
 interface InterviewPanelProps {
+  moduleName?: string;
   path?: string;
   knowledgeIndex: KnowledgeIndex | null;
   onNavigateToKnowledge: (section: KnowledgeSectionRef, origin: HTMLButtonElement) => void;
 }
 
-export function InterviewPanel({ path, knowledgeIndex, onNavigateToKnowledge }: InterviewPanelProps) {
+export function InterviewPanel({ path, knowledgeIndex, onNavigateToKnowledge, moduleName = '' }: InterviewPanelProps) {
   const { language } = useLanguage();
   const { chapters, selected, selectChapter, mode, loading: indexLoading, error: indexError } =
     useQuestionChapterSelection(path, 'interview', knowledgeIndex);
@@ -155,6 +157,15 @@ export function InterviewPanel({ path, knowledgeIndex, onNavigateToKnowledge }: 
               <RelatedKnowledgeList related={question.readmeRelated} knowledgeIndex={knowledgeIndex}
                 onNavigateToKnowledge={onNavigateToKnowledge} />
             </details>
+            <button type="button" className="ai-topic-action ai-topic-action--assessment"
+              onClick={() => openAiSupportTopic({
+                kind: 'interview',
+                moduleName: moduleName || knowledgeIndex?.moduleId || '',
+                groupTitle: selected?.title ?? '',
+                itemTitle: question.question,
+              })}>
+              {language === 'vi' ? 'Hỏi AI Support về chủ đề này' : 'Ask AI Support about this topic'}
+            </button>
           </article>
         );
       })}

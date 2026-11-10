@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useLanguage } from '../state/LanguageContext';
@@ -6,6 +7,9 @@ import {
   GEMINI_DEFAULT_MODEL, GEMINI_MODELS, GeminiApiError, streamGeminiMessage,
   type GeminiErrorCode, type GeminiModelId, type GeminiTurn,
 } from '../data/geminiDirect';
+import {
+  AI_SUPPORT_TOPIC_EVENT, formatAiSupportQuestion, type AiSupportTopic,
+} from '../data/aiSupportTopic';
 
 type ProviderId = 'gemini' | 'groq' | 'openrouter' | 'cloudflare';
 type Stage = 'providers' | 'api-key' | 'chat';
@@ -78,6 +82,16 @@ const translations = {
     geminiModel: 'Chọn model Gemini',
     geminiModelChangeHint: 'Đổi model sẽ bắt đầu hội thoại mới nhưng giữ API key.',
     geminiUsage: 'Xem API Usage Limits trên Google AI Studio',
+    topicHeading: 'Chủ đề đang hỏi',
+    topicModule: 'Menu tổng · Module',
+    topicChapter: 'Menu cấp 1 · Chương',
+    topicQuizGroup: 'Menu cấp 1 · Nhóm Quiz',
+    topicInterviewGroup: 'Menu cấp 1 · Nhóm Interview',
+    topicLesson: 'Menu cấp 2 · Bài học',
+    topicQuizQuestion: 'Menu cấp 2 · Câu hỏi Quiz',
+    topicInterviewQuestion: 'Menu cấp 2 · Câu hỏi Interview',
+    topicRemove: 'Bỏ chủ đề này',
+    topicRemoveHint: 'Bỏ ngữ cảnh chủ đề và bắt đầu chat bình thường, giữ nguyên API key và model',
     geminiErrors: {
       auth: 'API key không hợp lệ, chưa được cấp quyền hoặc bị giới hạn. Hãy kiểm tra lại key trong Google AI Studio.',
       quota: 'Gemini đã trả lỗi 429: quá giới hạn tốc độ hoặc hết quota. Hãy thử lại sau.',
@@ -124,6 +138,16 @@ const translations = {
     geminiModel: 'Choose Gemini model',
     geminiModelChangeHint: 'Changing models starts a new chat but keeps your API key.',
     geminiUsage: 'View API Usage Limits in Google AI Studio',
+    topicHeading: 'Current topic',
+    topicModule: 'Main menu · Module',
+    topicChapter: 'Level 1 · Chapter',
+    topicQuizGroup: 'Level 1 · Quiz group',
+    topicInterviewGroup: 'Level 1 · Interview group',
+    topicLesson: 'Level 2 · Lesson',
+    topicQuizQuestion: 'Level 2 · Quiz question',
+    topicInterviewQuestion: 'Level 2 · Interview question',
+    topicRemove: 'Remove this topic',
+    topicRemoveHint: 'Clear the topic and start a normal chat, keeping your API key and model',
     geminiErrors: {
       auth: 'Invalid, unauthorized, or restricted API key. Check the key in Google AI Studio.',
       quota: 'Gemini returned HTTP 429: rate limit or quota exceeded. Please try later.',
@@ -172,6 +196,8 @@ export function AiChatWidget() {
   const [turns, setTurns] = useState<GeminiTurn[]>([]);
   const [sending, setSending] = useState(false);
   const [failure, setFailure] = useState<ChatFailure | null>(null);
+  const [topic, setTopic] = useState<AiSupportTopic | null>(null);
+  const [fullscreenHost, setFullscreenHost] = useState<HTMLElement | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
   const epochRef = useRef(0);
   const messageIdRef = useRef(0);
@@ -195,13 +221,27 @@ export function AiChatWidget() {
     controllerRef.current?.abort();
   }, []);
 
+  // The learning reader uses native fullscreen on its content element. An AI
+  // popup outside that element would be hidden by the browser's fullscreen top
+  // layer, regardless of z-index. Portal into the active fullscreen surface.
+  useEffect(() => {
+    const updateHost = () => {
+      const active = document.fullscreenElement;
+      setFullscreenHost(active?.matches('.learning-main--reading, .reading-fullscreen-surface')
+        ? active as HTMLElement : null);
+    };
+    updateHost();
+    document.addEventListener('fullscreenchange', updateHost);
+    return () => document.removeEventListener('fullscreenchange', updateHost);
+  }, []);
+
   useEffect(() => {
     if (transcriptRef.current) {
       transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
     }
   }, [messages]);
 
-  function resetConversation() {
+  const resetConversation = useCallback(() => {
     epochRef.current += 1;
     controllerRef.current?.abort();
     controllerRef.current = null;
@@ -210,6 +250,23 @@ export function AiChatWidget() {
     setDraft('');
     setSending(false);
     setFailure(null);
+  }, []);
+
+  useEffect(() => {
+    const onTopic = (event: Event) => {
+      const nextTopic = (event as CustomEvent<AiSupportTopic>).detail;
+      if (!nextTopic || !['knowledge', 'quiz', 'interview'].includes(nextTopic.kind)) return;
+      resetConversation();
+      setTopic(nextTopic);
+      setOpen(true);
+    };
+    window.addEventListener(AI_SUPPORT_TOPIC_EVENT, onTopic);
+    return () => window.removeEventListener(AI_SUPPORT_TOPIC_EVENT, onTopic);
+  }, [resetConversation]);
+
+  function removeTopic() {
+    resetConversation();
+    setTopic(null);
   }
 
   function chooseProvider(id: ProviderId) {
@@ -223,6 +280,7 @@ export function AiChatWidget() {
 
   function restart() {
     resetConversation();
+    setTopic(null);
     setGeminiModel(GEMINI_DEFAULT_MODEL);
     setStage('providers');
     setProviderId(null);
@@ -260,7 +318,9 @@ export function AiChatWidget() {
     ]);
     try {
       const result = await streamGeminiMessage({
-        apiKey, model: geminiModel, prompt: content, turns, signal: controller.signal,
+        apiKey, model: geminiModel,
+        prompt: formatAiSupportQuestion(topic, content, language),
+        turns, signal: controller.signal,
         onText: (text) => {
           if (epoch !== epochRef.current) return;
           setMessages((current) => current.map((message) =>
@@ -300,7 +360,7 @@ export function AiChatWidget() {
     void sendGemini(draft);
   }
 
-  return (
+  const chat = (
     <div className="ai-chat">
       {!open && (
         <button type="button" className="ai-chat__launcher" onClick={() => setOpen(true)}
@@ -333,6 +393,32 @@ export function AiChatWidget() {
               </button>
             </div>
           </header>
+
+          {topic && (
+            <aside className="ai-chat__topic" aria-label={t.topicHeading}>
+              <div className="ai-chat__topic-bar">
+                <strong>{t.topicHeading}</strong>
+                <button type="button" className="ai-chat__topic-remove" onClick={removeTopic}
+                  title={t.topicRemoveHint}>{t.topicRemove}</button>
+              </div>
+              <div className="ai-chat__topic-path">
+                <div>
+                  <span>{t.topicModule}</span>
+                  <strong title={topic.moduleName}>{topic.moduleName}</strong>
+                </div>
+                <div>
+                  <span>{topic.kind === 'knowledge' ? t.topicChapter
+                    : topic.kind === 'quiz' ? t.topicQuizGroup : t.topicInterviewGroup}</span>
+                  <strong title={topic.groupTitle}>{topic.groupTitle}</strong>
+                </div>
+                <div>
+                  <span>{topic.kind === 'knowledge' ? t.topicLesson
+                    : topic.kind === 'quiz' ? t.topicQuizQuestion : t.topicInterviewQuestion}</span>
+                  <strong title={topic.itemTitle}>{topic.itemTitle}</strong>
+                </div>
+              </div>
+            </aside>
+          )}
 
           <div className={`ai-chat__body ai-chat__body--${stage}${stage === 'chat' && providerId === 'gemini' ? ' ai-chat__body--messages' : ''}`}>
             {stage === 'providers' && (
@@ -483,4 +569,5 @@ export function AiChatWidget() {
       )}
     </div>
   );
+  return fullscreenHost ? createPortal(chat, fullscreenHost) : chat;
 }

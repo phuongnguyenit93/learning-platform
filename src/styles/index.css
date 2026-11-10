@@ -7097,6 +7097,39 @@ body:has(.app-shell--module-viewport) #root {
 .assessment-related > summary:hover { background: var(--surface-hover); }
 .assessment-related > summary:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
 
+.ai-topic-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  max-width: 100%;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--blue);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ai-topic-action:hover,
+.ai-topic-action:focus-visible {
+  border-color: var(--blue);
+  background: var(--surface-hover);
+}
+
+.ai-topic-action--knowledge {
+  margin: 0 0 14px;
+}
+
+.ai-topic-action--assessment {
+  margin-top: 12px;
+}
+
 .assessment-related--casestudy {
   padding: 12px 14px;
 }
@@ -7410,6 +7443,78 @@ body:has(.app-shell--module-viewport) #root {
 .ai-chat__icon-btn:hover {
   background: var(--surface-hover);
   color: var(--text);
+}
+
+.ai-chat__topic {
+  flex: 0 0 auto;
+  padding: 10px 15px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-soft);
+}
+
+.ai-chat__topic-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.ai-chat__topic-bar > strong {
+  color: var(--text-soft);
+  font-size: 11px;
+}
+
+.ai-chat__topic-remove {
+  padding: 4px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.ai-chat__topic-remove:hover,
+.ai-chat__topic-remove:focus-visible {
+  border-color: var(--blue);
+  color: var(--text);
+}
+
+.ai-chat__topic-path {
+  display: grid;
+  gap: 6px;
+  max-height: 146px;
+  overflow-y: auto;
+}
+
+.ai-chat__topic-path > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.ai-chat__topic-path span {
+  flex: 0 0 112px;
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.ai-chat__topic-path strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.ai-chat__panel--fullscreen .ai-chat__topic {
+  padding-right: max(18px, calc((100% - 700px) / 2));
+  padding-left: max(18px, calc((100% - 700px) / 2));
 }
 
 .ai-chat__body {

@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { Window } from 'happy-dom';
 import { AiChatWidget } from '../../src/components/AiChatWidget';
 import { LanguageProvider } from '../../src/state/LanguageContext';
+import { openAiSupportTopic, quizTopic } from '../../src/data/aiSupportTopic';
 
 function sseReply(answer: string): Response {
   const events = [
@@ -37,7 +38,7 @@ async function withChat(
     window: browser, document: browser.document, navigator: browser.navigator,
     HTMLElement: browser.HTMLElement, HTMLInputElement: browser.HTMLInputElement,
     HTMLTextAreaElement: browser.HTMLTextAreaElement, Node: browser.Node, Event: browser.Event,
-    MouseEvent: browser.MouseEvent, KeyboardEvent: browser.KeyboardEvent,
+    MouseEvent: browser.MouseEvent, KeyboardEvent: browser.KeyboardEvent, CustomEvent: browser.CustomEvent,
     IS_REACT_ACT_ENVIRONMENT: true,
   };
   const original = new Map<string, PropertyDescriptor | undefined>();
@@ -167,6 +168,77 @@ test('Gemini model selector lists ten models, links to limits, and changes reque
     assert.equal(requests[1].model, 'gemini-3.8-flash');
     assert.equal(requests[1].input.length, 1, 'Previous model steps must not be replayed');
     assert.equal(requests[1].key, 'test-visitor-key', 'Model changes should retain the API key in RAM');
+  });
+});
+
+test('Knowledge, Interview and Quiz topic clicks open context without sending; remove topic resumes normal chat with same key/model', async () => {
+  const requests: Array<{ prompt: string; inputCount: number; model: string; key: string | null }> = [];
+  await withChat((async (_url: RequestInfo | URL, init?: RequestInit) => {
+    const body = JSON.parse(String(init?.body)) as {
+      model: string;
+      input: Array<{ type: string; content?: Array<{ text?: string }> }>;
+    };
+    requests.push({
+      prompt: body.input.at(-1)?.content?.[0]?.text ?? '',
+      inputCount: body.input.length,
+      model: body.model,
+      key: new Headers(init?.headers).get('x-goog-api-key'),
+    });
+    return sseReply('Trả lời');
+  }) as typeof fetch, async (host, browser) => {
+    const selector = host.querySelector<HTMLSelectElement>('#ai-chat-gemini-model');
+    assert.ok(selector);
+    await act(async () => {
+      selector.value = 'gemini-2.5-flash';
+      selector.dispatchEvent(new browser.Event('change', { bubbles: true }));
+    });
+    await act(async () => openAiSupportTopic({
+      kind: 'knowledge', moduleName: 'Object Contract',
+      groupTitle: 'Danh tính đối tượng', itemTitle: 'Biến tham chiếu',
+    }));
+    assert.equal(requests.length, 0, 'Clicking Ask AI must not auto-send');
+    assert.match(host.querySelector('.ai-chat__topic')?.textContent ?? '', /Object Contract/);
+    assert.match(host.querySelector('.ai-chat__topic')?.textContent ?? '', /Danh tính đối tượng/);
+    assert.match(host.querySelector('.ai-chat__topic')?.textContent ?? '', /Biến tham chiếu/);
+    await send(host, browser, 'Ví dụ Java?');
+    assert.match(requests[0].prompt, /Bài học: Biến tham chiếu/);
+    assert.match(requests[0].prompt, /Câu hỏi của người học:\nVí dụ Java\?/);
+
+    await act(async () => openAiSupportTopic({
+      kind: 'interview', moduleName: 'OOP',
+      groupTitle: 'Nhóm Interview', itemTitle: 'Câu hỏi về SOLID',
+    }));
+    assert.equal(host.querySelectorAll('.ai-chat__message').length, 0, 'Changing topic clears chat');
+    await send(host, browser, 'Nói rõ hơn');
+    assert.equal(requests[1].inputCount, 1, 'Old topic and history must not leak into a new topic');
+    assert.match(requests[1].prompt, /Nhóm Interview: Nhóm Interview/);
+    assert.match(requests[1].prompt, /Câu hỏi Interview: Câu hỏi về SOLID/);
+    assert.doesNotMatch(requests[1].prompt, /Biến tham chiếu/);
+
+    const quiz = quizTopic('OOP', 'Nhóm Quiz', 'Chọn đáp án', [
+      { id: 'C', answer: 'Option C', explanation: 'do not forward' },
+      { id: 'D', answer: 'Option D', explanation: 'do not forward' },
+      { id: 'A', answer: 'Option A', explanation: 'do not forward' },
+      { id: 'B', answer: 'Option B', explanation: 'do not forward' },
+    ], 'A');
+    await act(async () => openAiSupportTopic(quiz));
+    assert.equal(requests.length, 2);
+    await send(host, browser, 'Giải thích đáp án');
+    assert.match(requests[2].prompt, /Đáp án đúng: C\. Option A/);
+    assert.doesNotMatch(requests[2].prompt, /do not forward/);
+
+    const remove = host.querySelector<HTMLButtonElement>('.ai-chat__topic-remove');
+    assert.ok(remove);
+    assert.equal(remove.textContent, 'Bỏ chủ đề này');
+    await act(async () => remove.click());
+    assert.equal(host.querySelector('.ai-chat__topic'), null);
+    assert.equal(host.querySelectorAll('.ai-chat__message').length, 0);
+    assert.equal(host.querySelector<HTMLSelectElement>('#ai-chat-gemini-model')?.value, 'gemini-2.5-flash');
+    await send(host, browser, 'Chat bình thường');
+    assert.equal(requests[3].prompt, 'Chat bình thường');
+    assert.equal(requests[3].inputCount, 1);
+    assert.equal(requests[3].key, 'test-visitor-key');
+    assert.equal(requests[3].model, 'gemini-2.5-flash');
   });
 });
 

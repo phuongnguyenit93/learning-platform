@@ -536,6 +536,7 @@ export function LearningPage() {
           {visitedTabs.has('knowledge') && (
             <div className={`learning-tab-panel${activeTab !== 'knowledge' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Knowledge" aria-hidden={activeTab !== 'knowledge'} inert={activeTab !== 'knowledge'}>
               <KnowledgePanel
+                moduleName={activeModule.name[language]}
                 key={`${activeModule.id}:knowledge`}
                 index={knowledgeIndex}
                 loading={knowledgeLoading}
@@ -565,6 +566,7 @@ export function LearningPage() {
           {visitedTabs.has('quiz') && (
             <div className={`learning-tab-panel${activeTab !== 'quiz' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Quiz" aria-hidden={activeTab !== 'quiz'} inert={activeTab !== 'quiz'}>
               <QuizPanel
+                moduleName={activeModule.name[language]}
                 key={`${activeModule.id}:quiz`}
                 path={quizPath}
                 knowledgeIndex={knowledgeIndex}
@@ -575,6 +577,7 @@ export function LearningPage() {
           {visitedTabs.has('interview') && (
             <div className={`learning-tab-panel${activeTab !== 'interview' ? ' learning-tab-panel--inactive' : ''}`} role="tabpanel" aria-label="Interview" aria-hidden={activeTab !== 'interview'} inert={activeTab !== 'interview'}>
               <InterviewPanel
+                moduleName={activeModule.name[language]}
                 key={`${activeModule.id}:interview`}
                 path={interviewPath}
                 knowledgeIndex={knowledgeIndex}

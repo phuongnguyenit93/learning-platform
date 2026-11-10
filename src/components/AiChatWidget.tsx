@@ -8,6 +8,10 @@ import {
   type GeminiErrorCode, type GeminiModelId, type GeminiTurn,
 } from '../data/geminiDirect';
 import {
+  GROQ_DEFAULT_MODEL, GROQ_LIMITS_URL, GROQ_MODELS, GroqApiError, streamGroqMessage,
+  type GroqModelId, type GroqTurn,
+} from '../data/groqDirect';
+import {
   AI_SUPPORT_TOPIC_EVENT, formatAiSupportQuestion, type AiSupportTopic,
 } from '../data/aiSupportTopic';
 
@@ -82,6 +86,20 @@ const translations = {
     geminiModel: 'Chọn model Gemini',
     geminiModelChangeHint: 'Đổi model sẽ bắt đầu hội thoại mới nhưng giữ API key.',
     geminiUsage: 'Xem API Usage Limits trên Google AI Studio',
+    groqReady: 'Hãy đặt câu hỏi. Hội thoại Groq chỉ được giữ trong phiên trang hiện tại.',
+    groqComposer: 'Nhắn tin cho Groq…',
+    groqThinking: 'Groq đang trả lời…',
+    groqModel: 'Chọn model Groq',
+    groqUsage: 'Xem API Usage Limits trên Groq Console',
+    groqErrors: {
+      auth: 'API key Groq không hợp lệ hoặc chưa được cấp quyền. Hãy kiểm tra lại trong Groq Console.',
+      quota: 'Groq đã trả lỗi 429: hết quota hoặc vượt giới hạn tốc độ. Hãy thử lại sau.',
+      model: 'Model Groq này không khả dụng với API key của bạn.',
+      request: 'Groq từ chối yêu cầu. Hãy kiểm tra nội dung hoặc độ dài hội thoại.',
+      network: 'Không thể kết nối trực tiếp Groq. Hãy kiểm tra mạng, CORS hoặc cấu hình key.',
+      server: 'Groq đang gặp lỗi dịch vụ. Hãy thử lại sau.',
+      response: 'Phản hồi Groq không hoàn chỉnh. Bạn có thể thử lại.',
+    },
     topicHeading: 'Chủ đề đang hỏi',
     topicModule: 'Menu tổng · Module',
     topicChapter: 'Menu cấp 1 · Chương',
@@ -138,6 +156,20 @@ const translations = {
     geminiModel: 'Choose Gemini model',
     geminiModelChangeHint: 'Changing models starts a new chat but keeps your API key.',
     geminiUsage: 'View API Usage Limits in Google AI Studio',
+    groqReady: 'Ask your question. Groq chat history exists only in this page session.',
+    groqComposer: 'Message Groq…',
+    groqThinking: 'Groq is responding…',
+    groqModel: 'Choose Groq model',
+    groqUsage: 'View API Usage Limits in Groq Console',
+    groqErrors: {
+      auth: 'Invalid or unauthorized Groq API key. Check the key in Groq Console.',
+      quota: 'Groq returned HTTP 429: rate limit or quota exceeded. Please try later.',
+      model: 'This Groq model is unavailable with your API key.',
+      request: 'Groq rejected the request. Check the prompt or conversation length.',
+      network: 'Could not connect directly to Groq. Check your network, CORS, and API key settings.',
+      server: 'Groq is temporarily unavailable. Please try later.',
+      response: 'Groq returned an incomplete response. You can try again.',
+    },
     topicHeading: 'Current topic',
     topicModule: 'Main menu · Module',
     topicChapter: 'Level 1 · Chapter',
@@ -190,10 +222,12 @@ export function AiChatWidget() {
   const [providerId, setProviderId] = useState<ProviderId | null>(null);
   const [apiKey, setApiKey] = useState('');
   const [geminiModel, setGeminiModel] = useState<GeminiModelId>(GEMINI_DEFAULT_MODEL);
+  const [groqModel, setGroqModel] = useState<GroqModelId>(GROQ_DEFAULT_MODEL);
   const [showKey, setShowKey] = useState(false);
   const [draft, setDraft] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [turns, setTurns] = useState<GeminiTurn[]>([]);
+  const [groqTurns, setGroqTurns] = useState<GroqTurn[]>([]);
   const [sending, setSending] = useState(false);
   const [failure, setFailure] = useState<ChatFailure | null>(null);
   const [topic, setTopic] = useState<AiSupportTopic | null>(null);
@@ -247,6 +281,7 @@ export function AiChatWidget() {
     controllerRef.current = null;
     setMessages([]);
     setTurns([]);
+    setGroqTurns([]);
     setDraft('');
     setSending(false);
     setFailure(null);
@@ -272,6 +307,7 @@ export function AiChatWidget() {
   function chooseProvider(id: ProviderId) {
     resetConversation();
     setGeminiModel(GEMINI_DEFAULT_MODEL);
+    setGroqModel(GROQ_DEFAULT_MODEL);
     setProviderId(id);
     setApiKey('');
     setShowKey(false);
@@ -282,6 +318,7 @@ export function AiChatWidget() {
     resetConversation();
     setTopic(null);
     setGeminiModel(GEMINI_DEFAULT_MODEL);
+    setGroqModel(GROQ_DEFAULT_MODEL);
     setStage('providers');
     setProviderId(null);
     setApiKey('');
@@ -299,9 +336,16 @@ export function AiChatWidget() {
     setGeminiModel(model);
   }
 
-  async function sendGemini(prompt: string) {
+  function chooseGroqModel(model: GroqModelId) {
+    if (sending || model === groqModel) return;
+    resetConversation();
+    setGroqModel(model);
+  }
+
+  async function sendMessage(prompt: string) {
     const content = prompt.trim();
-    if (!content || !apiKey.trim() || providerId !== 'gemini' || controllerRef.current) return;
+    if (!content || !apiKey.trim() || (providerId !== 'gemini' && providerId !== 'groq')
+      || controllerRef.current) return;
 
     const controller = new AbortController();
     controllerRef.current = controller;
@@ -317,24 +361,33 @@ export function AiChatWidget() {
       { id: assistantId, role: 'assistant', text: '', streaming: true },
     ]);
     try {
-      const result = await streamGeminiMessage({
-        apiKey, model: geminiModel,
-        prompt: formatAiSupportQuestion(topic, content, language),
-        turns, signal: controller.signal,
-        onText: (text) => {
-          if (epoch !== epochRef.current) return;
-          setMessages((current) => current.map((message) =>
-            message.id === assistantId ? { ...message, text } : message));
-        },
-      });
+      const contextualPrompt = formatAiSupportQuestion(topic, content, language);
+      const onText = (text: string) => {
+        if (epoch !== epochRef.current) return;
+        setMessages((current) => current.map((message) =>
+          message.id === assistantId ? { ...message, text } : message));
+      };
+      const result = providerId === 'gemini'
+        ? await streamGeminiMessage({
+          apiKey, model: geminiModel, prompt: contextualPrompt,
+          turns, signal: controller.signal, onText,
+        })
+        : await streamGroqMessage({
+          apiKey, model: groqModel, prompt: contextualPrompt,
+          turns: groqTurns, signal: controller.signal, onText,
+        });
       if (epoch !== epochRef.current) return;
-      setTurns((current) => [...current, result.turn]);
+      if (providerId === 'gemini') {
+        setTurns((current) => [...current, result.turn as GeminiTurn]);
+      } else {
+        setGroqTurns((current) => [...current, result.turn as GroqTurn]);
+      }
       setMessages((current) => current.map((message) =>
         message.id === assistantId ? { ...message, text: result.text, streaming: false } : message));
     } catch (error) {
       if (epoch !== epochRef.current || controller.signal.aborted) return;
       setFailure({
-        code: error instanceof GeminiApiError ? error.code : 'network',
+        code: error instanceof GeminiApiError || error instanceof GroqApiError ? error.code : 'network',
         prompt: content,
       });
       setMessages((current) => current.map((message) =>
@@ -347,17 +400,17 @@ export function AiChatWidget() {
     }
   }
 
-  function retryGemini() {
+  function retryMessage() {
     if (!failure || sending) return;
     const prompt = failure.prompt;
     setMessages((current) => current.slice(0, -2));
     setFailure(null);
-    void sendGemini(prompt);
+    void sendMessage(prompt);
   }
 
-  function submitGemini(event: FormEvent<HTMLFormElement>) {
+  function submitMessage(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    void sendGemini(draft);
+    void sendMessage(draft);
   }
 
   const chat = (
@@ -420,7 +473,7 @@ export function AiChatWidget() {
             </aside>
           )}
 
-          <div className={`ai-chat__body ai-chat__body--${stage}${stage === 'chat' && providerId === 'gemini' ? ' ai-chat__body--messages' : ''}`}>
+          <div className={`ai-chat__body ai-chat__body--${stage}${stage === 'chat' && (providerId === 'gemini' || providerId === 'groq') ? ' ai-chat__body--messages' : ''}`}>
             {stage === 'providers' && (
               <div className="ai-chat__setup">
                 <span className="ai-chat__hero-mark" aria-hidden="true">✦</span>
@@ -477,18 +530,18 @@ export function AiChatWidget() {
               </div>
             )}
 
-            {stage === 'chat' && providerId === 'gemini' && (
-              <div className="ai-chat__transcript" ref={transcriptRef} role="log" aria-label="Gemini chat">
+            {stage === 'chat' && (providerId === 'gemini' || providerId === 'groq') && (
+              <div className="ai-chat__transcript" ref={transcriptRef} role="log" aria-label={`${selectedProvider?.name ?? ''} chat`}>
                 {messages.length === 0 && (
                   <div className="ai-chat__welcome">
                     <h2>{t.welcome}</h2>
-                    <p>{t.welcomeIntro} <strong>Gemini</strong> · {geminiModel}</p>
-                    <p className="ai-chat__ready-note">{t.geminiReady}</p>
+                    <p>{t.welcomeIntro} <strong>{selectedProvider?.name}</strong> · {providerId === 'gemini' ? geminiModel : groqModel}</p>
+                    <p className="ai-chat__ready-note">{providerId === 'gemini' ? t.geminiReady : t.groqReady}</p>
                   </div>
                 )}
                 {messages.map((message) => (
                   <div key={message.id} className={`ai-chat__message ai-chat__message--${message.role}`}>
-                    {message.role === 'assistant' && <strong className="ai-chat__message-label">Gemini</strong>}
+                    {message.role === 'assistant' && <strong className="ai-chat__message-label">{selectedProvider?.name}</strong>}
                     {message.role === 'user' ? (
                       <p>{message.text}</p>
                     ) : message.text ? (
@@ -499,20 +552,20 @@ export function AiChatWidget() {
                         }}>{message.text}</ReactMarkdown>
                       </div>
                     ) : message.streaming ? (
-                      <p className="ai-chat__streaming">{t.geminiThinking}</p>
+                      <p className="ai-chat__streaming">{providerId === 'gemini' ? t.geminiThinking : t.groqThinking}</p>
                     ) : null}
                   </div>
                 ))}
                 {failure && (
                   <div className="ai-chat__chat-error" role="alert">
-                    <p>{t.geminiErrors[failure.code]}</p>
-                    <button type="button" onClick={retryGemini} disabled={sending}>{t.geminiRetry}</button>
+                    <p>{providerId === 'gemini' ? t.geminiErrors[failure.code] : t.groqErrors[failure.code]}</p>
+                    <button type="button" onClick={retryMessage} disabled={sending}>{t.geminiRetry}</button>
                   </div>
                 )}
               </div>
             )}
 
-            {stage === 'chat' && selectedProvider && providerId !== 'gemini' && (
+            {stage === 'chat' && selectedProvider && providerId !== 'gemini' && providerId !== 'groq' && (
               <div className="ai-chat__welcome">
                 <h2>{t.welcome}</h2>
                 <p>{t.welcomeIntro} <strong>{selectedProvider.name}</strong>.</p>
@@ -522,10 +575,13 @@ export function AiChatWidget() {
             )}
           </div>
 
-          {stage === 'chat' && providerId === 'gemini' && (
+          {stage === 'chat' && (providerId === 'gemini' || providerId === 'groq') && (
             <footer className="ai-chat__footer">
               <div className="ai-chat__model-settings">
-                <label htmlFor="ai-chat-gemini-model">{t.geminiModel}</label>
+                <label htmlFor={providerId === 'gemini' ? 'ai-chat-gemini-model' : 'ai-chat-groq-model'}>
+                  {providerId === 'gemini' ? t.geminiModel : t.groqModel}
+                </label>
+                {providerId === 'gemini' ? (
                 <select id="ai-chat-gemini-model" value={geminiModel}
                   disabled={sending}
                   title={t.geminiModelChangeHint}
@@ -534,12 +590,25 @@ export function AiChatWidget() {
                     <option key={model.id} value={model.id}>{model.label}</option>
                   ))}
                 </select>
+                ) : (
+                <select id="ai-chat-groq-model" value={groqModel}
+                  disabled={sending}
+                  title={t.geminiModelChangeHint}
+                  onChange={(event) => chooseGroqModel(event.currentTarget.value as GroqModelId)}>
+                  {GROQ_MODELS.map((model) => (
+                    <option key={model.id} value={model.id}>{model.label}</option>
+                  ))}
+                </select>
+                )}
                 <span className="ai-chat__model-hint">{t.geminiModelChangeHint}</span>
-                <a href="https://aistudio.google.com/rate-limit" target="_blank"
-                  rel="noopener noreferrer" className="ai-chat__usage-link">{t.geminiUsage}</a>
+                <a href={providerId === 'gemini' ? 'https://aistudio.google.com/rate-limit' : GROQ_LIMITS_URL}
+                  target="_blank" rel="noopener noreferrer" className="ai-chat__usage-link">
+                  {providerId === 'gemini' ? t.geminiUsage : t.groqUsage}
+                </a>
               </div>
-              <form className="ai-chat__composer" onSubmit={submitGemini}>
-                <textarea aria-label={t.geminiComposer} placeholder={t.geminiComposer}
+              <form className="ai-chat__composer" onSubmit={submitMessage}>
+                <textarea aria-label={providerId === 'gemini' ? t.geminiComposer : t.groqComposer}
+                  placeholder={providerId === 'gemini' ? t.geminiComposer : t.groqComposer}
                   rows={1} maxLength={16000} value={draft} disabled={sending}
                   onInput={(event) => setDraft(event.currentTarget.value)}
                   onKeyDown={(event) => {
@@ -556,7 +625,7 @@ export function AiChatWidget() {
             </footer>
           )}
 
-          {stage === 'chat' && providerId !== 'gemini' && (
+          {stage === 'chat' && providerId !== 'gemini' && providerId !== 'groq' && (
             <footer className="ai-chat__footer">
               <div className="ai-chat__composer">
                 <textarea aria-label={t.composer} placeholder={t.composer} rows={1} disabled />

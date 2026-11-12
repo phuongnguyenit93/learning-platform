@@ -1,4 +1,5 @@
-export const BACKEND_HEALTH_URL = 'https://api.nguyendodinhphuong.name.vn/api/v1/health';
+export const BACKEND_API_BASE_URL = 'https://api.nguyendodinhphuong.name.vn/api/v1';
+export const BACKEND_HEALTH_URL = `${BACKEND_API_BASE_URL}/health`;
 
 /** Development smoke check: show the Oracle Spring Boot API response in F12. */
 export async function logBackendHealth(): Promise<void> {

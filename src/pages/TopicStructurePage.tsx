@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ModuleSidebar } from '../components/ModuleSidebar';
 import { ModuleTabs, type ModuleTab } from '../components/ModuleTabs';
+import { DatabaseOverviewPanel } from '../components/DatabaseOverviewPanel';
 import { collectRealModules, findModuleByRouteId, formatCatalogName } from '../data/moduleCatalog';
 import { fetchTopicStructure } from '../data/topicStructure';
 import { topicKnowledgePath } from '../data/topicRoutes';
@@ -18,8 +19,8 @@ const EMPTY_STATS = { knowledge: 0, quiz: 0, interview: 0, casestudy: 0 };
 const EMPTY_ROADMAPS: Record<string, boolean> = {};
 
 /**
- * DB-driven navigation for every Topic. Content tabs deliberately have no
- * static Java assets: their API-backed data will be added in a later phase.
+ * DB-driven navigation for every Topic. Overview is loaded on demand from
+ * Oracle; the remaining content tabs await their database-backed APIs.
  */
 export function TopicStructurePage() {
   const { topicSlug = 'java', moduleSlug } = useParams();
@@ -142,7 +143,11 @@ export function TopicStructurePage() {
                 executionEnabled={false} onChange={setActiveTab} />
             </div>
             <div className="learning-content">
-              {activeTab === 'feedback' ? (
+              {activeTab === 'overview' ? (
+                <div className="learning-tab-panel" role="tabpanel" aria-label="Overview">
+                  <DatabaseOverviewPanel key={selected.slug} moduleSlug={selected.slug!} />
+                </div>
+              ) : activeTab === 'feedback' ? (
                 <div className="learning-tab-panel" role="tabpanel" aria-label="Feedback">
                   <section className="feedback-panel">
                     <span className="feedback-panel__eyebrow">MODULE FEEDBACK</span>

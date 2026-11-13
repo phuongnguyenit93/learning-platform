@@ -7,7 +7,7 @@ import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { fetchTopicStructure } from '../../src/data/topicStructure';
 import { BACKEND_API_BASE_URL } from '../../src/data/backendHealth';
 import { TopicStructurePage } from '../../src/pages/TopicStructurePage';
-import { LanguageProvider } from '../../src/state/LanguageContext';
+import { LanguageProvider, useLanguage } from '../../src/state/LanguageContext';
 
 const category = { id: 1, code: 'BACKEND', name: 'Backend', sortOrder: 0 };
 const topics = [
@@ -44,7 +44,10 @@ const structures = {
   },
 };
 
-function mockApi(requests: string[], structure = structures) {
+function mockApi(
+  requests: string[], structure = structures,
+  overviewResponses: Record<string, { status: number; markdownContent?: string }> = {},
+) {
   return (async (request: RequestInfo | URL) => {
     const url = String(request);
     requests.push(url);
@@ -56,6 +59,17 @@ function mockApi(requests: string[], structure = structures) {
     }
     if (url === `${BACKEND_API_BASE_URL}/topics/20/structure`) {
       return new Response(JSON.stringify(structure.spring), { status: 200 });
+    }
+    const overview = /^https:\/\/api\.nguyendodinhphuong\.name\.vn\/api\/v1\/modules\/([^/?]+)\/overview\?lang=([^&]+)$/.exec(url);
+    if (overview) {
+      const [, slug, languageCode] = overview;
+      const response = overviewResponses[`${slug}:${languageCode}`];
+      const status = response?.status ?? 200;
+      if (status !== 200) return new Response(null, { status });
+      return new Response(JSON.stringify({
+        slug, languageCode,
+        markdownContent: response?.markdownContent ?? `# ${slug} ${languageCode} Overview\n\n**Database** content`,
+      }), { status });
     }
     throw new Error(`Unexpected request: ${url}`);
   }) as typeof fetch;
@@ -114,7 +128,16 @@ function PathProbe() {
   return <output data-testid="pathname">{pathname}</output>;
 }
 
-async function renderPage(path: string, verify: (host: HTMLElement, requests: string[]) => Promise<void>) {
+function LanguageSwitchProbe() {
+  const { language, setLanguage } = useLanguage();
+  return <button type="button" data-testid="switch-language"
+    onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}>Switch language</button>;
+}
+
+async function renderPage(
+  path: string, verify: (host: HTMLElement, requests: string[]) => Promise<void>,
+  overviewResponses: Record<string, { status: number; markdownContent?: string }> = {},
+) {
   const browser = new Window({ url: 'http://localhost:5173' });
   const globals = {
     window: browser, document: browser.document, navigator: browser.navigator,
@@ -129,7 +152,7 @@ async function renderPage(path: string, verify: (host: HTMLElement, requests: st
   }
   const oldFetch = globalThis.fetch;
   const requests: string[] = [];
-  globalThis.fetch = mockApi(requests);
+  globalThis.fetch = mockApi(requests, structures, overviewResponses);
   const host = browser.document.createElement('div');
   browser.document.body.append(host);
   const root = createRoot(host);
@@ -137,6 +160,7 @@ async function renderPage(path: string, verify: (host: HTMLElement, requests: st
     await act(async () => root.render(
       <LanguageProvider>
         <MemoryRouter initialEntries={[path]}>
+          <LanguageSwitchProbe />
           <PathProbe />
           <Routes>
             <Route path="/learning/:topicSlug/knowledge" element={<TopicStructurePage />} />
@@ -179,4 +203,56 @@ test('invalid slug does not redirect to a different module', async () => {
       '/learning/java/knowledge/JAVA_STREAM_API');
     assert.match(host.textContent ?? '', /Không tìm thấy module theo slug/);
   });
+});
+
+test('Overview tab loads Markdown only after selecting it, using module SLUG and VI language', async () => {
+  await renderPage('/learning/java/knowledge/java-stream-api', async (host, requests) => {
+    assert.equal(requests.some((url) => url.includes('/overview?')), false);
+    const button = host.querySelector<HTMLButtonElement>('.module-tabs__button--overview');
+    assert.ok(button);
+    await act(async () => button.click());
+    assert.match(host.querySelector('.overview-panel')?.textContent ?? '', /java-stream-api vi Overview/);
+    assert.ok(host.querySelector('.overview-panel strong'));
+    assert.deepEqual(requests.slice(-1), [
+      `${BACKEND_API_BASE_URL}/modules/java-stream-api/overview?lang=vi`,
+    ]);
+    assert.equal(requests.some((url) => url.includes('JAVA_STREAM_API/overview')), false);
+    assert.equal(requests.some((url) => url.includes('/language/java/')), false);
+  });
+});
+
+test('changing VI/EN loads only requested translation without reloading structure', async () => {
+  await renderPage('/learning/spring/knowledge/spring-boot-fundamentals', async (host, requests) => {
+    await act(async () => host.querySelector<HTMLButtonElement>('.module-tabs__button--overview')?.click());
+    assert.match(host.querySelector('.overview-panel')?.textContent ?? '', /spring-boot-fundamentals vi/);
+    await act(async () => host.querySelector<HTMLButtonElement>('[data-testid="switch-language"]')?.click());
+    assert.match(host.querySelector('.overview-panel')?.textContent ?? '', /spring-boot-fundamentals en/);
+    assert.doesNotMatch(host.querySelector('.overview-panel')?.textContent ?? '', /spring-boot-fundamentals vi/);
+    assert.deepEqual(requests.filter((url) => url.includes('/overview?')), [
+      `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals/overview?lang=vi`,
+      `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals/overview?lang=en`,
+    ]);
+    assert.equal(requests.filter((url) => url.endsWith('/structure')).length, 1);
+  });
+});
+
+test('404 missing translation shows empty state, not static or another locale', async () => {
+  await renderPage('/learning/java/knowledge/java-stream-api', async (host, requests) => {
+    await act(async () => host.querySelector<HTMLButtonElement>('.module-tabs__button--overview')?.click());
+    assert.match(host.textContent ?? '', /Chưa có nội dung Overview/);
+    assert.equal(host.querySelector('.overview-panel'), null);
+    assert.equal(requests.filter((url) => url.includes('/overview?')).length, 1);
+  }, { 'java-stream-api:vi': { status: 404 } });
+});
+
+test('server error shows retry, and retry requests the same module Overview again', async () => {
+  await renderPage('/learning/java/knowledge/java-stream-api', async (host, requests) => {
+    await act(async () => host.querySelector<HTMLButtonElement>('.module-tabs__button--overview')?.click());
+    assert.match(host.textContent ?? '', /Không thể tải Overview/);
+    assert.match(host.textContent ?? '', /HTTP 503/);
+    const retry = host.querySelector<HTMLButtonElement>('[role="alert"] button');
+    assert.ok(retry);
+    await act(async () => retry.click());
+    assert.equal(requests.filter((url) => url.includes('/overview?')).length, 2);
+  }, { 'java-stream-api:vi': { status: 503 } });
 });

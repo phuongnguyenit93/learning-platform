@@ -25,8 +25,14 @@ including Java and Spring. Inactive nodes are filtered by the backend.
 
 During this migration, these Topic pages intentionally **do not fetch the old
 Java static module-navigation, module-details, content counts or documents**.
-Tabs display a placeholder until Knowledge/Quiz/Interview/Case Study are
-published from the database; the static Java dataset still exists in the build
+Each module's **Overview tab** now fetches raw Markdown on demand from
+`GET /api/v1/modules/{moduleSlug}/overview?lang=vi|en` and renders it with the
+existing Markdown viewer. A missing translation (`404`) shows an empty state,
+without fallback to another language; other API errors offer Retry. Switching
+the module or VI/EN changes the requested content, and Overview is not included
+in the Sidebar tree response. Other content tabs display a placeholder until
+Knowledge/Quiz/Interview/Case Study are published from the database;
+the static Java dataset still exists in the build
 pipeline for legacy tooling and Worker capabilities. The old `LearningPage`
 remains in source for reference but is no longer an active React route.
 Test the new routing using `npm run test:topics`.

@@ -1171,6 +1171,9 @@ export function ModuleSidebar({
             key={node.id}
             node={node}
             depth={0}
+            // Root MODULE leaves have no parent GROUP to apply the nested
+            // mixed-children picker rule; present them as one-item pickers too.
+            renderAsPicker={isLeafModule(node)}
             activeModuleId={activeModuleId}
             knowledgeCounts={knowledgeCounts}
             quizCounts={quizCounts}

@@ -13,6 +13,7 @@ const category = { id: 1, code: 'BACKEND', name: 'Backend', sortOrder: 0 };
 const topics = [
   { id: 10, code: 'JAVA', slug: 'java', name: 'Java', description: null, iconSvg: '<svg/>', status: 'AVAILABLE', sortOrder: 0, category },
   { id: 20, code: 'SPRING', slug: 'spring', name: 'Spring', description: 'Spring ecosystem', iconSvg: '<svg/>', status: 'AVAILABLE', sortOrder: 1, category },
+  { id: 30, code: 'PARADIGM', slug: 'paradigm', name: 'Paradigm', description: null, iconSvg: '<svg/>', status: 'AVAILABLE', sortOrder: 2, category },
 ];
 
 const structures = {
@@ -42,6 +43,17 @@ const structures = {
       }],
     },
   },
+  paradigm: {
+    version: 1,
+    root: {
+      id: 'topic:30', name: 'Paradigm', kind: 'GROUP', slug: 'paradigm', children: [
+        { nodeKey: 'IMPERATIVE_PROGRAMMING', name: 'imperative', kind: 'MODULE',
+          slug: 'imperative-programming', children: [] },
+        { nodeKey: 'FUNCTIONAL_PROGRAMMING', name: 'functional', kind: 'MODULE',
+          slug: 'functional-programming', children: [] },
+      ],
+    },
+  },
 };
 
 function mockApi(
@@ -59,6 +71,9 @@ function mockApi(
     }
     if (url === `${BACKEND_API_BASE_URL}/topics/20/structure`) {
       return new Response(JSON.stringify(structure.spring), { status: 200 });
+    }
+    if (url === `${BACKEND_API_BASE_URL}/topics/30/structure`) {
+      return new Response(JSON.stringify(structure.paradigm), { status: 200 });
     }
     const overview = /^https:\/\/api\.nguyendodinhphuong\.name\.vn\/api\/v1\/modules\/([^/?]+)\/overview\?lang=([^&]+)$/.exec(url);
     if (overview) {
@@ -141,7 +156,8 @@ async function renderPage(
   const browser = new Window({ url: 'http://localhost:5173' });
   const globals = {
     window: browser, document: browser.document, navigator: browser.navigator,
-    HTMLElement: browser.HTMLElement, Event: browser.Event,
+    HTMLElement: browser.HTMLElement, Event: browser.Event, CustomEvent: browser.CustomEvent,
+    Node: browser.Node, KeyboardEvent: browser.KeyboardEvent,
     MutationObserver: browser.MutationObserver, ResizeObserver: class { observe() {} disconnect() {} },
     IS_REACT_ACT_ENVIRONMENT: true,
   };
@@ -202,6 +218,44 @@ test('invalid slug does not redirect to a different module', async () => {
     assert.equal(host.querySelector('[data-testid="pathname"]')?.textContent,
       '/learning/java/knowledge/JAVA_STREAM_API');
     assert.match(host.textContent ?? '', /Không tìm thấy module theo slug/);
+  });
+});
+
+test('top-level Paradigm leaf modules open the same one-module picker as nested leaves', async () => {
+  await renderPage('/learning/paradigm/knowledge/imperative-programming', async (host) => {
+    const rows = [...host.querySelectorAll<HTMLElement>('.module-tree__row')];
+    assert.equal(rows.length, 2);
+    assert.ok(rows.every((row) => row.classList.contains('is-module-picker')));
+    assert.ok(rows.every((row) => !row.querySelector('.module-tree__dashboard-zone')));
+    assert.deepEqual(rows.map((row) => row.querySelector('.module-tree__count')?.textContent), ['1', '1']);
+
+    const second = host.querySelector<HTMLButtonElement>('[aria-label="Open Functional modules"]');
+    assert.ok(second);
+    await act(async () => second.click());
+
+    const popup = host.ownerDocument.querySelector<HTMLElement>('.module-picker');
+    assert.ok(popup);
+    assert.match(popup.textContent ?? '', /MODULE ORDER|THỨ TỰ MODULE/);
+    assert.equal(popup.querySelectorAll('.module-picker__item').length, 1);
+    assert.equal(popup.querySelector('.module-picker__module-name')?.textContent, 'Functional');
+
+    await act(async () => popup.querySelector<HTMLButtonElement>('.module-picker__item')?.click());
+    assert.equal(host.querySelector('[data-testid="pathname"]')?.textContent,
+      '/learning/paradigm/knowledge/functional-programming');
+    assert.equal(host.ownerDocument.querySelector('.module-picker'), null);
+  });
+});
+
+test('nested terminal groups still show their module picker without extra nesting', async () => {
+  await renderPage('/learning/spring/knowledge/spring-boot-fundamentals', async (host) => {
+    const group = host.querySelector<HTMLButtonElement>('[aria-label="Open Spring Boot modules"]');
+    assert.ok(group);
+    assert.equal(group.querySelector('.module-tree__count')?.textContent, '1');
+    await act(async () => group.click());
+    const popup = host.ownerDocument.querySelector<HTMLElement>('.module-picker');
+    assert.ok(popup);
+    assert.equal(popup.querySelectorAll('.module-picker__item').length, 1);
+    assert.match(popup.textContent ?? '', /Fundamentals/);
   });
 });
 

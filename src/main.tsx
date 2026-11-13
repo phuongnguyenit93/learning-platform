@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
-import { logBackendHealth } from './data/backendHealth';
+import { logBackendTopics } from './data/backendHealth';
 import { LanguageProvider } from './state/LanguageContext';
 import { ThemeProvider } from './state/ThemeContext';
 import './styles/index.css';
@@ -13,7 +13,7 @@ if (window.location.hash.startsWith('#/')) {
 }
 
 // Run once per page load, outside React StrictMode (which replays effects in development).
-void logBackendHealth();
+void logBackendTopics();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

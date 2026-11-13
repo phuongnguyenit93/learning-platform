@@ -1,5 +1,16 @@
 # Learning Platform — Product, Frontend & Cloudflare Worker Architecture
 
+> **Migration update (2026-11-13):** `App.tsx` now uses `TopicStructurePage`
+> for `/learning/:topicSlug/knowledge[/:moduleSlug]`. Module navigation is fetched
+> from `learning-platform-backend`: `GET /api/v1/topics` resolves `topicSlug` to
+> `topicId`, then `GET /api/v1/topics/{topicId}/structure` returns a recursive
+> tree. Public module URLs use `MODULE_STRUCTURE.SLUG` rather than `NODE_KEY`.
+> The old `LearningPage` and Java static-content pipeline are retained for
+> internal/legacy tooling but **not used by current Topic pages**. Until content
+> is migrated into the database, module tabs show placeholders and Local Run
+> is not exposed on those pages. Static-first sections below describe the
+> historical implementation, not the current Topic navigation runtime.
+
 ## 1. Trạng thái và ownership
 
 Tài liệu này mô tả **kiến trúc và trải nghiệm người dùng của `learning-platform`**, website duy nhất còn được duy trì sau khi xóa application `java-learning/project-portal/` cũ. Website standalone dùng React 19, TypeScript, Vite, React Router, CSS thuần và Cloudflare Worker API giới hạn cho Local Run. Đây là **learning-data frontend consumer + lightweight build coordinator**, không phải module Spring Boot hoặc Gradle project; Java compilation vẫn chạy trong `java-learning` GitHub Actions. Các lệnh vận hành, CI/CD và cách đồng bộ nội dung nằm trong [README.md](README.md).

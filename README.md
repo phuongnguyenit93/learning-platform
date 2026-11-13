@@ -9,6 +9,28 @@ compilation. The Java repository remains the data producer and JAR builder.
 For product UX, frontend architecture, feature data contracts and current
 implementation status, see [ARCHITECTURE.md](ARCHITECTURE.md).
 
+## DB-driven Topic navigation (current)
+
+`/learning/:topicSlug/overview` reads Topic metadata from
+`https://api.nguyendodinhphuong.name.vn/api/v1/topics`. The Knowledge page
+resolves `topicSlug` to the database `topicId`, then fetches the recursive tree
+from `GET /api/v1/topics/{topicId}/structure`. The backend already organizes
+the tree as `version + root + children`; the frontend does not reconstruct it.
+
+**Public module URLs use the database `SLUG`, not `NODE_KEY`/SERVICE_NAME**:
+`/learning/java/knowledge/java-stream-api` and
+`/learning/spring/knowledge/spring-boot-fundamentals`. MODULE keys remain
+internal identifiers. The Topic menu is database-backed for every Topic,
+including Java and Spring. Inactive nodes are filtered by the backend.
+
+During this migration, these Topic pages intentionally **do not fetch the old
+Java static module-navigation, module-details, content counts or documents**.
+Tabs display a placeholder until Knowledge/Quiz/Interview/Case Study are
+published from the database; the static Java dataset still exists in the build
+pipeline for legacy tooling and Worker capabilities. The old `LearningPage`
+remains in source for reference but is no longer an active React route.
+Test the new routing using `npm run test:topics`.
+
 ## Requirements
 
 - Node.js 22 (recommended)
@@ -42,7 +64,7 @@ is the resulting `dist/` directory.
 For **Cloudflare Workers Static Assets** (the only maintained production host),
 `wrangler.jsonc` configures
 `assets.not_found_handling: single-page-application` for deep links such as
-`/learning`, `/learning/java/knowledge/HIKARI_CP`, `/project`, and `/about-me`.
+`/learning`, `/learning/java/knowledge/java-stream-api`, `/project`, and `/about-me`.
 Do not add a catch-all `/* /index.html 200` rule to the Vite static assets:
 Cloudflare may reject it as an infinite redirect loop during deployment.
 

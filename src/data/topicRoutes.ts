@@ -7,9 +7,9 @@ export function topicOverviewPath(topicSlug: string | undefined): string {
   return `${topicBasePath(topicSlug)}/overview`;
 }
 
-export function topicKnowledgePath(topicSlug: string | undefined, moduleId?: string): string {
+export function topicKnowledgePath(topicSlug: string | undefined, moduleSlug?: string): string {
   const base = `${topicBasePath(topicSlug)}/knowledge`;
-  return moduleId ? `${base}/${encodeURIComponent(moduleId)}` : base;
+  return moduleSlug ? `${base}/${encodeURIComponent(moduleSlug)}` : base;
 }
 
 /** Only the two topic sections use the module-style viewport. */

@@ -87,3 +87,8 @@ export async function fetchLearningCatalog(signal: AbortSignal): Promise<Learnin
     }))
     .filter((group) => group.topics.length > 0);
 }
+
+/** Resolve a topic slug to its database ID without fetching category metadata. */
+export function fetchLearningTopics(signal: AbortSignal): Promise<LearningTopic[]> {
+  return fetchList('topics', signal, isTopic);
+}

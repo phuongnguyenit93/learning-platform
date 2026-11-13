@@ -3,7 +3,7 @@ import { Header } from './components/Header';
 import { AiChatWidget } from './components/AiChatWidget';
 import { PageMetadata } from './components/PageMetadata';
 import { HomePage } from './pages/HomePage';
-import { LearningPage } from './pages/LearningPage';
+import { TopicStructurePage } from './pages/TopicStructurePage';
 import { LearningLayout } from './pages/LearningLayout';
 import { LearningTopicsPage } from './pages/LearningTopicsPage';
 import { ProjectPage } from './pages/ProjectPage';
@@ -40,8 +40,8 @@ export function App() {
         <Route path="/learning/:topicSlug" element={<LearningLayout />}>
           <Route index element={<TopicIndexRedirect />} />
           <Route path="overview" element={<OverviewPage />} />
-          <Route path="knowledge" element={<LearningPage />} />
-          <Route path="knowledge/:moduleId" element={<LearningPage />} />
+          <Route path="knowledge" element={<TopicStructurePage />} />
+          <Route path="knowledge/:moduleSlug" element={<TopicStructurePage />} />
         </Route>
         <Route path="/about-me" element={<AboutMePage />} />
         <Route path="/my-cv" element={<LegacyMyCvRedirect />} />

@@ -67,6 +67,9 @@ export interface ModuleCatalogNode {
   path?: string;
   kind: 'GROUP' | 'MODULE';
   routeId?: string;
+  /** Database navigation uses SLUG for public URLs; NODE_KEY remains internal identity. */
+  slug?: string;
+  nodeKey?: string;
   sourceFingerprint?: string;
   serviceName?: string;
   moduleType?: 'SERVLET' | 'REACTIVE' | 'LIBRARY' | 'PLATFORM' | string;

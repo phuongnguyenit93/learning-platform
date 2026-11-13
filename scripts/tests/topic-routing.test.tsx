@@ -6,7 +6,8 @@ import { createRoot } from 'react-dom/client';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { LearningLayout } from '../../src/pages/LearningLayout';
 import { OverviewPage } from '../../src/pages/OverviewPage';
-import { LearningPage } from '../../src/pages/LearningPage';
+import { TopicStructurePage } from '../../src/pages/TopicStructurePage';
+import { BACKEND_API_BASE_URL } from '../../src/data/backendHealth';
 import { TopicIndexRedirect } from '../../src/pages/TopicIndexRedirect';
 import {
   isTopicKnowledgePath,
@@ -16,10 +17,16 @@ import {
 } from '../../src/data/topicRoutes';
 import { LanguageProvider } from '../../src/state/LanguageContext';
 
-const moduleNode = {
-  id: 'JAVA_EXAMPLE', name: 'java-example', kind: 'MODULE',
-  routeId: 'JAVA_EXAMPLE', path: '/module/java/example',
-  hasContent: true, children: [],
+const topics = ['java', 'spring', 'react'].map((slug, index) => ({
+  id: index + 1, slug, code: slug.toUpperCase(), name: slug.toUpperCase(),
+  description: `${slug} from database`, iconSvg: '<svg/>', status: 'AVAILABLE', sortOrder: index,
+  category: { id: 1, code: 'BACKEND', name: 'Backend', sortOrder: 0 },
+}));
+
+const moduleByTopic: Record<string, { nodeKey: string; slug: string }> = {
+  java: { nodeKey: 'JAVA_EXAMPLE', slug: 'java-example' },
+  spring: { nodeKey: 'SPRING_BOOT_FUNDAMENTALS', slug: 'spring-boot-fundamentals' },
+  react: { nodeKey: 'REACT_FUNDAMENTALS', slug: 'react-fundamentals' },
 };
 
 function PathProbe() {
@@ -44,16 +51,20 @@ async function withApp(path: string, verify: (host: HTMLElement) => Promise<void
   const originalFetch = globalThis.fetch;
   globalThis.fetch = (async (input: RequestInfo | URL) => {
     const url = String(input);
-    if (url === '/module-navigation.json') {
-      return new Response(JSON.stringify({
-        version: 1, root: { id: 'root', name: 'root', kind: 'GROUP', children: [moduleNode] },
-      }), { status: 200 });
+    if (url === `${BACKEND_API_BASE_URL}/topics`) {
+      return new Response(JSON.stringify(topics), { status: 200 });
     }
-    if (url === '/module-details/JAVA_EXAMPLE.json') {
-      return new Response(JSON.stringify(moduleNode), { status: 200 });
-    }
-    if (url === '/module-content-counts.json') {
-      return new Response(JSON.stringify({ version: 1, locales: { vi: {}, en: {} } }), { status: 200 });
+    const structureId = /^https:\/\/api\.nguyendodinhphuong\.name\.vn\/api\/v1\/topics\/(\d+)\/structure$/.exec(url)?.[1];
+    if (structureId) {
+      const topic = topics.find((candidate) => candidate.id === Number(structureId));
+      if (!topic) return new Response('Missing Topic', { status: 404 });
+      const module = moduleByTopic[topic.slug];
+      return new Response(JSON.stringify({ version: 1, root: {
+        id: `topic:${topic.id}`, name: topic.name, kind: 'GROUP', children: [{
+          id: module.nodeKey, nodeKey: module.nodeKey, slug: module.slug,
+          name: module.slug, kind: 'MODULE', routeId: module.nodeKey, children: [],
+        }],
+      } }), { status: 200 });
     }
     throw new Error(`Unexpected request: ${url}`);
   }) as typeof fetch;
@@ -70,8 +81,8 @@ async function withApp(path: string, verify: (host: HTMLElement) => Promise<void
             <Route path="/learning/:topicSlug" element={<LearningLayout />}>
               <Route index element={<TopicIndexRedirect />} />
               <Route path="overview" element={<OverviewPage />} />
-              <Route path="knowledge" element={<LearningPage />} />
-              <Route path="knowledge/:moduleId" element={<LearningPage />} />
+              <Route path="knowledge" element={<TopicStructurePage />} />
+              <Route path="knowledge/:moduleSlug" element={<TopicStructurePage />} />
             </Route>
           </Routes>
         </MemoryRouter>
@@ -93,7 +104,7 @@ const pathOf = (host: HTMLElement) => host.querySelector('[data-testid="pathname
 
 test('topic route helpers preserve topic slug and reject malformed paths', () => {
   assert.equal(topicOverviewPath('nextjs'), '/learning/nextjs/overview');
-  assert.equal(topicKnowledgePath('spring', 'JAVA_EXAMPLE'), '/learning/spring/knowledge/JAVA_EXAMPLE');
+  assert.equal(topicKnowledgePath('spring', 'spring-boot-fundamentals'), '/learning/spring/knowledge/spring-boot-fundamentals');
   assert.equal(topicFromPathname('/learning/react/overview'), 'react');
   assert.equal(topicFromPathname('/learning/react/knowledge/JAVA_EXAMPLE'), 'react');
   assert.equal(topicFromPathname('/learning/%XX/knowledge'), null);
@@ -101,11 +112,11 @@ test('topic route helpers preserve topic slug and reject malformed paths', () =>
   assert.equal(isTopicKnowledgePath('/learning'), false);
 });
 
-test('Spring/React overview reuse the current Java overview while retaining topic navigation', async () => {
+test('Spring/React overview loads the matching topic from database', async () => {
   for (const slug of ['spring', 'react']) {
     await withApp(`/learning/${slug}/overview`, async (host) => {
       assert.equal(pathOf(host), `/learning/${slug}/overview`);
-      assert.match(host.textContent ?? '', /Roadmap của Java và Spring/);
+      assert.match(host.textContent ?? '', new RegExp(`${slug} from database`));
       assert.equal(host.querySelector<HTMLAnchorElement>('.java-section-nav__tab[href$="/overview"]')?.getAttribute('href'),
         `/learning/${slug}/overview`);
       assert.equal(host.querySelector<HTMLAnchorElement>('.java-section-nav__tab[href$="/knowledge"]')?.getAttribute('href'),
@@ -115,23 +126,23 @@ test('Spring/React overview reuse the current Java overview while retaining topi
   }
 });
 
-test('direct Spring Knowledge URL loads the current Java catalog but stays under Spring slug', async () => {
+test('direct Spring Knowledge URL loads only Spring structure using module SLUG', async () => {
   await withApp('/learning/spring/knowledge', async (host) => {
-    assert.equal(pathOf(host), '/learning/spring/knowledge/JAVA_EXAMPLE');
+    assert.equal(pathOf(host), '/learning/spring/knowledge/spring-boot-fundamentals');
     assert.ok(host.querySelector('.learning-layout'));
     assert.equal(host.querySelector<HTMLAnchorElement>('.java-section-nav__tab[href$="/overview"]')?.getAttribute('href'),
       '/learning/spring/overview');
     assert.equal(host.querySelector<HTMLAnchorElement>('.java-section-nav__tab[aria-current="page"]')?.getAttribute('href'),
-      '/learning/spring/knowledge/JAVA_EXAMPLE');
+      '/learning/spring/knowledge/spring-boot-fundamentals');
     await act(async () => host.querySelector<HTMLAnchorElement>('.java-section-nav__tab[href$="/overview"]')?.click());
     assert.equal(pathOf(host), '/learning/spring/overview');
     await act(async () => host.querySelector<HTMLAnchorElement>('.java-section-nav__tab[href*="/knowledge"]')?.click());
-    assert.equal(pathOf(host), '/learning/spring/knowledge/JAVA_EXAMPLE');
+    assert.equal(pathOf(host), '/learning/spring/knowledge/spring-boot-fundamentals');
   });
 });
 
-test('legacy uppercase module route stays compatible with Java Knowledge', async () => {
+test('legacy uppercase NODE_KEY route resolves into Java topic and selects a SLUG', async () => {
   await withApp('/learning/JAVA_EXAMPLE?tab=knowledge', async (host) => {
-    assert.equal(pathOf(host), '/learning/java/knowledge/JAVA_EXAMPLE?tab=knowledge');
+    assert.equal(pathOf(host), '/learning/java/knowledge/java-example?tab=knowledge');
   });
 });

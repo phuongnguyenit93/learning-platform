@@ -14,6 +14,7 @@
     "data:navigation": "node scripts/build-module-navigation.mjs",
     "test:data": "node --test scripts/tests/*.test.mjs && tsx --test scripts/tests/code-explorer.test.ts",
     "test:questions": "tsx --test scripts/tests/question-chapters.test.ts scripts/tests/module-assessment-groups.test.ts scripts/tests/related-knowledge.test.ts scripts/tests/question-panels.test.tsx scripts/tests/knowledge-reading.test.tsx scripts/tests/assessment-knowledge-return.test.tsx",
+    "test:topics": "tsx --test scripts/tests/topic-routing.test.tsx scripts/tests/topic-structure.test.tsx",
     "test:worker": "tsx --test worker/tests/*.test.ts",
     "test:local-run": "tsx --test scripts/tests/local-run-*.test.ts scripts/tests/local-run-panel.test.tsx scripts/tests/local-run-sidebar.test.tsx scripts/tests/module-catalog-retry.test.ts",
     "check:worker": "tsc --noEmit -p tsconfig.worker.json",

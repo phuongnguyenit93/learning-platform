@@ -20,6 +20,8 @@ import type {
 interface ModuleSidebarProps {
   nodes: ModuleCatalogNode[];
   activeModuleId: string;
+  /** Disable the static content-count filter while navigation is sourced from DB. */
+  enableRealModulesFilter?: boolean;
   knowledgeCounts: Record<string, number>;
   quizCounts: Record<string, number>;
   interviewCounts: Record<string, number>;
@@ -840,6 +842,7 @@ function TreeNode({
 export function ModuleSidebar({
   nodes,
   activeModuleId,
+  enableRealModulesFilter = true,
   knowledgeCounts,
   quizCounts,
   interviewCounts,
@@ -853,6 +856,7 @@ export function ModuleSidebar({
   const { language } = useLanguage();
   const [filterInput, setFilterInput] = useState('');
   const [realModulesOnly, setRealModulesOnly] = useState(true);
+  const filterRealModules = enableRealModulesFilter && realModulesOnly;
   const [knowledgeSearchInput, setKnowledgeSearchInput] = useState('');
   const [knowledgeSearchIndex, setKnowledgeSearchIndex] = useState<KnowledgeSearchIndex | null>(null);
   const [knowledgeSearchLoading, setKnowledgeSearchLoading] = useState(false);
@@ -949,7 +953,7 @@ export function ModuleSidebar({
       }
 
       // A count summary that is loading or has failed is not evidence of empty modules.
-      return realModulesOnly && contentCountsState === 'ready'
+      return filterRealModules && contentCountsState === 'ready'
         ? projectCountedRealModules(nodes, {
           knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts,
         })
@@ -963,7 +967,7 @@ export function ModuleSidebar({
       contentCountsState,
       nodes,
       quizCounts,
-      realModulesOnly,
+      filterRealModules,
     ],
   );
 
@@ -984,8 +988,8 @@ export function ModuleSidebar({
 
   const displayedModuleCount = knowledgeSearchActive
     ? knowledgeMatchModuleIds.size
-    : (realModulesOnly && contentCountsState !== 'ready' ? '?'
-      : (realModulesOnly ? realModuleCount : moduleCount));
+    : (filterRealModules && contentCountsState !== 'ready' ? '?'
+      : (filterRealModules ? realModuleCount : moduleCount));
 
   return (
     <aside className="learning-sidebar">
@@ -996,7 +1000,7 @@ export function ModuleSidebar({
         </span>
       </div>
 
-      {realModulesOnly && contentCountsState !== 'ready' && !knowledgeSearchActive && (
+      {filterRealModules && contentCountsState !== 'ready' && !knowledgeSearchActive && (
         <div className="sidebar-module-count-notice" role="status">
           <span>{contentCountsState === 'loading'
             ? (language === 'vi' ? '\u0110ang t\u1ea3i s\u1ed1 l\u01b0\u1ee3ng n\u1ed9i dung \u0111\u1ec3 l\u1ecdc Module th\u1eadt\u2026' : 'Loading content counts for Real modules...')
@@ -1024,6 +1028,7 @@ export function ModuleSidebar({
         className={`sidebar-module-mode${knowledgeSearchActive ? ' is-disabled' : ''}`}
         aria-label={language === 'vi' ? 'Chế độ hiển thị module' : 'Module display mode'}
       >
+        {enableRealModulesFilter && <>
         <span className={!realModulesOnly ? 'is-active' : undefined}>
           {language === 'vi' ? 'Đầy đủ' : 'Full tree'}
         </span>
@@ -1041,6 +1046,7 @@ export function ModuleSidebar({
         <span className={realModulesOnly ? 'is-active' : undefined}>
           {language === 'vi' ? 'Module thật' : 'Real modules'}
         </span>
+        </>}
 
         <div className="sidebar-module-mode__tree-actions" aria-label={language === 'vi' ? 'Điều khiển cây module' : 'Module tree controls'}>
           <button

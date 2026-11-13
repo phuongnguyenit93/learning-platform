@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { topicKnowledgePath } from '../data/topicRoutes';
 // Knowledge search is disabled until its oversized index is replaced.
 const KNOWLEDGE_SEARCH_ENABLED = false;
 import { loadKnowledgeSearchIndex, searchKnowledge } from '../data/knowledgeSearch';
@@ -292,6 +293,7 @@ function ModulePickerPopup({
   onClose: () => void;
 }) {
   const navigate = useNavigate();
+  const { topicSlug = 'java' } = useParams();
   const { language } = useLanguage();
   const groupName = formatCatalogName(group.name);
 
@@ -343,7 +345,7 @@ function ModulePickerPopup({
               className={`module-picker__item${active ? ' is-active' : ''}`}
               onClick={() => {
                 onClose();
-                navigate(`/learning/java/knowledge/${routeId}`);
+                navigate(topicKnowledgePath(topicSlug, routeId));
               }}
             >
               <span className="module-picker__sequence" aria-label={`Order ${sequence}`}>
@@ -619,6 +621,7 @@ function TreeNode({
   renderAsPicker = false,
 }: TreeNodeProps) {
   const navigate = useNavigate();
+  const { topicSlug = 'java' } = useParams();
   const hasChildren = node.children.length > 0;
   const terminalModuleGroup = isTerminalModuleGroup(node);
   const hasInlineChildren = hasChildren && !terminalModuleGroup;
@@ -716,7 +719,7 @@ function TreeNode({
 
   const navigateToModule = () => {
     if (isModule && node.routeId) {
-      navigate(`/learning/java/knowledge/${node.routeId}`);
+      navigate(topicKnowledgePath(topicSlug, node.routeId));
     }
   };
 
@@ -846,6 +849,7 @@ export function ModuleSidebar({
   onRetryContentCounts,
 }: ModuleSidebarProps) {
   const navigate = useNavigate();
+  const { topicSlug = 'java' } = useParams();
   const { language } = useLanguage();
   const [filterInput, setFilterInput] = useState('');
   const [realModulesOnly, setRealModulesOnly] = useState(true);
@@ -975,7 +979,7 @@ export function ModuleSidebar({
     }
 
     setKnowledgeSearchInput('');
-    navigate(`/learning/java/knowledge/${document.moduleId}?${params.toString()}`);
+    navigate(`${topicKnowledgePath(topicSlug, document.moduleId)}?${params.toString()}`);
   };
 
   const displayedModuleCount = knowledgeSearchActive

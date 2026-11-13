@@ -23,6 +23,7 @@ import { loadModuleContentCounts } from '../data/moduleContentCounts';
 import { loadKnowledgeIndex } from '../data/knowledge';
 import { resolveModuleStats } from '../data/moduleStats';
 import { useLanguage } from '../state/LanguageContext';
+import { topicKnowledgePath } from '../data/topicRoutes';
 import type { KnowledgeIndex, KnowledgeSectionRef, ModuleCatalog, ModuleCatalogNode } from '../types/learning';
 
 const readingTabs = new Set<ModuleTab>(['knowledge', 'quiz', 'interview', 'casestudy']);
@@ -36,7 +37,7 @@ type AssessmentReturnPoint = {
 };
 
 export function LearningPage() {
-  const { moduleId } = useParams();
+  const { moduleId, topicSlug = 'java' } = useParams();
   const navigate = useNavigate();
   const [routeSearchParams] = useSearchParams();
   const { language } = useLanguage();
@@ -285,9 +286,9 @@ export function LearningPage() {
     }
 
     if (!moduleId || !requestedModule) {
-      navigate(`/learning/java/knowledge/${activeModuleNode.routeId}`, { replace: true });
+      navigate(topicKnowledgePath(topicSlug, activeModuleNode.routeId), { replace: true });
     }
-  }, [activeModuleNode, catalog, moduleId, navigate, requestedModule]);
+  }, [activeModuleNode, catalog, moduleId, navigate, requestedModule, topicSlug]);
 
   useEffect(() => {
     if (!activeModule) {

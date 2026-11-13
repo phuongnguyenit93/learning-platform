@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import defaultFavicon from '../assets/favicon.svg';
 import javaFavicon from '../assets/logos/java.svg';
+import { topicFromPathname } from '../data/topicRoutes';
 
 /**
  * The Portal is one SPA document, so route changes must also update the
@@ -11,7 +12,9 @@ export function PageMetadata() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const isJavaLearning = pathname === '/learning/java' || pathname.startsWith('/learning/java/');
+    const topicSlug = topicFromPathname(pathname);
+    const isJavaLearning = topicSlug === 'java';
+    const topicLabel = topicSlug === null ? null : topicSlug === 'java' ? 'Java' : topicSlug.charAt(0).toUpperCase() + topicSlug.slice(1);
     const isMyCv = pathname === '/about-me' || pathname === '/about-me/';
 
     const title = isMyCv
@@ -20,10 +23,8 @@ export function PageMetadata() {
         ? 'SOP - Learning Platform'
         : pathname === '/project' || pathname === '/project/'
           ? 'Project - Learning Platform'
-          : pathname === '/learning/java/overview'
-            ? 'Java Learning - Overview'
-            : isJavaLearning
-              ? 'Java Learning - Knowledge'
+          : topicLabel
+            ? `${topicLabel} Learning - ${pathname.endsWith('/overview') ? 'Overview' : 'Knowledge'}`
               : 'Learning Platform';
 
     const favicon = isJavaLearning ? javaFavicon : defaultFavicon;

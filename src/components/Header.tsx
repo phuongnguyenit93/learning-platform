@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import javaLogo from '../assets/logos/java.svg';
+import { topicFromPathname } from '../data/topicRoutes';
 import { useLanguage } from '../state/LanguageContext';
 import { useTheme } from '../state/ThemeContext';
 
@@ -29,7 +30,9 @@ export function Header() {
   const { language, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
   const text = labels[language];
-  const isJavaLearning = pathname === '/learning/java' || pathname.startsWith('/learning/java/');
+  const topicSlug = topicFromPathname(pathname);
+  const isJavaLearning = topicSlug === 'java';
+  const topicLabel = topicSlug === null ? null : topicSlug === 'java' ? 'Java' : topicSlug.charAt(0).toUpperCase() + topicSlug.slice(1);
   const isMyCv = pathname === '/about-me' || pathname === '/about-me/';
 
   return (
@@ -40,8 +43,8 @@ export function Header() {
         </span>
         {isMyCv ? (
           <span className="topbar__brand-name">Nguyen Do Dinh Phuong</span>
-        ) : isJavaLearning ? (
-          <span>Java <strong>Learning</strong></span>
+        ) : topicLabel ? (
+          <span>{topicLabel} <strong>Learning</strong></span>
         ) : (
           <span>Learning <strong>Platform</strong></span>
         )}

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { topicKnowledgePath } from '../data/topicRoutes';
 import { formatCatalogName } from '../data/moduleCatalog';
 import { loadRoadmapDocument } from '../data/roadmap';
 import { useLanguage } from '../state/LanguageContext';
@@ -30,6 +31,7 @@ export function RoadmapPanel({
   onSelectKnowledge,
 }: RoadmapPanelProps) {
   const navigate = useNavigate();
+  const { topicSlug = 'java' } = useParams();
   const { language } = useLanguage();
   const [document, setDocument] = useState<RoadmapDocument | null>(null);
   const [loading, setLoading] = useState(true);
@@ -190,7 +192,7 @@ export function RoadmapPanel({
                     <RelatedModules
                       items={relatedModules}
                       language={language}
-                      onNavigate={(routeId) => navigate(`/learning/java/knowledge/${routeId}`)}
+                      onNavigate={(routeId) => navigate(topicKnowledgePath(topicSlug, routeId))}
                     />
                   )}
 
@@ -204,7 +206,7 @@ export function RoadmapPanel({
                     <RelatedModules
                       items={relatedModules}
                       language={language}
-                      onNavigate={(routeId) => navigate(`/learning/java/knowledge/${routeId}`)}
+                      onNavigate={(routeId) => navigate(topicKnowledgePath(topicSlug, routeId))}
                     />
                   )}
                 </div>

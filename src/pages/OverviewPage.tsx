@@ -1,6 +1,6 @@
 import { useLanguage } from '../state/LanguageContext';
 
-export function JavaOverviewPage() {
+export function OverviewPage() {
   const { language } = useLanguage();
 
   return (

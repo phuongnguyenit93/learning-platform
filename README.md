@@ -23,19 +23,34 @@ the tree as `version + root + children`; the frontend does not reconstruct it.
 internal identifiers. The Topic menu is database-backed for every Topic,
 including Java and Spring. Inactive nodes are filtered by the backend.
 
-During this migration, these Topic pages intentionally **do not fetch the old
-Java static module-navigation, module-details, content counts or documents**.
-Each module's **Overview tab** now fetches raw Markdown on demand from
-`GET /api/v1/modules/{moduleSlug}/overview?lang=vi|en` and renders it with the
-existing Markdown viewer. A missing translation (`404`) shows an empty state,
-without fallback to another language; other API errors offer Retry. Switching
-the module or VI/EN changes the requested content, and Overview is not included
-in the Sidebar tree response. Other content tabs display a placeholder until
-Knowledge/Quiz/Interview/Case Study are published from the database;
-the static Java dataset still exists in the build
-pipeline for legacy tooling and Worker capabilities. The old `LearningPage`
-remains in source for reference but is no longer an active React route.
-Test the new routing using `npm run test:topics`.
+During this migration, the database Topic pages intentionally **do not fetch
+old Java static module-navigation, module-details, content counts or documents**.
+Content is loaded on demand for the selected module's **database SLUG** and
+language. Three tabs now use the backend:
+
+- **Overview**: `GET /api/v1/modules/{moduleSlug}/overview?lang=vi|en`
+  returns Markdown rendered with the existing Markdown viewer.
+- **Roadmap**: `GET /api/v1/modules/{moduleSlug}/roadmap?lang=vi|en`
+  returns ordered milestones rendered by the existing timeline component.
+  Oracle currently stores title, purpose, objectives, and sort order; it does
+  **not** store YAML `dependsOn`, `relatedKnowledge`, or `relatedModules`.
+  Consequently database Roadmaps do not render those related links.
+- **Reference**: `GET /api/v1/modules/{moduleSlug}/reference?lang=vi|en`
+  returns ordered curated links with localized title and description. The
+  Reference tab is available on database module pages and displays an empty
+  state if the language or module has no imported references (HTTP 404).
+
+Both new data adapters verify the returned slug/language, use `cache: no-store`
+and do not fall back to YAML or another language. Switching a module or locale
+clears previous content while the new response loads. Backend errors display
+the HTTP status instead of silently showing stale content.
+
+Only the active tab fetches its content; navigation tree responses stay small.
+Knowledge, Quiz, Interview and Case Study still display placeholders until
+their database-backed APIs are available. The static Java dataset remains in
+the build pipeline for legacy tooling and Worker capabilities. The old
+`LearningPage` and Java-file loaders remain in source but are not active
+React routes. Validate with `npm run test:topics`.
 
 ## Requirements
 

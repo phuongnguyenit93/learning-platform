@@ -1,57 +1,57 @@
 import { useEffect, useMemo, useState } from 'react';
 import { loadReferenceDocument } from '../data/reference';
+import { fetchModuleReferences } from '../data/moduleReferences';
 import { useLanguage } from '../state/LanguageContext';
 import type { ReferenceDocument } from '../types/learning';
 
 interface ReferencePanelProps {
+  /** Legacy Java release reference path (retained for migration compatibility). */
   path?: string;
+  /** Database SLUG. When present, fetch Oracle-backed Reference instead of YAML. */
+  moduleSlug?: string;
   searchQuery: string;
 }
 
-export function ReferencePanel({ path, searchQuery }: ReferencePanelProps) {
+export function ReferencePanel({ path, moduleSlug, searchQuery }: ReferencePanelProps) {
   const { language } = useLanguage();
-  const [document, setDocument] = useState<ReferenceDocument | null>(null);
-  const [loading, setLoading] = useState(Boolean(path));
-  const [error, setError] = useState<string | null>(null);
+  const [retry, setRetry] = useState(0);
+  const sourceKey = moduleSlug
+    ? `db:${moduleSlug}:${language}`
+    : path ? `yaml:${path}` : '';
+  const [loaded, setLoaded] = useState<{
+    sourceKey: string;
+    document?: ReferenceDocument | null;
+    error?: string;
+  } | null>(null);
 
   useEffect(() => {
-    let active = true;
+    const controller = new AbortController();
+    if (!sourceKey) return () => controller.abort();
 
-    setDocument(null);
-    setError(null);
+    const request = moduleSlug
+      ? fetchModuleReferences(moduleSlug, language, controller.signal)
+      : loadReferenceDocument(path!);
 
-    if (!path) {
-      setLoading(false);
-      return () => {
-        active = false;
-      };
-    }
-
-    setLoading(true);
-
-    loadReferenceDocument(path)
-      .then((result) => {
-        if (!active) {
-          return;
-        }
-
-        setDocument(result);
-        setLoading(false);
+    request
+      .then((document) => {
+        if (!controller.signal.aborted) setLoaded({ sourceKey, document });
       })
       .catch((caught: unknown) => {
-        if (!active) {
-          return;
-        }
-
-        setDocument(null);
-        setLoading(false);
-        setError(caught instanceof Error ? caught.message : 'Unable to load Reference.');
+        if (!controller.signal.aborted) setLoaded({
+          sourceKey,
+          error: caught instanceof Error ? caught.message : 'Unable to load Reference.',
+        });
       });
 
-    return () => {
-      active = false;
-    };
-  }, [path]);
+    return () => controller.abort();
+  }, [sourceKey, moduleSlug, language, path, retry]);
+
+  // Do not show the previous module or language while an API call is pending.
+  // Legacy single-path YAML is still shared across languages during rollout.
+  const current = loaded?.sourceKey === sourceKey ? loaded : null;
+  const document = current?.document ?? null;
+  const error = current?.error ?? null;
+  const loading = Boolean(sourceKey && !current);
 
   const references = useMemo(() => {
     const items = document?.references ?? [];
@@ -81,11 +81,14 @@ export function ReferencePanel({ path, searchQuery }: ReferencePanelProps) {
       <div className="empty-state">
         <strong>{language === 'vi' ? 'Không thể tải tài liệu tham khảo' : 'Unable to load references'}</strong>
         <span>{error}</span>
+        {moduleSlug && <button type="button" onClick={() => { setLoaded(null); setRetry((value) => value + 1); }}>
+          {language === 'vi' ? 'Thử lại' : 'Retry'}
+        </button>}
       </div>
     );
   }
 
-  if (!path || !document) {
+  if (!sourceKey || !document) {
     return (
       <div className="empty-state">
         <strong>{language === 'vi' ? 'Module chưa có tài liệu tham khảo.' : 'This module has no references yet.'}</strong>
@@ -108,8 +111,8 @@ export function ReferencePanel({ path, searchQuery }: ReferencePanelProps) {
         <h2>{language === 'vi' ? 'Tài liệu tham khảo' : 'References'}</h2>
         <p>
           {language === 'vi'
-            ? 'Các nguồn chung đã được chọn lọc để học và kiểm chứng nội dung của module.'
-            : 'Curated shared sources for studying and verifying this module.'}
+            ? 'Các nguồn được chọn lọc để học và kiểm chứng nội dung của module.'
+            : 'Curated sources for studying and verifying this module.'}
         </p>
       </div>
 

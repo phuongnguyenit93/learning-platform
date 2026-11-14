@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ModuleSidebar } from '../components/ModuleSidebar';
 import { ModuleTabs, type ModuleTab } from '../components/ModuleTabs';
 import { DatabaseOverviewPanel } from '../components/DatabaseOverviewPanel';
+import { RoadmapPanel } from '../components/RoadmapPanel';
+import { ReferencePanel } from '../components/ReferencePanel';
 import { collectRealModules, findModuleByRouteId, formatCatalogName } from '../data/moduleCatalog';
 import { fetchTopicStructure } from '../data/topicStructure';
 import { topicKnowledgePath } from '../data/topicRoutes';
@@ -19,8 +21,8 @@ const EMPTY_STATS = { knowledge: 0, quiz: 0, interview: 0, casestudy: 0 };
 const EMPTY_ROADMAPS: Record<string, boolean> = {};
 
 /**
- * DB-driven navigation for every Topic. Overview is loaded on demand from
- * Oracle; the remaining content tabs await their database-backed APIs.
+ * DB-driven navigation for every Topic. Overview, Roadmap and Reference are
+ * fetched on demand from Oracle; other tabs await their database-backed APIs.
  */
 export function TopicStructurePage() {
   const { topicSlug = 'java', moduleSlug } = useParams();
@@ -93,8 +95,8 @@ export function TopicStructurePage() {
   const path = selected?.path?.split('/').filter(Boolean).slice(1, -1).map(formatCatalogName).join(' / ');
   const contentTitle = language === 'vi' ? 'Nội dung đang được đồng bộ lên cơ sở dữ liệu' : 'Content will be loaded from the database';
   const contentMessage = language === 'vi'
-    ? 'Cấu trúc module đã lấy từ API. Tài liệu, bài tập và nội dung chi tiết chưa được đồng bộ sang database.'
-    : 'The navigation structure comes from the API. Lessons, exercises and details have not yet been migrated to the database.';
+    ? 'Knowledge, Quiz, Interview và Case Study chưa có API nội dung từ cơ sở dữ liệu.'
+    : 'Knowledge, Quiz, Interview and Case Study content APIs are not available yet.';
 
   return (
     <main className={`learning-layout${sidebarCollapsed ? ' is-sidebar-collapsed' : ''}`}>
@@ -139,13 +141,24 @@ export function TopicStructurePage() {
               <span className="module-id-badge">{selected.slug}</span>
             </div>
             <div className="module-tab-wrapper">
-              <ModuleTabs activeTab={activeTab} stats={EMPTY_STATS} referenceEnabled={false}
+              <ModuleTabs activeTab={activeTab} stats={EMPTY_STATS} referenceEnabled={true}
                 executionEnabled={false} onChange={setActiveTab} />
             </div>
             <div className="learning-content">
               {activeTab === 'overview' ? (
                 <div className="learning-tab-panel" role="tabpanel" aria-label="Overview">
                   <DatabaseOverviewPanel key={selected.slug} moduleSlug={selected.slug!} />
+                </div>
+              ) : activeTab === 'roadmap' ? (
+                <div className="learning-tab-panel" role="tabpanel" aria-label="Roadmap">
+                  <RoadmapPanel key={selected.slug} moduleId={selected.slug!}
+                    moduleSlug={selected.slug!} moduleName={name}
+                    modules={modules} knowledgeIndex={null}
+                    searchQuery="" onSelectKnowledge={() => {}} />
+                </div>
+              ) : activeTab === 'reference' ? (
+                <div className="learning-tab-panel" role="tabpanel" aria-label="Reference">
+                  <ReferencePanel key={selected.slug} moduleSlug={selected.slug!} searchQuery="" />
                 </div>
               ) : activeTab === 'feedback' ? (
                 <div className="learning-tab-panel" role="tabpanel" aria-label="Feedback">

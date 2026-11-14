@@ -212,7 +212,7 @@ export function LearningPage() {
   const knowledgePath = activeModule?.knowledge[language];
   const summaryPath = activeModule?.summary[language];
   const videoPath = activeModule?.video[language];
-  const referencePath = activeModule?.reference;
+  const referencePath = activeModule?.reference?.[language];
   const quizPath = activeModule?.quiz[language];
   const interviewPath = activeModule?.interview[language];
   const caseStudyPath = activeModule?.casestudy[language];

@@ -135,7 +135,9 @@ export function toLearningModule(node: ModuleCatalogNode, stats: ModuleStats): L
     knowledge: node.knowledge ?? {},
     summary: node.summary ?? {},
     video: node.video ?? {},
-    reference: node.reference,
+    reference: typeof node.reference === 'string'
+      ? { vi: node.reference, en: node.reference }
+      : node.reference,
     quiz: node.quiz ?? {},
     interview: node.interview ?? {},
     casestudy: node.casestudy ?? {},

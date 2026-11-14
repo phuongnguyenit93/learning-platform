@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { topicKnowledgePath } from '../data/topicRoutes';
 import { formatCatalogName } from '../data/moduleCatalog';
 import { loadRoadmapDocument } from '../data/roadmap';
+import { fetchModuleRoadmap } from '../data/moduleRoadmap';
 import { useLanguage } from '../state/LanguageContext';
 import type {
   KnowledgeCategoryNode,
@@ -15,6 +16,8 @@ import type {
 
 interface RoadmapPanelProps {
   moduleId: string;
+  /** When supplied, fetch data from Oracle using the public module SLUG. */
+  moduleSlug?: string;
   moduleName: string;
   modules: ModuleCatalogNode[];
   knowledgeIndex: KnowledgeIndex | null;
@@ -24,6 +27,7 @@ interface RoadmapPanelProps {
 
 export function RoadmapPanel({
   moduleId,
+  moduleSlug,
   moduleName,
   modules,
   knowledgeIndex,
@@ -33,40 +37,42 @@ export function RoadmapPanel({
   const navigate = useNavigate();
   const { topicSlug = 'java' } = useParams();
   const { language } = useLanguage();
-  const [document, setDocument] = useState<RoadmapDocument | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [retry, setRetry] = useState(0);
+  // Include both source and locale so previous-module/locale content cannot
+  // briefly appear while a new request is pending.
+  const sourceKey = moduleSlug
+    ? `db:${moduleSlug}:${language}`
+    : `yaml:${moduleId}:${language}`;
+  const [loaded, setLoaded] = useState<{
+    sourceKey: string;
+    document?: RoadmapDocument | null;
+    error?: string;
+  } | null>(null);
 
   useEffect(() => {
-    let active = true;
+    const controller = new AbortController();
+    const request = moduleSlug
+      ? fetchModuleRoadmap(moduleSlug, language, controller.signal)
+      : loadRoadmapDocument(moduleId, language);
 
-    setDocument(null);
-    setLoading(true);
-    setError(null);
-
-    loadRoadmapDocument(moduleId, language)
-      .then((result) => {
-        if (!active) {
-          return;
-        }
-
-        setDocument(result);
-        setLoading(false);
+    request
+      .then((document) => {
+        if (!controller.signal.aborted) setLoaded({ sourceKey, document });
       })
       .catch((caught: unknown) => {
-        if (!active) {
-          return;
-        }
-
-        setDocument(null);
-        setLoading(false);
-        setError(caught instanceof Error ? caught.message : 'Unable to load Roadmap.');
+        if (!controller.signal.aborted) setLoaded({
+          sourceKey,
+          error: caught instanceof Error ? caught.message : 'Unable to load Roadmap.',
+        });
       });
 
-    return () => {
-      active = false;
-    };
-  }, [language, moduleId]);
+    return () => controller.abort();
+  }, [language, moduleId, moduleSlug, sourceKey, retry]);
+
+  const current = loaded?.sourceKey === sourceKey ? loaded : null;
+  const document = current?.document ?? null;
+  const error = current?.error ?? null;
+  const loading = !current;
 
   const moduleByRouteId = useMemo(
     () => new Map(
@@ -132,6 +138,9 @@ export function RoadmapPanel({
       <div className="empty-state empty-state--large">
         <strong>{language === 'vi' ? 'Không thể tải Roadmap' : 'Unable to load Roadmap'}</strong>
         <span>{error}</span>
+        {moduleSlug && <button type="button" onClick={() => { setLoaded(null); setRetry((value) => value + 1); }}>
+          {language === 'vi' ? 'Thử lại' : 'Retry'}
+        </button>}
       </div>
     );
   }
@@ -157,9 +166,13 @@ export function RoadmapPanel({
         </span>
         <h2>{moduleName} Roadmap</h2>
         <p>
-          {language === 'vi'
-            ? 'Đi theo trục chính từ trên xuống dưới. Các card ngoài cùng là module liên quan và có thể mở trực tiếp.'
-            : 'Follow the main spine from top to bottom. Outer cards are related modules and can be opened directly.'}
+          {moduleSlug
+            ? (language === 'vi'
+              ? 'Lộ trình học theo thứ tự milestone từ cơ sở dữ liệu.'
+              : 'Follow the milestone sequence loaded from the database.')
+            : (language === 'vi'
+              ? 'Đi theo trục chính từ trên xuống dưới. Các card ngoài cùng là module liên quan và có thể mở trực tiếp.'
+              : 'Follow the main spine from top to bottom. Outer cards are related modules and can be opened directly.')}
         </p>
       </header>
 

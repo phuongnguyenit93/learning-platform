@@ -15,6 +15,7 @@ test('navigation tree is small and module metadata is split without changing Jav
     description: 'Example', moduleType: 'SERVLET', currentStep: '5',
     knowledge: { vi: '/module/EXAMPLE/knowledge/vi/index.json' },
     roadmap: { vi: '/module/EXAMPLE/roadmap/vi/roadmap.yml' },
+    reference: { vi: '/module/EXAMPLE/reference/vi/references.yml', en: '/module/EXAMPLE/reference/en/references.yml' },
     sourceFingerprint: 'd'.repeat(64), children: [],
   };
   const source = JSON.stringify({ version: 1, root: { id: 'root', name: 'root', kind: 'GROUP', children: [module] } });
@@ -27,6 +28,8 @@ test('navigation tree is small and module metadata is split without changing Jav
   assert.equal(navigation.root.children[0].sourceFingerprint, undefined);
   assert.equal(details.get('EXAMPLE').sourceFingerprint, 'd'.repeat(64));
   assert.equal(details.get('EXAMPLE').currentStep, '5');
+  assert.deepEqual(details.get('EXAMPLE').reference, module.reference,
+    'Per-language Reference paths must survive module-details projection unchanged');
   assert.equal(JSON.parse(await readFile(join(root, 'module-details', 'EXAMPLE.json'), 'utf8')).knowledge.vi,
     '/module/EXAMPLE/knowledge/vi/index.json');
   assert.equal(await readFile(join(java, 'module-catalog.json'), 'utf8'), source);

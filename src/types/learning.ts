@@ -49,7 +49,7 @@ export interface LearningModule {
   knowledge: Partial<Record<Language, string>>;
   summary: Partial<Record<Language, string>>;
   video: Partial<Record<Language, string>>;
-  reference?: string;
+  reference?: Partial<Record<Language, string>>;
   quiz: Partial<Record<Language, string>>;
   interview: Partial<Record<Language, string>>;
   casestudy: Partial<Record<Language, string>>;
@@ -83,7 +83,8 @@ export interface ModuleCatalogNode {
   knowledge?: Partial<Record<Language, string>>;
   summary?: Partial<Record<Language, string>>;
   video?: Partial<Record<Language, string>>;
-  reference?: string;
+  /** Older published catalogs used a single shared Reference path. */
+  reference?: string | Partial<Record<Language, string>>;
   roadmap?: Partial<Record<Language, string>>;
   quiz?: Partial<Record<Language, string>>;
   interview?: Partial<Record<Language, string>>;

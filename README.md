@@ -32,9 +32,8 @@ language. Three tabs now use the backend:
   returns Markdown rendered with the existing Markdown viewer.
 - **Roadmap**: `GET /api/v1/modules/{moduleSlug}/roadmap?lang=vi|en`
   returns ordered milestones rendered by the existing timeline component.
-  Oracle currently stores title, purpose, objectives, and sort order; it does
-  **not** store YAML `dependsOn`, `relatedKnowledge`, or `relatedModules`.
-  Consequently database Roadmaps do not render those related links.
+  The Roadmap model contains only milestone title, purpose, objectives and
+  display order. It does not expose dependency or related-entity links.
 - **Reference**: `GET /api/v1/modules/{moduleSlug}/reference?lang=vi|en`
   returns ordered curated links with localized title and description. The
   Reference tab is available on database module pages and displays an empty

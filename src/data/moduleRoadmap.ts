@@ -22,16 +22,11 @@ function parseMilestone(value: unknown, index: number): RoadmapMilestone & { sor
     || !value.objectives.every((objective: unknown) => typeof objective === 'string' && !!objective.trim())) {
     throw new Error(`Invalid Module Roadmap response: roadmap[${index}].`);
   }
-  // The Oracle table has no milestone business key or related-entity links.
-  // Never invent links to Knowledge or other modules.
   return {
     id: `db-${value.id}`,
     title: nonBlank(value.title, `roadmap[${index}].title`),
     purpose: nonBlank(value.purpose, `roadmap[${index}].purpose`),
     objectives: (value.objectives as string[]).map((objective) => objective.trim()),
-    dependsOn: [],
-    relatedKnowledge: [],
-    relatedModules: [],
     sortOrder: value.sortOrder as number,
   };
 }

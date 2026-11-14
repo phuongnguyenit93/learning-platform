@@ -177,34 +177,23 @@ Quiz
 
 Frontend đã dựng navigation shell và các static panels Overview/Menu/Roadmap/Knowledge/Quiz/Interview/Case Study. `Local Run` có UI hai khung Build/Download JAR + Run Locally và **đã hoạt động trên Production** cho module đủ điều kiện; backend Worker quản lý Build/reuse, GitHub Actions build JAR và Release cung cấp file download (xem mục 13).
 
-`Roadmap` nằm kế bên `Menu` nhưng có responsibility khác:
+Roadmap is an ordered set of milestones, independent of the Knowledge Menu:
 
 ```text
 Roadmap
-→ milestone cấp cao
-→ thứ tự học
-→ quan hệ trước/sau và dependency
-→ cho learner biết đang ở đâu và học gì tiếp theo
+-> milestone title
+-> purpose
+-> objectives
+-> learning order (SORT_ORDER)
 
 Menu
-→ danh sách Knowledge chapter/section cụ thể
-→ điều hướng chi tiết vào nội dung
+-> Knowledge chapter/section list
+-> navigation into lesson content
 ```
 
-Roadmap interaction có hai loại relation riêng: `relatedKnowledge` thuộc module hiện tại và luôn hiển thị ở phía đối diện milestone trên timeline, click item sẽ chuyển sang đúng Knowledge category; numbered marker vẫn giữ pulse animation để nhấn mạnh milestone có Knowledge hỗ trợ. `relatedModules` hiển thị thành card phụ cạnh milestone và click để chuyển sang module khác. Cả hai chỉ là navigation/support relation, không tạo nested curriculum graph và không thay đổi learning order của Level 1. Roadmap data và frontend Roadmap tab đều đã implement; frontend tôn trọng thứ tự milestone và prerequisite do dataset cung cấp.
-
-Visual contract hiện tại:
-
-```text
-milestone ở trái  ···  (marker pulse)  ···  Related Knowledge ở phải
-Related Knowledge trái  ···  (marker pulse)  ···  milestone ở phải
-
-Related Modules
-→ satellite card nằm ngoài milestone card khi được khai báo
-→ click sang module đích
-```
-
-`relatedKnowledge` resolve title + section count từ Knowledge index hiện hành; click item chuyển sang tab `Knowledge` và active category tương ứng, không reload module. Marker pulse là affordance thị giác, không còn là trigger mở popup.
+The active database-backed Roadmap shows only the milestones and their goals.
+It does not render dependencies, related Knowledge cards, or related Module cards.
+The legacy YAML reader ignores obsolete relation/dependency fields.
 
 Các tab/action về lâu dài phải được render theo capability thực tế của module.
 

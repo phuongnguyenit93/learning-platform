@@ -152,9 +152,7 @@ export function TopicStructurePage() {
               ) : activeTab === 'roadmap' ? (
                 <div className="learning-tab-panel" role="tabpanel" aria-label="Roadmap">
                   <RoadmapPanel key={selected.slug} moduleId={selected.slug!}
-                    moduleSlug={selected.slug!} moduleName={name}
-                    modules={modules} knowledgeIndex={null}
-                    searchQuery="" onSelectKnowledge={() => {}} />
+                    moduleSlug={selected.slug!} moduleName={name} searchQuery="" />
                 </div>
               ) : activeTab === 'reference' ? (
                 <div className="learning-tab-panel" role="tabpanel" aria-label="Reference">

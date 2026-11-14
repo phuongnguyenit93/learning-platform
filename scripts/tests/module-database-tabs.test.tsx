@@ -6,6 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { BACKEND_API_BASE_URL } from '../../src/data/backendHealth';
 import { fetchModuleRoadmap } from '../../src/data/moduleRoadmap';
+import { loadRoadmapDocument } from '../../src/data/roadmap';
 import { fetchModuleReferences } from '../../src/data/moduleReferences';
 import { TopicStructurePage } from '../../src/pages/TopicStructurePage';
 import { LanguageProvider, useLanguage } from '../../src/state/LanguageContext';
@@ -51,9 +52,8 @@ test('backend Roadmap adapter validates module/locale and translates DB IDs to t
     assert.deepEqual(doc?.roadmap.map((r) => r.title), ['Lớp và đối tượng', 'Đóng gói']);
     assert.deepEqual(doc?.roadmap.map((r) => r.id), ['db-11', 'db-22']);
     assert.deepEqual(doc?.roadmap[0].objectives, ['Tạo đối tượng']);
-    assert.deepEqual(doc?.roadmap[0].relatedKnowledge, []);
-    assert.deepEqual(doc?.roadmap[0].relatedModules, []);
-    assert.deepEqual(doc?.roadmap[0].dependsOn, []);
+    assert.deepEqual(Object.keys(doc?.roadmap[0] ?? {}).sort(),
+      ['id', 'objectives', 'purpose', 'title']);
   } finally {
     globalThis.fetch = original;
   }
@@ -207,7 +207,7 @@ test('real Topic page fetches Roadmap and Reference lazily using database SLUG, 
       .map((item) => item.textContent);
     assert.deepEqual(titles, ['Lớp và đối tượng', 'Đóng gói']);
     assert.equal(host.querySelectorAll('.roadmap-related__card').length, 0,
-      'Oracle does not store relatedModules so the frontend must not invent links');
+      'Roadmap timeline should contain milestone cards only');
 
     await act(async () => referenceTab.click());
     assert.match(host.querySelector('.reference-panel')?.textContent ?? '', /Đặc tả Java/);
@@ -346,4 +346,62 @@ test('API errors offer Retry without reloading the topic structure', async () =>
     assert.equal(requests.filter((url) => url === `${base}/topics/1/structure`).length, 1,
       'Retrying a content API must not reload the module catalog');
   });
+});
+
+test('legacy YAML Roadmap ignores removed relation and dependency fields', async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = (async (input: RequestInfo | URL, options?: RequestInit) => {
+    assert.equal(String(input),
+      '/language/java/module/ROADMAP_LEGACY_RELATIONS/roadmap/vi/roadmap.yml');
+    assert.equal(options?.cache, 'no-cache');
+    return new Response(`roadmap:
+  - id: stage-1
+    title: Start here
+    purpose: Learn the basics
+    objectives:
+      - Study Java
+    dependsOn:
+      - stage-0
+    relatedKnowledge:
+      - knowledge-group
+    relatedModules:
+      - routeId: JAVA_OTHER
+        label: Other module
+`, { status: 200 });
+  }) as typeof fetch;
+  try {
+    const doc = await loadRoadmapDocument('ROADMAP_LEGACY_RELATIONS', 'vi');
+    assert.deepEqual(doc, { roadmap: [{
+      id: 'stage-1',
+      title: 'Start here',
+      purpose: 'Learn the basics',
+      objectives: ['Study Java'],
+    }] });
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test('backend Roadmap adapter also discards obsolete extra fields', async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = (async () => json({
+    ...viMilestones,
+    roadmap: [{
+      ...viMilestones.roadmap[0],
+      dependsOn: ['previous-stage'],
+      relatedKnowledge: ['knowledge'],
+      relatedModules: [{ routeId: 'JAVA_OTHER' }],
+    }],
+  })) as typeof fetch;
+  try {
+    const doc = await fetchModuleRoadmap('java-oop', 'vi', new AbortController().signal);
+    assert.deepEqual(doc?.roadmap, [{
+      id: 'db-22',
+      title: 'Đóng gói',
+      purpose: 'Encapsulation',
+      objectives: ['Ẩn trạng thái', 'Giữ invariant'],
+    }]);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
 });

@@ -506,22 +506,7 @@ export function LearningPage() {
                 key={`${activeModule.id}:roadmap`}
                 moduleId={activeModule.id}
                 moduleName={activeModule.shortName}
-                modules={realModules}
-                knowledgeIndex={knowledgeIndex}
                 searchQuery={searchQuery}
-                onSelectKnowledge={(categoryId) => {
-                  setAssessmentReturn(null);
-                  pendingAssessmentRestore.current = null;
-                  setSearchQuery('');
-                  setActiveKnowledgeCategory(categoryId);
-                  setSelectedKnowledgeSection(null);
-                  setVisitedTabs((current) => {
-                    const next = new Set(current);
-                    next.add('knowledge');
-                    return next;
-                  });
-                  setActiveTab('knowledge');
-                }}
               />
             </div>
           )}

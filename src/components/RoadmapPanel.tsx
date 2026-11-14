@@ -1,45 +1,26 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { topicKnowledgePath } from '../data/topicRoutes';
-import { formatCatalogName } from '../data/moduleCatalog';
 import { loadRoadmapDocument } from '../data/roadmap';
 import { fetchModuleRoadmap } from '../data/moduleRoadmap';
 import { useLanguage } from '../state/LanguageContext';
-import type {
-  KnowledgeCategoryNode,
-  KnowledgeIndex,
-  KnowledgeTreeNode,
-  ModuleCatalogNode,
-  RoadmapDocument,
-  RoadmapRelatedModule,
-} from '../types/learning';
+import type { RoadmapDocument } from '../types/learning';
 
 interface RoadmapPanelProps {
   moduleId: string;
-  /** When supplied, fetch data from Oracle using the public module SLUG. */
+  /** When supplied, fetch from Oracle using the module's public SLUG. */
   moduleSlug?: string;
   moduleName: string;
-  modules: ModuleCatalogNode[];
-  knowledgeIndex: KnowledgeIndex | null;
   searchQuery: string;
-  onSelectKnowledge: (categoryId: string) => void;
 }
 
+/** An ordered timeline of milestones without dependency or related-entity links. */
 export function RoadmapPanel({
   moduleId,
   moduleSlug,
   moduleName,
-  modules,
-  knowledgeIndex,
   searchQuery,
-  onSelectKnowledge,
 }: RoadmapPanelProps) {
-  const navigate = useNavigate();
-  const { topicSlug = 'java' } = useParams();
   const { language } = useLanguage();
   const [retry, setRetry] = useState(0);
-  // Include both source and locale so previous-module/locale content cannot
-  // briefly appear while a new request is pending.
   const sourceKey = moduleSlug
     ? `db:${moduleSlug}:${language}`
     : `yaml:${moduleId}:${language}`;
@@ -69,61 +50,24 @@ export function RoadmapPanel({
     return () => controller.abort();
   }, [language, moduleId, moduleSlug, sourceKey, retry]);
 
+  // When switching module or locale, never flash the previous timeline.
   const current = loaded?.sourceKey === sourceKey ? loaded : null;
   const document = current?.document ?? null;
   const error = current?.error ?? null;
   const loading = !current;
 
-  const moduleByRouteId = useMemo(
-    () => new Map(
-      modules
-        .filter((module): module is ModuleCatalogNode & { routeId: string } => Boolean(module.routeId))
-        .map((module) => [module.routeId, module]),
-    ),
-    [modules],
-  );
-
-  const knowledgeById = useMemo(() => {
-    const result = new Map<string, KnowledgeCategoryNode>();
-
-    const visit = (node: KnowledgeTreeNode) => {
-      if (node.kind === 'CATEGORY') {
-        result.set(node.id, node);
-        return;
-      }
-
-      node.children.forEach(visit);
-    };
-
-    knowledgeIndex?.tree.forEach(visit);
-    return result;
-  }, [knowledgeIndex]);
-
   const milestones = useMemo(() => {
     const items = document?.roadmap ?? [];
     const query = searchQuery.trim().toLocaleLowerCase();
+    if (!query) return items;
 
-    if (!query) {
-      return items;
-    }
-
-    return items.filter((milestone) => {
-      const relatedText = milestone.relatedModules
-        .map((related) => {
-          const module = moduleByRouteId.get(related.routeId);
-          return `${related.label ?? ''} ${related.note ?? ''} ${module?.name ?? ''} ${module?.description ?? ''}`;
-        })
-        .join(' ');
-      const relatedKnowledgeText = milestone.relatedKnowledge
-        .map((categoryId) => `${categoryId} ${knowledgeById.get(categoryId)?.title ?? ''}`)
-        .join(' ');
-
-      return [milestone.title, milestone.purpose, ...milestone.objectives, relatedText, relatedKnowledgeText]
+    return items.filter((milestone) => (
+      [milestone.title, milestone.purpose, ...milestone.objectives]
         .join(' ')
         .toLocaleLowerCase()
-        .includes(query);
-    });
-  }, [document, knowledgeById, moduleByRouteId, searchQuery]);
+        .includes(query)
+    ));
+  }, [document, searchQuery]);
 
   if (loading) {
     return (
@@ -151,8 +95,8 @@ export function RoadmapPanel({
         <strong>{language === 'vi' ? 'Roadmap chưa có nội dung' : 'Roadmap content is not available yet'}</strong>
         <span>
           {language === 'vi'
-            ? 'Module đã có Roadmap capability nhưng chưa có milestone để hiển thị.'
-            : 'This module has Roadmap capability but does not have milestones to display yet.'}
+            ? 'Module chưa có milestone để hiển thị.'
+            : 'This module does not have milestones to display yet.'}
         </span>
       </div>
     );
@@ -166,13 +110,9 @@ export function RoadmapPanel({
         </span>
         <h2>{moduleName} Roadmap</h2>
         <p>
-          {moduleSlug
-            ? (language === 'vi'
-              ? 'Lộ trình học theo thứ tự milestone từ cơ sở dữ liệu.'
-              : 'Follow the milestone sequence loaded from the database.')
-            : (language === 'vi'
-              ? 'Đi theo trục chính từ trên xuống dưới. Các card ngoài cùng là module liên quan và có thể mở trực tiếp.'
-              : 'Follow the main spine from top to bottom. Outer cards are related modules and can be opened directly.')}
+          {language === 'vi'
+            ? 'Đi theo các milestone từ trên xuống dưới theo thứ tự học.'
+            : 'Follow the milestones from top to bottom in learning order.'}
         </p>
       </header>
 
@@ -184,112 +124,28 @@ export function RoadmapPanel({
         <div className="roadmap-timeline">
           {milestones.map((milestone, index) => {
             const side = index % 2 === 0 ? 'left' : 'right';
-            const relatedModules = milestone.relatedModules
-              .map((related) => ({
-                related,
-                module: moduleByRouteId.get(related.routeId),
-              }));
-            const relatedKnowledge = milestone.relatedKnowledge.map((categoryId) => ({
-              categoryId,
-              category: knowledgeById.get(categoryId),
-            }));
-            const knowledgeSide = side === 'left' ? 'right' : 'left';
-
             return (
               <article
                 key={milestone.id}
-                className={`roadmap-step roadmap-step--${side} roadmap-step--tone-${(index % 10) + 1}${relatedKnowledge.length > 0 ? ' has-related-knowledge' : ''}`}
+                className={`roadmap-step roadmap-step--${side} roadmap-step--tone-${(index % 10) + 1}`}
               >
                 <div className={`roadmap-step__side roadmap-step__side--${side}`}>
-                  {side === 'left' && relatedModules.length > 0 && (
-                    <RelatedModules
-                      items={relatedModules}
-                      language={language}
-                      onNavigate={(routeId) => navigate(topicKnowledgePath(topicSlug, routeId))}
-                    />
-                  )}
-
                   <MilestoneCard
                     title={milestone.title}
                     purpose={milestone.purpose}
                     objectives={milestone.objectives}
                   />
-
-                  {side === 'right' && relatedModules.length > 0 && (
-                    <RelatedModules
-                      items={relatedModules}
-                      language={language}
-                      onNavigate={(routeId) => navigate(topicKnowledgePath(topicSlug, routeId))}
-                    />
-                  )}
                 </div>
-
                 <div className="roadmap-step__marker-control">
-                  <div
-                    className={`roadmap-step__marker${relatedKnowledge.length > 0 ? ' has-related-knowledge' : ''}`}
-                    aria-label={`Milestone ${index + 1}`}
-                  >
+                  <div className="roadmap-step__marker" aria-label={`Milestone ${index + 1}`}>
                     <span>{index + 1}</span>
                   </div>
                 </div>
-
-                {relatedKnowledge.length > 0 && (
-                  <div className={`roadmap-step__knowledge roadmap-step__knowledge--${knowledgeSide}`}>
-                    <RelatedKnowledge
-                      items={relatedKnowledge}
-                      language={language}
-                      onSelectKnowledge={onSelectKnowledge}
-                    />
-                  </div>
-                )}
               </article>
             );
           })}
         </div>
       )}
-    </section>
-  );
-}
-
-function RelatedKnowledge({
-  items,
-  language,
-  onSelectKnowledge,
-}: {
-  items: Array<{ categoryId: string; category?: KnowledgeCategoryNode }>;
-  language: 'vi' | 'en';
-  onSelectKnowledge: (categoryId: string) => void;
-}) {
-  return (
-    <section
-      className="roadmap-knowledge-inline"
-      aria-label={language === 'vi' ? 'Knowledge liên quan' : 'Related Knowledge'}
-    >
-      <div className="roadmap-knowledge-inline__header">
-        <span>{language === 'vi' ? 'Knowledge liên quan' : 'Related Knowledge'}</span>
-        <small>{items.length}</small>
-      </div>
-
-      <div className="roadmap-knowledge-inline__list">
-        {items.map(({ categoryId, category }) => (
-          <button
-            key={categoryId}
-            type="button"
-            className="roadmap-knowledge-inline__item"
-            disabled={!category}
-            onClick={() => category && onSelectKnowledge(categoryId)}
-          >
-            <span>
-              <strong>{category?.title ?? categoryId}</strong>
-              {!category && (
-                <small>{language === 'vi' ? 'Chưa tìm thấy Knowledge category' : 'Knowledge category not found'}</small>
-              )}
-            </span>
-            <span className="roadmap-knowledge-inline__count">{category?.sections.length ?? 0}</span>
-            {category && <span className="roadmap-knowledge-inline__arrow">→</span>}
-          </button>
-        ))}
-      </div>
     </section>
   );
 }
@@ -316,43 +172,6 @@ function MilestoneCard({
           </ul>
         )}
       </div>
-    </div>
-  );
-}
-
-function RelatedModules({
-  items,
-  language,
-  onNavigate,
-}: {
-  items: Array<{ related: RoadmapRelatedModule; module?: ModuleCatalogNode }>;
-  language: 'vi' | 'en';
-  onNavigate: (routeId: string) => void;
-}) {
-  return (
-    <div className="roadmap-related" aria-label={language === 'vi' ? 'Module liên quan' : 'Related modules'}>
-      {items.map(({ related, module }) => {
-        const title = related.label ?? (module ? formatCatalogName(module.name) : related.routeId);
-        const note = related.note ?? module?.description;
-        const available = Boolean(module?.routeId);
-
-        return (
-          <button
-            key={related.routeId}
-            type="button"
-            className="roadmap-related__card"
-            disabled={!available}
-            onClick={() => available && onNavigate(related.routeId)}
-          >
-            <span className="roadmap-related__label">
-              {language === 'vi' ? 'Module liên quan' : 'Related module'}
-            </span>
-            <strong>{title}</strong>
-            {note && <small>{note}</small>}
-            {available && <span className="roadmap-related__action">{language === 'vi' ? 'Mở module →' : 'Open module →'}</span>}
-          </button>
-        );
-      })}
     </div>
   );
 }

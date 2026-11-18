@@ -13,7 +13,7 @@ export interface LearningTopic {
   slug: string;
   name: string;
   description: string | null;
-  iconSvg: string;
+  iconSvg: string | null;
   status: 'AVAILABLE' | 'COMING_SOON' | 'HIDDEN';
   sortOrder: number;
   category: LearningCategory;
@@ -42,7 +42,7 @@ function isTopic(value: unknown): value is LearningTopic {
     && typeof value.slug === 'string'
     && typeof value.name === 'string'
     && (typeof value.description === 'string' || value.description === null)
-    && typeof value.iconSvg === 'string'
+    && (typeof value.iconSvg === 'string' || value.iconSvg === null)
     && ['AVAILABLE', 'COMING_SOON', 'HIDDEN'].includes(String(value.status))
     && typeof value.sortOrder === 'number'
     && isCategory(value.category);

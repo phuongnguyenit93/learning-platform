@@ -5,6 +5,7 @@ import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { MemoryRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { BACKEND_API_BASE_URL } from '../../src/data/backendHealth';
+import { fetchModuleCore } from '../../src/data/moduleCore';
 import { fetchModuleRoadmap } from '../../src/data/moduleRoadmap';
 import { loadRoadmapDocument } from '../../src/data/roadmap';
 import { fetchModuleReferences } from '../../src/data/moduleReferences';
@@ -32,6 +33,47 @@ const viReferences = {
       description: '', sortOrder: 1 },
   ],
 };
+
+const javaOopCore = {
+  id: 101, serviceName: 'JAVA_OOP', slug: 'java-oop', name: 'Object Oriented Programming',
+  description: 'Canonical Module description', specialNote: null,
+};
+
+test('Module Core adapter resolves by public SLUG and validates the returned identity', async () => {
+  const original = globalThis.fetch;
+  let requested = '';
+  globalThis.fetch = (async (input: RequestInfo | URL, options?: RequestInit) => {
+    requested = String(input);
+    assert.equal(options?.cache, 'no-store');
+    assert.equal(options?.headers && (options.headers as Record<string, string>).Accept, 'application/json');
+    return json(javaOopCore);
+  }) as typeof fetch;
+  try {
+    const core = await fetchModuleCore('java-oop', new AbortController().signal);
+    assert.equal(requested, `${base}/modules/java-oop`);
+    assert.equal(core?.serviceName, 'JAVA_OOP');
+    assert.equal(core?.name, 'Object Oriented Programming');
+    assert.equal(core?.specialNote, null);
+  } finally {
+    globalThis.fetch = original;
+  }
+});
+
+test('Module Core treats 404 as missing and rejects server failures or mismatched slugs', async () => {
+  const original = globalThis.fetch;
+  let response = new Response('', { status: 404 });
+  globalThis.fetch = (async () => response) as typeof fetch;
+  try {
+    const signal = new AbortController().signal;
+    assert.equal(await fetchModuleCore('java-oop', signal), null);
+    response = new Response('', { status: 503 });
+    await assert.rejects(fetchModuleCore('java-oop', signal), /HTTP 503/);
+    response = json({ ...javaOopCore, slug: 'wrong-slug' });
+    await assert.rejects(fetchModuleCore('java-oop', signal), /Invalid Module Core/);
+  } finally {
+    globalThis.fetch = original;
+  }
+});
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data), { status });
@@ -155,6 +197,13 @@ async function withDbTopic(
           name: 'Stream', path: '/java/stream', children: [] },
       ] },
     });
+    if (url === `${base}/modules/java-oop`) return json(javaOopCore);
+    if (url === `${base}/modules/java-stream`) return json({
+      id: 102, serviceName: 'JAVA_STREAM', slug: 'java-stream', name: 'Stream',
+      description: 'Stream description', specialNote: null,
+    });
+    if (/\/modules\/[^/?]+\/menu\?lang=(vi|en)$/.test(url))
+      return new Response(null, { status: 404 });
     return content(url, options);
   }) as typeof fetch;
 
@@ -193,6 +242,12 @@ test('real Topic page fetches Roadmap and Reference lazily using database SLUG, 
     if (url === `${base}/modules/java-oop/reference?lang=vi`) return json(viReferences);
     throw new Error(`Unexpected URL: ${url}`);
   }, async (host, requests) => {
+    assert.ok(requests.includes(`${base}/modules/java-oop`),
+      'The selected module core is loaded by its public SLUG');
+    assert.equal(host.querySelector('.learning-main__topline h1')?.textContent,
+      'Object Oriented Programming');
+    assert.match(host.querySelector('.learning-main__module-description')?.textContent ?? '',
+      /Canonical Module description/);
     const roadmapTab = host.querySelector<HTMLButtonElement>('.module-tabs__button--roadmap');
     const referenceTab = host.querySelector<HTMLButtonElement>('.module-tabs__button--reference');
     assert.ok(roadmapTab);

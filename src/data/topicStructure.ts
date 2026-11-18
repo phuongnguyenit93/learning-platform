@@ -10,7 +10,7 @@ function object(value: unknown): value is JsonObject {
 
 /**
  * Convert a backend tree into the navigation model the existing Sidebar understands.
- * Do not use backend routeId here: it is NODE_KEY, whereas web routes use SLUG.
+ * NODE_KEY is the stable internal identity; web routes must use SLUG.
  * Static document paths are deliberately not carried forward.
  */
 function projectNode(source: unknown, seenSlugs: Set<string>, depth = 0): ModuleCatalogNode {

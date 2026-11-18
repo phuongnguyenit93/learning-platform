@@ -1,11 +1,15 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { ModuleSidebar } from '../components/ModuleSidebar';
 import { ModuleTabs, type ModuleTab } from '../components/ModuleTabs';
 import { DatabaseOverviewPanel } from '../components/DatabaseOverviewPanel';
 import { RoadmapPanel } from '../components/RoadmapPanel';
 import { ReferencePanel } from '../components/ReferencePanel';
+import { DatabaseKnowledgePanel } from '../components/DatabaseKnowledgePanel';
+import { ReadingFullscreenContext, useModuleReadingFullscreen } from '../components/ReadingFullscreen';
 import { collectRealModules, findModuleByRouteId, formatCatalogName } from '../data/moduleCatalog';
+import { fetchModuleCore, type ModuleCore } from '../data/moduleCore';
+import { fetchModuleMenu, type DatabaseModuleMenu } from '../data/moduleKnowledge';
 import { fetchTopicStructure } from '../data/topicStructure';
 import { topicKnowledgePath } from '../data/topicRoutes';
 import { useLanguage } from '../state/LanguageContext';
@@ -16,13 +20,31 @@ type StructureState =
   | { topicSlug: string; status: 'ready'; catalog: ModuleCatalog }
   | { topicSlug: string; status: 'error'; message: string };
 
+type ModuleCoreState =
+  | { slug: string; status: 'loading' }
+  | { slug: string; status: 'ready'; module: ModuleCore }
+  | { slug: string; status: 'missing' }
+  | { slug: string; status: 'error'; message: string };
+
+type MenuState =
+  | { slug: string; language: string; status: 'loading' }
+  | { slug: string; language: string; status: 'ready'; menu: DatabaseModuleMenu }
+  | { slug: string; language: string; status: 'missing' }
+  | { slug: string; language: string; status: 'error'; message: string };
+
 const EMPTY_COUNTS: Record<string, number> = {};
-const EMPTY_STATS = { knowledge: 0, quiz: 0, interview: 0, casestudy: 0 };
 const EMPTY_ROADMAPS: Record<string, boolean> = {};
 
+const TABS: ModuleTab[] = ['overview', 'roadmap', 'reference', 'knowledge', 'quiz', 'interview', 'casestudy', 'feedback'];
+
+function queryTab(search: string): ModuleTab {
+  const tab = new URLSearchParams(search).get('tab');
+  return TABS.find((item) => item === tab) ?? 'knowledge';
+}
+
 /**
- * DB-driven navigation for every Topic. Overview, Roadmap and Reference are
- * fetched on demand from Oracle; other tabs await their database-backed APIs.
+ * DB-driven navigation for every Topic. Menu metadata is lightweight, and
+ * each published Knowledge lesson is fetched only when opened.
  */
 export function TopicStructurePage() {
   const { topicSlug = 'java', moduleSlug } = useParams();
@@ -31,7 +53,15 @@ export function TopicStructurePage() {
   const { language } = useLanguage();
   const [state, setState] = useState<StructureState>({ topicSlug, status: 'loading' });
   const [reload, setReload] = useState(0);
-  const [activeTab, setActiveTab] = useState<ModuleTab>('knowledge');
+  const requestedTab = queryTab(search);
+  const [activeTab, setActiveTab] = useState<ModuleTab>(requestedTab);
+  const [visitedKnowledge, setVisitedKnowledge] = useState(requestedTab === 'knowledge');
+  const [moduleCoreState, setModuleCoreState] = useState<ModuleCoreState | null>(null);
+  const [moduleCoreRetry, setModuleCoreRetry] = useState(0);
+  const [menuState, setMenuState] = useState<MenuState | null>(null);
+  const [menuReload, setMenuReload] = useState(0);
+  const readingRef = useRef<HTMLElement>(null);
+  const readingFullscreen = useModuleReadingFullscreen(readingRef);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
     () => window.matchMedia?.('(max-width: 820px)').matches ?? false,
   );
@@ -53,13 +83,64 @@ export function TopicStructurePage() {
     return () => controller.abort();
   }, [topicSlug, reload]);
 
-  useEffect(() => setActiveTab('knowledge'), [topicSlug, moduleSlug]);
+  useEffect(() => {
+    setActiveTab(requestedTab);
+    if (requestedTab === 'knowledge') setVisitedKnowledge(true);
+  }, [topicSlug, moduleSlug, requestedTab]);
 
   const catalog = state.topicSlug === topicSlug && state.status === 'ready' ? state.catalog : null;
   const modules = useMemo(() => catalog ? collectRealModules(catalog.root) : [], [catalog]);
   const selected = useMemo(() => (
     catalog && moduleSlug ? findModuleByRouteId(catalog.root, moduleSlug) : undefined
   ), [catalog, moduleSlug]);
+  const selectedSlug = selected?.slug ?? '';
+
+  useEffect(() => {
+    if (!selectedSlug) {
+      setMenuState(null);
+      return;
+    }
+    const controller = new AbortController();
+    setMenuState({ slug: selectedSlug, language, status: 'loading' });
+    fetchModuleMenu(selectedSlug, language, controller.signal)
+      .then((menu) => {
+        if (controller.signal.aborted) return;
+        setMenuState(menu
+          ? { slug: selectedSlug, language, status: 'ready', menu }
+          : { slug: selectedSlug, language, status: 'missing' });
+      })
+      .catch((error: unknown) => {
+        if (!controller.signal.aborted) setMenuState({
+          slug: selectedSlug, language, status: 'error',
+          message: error instanceof Error ? error.message : 'Unable to load Knowledge Menu.',
+        });
+      });
+    return () => controller.abort();
+  }, [selectedSlug, language, menuReload]);
+
+  useEffect(() => {
+    if (!selectedSlug) {
+      setModuleCoreState(null);
+      return;
+    }
+    const controller = new AbortController();
+    setModuleCoreState({ slug: selectedSlug, status: 'loading' });
+    fetchModuleCore(selectedSlug, controller.signal)
+      .then((module) => {
+        if (controller.signal.aborted) return;
+        setModuleCoreState(module
+          ? { slug: selectedSlug, status: 'ready', module }
+          : { slug: selectedSlug, status: 'missing' });
+      })
+      .catch((error: unknown) => {
+        if (!controller.signal.aborted) setModuleCoreState({
+          slug: selectedSlug,
+          status: 'error',
+          message: error instanceof Error ? error.message : 'Unable to load Module Core.',
+        });
+      });
+    return () => controller.abort();
+  }, [selectedSlug, moduleCoreRetry]);
 
   useEffect(() => {
     if (catalog && !moduleSlug && modules[0]?.routeId) {
@@ -91,12 +172,43 @@ export function TopicStructurePage() {
     );
   }
 
-  const name = selected ? formatCatalogName(selected.name) : '';
+  const core = moduleCoreState?.slug === selectedSlug && moduleCoreState.status === 'ready'
+    ? moduleCoreState.module : null;
+  const scopedMenuState = menuState?.slug === selectedSlug && menuState.language === language
+    ? menuState : null;
+  const menu = scopedMenuState?.status === 'ready' ? scopedMenuState.menu : null;
+  const knowledgeCounts = menu && selectedSlug ? { [selectedSlug]: menu.lessonCount } : EMPTY_COUNTS;
+  const tabStats = { knowledge: menu?.lessonCount ?? 0, quiz: 0, interview: 0, casestudy: 0 };
+  const routeParams = new URLSearchParams(search);
+  const chapterSlug = routeParams.get('chapter') ?? routeParams.get('category');
+  const sectionSlug = routeParams.get('lesson') ?? routeParams.get('section');
+  const changeTab = (tab: ModuleTab) => {
+    setActiveTab(tab);
+    if (tab === 'knowledge') setVisitedKnowledge(true);
+    const next = new URLSearchParams(search);
+    if (tab === 'knowledge' && !next.has('chapter') && !next.has('lesson')
+      && !next.has('category') && !next.has('section')) next.delete('tab');
+    else next.set('tab', tab);
+    navigate({ search: next.toString() ? `?${next}` : '' });
+  };
+  const selectKnowledge = (chapter: string | null, lesson?: string) => {
+    setActiveTab('knowledge');
+    setVisitedKnowledge(true);
+    const next = new URLSearchParams(search);
+    next.set('tab', 'knowledge');
+    next.delete('category');
+    next.delete('section');
+    if (chapter) next.set('chapter', chapter); else next.delete('chapter');
+    if (lesson) next.set('lesson', lesson); else next.delete('lesson');
+    navigate({ search: `?${next}` });
+  };
+  const name = selected ? formatCatalogName(core?.name ?? selected.name) : '';
   const path = selected?.path?.split('/').filter(Boolean).slice(1, -1).map(formatCatalogName).join(' / ');
+  const description = core?.description?.trim() || selected?.description;
   const contentTitle = language === 'vi' ? 'Nội dung đang được đồng bộ lên cơ sở dữ liệu' : 'Content will be loaded from the database';
   const contentMessage = language === 'vi'
-    ? 'Knowledge, Quiz, Interview và Case Study chưa có API nội dung từ cơ sở dữ liệu.'
-    : 'Knowledge, Quiz, Interview and Case Study content APIs are not available yet.';
+    ? 'Quiz, Interview và Case Study chưa có API nội dung từ cơ sở dữ liệu.'
+    : 'Quiz, Interview and Case Study content APIs are not available yet.';
 
   return (
     <main className={`learning-layout${sidebarCollapsed ? ' is-sidebar-collapsed' : ''}`}>
@@ -105,7 +217,7 @@ export function TopicStructurePage() {
         nodes={catalog!.root.children}
         activeModuleId={selected?.routeId ?? ''}
         enableRealModulesFilter={false}
-        knowledgeCounts={EMPTY_COUNTS}
+        knowledgeCounts={knowledgeCounts}
         quizCounts={EMPTY_COUNTS}
         interviewCounts={EMPTY_COUNTS}
         caseStudyCounts={EMPTY_COUNTS}
@@ -129,20 +241,37 @@ export function TopicStructurePage() {
         </button>
       )}
 
-      <section className="learning-main">
+      <ReadingFullscreenContext.Provider value={readingFullscreen}>
+      <section ref={readingRef}
+        className={`learning-main${activeTab === 'knowledge' ? ' learning-main--reading' : ''}${readingFullscreen.fullscreenMode ? ' learning-main--reading-fullscreen' : ''}${readingFullscreen.fullscreenMode === 'focus' ? ' learning-main--fullscreen-focus' : ''}`}>
         {selected ? (
           <>
             <div className="learning-main__topline">
               <div>
                 {path && <span className="eyebrow">{path}</span>}
                 <h1>{name}</h1>
-                {selected.description && <p className="learning-main__module-description">{selected.description}</p>}
+                {description && <p className="learning-main__module-description">{description}</p>}
               </div>
-              <span className="module-id-badge">{selected.slug}</span>
+              <span className="module-id-badge" title={core?.serviceName}>{selected.slug}</span>
             </div>
+            {moduleCoreState?.slug === selectedSlug && moduleCoreState.status === 'error' && (
+              <div className="empty-state" role="alert">
+                <strong>{language === 'vi' ? 'Không thể tải thông tin Module' : 'Unable to load Module Core'}</strong>
+                <span>{moduleCoreState.message}</span>
+                <button type="button" className="module-core-retry"
+                  onClick={() => setModuleCoreRetry((value) => value + 1)}>
+                  {language === 'vi' ? 'Thử lại' : 'Retry'}
+                </button>
+              </div>
+            )}
+            {moduleCoreState?.slug === selectedSlug && moduleCoreState.status === 'missing' && (
+              <div className="empty-state" role="alert">
+                <strong>{language === 'vi' ? 'Không tìm thấy Module trong cơ sở dữ liệu' : 'Module not found in database'}</strong>
+              </div>
+            )}
             <div className="module-tab-wrapper">
-              <ModuleTabs activeTab={activeTab} stats={EMPTY_STATS} referenceEnabled={true}
-                executionEnabled={false} onChange={setActiveTab} />
+              <ModuleTabs activeTab={activeTab} stats={tabStats} referenceEnabled={true}
+                executionEnabled={false} onChange={changeTab} />
             </div>
             <div className="learning-content">
               {activeTab === 'overview' ? (
@@ -166,12 +295,30 @@ export function TopicStructurePage() {
                     <p>{language === 'vi' ? 'Khu vực feedback dành riêng cho module hiện tại.' : 'Feedback area for the current module.'}</p>
                   </section>
                 </div>
-              ) : (
+              ) : activeTab !== 'knowledge' ? (
                 <div className="learning-tab-panel" role="tabpanel" aria-label={activeTab}>
                   <div className="empty-state empty-state--large">
                     <strong>{contentTitle}</strong>
                     <span>{contentMessage}</span>
                   </div>
+                </div>
+              ) : null}
+              {visitedKnowledge && (
+                <div className={`learning-tab-panel${activeTab !== 'knowledge' ? ' learning-tab-panel--inactive' : ''}`}
+                  role="tabpanel" aria-label="Knowledge" aria-hidden={activeTab !== 'knowledge'}
+                  inert={activeTab !== 'knowledge'}>
+                  <DatabaseKnowledgePanel key={`${selectedSlug}:${language}`}
+                    moduleSlug={selectedSlug}
+                    moduleName={name}
+                    menu={menu}
+                    loading={Boolean(selectedSlug) && (scopedMenuState === null || scopedMenuState.status === 'loading')}
+                    error={scopedMenuState?.status === 'error' ? scopedMenuState.message : null}
+                    onRetry={() => setMenuReload((value) => value + 1)}
+                    chapterSlug={chapterSlug}
+                    sectionSlug={sectionSlug}
+                    onSelectChapter={(chapter) => selectKnowledge(chapter)}
+                    onSelectLesson={(chapter, lesson) => selectKnowledge(chapter, lesson)}
+                  />
                 </div>
               )}
             </div>
@@ -186,6 +333,7 @@ export function TopicStructurePage() {
           </div>
         )}
       </section>
+      </ReadingFullscreenContext.Provider>
     </main>
   );
 }

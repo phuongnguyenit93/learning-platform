@@ -75,6 +75,18 @@ function mockApi(
     if (url === `${BACKEND_API_BASE_URL}/topics/30/structure`) {
       return new Response(JSON.stringify(structure.paradigm), { status: 200 });
     }
+    const moduleCore = /^https:\/\/api\.nguyendodinhphuong\.name\.vn\/api\/v1\/modules\/([^/?]+)$/.exec(url);
+    if (moduleCore) {
+      const [, slug] = moduleCore;
+      const serviceName = slug.toUpperCase().replace(/-/g, '_');
+      return new Response(JSON.stringify({
+        id: 100, serviceName, slug, name: slug.replace(/-/g, ' '),
+        description: `${slug} description`, specialNote: null,
+      }), { status: 200 });
+    }
+    if (/\/modules\/[^/?]+\/menu\?lang=(vi|en)$/.test(url)) {
+      return new Response(null, { status: 404 });
+    }
     const overview = /^https:\/\/api\.nguyendodinhphuong\.name\.vn\/api\/v1\/modules\/([^/?]+)\/overview\?lang=([^&]+)$/.exec(url);
     if (overview) {
       const [, slug, languageCode] = overview;
@@ -203,13 +215,17 @@ test('Spring Knowledge page selects database module by slug and never requests s
       '/learning/spring/knowledge/spring-boot-fundamentals');
     assert.equal(host.querySelector('.module-id-badge')?.textContent, 'spring-boot-fundamentals');
     assert.match(host.textContent ?? '', /Spring Boot/);
-    assert.match(host.textContent ?? '', /Nội dung đang được đồng bộ/);
+    assert.match(host.textContent ?? '', /Chưa có dữ liệu Knowledge/);
     assert.equal(host.querySelector('.sidebar-module-count-notice'), null);
     assert.ok(host.querySelector('.module-tree'));
-    assert.deepEqual(requests, [
+    assert.deepEqual(requests.slice(0, 2), [
       `${BACKEND_API_BASE_URL}/topics`,
       `${BACKEND_API_BASE_URL}/topics/20/structure`,
     ]);
+    assert.deepEqual(requests.slice(2).sort(), [
+      `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals`,
+      `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals/menu?lang=vi`,
+    ].sort());
   });
 });
 

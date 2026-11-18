@@ -34,6 +34,11 @@ const topics = [
     description: null, iconSvg: svg, status: 'COMING_SOON', sortOrder: 1,
     category: categories[0],
   },
+  {
+    id: 11, code: 'NODEJS', slug: 'nodejs', name: 'NodeJS',
+    description: null, iconSvg: null, status: 'COMING_SOON', sortOrder: 3,
+    category: categories[1],
+  },
 ];
 
 async function withTopicsPage(
@@ -103,11 +108,14 @@ test('topics are grouped and sorted by database categories; available topics nav
     assert.deepEqual(sections.map((section) => section.querySelector('h2')?.textContent),
       ['Backend', 'Frontend']);
     assert.deepEqual([...sections[0].querySelectorAll('.learning-topic-card__name')].map((el) => el.textContent),
-      ['Java', 'JavaScript']);
+      ['Java', 'JavaScript', 'NodeJS']);
     assert.equal(host.textContent?.includes('Hidden topic'), false);
     assert.equal(sections[0].querySelector<HTMLAnchorElement>('a.learning-topic-card')?.getAttribute('href'),
       '/learning/java/knowledge');
     assert.match(sections[0].textContent ?? '', /Java programming language/);
+
+    // Oracle allows a Topic to have no SVG; the card must render its fallback.
+    assert.equal(sections[0].querySelector('.learning-topic-card__logo-fallback')?.textContent, 'N');
 
     const logo = sections[0].querySelector<HTMLImageElement>('.learning-topic-card__logo');
     assert.ok(logo?.src.startsWith('data:image/svg+xml;charset=utf-8,'));
@@ -161,6 +169,6 @@ test('network failures show a retry button instead of old hardcoded topics', asy
     assert.equal(host.querySelectorAll('.learning-topic-card').length, 0);
     failed = false;
     await act(async () => host.querySelector<HTMLButtonElement>('.learning-topics-retry')?.click());
-    assert.equal(host.querySelectorAll('.learning-topic-card').length, 3);
+    assert.equal(host.querySelectorAll('.learning-topic-card').length, 4);
   });
 });

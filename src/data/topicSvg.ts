@@ -4,7 +4,8 @@ import DOMPurify from 'dompurify';
  * DB-controlled SVG is untrusted markup. Sanitize it, then load as an image
  * resource (rather than inserting SVG into the page's live DOM).
  */
-export function topicSvgImageSrc(rawSvg: string): string | null {
+export function topicSvgImageSrc(rawSvg: string | null | undefined): string | null {
+  if (typeof rawSvg !== 'string' || !rawSvg.trim()) return null;
   // Require a complete SVG document; fragments without viewBox information
   // cannot reliably be displayed as standalone image resources.
   if (!/^\s*<svg(?:\s|>)/i.test(rawSvg)) return null;

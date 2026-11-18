@@ -3027,6 +3027,53 @@ pre {
   min-width: 170px;
 }
 
+/* The database reader reuses the original Knowledge accordions and table
+   treatment; comparisons contain scalar metadata, never lesson CLOBs. */
+.knowledge-db-search {
+  margin: 0 0 14px;
+}
+
+.knowledge-db-chapter-description {
+  padding: 12px 16px 0;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.knowledge-db-comparison {
+  min-width: 0;
+  margin: 14px 0 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-soft);
+}
+
+.knowledge-db-comparison h3 {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.knowledge-db-comparison .knowledge-summary-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.knowledge-db-comparison th,
+.knowledge-db-comparison td {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  text-align: left;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.knowledge-db-comparison th {
+  width: 180px;
+  color: var(--text-soft);
+  font-weight: 700;
+}
+
 .knowledge-category-group__sections .knowledge-card {
   border-radius: 6px;
 }

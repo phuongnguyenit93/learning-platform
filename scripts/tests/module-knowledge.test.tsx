@@ -102,6 +102,60 @@ test('Menu and lesson adapters distinguish 404 from 5xx, reject mismatched IDs a
   } finally { globalThis.fetch = old; }
 });
 
+test('Published Markdown accepts null/blank optional metadata but still requires content and difficulty', async () => {
+  const old = globalThis.fetch;
+  const signal = new AbortController().signal;
+  let response = json({
+    ...introLesson, summary: null, focus: null, problemSolved: null,
+    mechanism: null, applicationValue: null,
+  });
+  globalThis.fetch = (async () => response) as typeof fetch;
+  try {
+    const published = await fetchModuleKnowledgeLesson('java-oop', 'basics', 'shared', 'vi', signal);
+    assert.equal(published?.markdownContent, '# Basic content from DB');
+    assert.equal(published?.summary, null);
+    assert.deepEqual([published?.focus, published?.problemSolved,
+      published?.mechanism, published?.applicationValue], [null, null, null, null]);
+
+    response = json({ ...introLesson, summary: '', focus: '  ',
+      problemSolved: null, mechanism: '', applicationValue: null });
+    const partial = await fetchModuleKnowledgeLesson('java-oop', 'basics', 'shared', 'vi', signal);
+    assert.equal(partial?.summary, '');
+    assert.equal(partial?.focus, '  ');
+
+    response = json({ ...introLesson, markdownContent: '  ', summary: null,
+      focus: null, problemSolved: null, mechanism: null, applicationValue: null });
+    await assert.rejects(fetchModuleKnowledgeLesson('java-oop', 'basics', 'shared', 'vi', signal),
+      /Invalid Module Knowledge/);
+    response = json({ ...introLesson, difficulty: null, summary: null,
+      focus: null, problemSolved: null, mechanism: null, applicationValue: null });
+    await assert.rejects(fetchModuleKnowledgeLesson('java-oop', 'basics', 'shared', 'vi', signal),
+      /Invalid Module Knowledge/);
+  } finally { globalThis.fetch = old; }
+});
+
+test('Chapter Insights adapter accepts null or blank comparison fields and preserves published lesson order', async () => {
+  const old = globalThis.fetch;
+  const response = {
+    ...chapterInsights,
+    lessons: chapterInsights.lessons.map((lesson, index) => ({
+      ...lesson,
+      focus: index === 0 ? null : '',
+      problemSolved: null,
+      mechanism: index === 0 ? 'Mechanism still available' : ' ',
+      applicationValue: null,
+    })),
+  };
+  globalThis.fetch = (async () => json(response)) as typeof fetch;
+  try {
+    const insights = await fetchModuleChapterInsights('java-oop', 'basics', 'vi', new AbortController().signal);
+    assert.deepEqual(insights?.lessons.map((item) => item.title), ['First Lesson', 'Second Lesson']);
+    assert.equal(insights?.lessons[0].focus, '');
+    assert.equal(insights?.lessons[1].focus, null);
+    assert.equal(insights?.lessons[1].mechanism, 'Mechanism still available');
+  } finally { globalThis.fetch = old; }
+});
+
 function Controls() {
   const { toggleLanguage, language } = useLanguage();
   const navigate = useNavigate();
@@ -284,5 +338,82 @@ test('Language switch drops VI lesson while EN Menu loads, without silently fall
       await act(async () => release(json(enMenu)));
       assert.match(host.querySelector('.knowledge-card__markdown')?.textContent ?? '', /English DB lesson/);
       assert.doesNotMatch(host.textContent ?? '', /Basic content from DB/);
+    });
+});
+
+test('WRITTEN lesson without metadata remains readable; summary and empty chapter comparison have no blank shells', async () => {
+  const withoutMetadata = {
+    ...introLesson, summary: null, focus: null, problemSolved: null,
+    mechanism: null, applicationValue: null,
+  };
+  const withoutSummaryMenu = {
+    ...menu,
+    chapters: menu.chapters.map((chapter) => ({
+      ...chapter,
+      sections: chapter.sections.map((item) => item.id === 10
+        ? { ...item, hasSummary: false, available: true } : item),
+    })),
+  };
+  const withoutInsights = {
+    ...chapterInsights,
+    lessons: chapterInsights.lessons.map((item) => ({
+      ...item, focus: null, problemSolved: null, mechanism: null, applicationValue: null,
+    })),
+  };
+  await withReader('/learning/java/knowledge/java-oop?chapter=basics&lesson=shared',
+    (url) => {
+      if (url === `${base}/modules/java-oop/menu?lang=vi`) return json(withoutSummaryMenu);
+      if (url === `${base}/modules/java-oop/knowledge/basics/shared?lang=vi`) return json(withoutMetadata);
+      if (url === `${base}/modules/java-oop/chapters/basics/insights?lang=vi`) return json(withoutInsights);
+      throw new Error(`Unexpected URL: ${url}`);
+    }, async (host, requests) => {
+      assert.match(host.querySelector('.knowledge-card__markdown')?.textContent ?? '', /Basic content from DB/);
+      assert.equal(host.querySelector('.knowledge-db-comparison'), null,
+        'Do not show an empty per-lesson comparison table');
+      const firstLesson = host.querySelector('[id="knowledge-db-section-11:10"]');
+      assert.ok(firstLesson, 'The deep-linked lesson should be present');
+      assert.equal(firstLesson.querySelector('.knowledge-card__summary-toggle') === null, true,
+        'hasSummary:false must not produce an empty summary toggle for this lesson');
+      assert.doesNotMatch(host.textContent ?? '', /Invalid Module Knowledge/);
+      await act(async () => host.querySelector<HTMLButtonElement>('.knowledge-chapter-summary__heading')?.click());
+      assert.match(host.querySelector('.knowledge-chapter-summary__scroll')?.textContent ?? '',
+        /Chưa bổ sung thông tin so sánh cho chương này/);
+      assert.equal(host.querySelector('.knowledge-chapter-summary__scroll table'), null,
+        'Chapter insights with only null metadata must not render an empty table');
+      assert.equal(requests.filter((url) => url.includes('/knowledge/')).length, 1);
+    });
+});
+
+test('Partially populated metadata displays values and neutral missing cells; null summary remains safe', async () => {
+  const partialLesson = {
+    ...introLesson, summary: null, focus: 'Focus already filled',
+    problemSolved: null, mechanism: '   ', applicationValue: null,
+  };
+  const partialInsights = {
+    ...chapterInsights,
+    lessons: chapterInsights.lessons.map((item) => ({
+      ...item,
+      focus: item.id === 10 ? 'Focus already filled' : null,
+      problemSolved: null, mechanism: '', applicationValue: null,
+    })),
+  };
+  await withReader('/learning/java/knowledge/java-oop?chapter=basics&lesson=shared',
+    (url) => {
+      if (url === `${base}/modules/java-oop/menu?lang=vi`) return json(menu);
+      if (url === `${base}/modules/java-oop/knowledge/basics/shared?lang=vi`) return json(partialLesson);
+      if (url === `${base}/modules/java-oop/chapters/basics/insights?lang=vi`) return json(partialInsights);
+      throw new Error(`Unexpected URL: ${url}`);
+    }, async (host) => {
+      assert.match(host.querySelector('.knowledge-card__markdown')?.textContent ?? '', /Basic content from DB/);
+      assert.match(host.querySelector('.knowledge-db-comparison')?.textContent ?? '', /Focus already filled/);
+      assert.match(host.querySelector('.knowledge-db-comparison')?.textContent ?? '', /Chưa bổ sung/);
+      await act(async () => host.querySelector<HTMLButtonElement>('.knowledge-card__summary-toggle')?.click());
+      assert.match(host.querySelector('.knowledge-card__summary')?.textContent ?? '',
+        /Chưa bổ sung tóm tắt bài học/);
+      await act(async () => host.querySelector<HTMLButtonElement>('.knowledge-chapter-summary__heading')?.click());
+      const summaryTable = host.querySelector('.knowledge-chapter-summary__scroll table');
+      assert.ok(summaryTable, 'Partially filled chapter metadata should still render a comparison');
+      assert.match(summaryTable.textContent ?? '', /Focus already filled/);
+      assert.match(summaryTable.textContent ?? '', /Chưa bổ sung/);
     });
 });

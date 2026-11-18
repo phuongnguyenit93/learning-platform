@@ -41,11 +41,11 @@ export interface DatabaseKnowledgeLesson {
   knowledgeId: number;
   difficulty: KnowledgeDifficulty;
   markdownContent: string;
-  summary: string;
-  focus: string;
-  problemSolved: string;
-  mechanism: string;
-  applicationValue: string;
+  summary: string | null;
+  focus: string | null;
+  problemSolved: string | null;
+  mechanism: string | null;
+  applicationValue: string | null;
 }
 
 export interface DatabaseChapterInsightLesson {
@@ -55,10 +55,10 @@ export interface DatabaseChapterInsightLesson {
   sortOrder: number;
   knowledgeId: number;
   difficulty: KnowledgeDifficulty;
-  focus: string;
-  problemSolved: string;
-  mechanism: string;
-  applicationValue: string;
+  focus: string | null;
+  problemSolved: string | null;
+  mechanism: string | null;
+  applicationValue: string | null;
 }
 
 export interface DatabaseChapterInsights {
@@ -162,7 +162,7 @@ export async function fetchModuleMenu(
   };
 }
 
-/** One selected lesson only. A 404 means missing/unpublished, never a locale fallback. */
+/** One selected lesson only. Publication depends on Markdown + difficulty, not optional metadata. */
 export async function fetchModuleKnowledgeLesson(
   moduleSlug: string,
   chapterSlug: string,
@@ -181,9 +181,9 @@ export async function fetchModuleKnowledgeLesson(
     || !identity(value.chapter) || value.chapter.slug !== chapterSlug
     || !identity(value.section) || value.section.slug !== sectionSlug
     || !id(value.knowledgeId) || !difficulty(value.difficulty)
-    || !text(value.markdownContent) || !text(value.summary)
-    || !text(value.focus) || !text(value.problemSolved)
-    || !text(value.mechanism) || !text(value.applicationValue)) {
+    || !text(value.markdownContent) || !nullableText(value.summary)
+    || !nullableText(value.focus) || !nullableText(value.problemSolved)
+    || !nullableText(value.mechanism) || !nullableText(value.applicationValue)) {
     throw new Error('Invalid Module Knowledge response from backend.');
   }
   return value as unknown as DatabaseKnowledgeLesson;
@@ -205,9 +205,9 @@ export async function fetchModuleChapterInsights(
     || !Array.isArray(value.lessons) || !value.lessons.every((lesson: unknown) =>
       object(lesson) && id(lesson.id) && text(lesson.slug) && text(lesson.title)
       && order(lesson.sortOrder) && id(lesson.knowledgeId)
-      && difficulty(lesson.difficulty) && text(lesson.focus)
-      && text(lesson.problemSolved) && text(lesson.mechanism)
-      && text(lesson.applicationValue))) {
+      && difficulty(lesson.difficulty) && nullableText(lesson.focus)
+      && nullableText(lesson.problemSolved) && nullableText(lesson.mechanism)
+      && nullableText(lesson.applicationValue))) {
     throw new Error('Invalid Chapter Insights response from backend.');
   }
   const seen = new Set<string>();

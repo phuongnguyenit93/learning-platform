@@ -46,13 +46,23 @@ function difficultyLabel(value: DatabaseMenuSection['difficulty'], language: 'vi
   return language === 'vi' ? 'CHƯA XÁC ĐỊNH' : 'NOT SET';
 }
 
+function hasMetadata(value: string | null): boolean {
+  return Boolean(value?.trim());
+}
+
+function metadataLabel(value: string | null, language: 'vi' | 'en'): string {
+  return value?.trim() || (language === 'vi' ? 'Chưa bổ sung' : 'Not yet provided');
+}
+
 function lessonComparison(lesson: DatabaseKnowledgeLesson, language: 'vi' | 'en') {
-  const rows = [
+  const rows: Array<[string, string | null]> = [
     [language === 'vi' ? 'Trọng tâm' : 'Focus', lesson.focus],
     [language === 'vi' ? 'Vấn đề giải quyết' : 'Problem solved', lesson.problemSolved],
     [language === 'vi' ? 'Cơ chế' : 'Mechanism', lesson.mechanism],
     [language === 'vi' ? 'Giá trị ứng dụng' : 'Application value', lesson.applicationValue],
   ];
+  // Metadata is filled by a separate importer and is not needed to read Markdown.
+  if (!rows.some(([, value]) => hasMetadata(value))) return null;
   return (
     <div className="knowledge-db-comparison">
       <h3>{language === 'vi' ? 'Trọng tâm và giá trị bài học' : 'Lesson focus and value'}</h3>
@@ -60,7 +70,7 @@ function lessonComparison(lesson: DatabaseKnowledgeLesson, language: 'vi' | 'en'
         <table>
           <tbody>
             {rows.map(([label, value]) => (
-              <tr key={label}><th scope="row">{label}</th><td>{value}</td></tr>
+              <tr key={label}><th scope="row">{label}</th><td>{metadataLabel(value, language)}</td></tr>
             ))}
           </tbody>
         </table>
@@ -419,14 +429,16 @@ export function DatabaseKnowledgePanel({
                 : (language === 'vi' ? 'Mở bài học' : 'Expand lesson')}
               onClick={() => toggleLesson(chapter, section)}>{expanded ? '−' : '+'}</button>
           </div>
-          {summaryOpen && loaded?.summary && (
+          {summaryOpen && loaded && (
             <div id={`knowledge-db-summary-${key}`} className="knowledge-card__summary">
               <div className="knowledge-card__summary-heading">
                 <strong>{language === 'vi' ? 'Tóm tắt bài học' : 'Lesson summary'}</strong>
                 <button type="button" aria-label="Close summary" onClick={() => setSummaryId(null)}>×</button>
               </div>
               <div className="knowledge-card__summary-scroll markdown-content">
-                <MermaidMarkdown scrollTables>{loaded.summary}</MermaidMarkdown>
+                {hasMetadata(loaded.summary)
+                  ? <MermaidMarkdown scrollTables>{loaded.summary ?? ''}</MermaidMarkdown>
+                  : <p>{language === 'vi' ? 'Chưa bổ sung tóm tắt bài học.' : 'Lesson summary not yet provided.'}</p>}
               </div>
             </div>
           )}
@@ -475,6 +487,8 @@ export function DatabaseKnowledgePanel({
   const renderChapterComparison = (chapter: DatabaseMenuChapter) => {
     const state = insightsStates[chapter.id];
     const lessons = state?.status === 'ready' ? state.insights.lessons : [];
+    const comparisonAvailable = lessons.some((lesson) =>
+      [lesson.focus, lesson.problemSolved, lesson.mechanism, lesson.applicationValue].some(hasMetadata));
     const opened = comparisonChapters.has(chapter.id);
     return (
       <div className="knowledge-chapter-summary">
@@ -508,7 +522,10 @@ export function DatabaseKnowledgePanel({
             {state?.status === 'ready' && lessons.length === 0 && (
               <p>{language === 'vi' ? 'Chương chưa có bài học đã xuất bản.' : 'No published lessons yet.'}</p>
             )}
-            {state?.status === 'ready' && lessons.length > 0 && (
+            {state?.status === 'ready' && lessons.length > 0 && !comparisonAvailable && (
+              <p>{language === 'vi' ? 'Chưa bổ sung thông tin so sánh cho chương này.' : 'Chapter comparison metadata not yet provided.'}</p>
+            )}
+            {state?.status === 'ready' && comparisonAvailable && (
               <div className="knowledge-summary-table-scroll">
                 <table>
                   <thead><tr>
@@ -521,8 +538,10 @@ export function DatabaseKnowledgePanel({
                   <tbody>{lessons.map((lesson) => (
                     <tr key={lesson.knowledgeId}>
                       <th scope="row">{lesson.title}</th>
-                      <td>{lesson.focus}</td><td>{lesson.problemSolved}</td>
-                      <td>{lesson.mechanism}</td><td>{lesson.applicationValue}</td>
+                      <td>{metadataLabel(lesson.focus, language)}</td>
+                      <td>{metadataLabel(lesson.problemSolved, language)}</td>
+                      <td>{metadataLabel(lesson.mechanism, language)}</td>
+                      <td>{metadataLabel(lesson.applicationValue, language)}</td>
                     </tr>
                   ))}</tbody>
                 </table>

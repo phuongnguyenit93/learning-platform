@@ -1402,12 +1402,32 @@ pre {
 
 .group-form-dialog__checkbox { display: flex !important; flex-direction: row; align-items: center; }
 .group-form-dialog__checkbox input { width: auto !important; height: 17px; accent-color: var(--blue); }
-.group-tree-editor { width: min(880px, 100%); display: flex; flex-direction: column; gap: 15px; }
+.catalog-editor.group-tree-editor {
+  width: min(1000px, 100%);
+  height: min(820px, calc(100dvh - 56px));
+  max-height: calc(100dvh - 56px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+.group-tree-editor__tools { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; color: var(--text-muted); font-size: 11px; }
+.group-tree-editor__tools > div { display: flex; gap: 6px; }
+.group-tree-editor__tools button {
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: var(--surface);
+  color: var(--text-soft);
+  cursor: pointer;
+}
+.group-tree-editor__tools button:hover { border-color: var(--blue); color: var(--blue); }
 .group-tree-editor__tree {
   flex: 1;
-  overflow: auto;
-  min-height: 180px;
-  max-height: min(60vh, 650px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  overscroll-behavior: contain;
   padding: 10px;
   border: 1px solid var(--border);
   border-radius: 13px;
@@ -1428,6 +1448,20 @@ pre {
   user-select: none;
 }
 .group-tree-editor__row:active { cursor: grabbing; }
+.group-tree-editor__row.is-drop-before { box-shadow: 0 -3px 0 0 var(--blue); }
+.group-tree-editor__row.is-drop-after { box-shadow: 0 3px 0 0 var(--blue); }
+.group-tree-editor__row.is-drop-inside { border-color: var(--blue); background: color-mix(in srgb, var(--blue) 12%, var(--card-bg)); }
+.group-tree-editor__toggle {
+  flex: 0 0 23px;
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  padding: 2px;
+  background: var(--surface);
+  color: var(--text-soft);
+  cursor: pointer;
+  font-weight: 750;
+}
+.group-tree-editor__toggle:hover, .group-tree-editor__toggle:focus-visible { border-color: var(--blue); color: var(--blue); }
 .group-tree-editor__grip { color: var(--text-muted); font-size: 17px; }
 .group-tree-editor__name { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: 13px; font-weight: 600; }
 .group-tree-editor__inactive {
@@ -1454,9 +1488,8 @@ pre {
   padding-left: 12px;
   border-left: 1px dashed var(--border-strong);
 }
-.group-tree-editor__drop { height: 6px; border-radius: 4px; transition: background .12s; }
-.group-tree-editor__drop.is-dragging { height: 13px; background: color-mix(in srgb, var(--blue) 9%, transparent); }
-.group-tree-editor__drop.is-dragging:hover {
+.group-tree-editor__drop { height: 9px; border-radius: 4px; background: transparent; }
+.group-tree-editor__drop.is-drop-target {
   background: color-mix(in srgb, var(--blue) 50%, transparent);
   box-shadow: inset 0 0 0 1px var(--blue);
 }
@@ -1470,9 +1503,9 @@ pre {
   text-align: center;
 }
 .group-tree-editor__into.is-dragging {
-  padding: 9px;
   border-color: color-mix(in srgb, var(--blue) 55%, var(--border));
 }
+.group-tree-editor__into.is-dragging.is-drop-target { background: color-mix(in srgb, var(--blue) 12%, transparent); }
 .group-tree-editor__into.is-dragging:hover { background: color-mix(in srgb, var(--blue) 12%, transparent); }
 .group-tree-editor__root { margin-top: 12px; }
 .group-tree-editor__footer {

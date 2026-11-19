@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type DragEvent, type FormEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type DragEvent, type FormEvent } from 'react';
 import {
   createGroup, editGroup, moveTreeNode, saveAdminStructure,
   type AdminStructure, type AdminTreeNode, type GroupEditorTarget,
@@ -104,6 +104,23 @@ type DropPosition = 'before' | 'after' | 'inside';
 
 function sameNode(a: Ref, b: Ref) { return a.id === b.id && a.kind === b.kind; }
 
+/** Rows are drop targets too: a tiny gap alone is difficult to hit while scrolling. */
+export function rowDropPosition(kind: Ref['kind'], pointerY: number, top: number, height: number): DropPosition {
+  const fraction = height > 0 ? (pointerY - top) / height : 0.5;
+  if (fraction < (kind === 'GROUP' ? 0.25 : 0.5)) return 'before';
+  if (kind === 'GROUP' && fraction < 0.75) return 'inside';
+  return 'after';
+}
+
+/** Pixel step per animation frame; continuous scrolling works even if dragover events pause. */
+export function dragScrollStep(pointerY: number, top: number, bottom: number): number {
+  const edge = Math.min(76, Math.max(0, (bottom - top) / 3));
+  if (edge === 0 || pointerY < top || pointerY > bottom) return 0;
+  if (pointerY < top + edge) return -Math.ceil(5 + 17 * (top + edge - pointerY) / edge);
+  if (pointerY > bottom - edge) return Math.ceil(5 + 17 * (pointerY - bottom + edge) / edge);
+  return 0;
+}
+
 /** Changes are local until Save; the backend validates and commits the complete tree atomically. */
 export function GroupStructureDialog({ topicId, initial, language, onClose, onSaved, onReload }: {
   topicId: number;
@@ -116,9 +133,55 @@ export function GroupStructureDialog({ topicId, initial, language, onClose, onSa
   const isVi = language === 'vi';
   const [draft, setDraft] = useState(() => structuredClone(initial.nodes));
   const [dragged, setDragged] = useState<Ref | null>(null);
+  const [hoverKey, setHoverKey] = useState('');
+  const [collapsed, setCollapsed] = useState<Set<number>>(() => new Set());
+  const treeRef = useRef<HTMLDivElement>(null);
+  const draggedRef = useRef<Ref | null>(null);
+  const scrollStepRef = useRef(0);
+  const scrollFrameRef = useRef<number | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const dirty = useMemo(() => JSON.stringify(draft) !== JSON.stringify(initial.nodes), [draft, initial.nodes]);
+
+  function stopScrolling() {
+    scrollStepRef.current = 0;
+    if (scrollFrameRef.current !== null) {
+      window.cancelAnimationFrame(scrollFrameRef.current);
+      scrollFrameRef.current = null;
+    }
+  }
+
+  function finishDrag() {
+    draggedRef.current = null;
+    setDragged(null);
+    setHoverKey('');
+    stopScrolling();
+  }
+
+  useEffect(() => () => {
+    if (scrollFrameRef.current !== null) window.cancelAnimationFrame(scrollFrameRef.current);
+  }, []);
+
+  function scrollFrame() {
+    const tree = treeRef.current;
+    if (!tree || !draggedRef.current || scrollStepRef.current === 0) {
+      scrollFrameRef.current = null;
+      return;
+    }
+    tree.scrollTop += scrollStepRef.current;
+    scrollFrameRef.current = window.requestAnimationFrame(scrollFrame);
+  }
+
+  function trackDragScroll(event: DragEvent<HTMLDivElement>) {
+    if (!draggedRef.current) return;
+    event.preventDefault();
+    const bounds = treeRef.current?.getBoundingClientRect();
+    if (!bounds) return;
+    scrollStepRef.current = dragScrollStep(event.clientY, bounds.top, bounds.bottom);
+    if (scrollStepRef.current !== 0 && scrollFrameRef.current === null) {
+      scrollFrameRef.current = window.requestAnimationFrame(scrollFrame);
+    }
+  }
 
   useEffect(() => {
     const warn = (event: BeforeUnloadEvent) => {
@@ -142,7 +205,27 @@ export function GroupStructureDialog({ topicId, initial, language, onClose, onSa
 
   function move(from: Ref, target: Ref | null, position: DropPosition) {
     const next = moveTreeNode(draft, from, target, position);
-    if (next) { setDraft(next); setError(''); }
+    if (next) {
+      setDraft(next);
+      setError('');
+      if (position === 'inside' && target?.kind === 'GROUP') {
+        setCollapsed((current) => { const updated = new Set(current); updated.delete(target.id); return updated; });
+      }
+    }
+  }
+
+  function toggleCollapsed(groupId: number) {
+    setCollapsed((current) => {
+      const updated = new Set(current);
+      if (updated.has(groupId)) updated.delete(groupId);
+      else updated.add(groupId);
+      return updated;
+    });
+  }
+
+  function allGroupIds(nodes: AdminTreeNode[]): number[] {
+    return nodes.flatMap((node) => node.kind === 'GROUP'
+      ? [node.id, ...allGroupIds(node.children)] : []);
   }
 
   function locate(nodes: AdminTreeNode[], ref: Ref,
@@ -168,39 +251,65 @@ export function GroupStructureDialog({ topicId, initial, language, onClose, onSa
     if (direction === 'out' && found.parent) move(ref, found.parent, 'after');
   }
 
-  const allowDrop = (event: DragEvent<HTMLDivElement>) => { event.preventDefault(); event.dataTransfer.dropEffect = 'move'; };
+  const allowDrop = (event: DragEvent<HTMLDivElement>, key: string) => {
+    if (!draggedRef.current) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+    setHoverKey((current) => current === key ? current : key);
+  };
 
   function drop(event: DragEvent<HTMLDivElement>, target: Ref | null, position: DropPosition) {
     event.preventDefault(); event.stopPropagation();
-    if (dragged) move(dragged, target, position);
-    setDragged(null);
+    if (draggedRef.current) move(draggedRef.current, target, position);
+    finishDrag();
   }
 
   function dropZone(target: Ref | null, position: DropPosition, label: string) {
-    return <div className={`group-tree-editor__drop${dragged ? ' is-dragging' : ''}`}
-      onDragOver={allowDrop} onDrop={(event) => drop(event, target, position)}
+    const key = `${target?.kind ?? 'ROOT'}-${target?.id ?? 0}-${position}`;
+    return <div className={`group-tree-editor__drop${dragged ? ' is-dragging' : ''}${hoverKey === key ? ' is-drop-target' : ''}`}
+      onDragOver={(event) => allowDrop(event, key)} onDrop={(event) => drop(event, target, position)}
       aria-label={label} title={label} />;
   }
 
   function renderNodes(nodes: AdminTreeNode[], depth = 0): React.ReactNode {
     return nodes.map((node) => {
       const ref: Ref = { id: node.id, kind: node.kind };
+      const isCollapsed = node.kind === 'GROUP' && collapsed.has(node.id);
+      const rowDropKey = (position: DropPosition) => `${node.kind}-${node.id}-${position}`;
       return (
         <div className="group-tree-editor__node" key={`${node.kind}-${node.id}`}>
           {dropZone(ref, 'before', `Drop before ${node.name}`)}
-          <div className="group-tree-editor__row" draggable={!saving}
+          <div className={`group-tree-editor__row${hoverKey === rowDropKey('before') ? ' is-drop-before' : ''}${hoverKey === rowDropKey('after') ? ' is-drop-after' : ''}${hoverKey === rowDropKey('inside') ? ' is-drop-inside' : ''}`}
+            draggable={!saving}
             onDragStart={(event) => {
               event.stopPropagation();
+              draggedRef.current = ref;
               setDragged(ref);
               event.dataTransfer.effectAllowed = 'move';
               event.dataTransfer.setData('text/plain', `${node.kind}:${node.id}`);
             }}
-            onDragEnd={() => setDragged(null)}>
+            onDragEnd={finishDrag}
+            onDragOver={(event) => {
+              if (!draggedRef.current) return;
+              const bounds = event.currentTarget.getBoundingClientRect();
+              const position = rowDropPosition(node.kind, event.clientY, bounds.top, bounds.height);
+              allowDrop(event, rowDropKey(position));
+            }}
+            onDrop={(event) => {
+              const bounds = event.currentTarget.getBoundingClientRect();
+              drop(event, ref, rowDropPosition(node.kind, event.clientY, bounds.top, bounds.height));
+            }}>
+            {node.kind === 'GROUP' && <button type="button" className="group-tree-editor__toggle"
+              draggable={false} onDragStart={(event) => event.stopPropagation()}
+              aria-label={`${isCollapsed ? 'Expand' : 'Collapse'} ${node.name}`}
+              aria-expanded={!isCollapsed} disabled={saving}
+              onClick={() => toggleCollapsed(node.id)}>{isCollapsed ? '+' : '−'}</button>}
             <span className="group-tree-editor__grip" aria-label="Drag to move">⠿</span>
             <span className="group-node-badge">{node.kind === 'GROUP' ? 'G' : 'M'}</span>
             <span className="group-tree-editor__name">{node.name}</span>
             {!node.active && <span className="group-tree-editor__inactive">INACTIVE</span>}
-            <div className="group-tree-editor__row-actions" aria-label={`Move ${node.name}`}>
+            <div className="group-tree-editor__row-actions" aria-label={`Move ${node.name}`}
+              onDragStart={(event) => { event.preventDefault(); event.stopPropagation(); }}>
               <button type="button" disabled={saving} title="Move up" aria-label={`Move ${node.name} up`}
                 onClick={() => byKeyboard(ref, 'up')}>↑</button>
               <button type="button" disabled={saving} title="Move down" aria-label={`Move ${node.name} down`}
@@ -211,11 +320,12 @@ export function GroupStructureDialog({ topicId, initial, language, onClose, onSa
                 aria-label={`Outdent ${node.name}`} onClick={() => byKeyboard(ref, 'out')}>←</button>
             </div>
           </div>
-          {node.kind === 'GROUP' && (
+          {node.kind === 'GROUP' && !isCollapsed && (
             <div className="group-tree-editor__children">
               {renderNodes(node.children, depth + 1)}
-              <div className={`group-tree-editor__into${dragged ? ' is-dragging' : ''}`}
-                onDragOver={allowDrop} onDrop={(event) => drop(event, ref, 'inside')}>
+              <div className={`group-tree-editor__into${dragged ? ' is-dragging' : ''}${hoverKey === rowDropKey('inside') ? ' is-drop-target' : ''}`}
+                onDragOver={(event) => allowDrop(event, rowDropKey('inside'))}
+                onDrop={(event) => drop(event, ref, 'inside')}>
                 {isVi ? 'Thả vào Group' : 'Drop inside Group'}
               </div>
             </div>
@@ -253,10 +363,28 @@ export function GroupStructureDialog({ topicId, initial, language, onClose, onSa
           {isVi ? 'Kéo thả G/M; thả vào Group để đổi cấp. Có thể dùng ↑ ↓ → ←. Chỉ lưu khi nhấn Save Changes.'
             : 'Drag and drop Group/Module nodes, or use arrow controls. Save Changes commits everything at once.'}
         </p>
-        <div className="group-tree-editor__tree">
+        <div className="group-tree-editor__tools">
+          <span>{isVi ? 'Thu gọn Group để di chuyển nhanh hơn' : 'Collapse Groups to move nodes faster'}</span>
+          <div>
+            <button type="button" disabled={saving} onClick={() => setCollapsed(new Set())}>
+              {isVi ? 'Mở tất cả' : 'Expand all'}
+            </button>
+            <button type="button" disabled={saving} onClick={() => setCollapsed(new Set(allGroupIds(draft)))}>
+              {isVi ? 'Thu gọn tất cả' : 'Collapse all'}
+            </button>
+          </div>
+        </div>
+        <div ref={treeRef} className="group-tree-editor__tree" onDragOver={trackDragScroll}
+          onDragLeave={(event) => {
+            const bounds = event.currentTarget.getBoundingClientRect();
+            if (event.clientX < bounds.left || event.clientX > bounds.right
+              || event.clientY < bounds.top || event.clientY > bounds.bottom) stopScrolling();
+          }}
+          onDrop={(event) => { event.preventDefault(); finishDrag(); }}>
           {renderNodes(draft)}
-          <div className={`group-tree-editor__into group-tree-editor__root${dragged ? ' is-dragging' : ''}`}
-            onDragOver={allowDrop} onDrop={(event) => drop(event, null, 'inside')}>
+          <div className={`group-tree-editor__into group-tree-editor__root${dragged ? ' is-dragging' : ''}${hoverKey === 'ROOT-0-inside' ? ' is-drop-target' : ''}`}
+            onDragOver={(event) => allowDrop(event, 'ROOT-0-inside')}
+            onDrop={(event) => drop(event, null, 'inside')}>
             {isVi ? 'Thả vào cấp gốc của Topic' : 'Drop at the Topic root'}
           </div>
         </div>

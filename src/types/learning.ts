@@ -57,6 +57,8 @@ export interface ModuleCatalogNode {
   name: string;
   path?: string;
   kind: 'GROUP' | 'MODULE';
+  /** ADMIN navigation may include inactive group/module placements. */
+  active?: boolean;
   routeId?: string;
   /** Database navigation uses SLUG for public URLs; NODE_KEY remains internal identity. */
   slug?: string;

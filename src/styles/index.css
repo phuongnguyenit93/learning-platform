@@ -1344,6 +1344,151 @@ pre {
   letter-spacing: 0.12em;
 }
 
+.module-group-admin-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin-left: 10px;
+  gap: 6px;
+  vertical-align: middle;
+  letter-spacing: normal;
+}
+.module-group-admin-actions button, .module-group-admin-error button {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  border-radius: 7px;
+  padding: 5px 7px;
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 750;
+  cursor: pointer;
+}
+.module-group-admin-actions button:hover, .module-group-admin-actions button:focus-visible {
+  border-color: var(--blue);
+}
+.module-group-admin-error { font-size: 11px; color: #fca5a5; padding: 8px; line-height: 1.5; }
+.group-node-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 5px;
+  border: 1px solid color-mix(in srgb, var(--blue) 35%, var(--border));
+  background: color-mix(in srgb, var(--blue) 9%, var(--surface));
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1;
+}
+.module-tree__inactive {
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 800;
+  opacity: .85;
+}
+.module-tree__edit-group {
+  flex: 0 0 auto;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--blue);
+  padding: 5px 7px;
+  margin-right: 5px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.module-tree__edit-group:hover { border-color: var(--blue); }
+
+.group-form-dialog__checkbox { display: flex !important; flex-direction: row; align-items: center; }
+.group-form-dialog__checkbox input { width: auto !important; height: 17px; accent-color: var(--blue); }
+.group-tree-editor { width: min(880px, 100%); display: flex; flex-direction: column; gap: 15px; }
+.group-tree-editor__tree {
+  flex: 1;
+  overflow: auto;
+  min-height: 180px;
+  max-height: min(60vh, 650px);
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface);
+}
+.group-tree-editor__node { min-width: 0; }
+.group-tree-editor__row {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 7px 8px;
+  background: var(--card-bg);
+  color: var(--text);
+  cursor: grab;
+  user-select: none;
+}
+.group-tree-editor__row:active { cursor: grabbing; }
+.group-tree-editor__grip { color: var(--text-muted); font-size: 17px; }
+.group-tree-editor__name { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: 13px; font-weight: 600; }
+.group-tree-editor__inactive {
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  padding: 3px 5px;
+  font-size: 9px;
+  font-weight: 750;
+}
+.group-tree-editor__row-actions { display: flex; gap: 3px; }
+.group-tree-editor__row-actions button {
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--text-soft);
+  padding: 4px 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.group-tree-editor__row-actions button:hover { border-color: var(--blue); color: var(--blue); }
+.group-tree-editor__children {
+  margin-left: 20px;
+  padding-left: 12px;
+  border-left: 1px dashed var(--border-strong);
+}
+.group-tree-editor__drop { height: 6px; border-radius: 4px; transition: background .12s; }
+.group-tree-editor__drop.is-dragging { height: 13px; background: color-mix(in srgb, var(--blue) 9%, transparent); }
+.group-tree-editor__drop.is-dragging:hover {
+  background: color-mix(in srgb, var(--blue) 50%, transparent);
+  box-shadow: inset 0 0 0 1px var(--blue);
+}
+.group-tree-editor__into {
+  margin: 4px 0 8px;
+  border: 1px dashed var(--border);
+  border-radius: 7px;
+  padding: 4px 7px;
+  color: var(--text-muted);
+  font-size: 10px;
+  text-align: center;
+}
+.group-tree-editor__into.is-dragging {
+  padding: 9px;
+  border-color: color-mix(in srgb, var(--blue) 55%, var(--border));
+}
+.group-tree-editor__into.is-dragging:hover { background: color-mix(in srgb, var(--blue) 12%, transparent); }
+.group-tree-editor__root { margin-top: 12px; }
+.group-tree-editor__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+@media(max-width: 640px) {
+  .group-tree-editor__row-actions button { padding: 4px; }
+  .group-tree-editor__children { margin-left: 8px; padding-left: 8px; }
+}
+
 .module-tree__empty-search {
   margin: 6px 8px 0;
   padding: 10px;

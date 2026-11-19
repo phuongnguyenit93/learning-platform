@@ -3,6 +3,10 @@ import type { CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { topicKnowledgePath } from '../data/topicRoutes';
+import { getCurrentUser } from '../data/auth';
+import { fetchAdminStructure, projectAdminNodes, type AdminStructure, type AdminTreeNode,
+  type GroupEditorTarget } from '../data/groupAdmin';
+import { GroupFormDialog, GroupStructureDialog } from './GroupAdminDialogs';
 // Knowledge search is disabled until its oversized index is replaced.
 const KNOWLEDGE_SEARCH_ENABLED = false;
 import { loadKnowledgeSearchIndex, searchKnowledge } from '../data/knowledgeSearch';
@@ -20,6 +24,9 @@ import type {
 interface ModuleSidebarProps {
   nodes: ModuleCatalogNode[];
   activeModuleId: string;
+  /** DB-backed Topic ID; only these sidebars offer Group administration. */
+  topicId?: number;
+  onStructureChanged?: () => void;
   /** Disable the static content-count filter while navigation is sourced from DB. */
   enableRealModulesFilter?: boolean;
   knowledgeCounts: Record<string, number>;
@@ -46,6 +53,7 @@ interface TreeNodeProps {
   expandRequest: SidebarExpandRequest;
   showEntireSubtree?: boolean;
   renderAsPicker?: boolean;
+  onEditGroup?: (node: ModuleCatalogNode) => void;
 }
 
 interface SidebarExpandRequest {
@@ -354,6 +362,7 @@ function ModulePickerPopup({
                 {sequence}
               </span>
               <span className="module-picker__module-title">
+                <span className="group-node-badge">M</span>
                 <span className="module-picker__module-name">{formatCatalogName(moduleNode.name)}</span>
                 {stepLabel && (
                   <CustomTooltip content={getModuleStepTooltip(step, language) ?? stepLabel}>
@@ -391,6 +400,7 @@ function ModulePickerRow({
   interviewCounts,
   caseStudyCounts,
   roadmapAvailability,
+  onEditGroup,
 }: {
   group: ModuleCatalogNode;
   entries: ModulePickerEntry[];
@@ -401,6 +411,7 @@ function ModulePickerRow({
   interviewCounts: Record<string, number>;
   caseStudyCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
+  onEditGroup?: (node: ModuleCatalogNode) => void;
 }) {
   const [pickerVisible, setPickerVisible] = useState(false);
   const [pickerPinned, setPickerPinned] = useState(false);
@@ -571,7 +582,9 @@ function ModulePickerRow({
           <span className="module-tree__vertical-cue module-tree__vertical-cue--placeholder" aria-hidden="true" />
           <span className="module-tree__caret" aria-hidden="true">›</span>
           <span className={`module-tree__content${containsActiveModule ? ' is-active' : ''}`}>
+            <span className="group-node-badge">{group.kind === 'GROUP' ? 'G' : 'M'}</span>
             <span className="module-tree__label">{displayName}</span>
+            {group.active === false && <span className="module-tree__inactive">INACTIVE</span>}
             {activeModuleName && (
               <span className="module-tree__active-module">
                 <span className="module-tree__active-module-dot" aria-hidden="true" />
@@ -583,6 +596,9 @@ function ModulePickerRow({
           <span className="module-tree__count">{entries.length}</span>
           <span className="module-tree__picker-cue" aria-hidden="true">›</span>
         </button>
+        {onEditGroup && group.kind === 'GROUP' && <button type="button" className="module-tree__edit-group"
+          title={`Edit ${displayName}`} aria-label={`Edit Group ${displayName}`}
+          onClick={() => { closePicker(); onEditGroup(group); }}>✎</button>}
       </div>
 
       {pickerVisible && pickerPosition && (
@@ -621,6 +637,7 @@ function TreeNode({
   expandRequest,
   showEntireSubtree = false,
   renderAsPicker = false,
+  onEditGroup,
 }: TreeNodeProps) {
   const navigate = useNavigate();
   const { topicSlug = 'java' } = useParams();
@@ -689,6 +706,7 @@ function TreeNode({
         interviewCounts={interviewCounts}
         caseStudyCounts={caseStudyCounts}
         roadmapAvailability={roadmapAvailability}
+        onEditGroup={onEditGroup}
       />
     );
   }
@@ -705,6 +723,7 @@ function TreeNode({
         interviewCounts={interviewCounts}
         caseStudyCounts={caseStudyCounts}
         roadmapAvailability={roadmapAvailability}
+        onEditGroup={onEditGroup}
       />
     );
   }
@@ -727,7 +746,9 @@ function TreeNode({
 
   const content = (
     <span className={`module-tree__content${isActive && !structuralModule ? ' is-active' : ''}`}>
+      <span className="group-node-badge">{node.kind === 'GROUP' ? 'G' : 'M'}</span>
       <span className="module-tree__label">{displayName}</span>
+      {node.active === false && <span className="module-tree__inactive">INACTIVE</span>}
 
       {isModule && node.routeId && !structuralModule && (
         <ModuleBadges
@@ -792,6 +813,11 @@ function TreeNode({
             {content}
           </div>
         )}
+        {onEditGroup && node.kind === 'GROUP' && (
+          <button type="button" className="module-tree__edit-group"
+            title={`Edit ${displayName}`} aria-label={`Edit Group ${displayName}`}
+            onClick={() => onEditGroup(node)}>✎</button>
+        )}
       </div>
 
       {hasInlineChildren && open && (
@@ -811,6 +837,7 @@ function TreeNode({
               interviewCounts={interviewCounts}
               caseStudyCounts={caseStudyCounts}
               roadmapAvailability={roadmapAvailability}
+              onEditGroup={onEditGroup}
             />
           )}
 
@@ -829,6 +856,7 @@ function TreeNode({
               knowledgeSearchActive={knowledgeSearchActive}
               knowledgeMatchModuleIds={knowledgeMatchModuleIds}
               expandRequest={expandRequest}
+              onEditGroup={onEditGroup}
               showEntireSubtree={childShowEntireSubtree}
               renderAsPicker={mixedDirectChildren && isLeafModule(child)}
             />
@@ -842,6 +870,8 @@ function TreeNode({
 export function ModuleSidebar({
   nodes,
   activeModuleId,
+  topicId,
+  onStructureChanged,
   enableRealModulesFilter = true,
   knowledgeCounts,
   quizCounts,
@@ -854,6 +884,56 @@ export function ModuleSidebar({
   const navigate = useNavigate();
   const { topicSlug = 'java' } = useParams();
   const { language } = useLanguage();
+  const [adminEnabled, setAdminEnabled] = useState(false);
+  const [adminStructure, setAdminStructure] = useState<AdminStructure | null>(null);
+  const [adminReload, setAdminReload] = useState(0);
+  const [adminError, setAdminError] = useState('');
+  const [groupEditor, setGroupEditor] = useState<GroupEditorTarget | null>(null);
+  const [modifyOpen, setModifyOpen] = useState(false);
+
+  useEffect(() => {
+    if (!topicId) return;
+    const controller = new AbortController();
+    getCurrentUser(controller.signal).then((user) => {
+      if (controller.signal.aborted) return;
+      if (!user?.roles.includes('ADMIN')) {
+        setAdminEnabled(false);
+        setAdminStructure(null);
+        return;
+      }
+      setAdminEnabled(true);
+      return fetchAdminStructure(topicId, controller.signal).then((structure) => {
+        if (!controller.signal.aborted) { setAdminStructure(structure); setAdminError(''); }
+      });
+    }).catch((error: unknown) => {
+      if (!controller.signal.aborted) setAdminError(error instanceof Error ? error.message : 'Admin error');
+    });
+    return () => controller.abort();
+  }, [topicId, adminReload]);
+
+  const adminNodes = useMemo(() => adminStructure ? projectAdminNodes(adminStructure.nodes) : null, [adminStructure]);
+  const sourceNodes = adminEnabled && adminNodes ? adminNodes : nodes;
+
+  const finishGroupChange = useCallback(() => {
+    setGroupEditor(null);
+    setModifyOpen(false);
+    setAdminReload((value) => value + 1);
+    onStructureChanged?.();
+  }, [onStructureChanged]);
+
+  const editGroupNode = (node: ModuleCatalogNode) => {
+    const groupId = Number(node.id.replace(/^GROUP_/, ''));
+    const find = (items: AdminTreeNode[]): AdminTreeNode | null => {
+      for (const item of items) {
+        if (item.kind === 'GROUP' && item.id === groupId) return item;
+        const nested = find(item.children);
+        if (nested) return nested;
+      }
+      return null;
+    };
+    const original = adminStructure && find(adminStructure.nodes);
+    if (original) setGroupEditor({ kind: 'edit', group: original });
+  };
   const [filterInput, setFilterInput] = useState('');
   const [realModulesOnly, setRealModulesOnly] = useState(true);
   const filterRealModules = enableRealModulesFilter && realModulesOnly;
@@ -866,7 +946,7 @@ export function ModuleSidebar({
   const filter = useMemo(() => filterInput.trim().toLowerCase(), [filterInput]);
   const knowledgeQuery = knowledgeSearchInput.trim();
   const knowledgeSearchActive = KNOWLEDGE_SEARCH_ENABLED && knowledgeQuery.length > 0;
-  const moduleSearchMetadata = useMemo(() => collectModuleSearchMetadata(nodes), [nodes]);
+  const moduleSearchMetadata = useMemo(() => collectModuleSearchMetadata(sourceNodes), [sourceNodes]);
 
   useEffect(() => {
     let active = true;
@@ -933,31 +1013,31 @@ export function ModuleSidebar({
     setVisibleKnowledgeResultLimit(KNOWLEDGE_RESULTS_PAGE_SIZE);
   }, [knowledgeQuery, language]);
   const moduleCount = useMemo(
-    () => nodes.reduce((count, node) => count + collectRealModules(node).length, 0),
-    [nodes],
+    () => sourceNodes.reduce((count, node) => count + collectRealModules(node).length, 0),
+    [sourceNodes],
   );
   const realModuleCount = useMemo(
-    () => nodes.reduce(
+    () => sourceNodes.reduce(
       (count, node) => count + collectRealModules(node)
         .filter((moduleNode) => isCountedRealModule(moduleNode, {
           knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts,
         })).length,
       0,
     ),
-    [interviewCounts, caseStudyCounts, knowledgeCounts, nodes, quizCounts],
+    [interviewCounts, caseStudyCounts, knowledgeCounts, sourceNodes, quizCounts],
   );
   const visibleNodes = useMemo(
     () => {
       if (knowledgeSearchActive) {
-        return nodes;
+        return sourceNodes;
       }
 
       // A count summary that is loading or has failed is not evidence of empty modules.
       return filterRealModules && contentCountsState === 'ready'
-        ? projectCountedRealModules(nodes, {
+        ? projectCountedRealModules(sourceNodes, {
           knowledge: knowledgeCounts, quiz: quizCounts, interview: interviewCounts, casestudy: caseStudyCounts,
         })
-        : nodes;
+        : sourceNodes;
     },
     [
       interviewCounts,
@@ -965,7 +1045,7 @@ export function ModuleSidebar({
       knowledgeCounts,
       knowledgeSearchActive,
       contentCountsState,
-      nodes,
+      sourceNodes,
       quizCounts,
       filterRealModules,
     ],
@@ -1163,7 +1243,14 @@ export function ModuleSidebar({
 
       <div className="learning-sidebar__section-title">
         {language === 'vi' ? 'CẤU TRÚC HỌC TẬP' : 'LEARNING STRUCTURE'}
+        {topicId && adminEnabled && adminStructure && <span className="module-group-admin-actions">
+          <button type="button" onClick={() => setGroupEditor({ kind: 'create' })}>+ Add Group</button>
+          <button type="button" onClick={() => setModifyOpen(true)}>Modify Group</button>
+        </span>}
       </div>
+      {adminEnabled && adminError && <div className="module-group-admin-error" role="alert">{adminError}
+        <button type="button" onClick={() => setAdminReload((value) => value + 1)}>Retry</button>
+      </div>}
 
       <ul className="module-tree">
         {visibleNodes.map((node) => (
@@ -1184,6 +1271,7 @@ export function ModuleSidebar({
             knowledgeSearchActive={knowledgeSearchActive}
             knowledgeMatchModuleIds={knowledgeMatchModuleIds}
             expandRequest={expandRequest}
+            onEditGroup={adminEnabled && adminStructure ? editGroupNode : undefined}
           />
         ))}
         {knowledgeSearchActive
@@ -1195,6 +1283,17 @@ export function ModuleSidebar({
             </li>
         )}
       </ul>
+      {topicId && adminEnabled && adminStructure && groupEditor && (
+        createPortal(<GroupFormDialog key={groupEditor.kind === 'create' ? 'create' : `edit-${groupEditor.group.id}`}
+          topicId={topicId} revision={adminStructure.revision} target={groupEditor} language={language}
+          onClose={() => setGroupEditor(null)} onSaved={finishGroupChange}
+          onReload={() => { setGroupEditor(null); setAdminReload((value) => value + 1); }} />, document.body)
+      )}
+      {topicId && adminEnabled && adminStructure && modifyOpen && (
+        createPortal(<GroupStructureDialog topicId={topicId} initial={adminStructure} language={language}
+          onClose={() => setModifyOpen(false)} onSaved={finishGroupChange}
+          onReload={() => { setModifyOpen(false); setAdminReload((value) => value + 1); }} />, document.body)
+      )}
     </aside>
   );
 }

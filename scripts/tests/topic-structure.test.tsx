@@ -63,6 +63,7 @@ function mockApi(
   return (async (request: RequestInfo | URL) => {
     const url = String(request);
     requests.push(url);
+    if (url.endsWith('/api/auth/me')) return new Response(null, { status: 401 });
     if (url === `${BACKEND_API_BASE_URL}/topics`) {
       return new Response(JSON.stringify(topics), { status: 200 });
     }
@@ -222,7 +223,7 @@ test('Spring Knowledge page selects database module by slug and never requests s
       `${BACKEND_API_BASE_URL}/topics`,
       `${BACKEND_API_BASE_URL}/topics/20/structure`,
     ]);
-    assert.deepEqual(requests.slice(2).sort(), [
+    assert.deepEqual(requests.slice(2).filter((request) => !request.endsWith('/api/auth/me')).sort(), [
       `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals`,
       `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals/menu?lang=vi`,
     ].sort());

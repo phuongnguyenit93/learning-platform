@@ -215,6 +215,8 @@ export function TopicStructurePage() {
       <ModuleSidebar
         key={topicSlug}
         nodes={catalog!.root.children}
+        topicId={Number(catalog!.root.id.replace('topic:', '')) || undefined}
+        onStructureChanged={() => setReload((value) => value + 1)}
         activeModuleId={selected?.routeId ?? ''}
         enableRealModulesFilter={false}
         knowledgeCounts={knowledgeCounts}

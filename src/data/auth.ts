@@ -37,10 +37,17 @@ export async function getCurrentUser(signal?: AbortSignal): Promise<AuthUser | n
   const response = await authRequest('/me', { signal });
   if (response.status === 401) return null;
   if (!response.ok) throw new Error(`Authentication session failed (${response.status})`);
-  return response.json() as Promise<AuthUser>;
+  const user: unknown = await response.json();
+  if (!user || typeof user !== 'object' || !('id' in user) || typeof user.id !== 'number'
+    || !('email' in user) || typeof user.email !== 'string'
+    || !('roles' in user) || !Array.isArray(user.roles)
+    || !user.roles.every((role: unknown) => typeof role === 'string')) {
+    throw new Error('Invalid authentication profile');
+  }
+  return user as AuthUser;
 }
 
-export async function logoutCurrentUser(): Promise<void> {
+export async function getAuthCsrf(): Promise<{ token: string; headerName: string }> {
   const csrfResponse = await authRequest('/csrf');
   if (!csrfResponse.ok) throw new Error(`CSRF request failed (${csrfResponse.status})`);
 
@@ -51,6 +58,11 @@ export async function logoutCurrentUser(): Promise<void> {
     throw new Error('Invalid CSRF response');
   }
 
+  return { token: csrf.token, headerName: csrf.headerName };
+}
+
+export async function logoutCurrentUser(): Promise<void> {
+  const csrf = await getAuthCsrf();
   const response = await authRequest('/logout', {
     method: 'POST',
     headers: { [csrf.headerName]: csrf.token },

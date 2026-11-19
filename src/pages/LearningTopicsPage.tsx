@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchLearningCatalog, type LearningTopic, type LearningTopicGroup } from '../data/learningCatalog';
+import { CatalogEditor, type CatalogEditorTarget } from '../components/CatalogEditor';
 import { topicSvgImageSrc } from '../data/topicSvg';
+import { useAuth } from '../state/useAuth';
 import { useLanguage } from '../state/LanguageContext';
 
 type CatalogState =
@@ -37,7 +39,9 @@ function TopicCard({
       {topic.description && <span className="learning-topic-card__detail">{topic.description}</span>}
       <span className={`learning-topic-card__status${available ? ' is-available' : ''}`}>
         <span className="learning-topic-card__status-dot" aria-hidden="true" />
-        {available
+        {topic.status === 'HIDDEN'
+          ? (language === 'vi' ? 'Đang ẩn' : 'Hidden')
+          : available
           ? (language === 'vi' ? 'Bắt đầu học' : 'Start learning')
           : (language === 'vi' ? 'Sắp cập nhật' : 'Coming soon')}
       </span>
@@ -64,16 +68,21 @@ function TopicCard({
 
 export function LearningTopicsPage() {
   const { language } = useLanguage();
+  const { status: authStatus, user } = useAuth();
+  const authPending = authStatus === 'loading';
+  const isAdmin = authStatus === 'authenticated' && Boolean(user?.roles.includes('ADMIN'));
   const [catalog, setCatalog] = useState<CatalogState>({ status: 'loading' });
   const [reloadKey, setReloadKey] = useState(0);
+  const [editor, setEditor] = useState<CatalogEditorTarget | null>(null);
   const [unavailableTopic, setUnavailableTopic] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
+    if (authPending) return;
     const controller = new AbortController();
     setCatalog({ status: 'loading' });
-    fetchLearningCatalog(controller.signal)
+    fetchLearningCatalog(controller.signal, isAdmin)
       .then((groups) => {
         if (!controller.signal.aborted) setCatalog({ status: 'ready', groups });
       })
@@ -84,7 +93,7 @@ export function LearningTopicsPage() {
         }
       });
     return () => controller.abort();
-  }, [reloadKey]);
+  }, [reloadKey, isAdmin, authPending]);
 
   useEffect(() => {
     if (unavailableTopic) dialogRef.current?.showModal?.();
@@ -107,6 +116,16 @@ export function LearningTopicsPage() {
             : 'Choose a topic to explore knowledge and hands-on projects.'}
         </p>
       </div>
+
+      {isAdmin && (
+        <div className="learning-admin-toolbar">
+          <span>{language === 'vi' ? 'Chế độ quản trị danh mục' : 'Catalog administration'}</span>
+          <button type="button" className="catalog-admin-btn"
+            onClick={() => setEditor({ kind: 'category' })}>
+            + {language === 'vi' ? 'Tạo Category' : 'Create Category'}
+          </button>
+        </div>
+      )}
 
       {catalog.status === 'loading' && (
         <div className="learning-topics-state" role="status">
@@ -139,27 +158,68 @@ export function LearningTopicsPage() {
                   </span>
                   <h2 id={`topic-category-${category.id}`}>{category.name}</h2>
                 </div>
-                <span className="learning-topic-category__count">
-                  {topics.length} {topics.length === 1 ? 'TOPIC' : 'TOPICS'}
-                </span>
+                <div className="learning-topic-category__header-actions">
+                  <span className="learning-topic-category__count">
+                    {topics.length} {topics.length === 1 ? 'TOPIC' : 'TOPICS'}
+                  </span>
+                  {isAdmin && (
+                    <>
+                      {'active' in category && category.active === false &&
+                        <span className="catalog-admin-inactive">INACTIVE</span>}
+                      <button type="button" className="catalog-admin-btn catalog-admin-btn--ghost"
+                        onClick={() => setEditor({ kind: 'category', category })}>
+                        {language === 'vi' ? 'Sửa Category' : 'Edit Category'}
+                      </button>
+                      <button type="button" className="catalog-admin-btn"
+                        onClick={() => setEditor({ kind: 'topic', category })}>
+                        + {language === 'vi' ? 'Tạo Topic' : 'Create Topic'}
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
+              {isAdmin && topics.length === 0 && (
+                <p className="learning-topic-category__empty">
+                  {language === 'vi' ? 'Category chưa có Topic. Chọn “Tạo Topic” để bắt đầu.' : 'No topics yet. Use “Create Topic” to add one.'}
+                </p>
+              )}
               <div className="learning-topics-grid">
                 {topics.map((topic, index) => (
-                  <TopicCard
-                    key={topic.id}
-                    topic={topic}
-                    index={index}
-                    language={language}
-                    onComingSoon={(name, trigger) => {
-                      triggerRef.current = trigger;
-                      setUnavailableTopic(name);
-                    }}
-                  />
+                  <div className={`learning-topic-card-shell${isAdmin ? ' learning-topic-card-shell--admin' : ''}`} key={topic.id}>
+                    {isAdmin && (
+                      <button type="button" className="catalog-admin-topic-edit"
+                        onClick={() => setEditor({ kind: 'topic', category, topic })}>
+                        {language === 'vi' ? 'Sửa Topic' : 'Edit Topic'}
+                      </button>
+                    )}
+                    <TopicCard
+                      topic={topic}
+                      index={index}
+                      language={language}
+                      onComingSoon={(name, trigger) => {
+                        triggerRef.current = trigger;
+                        setUnavailableTopic(name);
+                      }}
+                    />
+                  </div>
                 ))}
               </div>
             </section>
           ))}
         </div>
+      )}
+
+      {isAdmin && editor && (
+        <CatalogEditor
+          key={editor.kind === 'category' ? `category:${editor.category?.id ?? 'new'}` : `topic:${editor.topic?.id ?? `new:${editor.category.id}`}`}
+          target={editor}
+          language={language}
+          onClose={() => setEditor(null)}
+          onSaved={() => {
+            setEditor(null);
+            setReloadKey((key) => key + 1);
+          }}
+        />
       )}
 
       {unavailableTopic && (

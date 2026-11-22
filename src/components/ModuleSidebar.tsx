@@ -70,32 +70,11 @@ interface ModulePickerEntry {
 
 type ModuleTreeCssProperties = CSSProperties & {
   '--module-tree-depth'?: number;
-  '--module-menu-border'?: string;
-  '--module-menu-accent'?: string;
 };
 
 function moduleTreeIndentStyle(depth: number): ModuleTreeCssProperties {
   return {
     '--module-tree-depth': depth,
-  };
-}
-
-function moduleMenuLevelStyle(depth: number): ModuleTreeCssProperties {
-  const level = depth + 1;
-  const levelHues = [
-    210, // level 1 - blue
-    145, // level 2 - green
-    38,  // level 3 - amber
-    274, // level 4 - violet
-    188, // level 5 - cyan / teal
-    338, // level 6 - rose
-    72,  // level 7 - lime
-  ];
-  const hue = levelHues[(level - 1) % levelHues.length];
-
-  return {
-    '--module-menu-border': `hsla(${hue}, 78%, 64%, 0.30)`,
-    '--module-menu-accent': `hsl(${hue}, 82%, 72%)`,
   };
 }
 
@@ -106,18 +85,6 @@ function ModuleTreeIndent({ depth }: { depth: number }) {
       style={moduleTreeIndentStyle(depth)}
       aria-hidden="true"
     />
-  );
-}
-
-function ModuleTreeLevelBadge({ depth }: { depth: number }) {
-  return (
-    <span
-      className="module-tree__level-badge"
-      aria-label={`Menu level ${depth + 1}`}
-      title={`Menu level ${depth + 1}`}
-    >
-      {depth + 1}
-    </span>
   );
 }
 
@@ -360,7 +327,7 @@ function ModulePickerPopup({
                 {sequence}
               </span>
               <span className="module-picker__module-title">
-                <span className="group-node-badge">M</span>
+                <span className="group-node-badge group-node-badge--module">M</span>
                 <span className="module-picker__module-name">{formatCatalogName(moduleNode.name)}</span>
                 {stepLabel && (
                   <CustomTooltip content={getModuleStepTooltip(step, language) ?? stepLabel}>
@@ -553,15 +520,13 @@ function ModulePickerRow({
 
   return (
     <li className="module-tree__item">
-      <div className={`module-tree__row is-module-picker${onToggleExpand ? ' is-mixed-group is-expandable is-menu-level' : ''}${containsActiveModule ? ' is-active' : ''}`}
-        style={onToggleExpand ? moduleMenuLevelStyle(depth) : undefined}>
+      <div className={`module-tree__row is-module-picker${onToggleExpand ? ' is-mixed-group is-expandable is-menu-level' : ''}${containsActiveModule ? ' is-active' : ''}`}>
         {onToggleExpand && (
           <button type="button" className={`module-tree__mixed-toggle${expanded ? ' is-open' : ' is-closed'}`}
             onClick={onToggleExpand} aria-expanded={expanded}
             aria-label={`${expanded ? 'Collapse' : 'Expand'} ${displayName}`}
             title={`${expanded ? 'Collapse' : 'Expand'} ${displayName}`}>
             <ModuleTreeIndent depth={depth} />
-            <ModuleTreeLevelBadge depth={depth} />
             <span className="module-tree__caret" aria-hidden="true">{expanded ? '⌄' : '›'}</span>
           </button>
         )}
@@ -597,7 +562,9 @@ function ModulePickerRow({
             <span className="module-tree__caret" aria-hidden="true">›</span>
           </>}
           <span className={`module-tree__content${containsActiveModule ? ' is-active' : ''}`}>
-            <span className="group-node-badge">{group.kind === 'GROUP' ? 'G' : 'M'}</span>
+            <span className={`group-node-badge group-node-badge--${group.kind === 'GROUP' ? 'group' : 'module'}`}>
+              {group.kind === 'GROUP' ? 'G' : 'M'}
+            </span>
             <span className="module-tree__label">{displayName}</span>
             {group.active === false && <span className="module-tree__inactive">INACTIVE</span>}
             {activeModuleName && (
@@ -608,7 +575,7 @@ function ModulePickerRow({
               </span>
             )}
           </span>
-          <span className="module-tree__count">{entries.length}</span>
+          <span className="module-tree__count">{entries.length} module</span>
           <span className="module-tree__picker-cue" aria-hidden="true">›</span>
         </button>
         {onEditGroup && group.kind === 'GROUP' && <button type="button" className="module-tree__edit-group"
@@ -811,7 +778,9 @@ function TreeNode({
 
   const content = (
     <span className={`module-tree__content${isActive && !structuralModule ? ' is-active' : ''}`}>
-      <span className="group-node-badge">{node.kind === 'GROUP' ? 'G' : 'M'}</span>
+      <span className={`group-node-badge group-node-badge--${node.kind === 'GROUP' ? 'group' : 'module'}`}>
+        {node.kind === 'GROUP' ? 'G' : 'M'}
+      </span>
       <span className="module-tree__label">{displayName}</span>
       {node.active === false && <span className="module-tree__inactive">INACTIVE</span>}
 
@@ -832,7 +801,6 @@ function TreeNode({
     <li className="module-tree__item">
       <div
         className={`module-tree__row${hasChildren ? ' is-menu-level' : ''}${hasInlineChildren ? ' is-expandable' : ''}${isModule && !structuralModule ? ' is-module' : ''}${isRealModule ? ' is-real-module' : ''}${isActive && !structuralModule ? ' is-active' : ''}`}
-        style={hasChildren ? moduleMenuLevelStyle(depth) : undefined}
       >
         {hasInlineChildren && (
           <button
@@ -844,8 +812,7 @@ function TreeNode({
             title={`${open ? 'Collapse' : 'Expand'} ${displayName}`}
           >
             <ModuleTreeIndent depth={depth} />
-            <ModuleTreeLevelBadge depth={depth} />
-             <span className="module-tree__caret" aria-hidden="true">{open ? '⌄' : '›'}</span>
+            <span className="module-tree__caret" aria-hidden="true">{open ? '⌄' : '›'}</span>
             {content}
           </button>
         )}

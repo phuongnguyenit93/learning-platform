@@ -266,7 +266,9 @@ test('top-level Paradigm leaf modules open the same one-module picker as nested 
     assert.equal(rows.length, 2);
     assert.ok(rows.every((row) => row.classList.contains('is-module-picker')));
     assert.ok(rows.every((row) => !row.querySelector('.module-tree__dashboard-zone')));
-    assert.deepEqual(rows.map((row) => row.querySelector('.module-tree__count')?.textContent), ['1', '1']);
+    assert.deepEqual(rows.map((row) => row.querySelector('.module-tree__count')?.textContent), ['1 module', '1 module']);
+    assert.equal(host.querySelectorAll('.module-tree__level-badge').length, 0);
+    assert.equal(host.querySelectorAll('.group-node-badge--module').length, 2);
 
     const second = host.querySelector<HTMLButtonElement>('[aria-label="Open Functional modules"]');
     assert.ok(second);
@@ -289,7 +291,9 @@ test('nested terminal groups still show their module picker without extra nestin
   await renderPage('/learning/spring/knowledge/spring-boot-fundamentals', async (host) => {
     const group = host.querySelector<HTMLButtonElement>('[aria-label="Open Spring Boot modules"]');
     assert.ok(group);
-    assert.equal(group.querySelector('.module-tree__count')?.textContent, '1');
+    assert.equal(group.querySelector('.module-tree__count')?.textContent, '1 module');
+    assert.equal(host.querySelectorAll('.module-tree__level-badge').length, 0);
+    assert.equal(host.querySelectorAll('.group-node-badge--group').length, 1);
     Object.defineProperty(host.ownerDocument.defaultView, 'innerWidth', { configurable: true, value: 1380 });
     Object.defineProperty(host.ownerDocument.defaultView, 'innerHeight', { configurable: true, value: 790 });
     group.getBoundingClientRect = () => ({ top: 710, bottom: 748, left: 70, right: 440,
@@ -334,7 +338,9 @@ test('mixed Spring Data Group opens direct Module leaves in one picker while nes
   await renderPage('/learning/spring/knowledge/spring-boot-fundamentals', async (host) => {
     const picker = host.querySelector<HTMLButtonElement>('[aria-label="Open Spring data modules"]');
     assert.ok(picker, 'Spring data must have one picker on its own row');
-    assert.equal(picker.querySelector('.module-tree__count')?.textContent, '3');
+    assert.equal(picker.querySelector('.module-tree__count')?.textContent, '3 module');
+    assert.equal(host.querySelectorAll('.module-tree__level-badge').length, 0);
+    assert.ok(host.querySelectorAll('.group-node-badge--group').length >= 2);
     assert.ok(host.querySelector('[aria-label="Open Spring data relational modules"]'),
       'nested Group stays in sidebar as its own Group');
     assert.equal(host.querySelector('[aria-label="Open Spring data cassandra modules"]'), null,

@@ -102,6 +102,8 @@ test('sidebar only shows Group admin actions for ADMIN and opens add/edit/modify
     await draw(60);
     assert.equal(host.querySelector('.module-group-admin-actions'), null);
     assert.equal(host.querySelector('.group-node-badge')?.textContent, 'G');
+    assert.ok(host.querySelector('.group-node-badge--group'));
+    assert.equal(host.querySelector('.module-tree__level-badge'), null);
     assert.equal(host.querySelector('.module-tree__edit-group'), null);
     assert.equal(host.querySelector('.module-picker__edit'), null);
 
@@ -112,6 +114,8 @@ test('sidebar only shows Group admin actions for ADMIN and opens add/edit/modify
     assert.match(host.textContent ?? '', /Group B/);
     assert.match(host.textContent ?? '', /INACTIVE/);
     assert.ok(host.querySelectorAll('.group-node-badge').length >= 3);
+    assert.ok(host.querySelectorAll('.group-node-badge--module').length >= 1);
+    assert.equal(host.querySelector('.module-tree__level-badge'), null);
 
     const add = [...host.querySelectorAll<HTMLButtonElement>('.module-group-admin-actions button')]
       .find((button) => button.textContent?.includes('Add Group'));

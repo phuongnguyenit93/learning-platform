@@ -381,7 +381,9 @@ export function GroupStructureDialog({ topicId, initial, language, onClose, onSa
               aria-expanded={!isCollapsed} disabled={saving}
               onClick={() => toggleCollapsed(node.id)}>{isCollapsed ? '+' : '−'}</button>}
             <span className="group-tree-editor__grip" aria-label="Drag to move">⠿</span>
-            <span className="group-node-badge">{node.kind === 'GROUP' ? 'G' : 'M'}</span>
+            <span className={`group-node-badge group-node-badge--${node.kind === 'GROUP' ? 'group' : 'module'}`}>
+              {node.kind === 'GROUP' ? 'G' : 'M'}
+            </span>
             <span className="group-tree-editor__name">{node.name}</span>
             {!node.active && <span className="group-tree-editor__inactive">INACTIVE</span>}
             <div className="group-tree-editor__row-actions" aria-label={`Move ${node.name}`}

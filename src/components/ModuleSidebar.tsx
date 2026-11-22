@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { topicKnowledgePath } from '../data/topicRoutes';
@@ -207,10 +207,11 @@ function isTerminalModuleGroup(node: ModuleCatalogNode): boolean {
 }
 
 function hasMixedDirectChildren(node: ModuleCatalogNode): boolean {
-  const hasGroup = node.children.some((child) => child.kind === 'GROUP');
-  const hasModule = node.children.some((child) => child.kind === 'MODULE');
-
-  return hasGroup && hasModule;
+  // Direct leaf Modules belong to their parent's picker; only nested Groups
+  // (and structural Modules with children) remain in the left-hand tree.
+  return node.kind === 'GROUP'
+    && node.children.some(isLeafModule)
+    && node.children.some((child) => !isLeafModule(child));
 }
 
 function isLeafModule(node: ModuleCatalogNode): boolean {
@@ -401,6 +402,9 @@ function ModulePickerRow({
   caseStudyCounts,
   roadmapAvailability,
   onEditGroup,
+  expanded,
+  onToggleExpand,
+  children,
 }: {
   group: ModuleCatalogNode;
   entries: ModulePickerEntry[];
@@ -412,6 +416,10 @@ function ModulePickerRow({
   caseStudyCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
   onEditGroup?: (node: ModuleCatalogNode) => void;
+  /** For a Group with mixed children, the picker and tree toggle are independent. */
+  expanded?: boolean;
+  onToggleExpand?: () => void;
+  children?: ReactNode;
 }) {
   const [pickerVisible, setPickerVisible] = useState(false);
   const [pickerPinned, setPickerPinned] = useState(false);
@@ -551,7 +559,18 @@ function ModulePickerRow({
 
   return (
     <li className="module-tree__item">
-      <div className={`module-tree__row is-module-picker${containsActiveModule ? ' is-active' : ''}`}>
+      <div className={`module-tree__row is-module-picker${onToggleExpand ? ' is-mixed-group is-expandable is-menu-level' : ''}${containsActiveModule ? ' is-active' : ''}`}
+        style={onToggleExpand ? moduleMenuLevelStyle(depth) : undefined}>
+        {onToggleExpand && (
+          <button type="button" className={`module-tree__mixed-toggle${expanded ? ' is-open' : ' is-closed'}`}
+            onClick={onToggleExpand} aria-expanded={expanded}
+            aria-label={`${expanded ? 'Collapse' : 'Expand'} ${displayName}`}
+            title={`${expanded ? 'Collapse' : 'Expand'} ${displayName}`}>
+            <ModuleTreeIndent depth={depth} />
+            <ModuleTreeLevelBadge depth={depth} />
+            <span className="module-tree__caret" aria-hidden="true">{expanded ? '−' : '+'}</span>
+          </button>
+        )}
         <button
           ref={pickerAnchorRef}
           type="button"
@@ -578,9 +597,11 @@ function ModulePickerRow({
           aria-label={`Open ${displayName} modules`}
           title={`Open ${displayName} modules`}
         >
-          <ModuleTreeIndent depth={depth} />
-          <span className="module-tree__vertical-cue module-tree__vertical-cue--placeholder" aria-hidden="true" />
-          <span className="module-tree__caret" aria-hidden="true">›</span>
+          {!onToggleExpand && <>
+            <ModuleTreeIndent depth={depth} />
+            <span className="module-tree__vertical-cue module-tree__vertical-cue--placeholder" aria-hidden="true" />
+            <span className="module-tree__caret" aria-hidden="true">›</span>
+          </>}
           <span className={`module-tree__content${containsActiveModule ? ' is-active' : ''}`}>
             <span className="group-node-badge">{group.kind === 'GROUP' ? 'G' : 'M'}</span>
             <span className="module-tree__label">{displayName}</span>
@@ -618,6 +639,7 @@ function ModulePickerRow({
           onClose={closePicker}
         />
       )}
+      {children}
     </li>
   );
 }
@@ -679,6 +701,13 @@ function TreeNode({
     return ordered.filter(({ node: child }) => nodeContainsMatch(child, filter));
   }, [filter, knowledgeMatchModuleIds, knowledgeSearchActive, node.children, selfMatches, showEntireSubtree]);
 
+  const toggleChildren = () => {
+    if (hasInlineChildren) {
+      if (treeSearchActive) setSearchExpanded((current) => !current);
+      else setExpanded((current) => !current);
+    }
+  };
+
   useEffect(() => {
     if (treeSearchActive && visible && hasInlineChildren) {
       setSearchExpanded(true);
@@ -728,15 +757,48 @@ function TreeNode({
     );
   }
 
-  const toggleChildren = () => {
-    if (hasInlineChildren) {
-      if (treeSearchActive) {
-        setSearchExpanded((current) => !current);
-      } else {
-        setExpanded((current) => !current);
-      }
-    }
-  };
+  if (mixedDirectChildren) {
+    const directModules = pickerEntries.filter(({ node: child }) => isLeafModule(child))
+      .map(({ node: child }, index) => ({ node: child, sequence: index + 1 }));
+    return (
+      <ModulePickerRow
+        group={node}
+        entries={directModules}
+        depth={depth}
+        activeModuleId={activeModuleId}
+        knowledgeCounts={knowledgeCounts}
+        quizCounts={quizCounts}
+        interviewCounts={interviewCounts}
+        caseStudyCounts={caseStudyCounts}
+        roadmapAvailability={roadmapAvailability}
+        onEditGroup={onEditGroup}
+        expanded={open}
+        onToggleExpand={toggleChildren}
+      >
+        {open && <ul className="module-tree__branch">
+          {node.children.filter((child) => !isLeafModule(child)).map((child) => (
+            <TreeNode
+              key={child.id}
+              node={child}
+              depth={depth + 1}
+              activeModuleId={activeModuleId}
+              knowledgeCounts={knowledgeCounts}
+              quizCounts={quizCounts}
+              interviewCounts={interviewCounts}
+              caseStudyCounts={caseStudyCounts}
+              roadmapAvailability={roadmapAvailability}
+              filter={filter}
+              knowledgeSearchActive={knowledgeSearchActive}
+              knowledgeMatchModuleIds={knowledgeMatchModuleIds}
+              expandRequest={expandRequest}
+              onEditGroup={onEditGroup}
+              showEntireSubtree={childShowEntireSubtree}
+            />
+          ))}
+        </ul>}
+      </ModulePickerRow>
+    );
+  }
 
   const navigateToModule = () => {
     if (isModule && node.routeId) {
@@ -858,7 +920,6 @@ function TreeNode({
               expandRequest={expandRequest}
               onEditGroup={onEditGroup}
               showEntireSubtree={childShowEntireSubtree}
-              renderAsPicker={mixedDirectChildren && isLeafModule(child)}
             />
           ))}
         </ul>

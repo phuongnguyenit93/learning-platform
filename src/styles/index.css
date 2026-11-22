@@ -1630,6 +1630,33 @@ pre {
   padding: 0 8px 0 0;
 }
 
+/* Mixed Groups: keep nested Groups in the sidebar, but open all direct
+   leaf Modules from one parent picker instead of one picker per Module. */
+.module-tree__row.is-mixed-group .module-tree__picker-zone {
+  flex: 1;
+  width: auto;
+}
+.module-tree__mixed-toggle {
+  display: flex;
+  flex: 0 0 auto;
+  min-height: 38px;
+  align-items: center;
+  gap: 0;
+  padding: 0 3px 0 0;
+  border: 0;
+  border-right: 1px solid var(--border-strong);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.module-tree__mixed-toggle:hover,
+.module-tree__mixed-toggle:focus-visible {
+  background: var(--row-hover-bg);
+  color: var(--blue);
+  outline: none;
+}
+
 .module-tree__collapse-zone.is-full {
   flex: 1;
   padding: 0 8px 0 0;

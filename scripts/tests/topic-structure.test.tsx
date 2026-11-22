@@ -57,7 +57,7 @@ const structures = {
 };
 
 function mockApi(
-  requests: string[], structure = structures,
+  requests: string[], structure: { java: unknown; spring: unknown; paradigm: unknown } = structures,
   overviewResponses: Record<string, { status: number; markdownContent?: string }> = {},
 ) {
   return (async (request: RequestInfo | URL) => {
@@ -165,6 +165,7 @@ function LanguageSwitchProbe() {
 async function renderPage(
   path: string, verify: (host: HTMLElement, requests: string[]) => Promise<void>,
   overviewResponses: Record<string, { status: number; markdownContent?: string }> = {},
+  structure: { java: unknown; spring: unknown; paradigm: unknown } = structures,
 ) {
   const browser = new Window({ url: 'http://localhost:5173' });
   const globals = {
@@ -181,7 +182,7 @@ async function renderPage(
   }
   const oldFetch = globalThis.fetch;
   const requests: string[] = [];
-  globalThis.fetch = mockApi(requests, structures, overviewResponses);
+  globalThis.fetch = mockApi(requests, structure, overviewResponses);
   const host = browser.document.createElement('div');
   browser.document.body.append(host);
   const root = createRoot(host);
@@ -274,6 +275,67 @@ test('nested terminal groups still show their module picker without extra nestin
     assert.equal(popup.querySelectorAll('.module-picker__item').length, 1);
     assert.match(popup.textContent ?? '', /Fundamentals/);
   });
+});
+
+test('mixed Spring Data Group opens direct Module leaves in one picker while nested Groups stay in the sidebar', async () => {
+  const springData = {
+    nodeKey: 'SPRING_DATA', name: 'Spring data', kind: 'GROUP', slug: 'spring-data', children: [
+      { nodeKey: 'SPRING_DATA_CASSANDRA', name: 'Spring data cassandra', kind: 'MODULE',
+        slug: 'spring-data-cassandra', children: [] },
+      { nodeKey: 'SPRING_DATA_COMMONS', name: 'Spring data commons', kind: 'MODULE',
+        slug: 'spring-data-commons', children: [] },
+      { nodeKey: 'SPRING_DATA_RELATIONAL', name: 'Spring data relational', kind: 'GROUP',
+        slug: 'spring-data-relational', children: [
+          { nodeKey: 'SPRING_DATA_JDBC', name: 'Spring data jdbc', kind: 'MODULE',
+            slug: 'spring-data-jdbc', children: [] },
+        ] },
+      { nodeKey: 'SPRING_DATA_REST', name: 'Spring data rest', kind: 'MODULE',
+        slug: 'spring-data-rest', children: [] },
+    ],
+  };
+  const mixedStructure = {
+    ...structures,
+    spring: { ...structures.spring,
+      root: { ...structures.spring.root,
+        children: [...structures.spring.root.children, springData] } },
+  };
+
+  await renderPage('/learning/spring/knowledge/spring-boot-fundamentals', async (host) => {
+    const picker = host.querySelector<HTMLButtonElement>('[aria-label="Open Spring data modules"]');
+    assert.ok(picker, 'Spring data must have one picker on its own row');
+    assert.equal(picker.querySelector('.module-tree__count')?.textContent, '3');
+    assert.ok(host.querySelector('[aria-label="Open Spring data relational modules"]'),
+      'nested Group stays in sidebar as its own Group');
+    assert.equal(host.querySelector('[aria-label="Open Spring data cassandra modules"]'), null,
+      'direct leaves must not create separate sidebar pickers');
+    assert.equal(host.querySelector('[aria-label="Open Spring data commons modules"]'), null);
+    assert.equal(host.querySelector('[aria-label="Open Spring data rest modules"]'), null);
+
+    await act(async () => picker.click());
+    let popup = host.ownerDocument.querySelector<HTMLElement>('.module-picker');
+    assert.ok(popup);
+    assert.deepEqual([...popup.querySelectorAll('.module-picker__item')].map((item) =>
+      item.querySelector('.module-picker__module-name')?.textContent),
+    ['Spring data cassandra', 'Spring data commons', 'Spring data rest']);
+    assert.deepEqual([...popup.querySelectorAll('.module-picker__item')].map((item) =>
+      item.querySelector('.module-picker__sequence')?.textContent), ['1', '2', '3']);
+    assert.doesNotMatch(popup.textContent ?? '', /Spring data relational/);
+
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="Collapse Spring data"]')?.click());
+    assert.equal(host.querySelector('[aria-label="Open Spring data relational modules"]'), null,
+      'collapsing parent hides nested Groups only');
+    assert.ok(host.querySelector('[aria-label="Open Spring data modules"]'),
+      'parent picker remains available while Group subtree is collapsed');
+    await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="Expand Spring data"]')?.click());
+    assert.ok(host.querySelector('[aria-label="Open Spring data relational modules"]'));
+
+    popup = host.ownerDocument.querySelector<HTMLElement>('.module-picker');
+    assert.ok(popup);
+    await act(async () => popup.querySelectorAll<HTMLButtonElement>('.module-picker__item')[2].click());
+    assert.equal(host.querySelector('[data-testid="pathname"]')?.textContent,
+      '/learning/spring/knowledge/spring-data-rest');
+    assert.equal(host.ownerDocument.querySelector('.module-picker'), null);
+  }, {}, mixedStructure);
 });
 
 test('Overview tab loads Markdown only after selecting it, using module SLUG and VI language', async () => {

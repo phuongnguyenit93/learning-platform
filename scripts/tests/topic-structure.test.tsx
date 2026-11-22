@@ -5,6 +5,7 @@ import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { fetchTopicStructure } from '../../src/data/topicStructure';
+import { calculateModulePickerPosition } from '../../src/data/modulePickerPosition';
 import { BACKEND_API_BASE_URL } from '../../src/data/backendHealth';
 import { TopicStructurePage } from '../../src/pages/TopicStructurePage';
 import { LanguageProvider, useLanguage } from '../../src/state/LanguageContext';
@@ -55,6 +56,26 @@ const structures = {
     },
   },
 };
+
+test('picker position follows a low row, measures list size and stays outside sidebar', () => {
+  const base = { anchorTop: 710, anchorRight: 440, sidebarRight: 525,
+    viewportWidth: 1380, viewportHeight: 790 };
+  const one = calculateModulePickerPosition({ ...base, itemCount: 1 });
+  assert.equal(one.left, 535, 'popup must start to the right of the complete sidebar');
+  assert.ok(one.top >= 600 && one.top <= 710, 'single-item popup stays close to its low row');
+  assert.ok(one.maxHeight >= 150, 'popup must have space for its own content');
+  const many = calculateModulePickerPosition({ ...base, itemCount: 15 });
+  assert.ok(many.top < one.top, 'only a long list needs to open further up');
+  assert.ok(many.top >= 12 && many.top + many.maxHeight <= 778);
+  const normal = calculateModulePickerPosition({ ...base, anchorTop: 120, itemCount: 1 });
+  assert.equal(normal.top, 108);
+
+  const narrowRight = calculateModulePickerPosition({ ...base, viewportWidth: 690, itemCount: 1 });
+  assert.equal(narrowRight.left, 12);
+  assert.equal(narrowRight.width, 666);
+  const tightDesktop = calculateModulePickerPosition({ ...base, viewportWidth: 830, sidebarRight: 650, itemCount: 1 });
+  assert.equal(tightDesktop.left, 12, 'without room on right, use the compact popup');
+});
 
 function mockApi(
   requests: string[], structure: { java: unknown; spring: unknown; paradigm: unknown } = structures,
@@ -269,11 +290,21 @@ test('nested terminal groups still show their module picker without extra nestin
     const group = host.querySelector<HTMLButtonElement>('[aria-label="Open Spring Boot modules"]');
     assert.ok(group);
     assert.equal(group.querySelector('.module-tree__count')?.textContent, '1');
+    Object.defineProperty(host.ownerDocument.defaultView, 'innerWidth', { configurable: true, value: 1380 });
+    Object.defineProperty(host.ownerDocument.defaultView, 'innerHeight', { configurable: true, value: 790 });
+    group.getBoundingClientRect = () => ({ top: 710, bottom: 748, left: 70, right: 440,
+      x: 70, y: 710, width: 370, height: 38, toJSON() {} });
+    const sidebar = group.closest<HTMLElement>('.learning-sidebar');
+    assert.ok(sidebar);
+    sidebar.getBoundingClientRect = () => ({ top: 0, bottom: 790, left: 0, right: 525,
+      x: 0, y: 0, width: 525, height: 790, toJSON() {} });
     await act(async () => group.click());
     const popup = host.ownerDocument.querySelector<HTMLElement>('.module-picker');
     assert.ok(popup);
     assert.equal(popup.querySelectorAll('.module-picker__item').length, 1);
     assert.match(popup.textContent ?? '', /Fundamentals/);
+    assert.equal(popup.style.left, '535px');
+    assert.ok(Number.parseFloat(popup.style.top) > 600, 'popup should not jump high for one Module');
   });
 });
 

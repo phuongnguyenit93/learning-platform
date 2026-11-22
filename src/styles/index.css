@@ -1644,7 +1644,7 @@ pre {
   gap: 0;
   padding: 0 3px 0 0;
   border: 0;
-  border-right: 1px solid var(--border-strong);
+  border-right: 0;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -1665,7 +1665,7 @@ pre {
 .module-tree__collapse-zone.is-split {
   flex: 0 0 auto;
   padding: 0 2px 0 0;
-  border-right: 1px solid color-mix(in srgb, var(--border-strong) 75%, transparent);
+  border-right: 0;
 }
 
 .module-tree__dashboard-zone.is-split {
@@ -1684,7 +1684,8 @@ pre {
 .module-tree__collapse-zone::before,
 .module-tree__dashboard-zone::before,
 .module-tree__picker-zone::before {
-  content: "";
+  /* The old repeated sweep gradients looked like distracting stripes. */
+  content: none;
   position: absolute;
   z-index: 0;
   pointer-events: none;

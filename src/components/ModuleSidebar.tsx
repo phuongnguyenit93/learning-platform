@@ -3,6 +3,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { topicKnowledgePath } from '../data/topicRoutes';
+import { calculateModulePickerPosition, type ModulePickerPosition } from '../data/modulePickerPosition';
 import { getCurrentUser } from '../data/auth';
 import { fetchAdminStructure, projectAdminNodes, type AdminStructure, type AdminTreeNode,
   type GroupEditorTarget } from '../data/groupAdmin';
@@ -118,13 +119,6 @@ function ModuleTreeLevelBadge({ depth }: { depth: number }) {
       {depth + 1}
     </span>
   );
-}
-
-interface ModulePickerPosition {
-  top: number;
-  left: number;
-  width: number;
-  maxHeight: number;
 }
 
 interface ModuleSearchMetadata {
@@ -463,26 +457,16 @@ function ModulePickerRow({
     }
 
     const rect = anchor.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const mobile = viewportWidth <= 820;
-    const width = mobile
-      ? Math.max(280, viewportWidth - 24)
-      : Math.min(580, Math.max(360, viewportWidth - rect.right - 22));
-    const left = mobile
-      ? 12
-      : Math.max(12, Math.min(rect.right + 10, viewportWidth - width - 12));
-    const top = mobile
-      ? 12
-      : Math.max(12, Math.min(rect.top - 24, viewportHeight - 540));
-
-    setPickerPosition({
-      top,
-      left,
-      width,
-      maxHeight: Math.max(240, viewportHeight - top - 12),
-    });
-  }, []);
+    const sidebarRight = anchor.closest('.learning-sidebar')?.getBoundingClientRect().right ?? rect.right;
+    setPickerPosition(calculateModulePickerPosition({
+      anchorTop: rect.top,
+      anchorRight: rect.right,
+      sidebarRight,
+      viewportWidth: window.innerWidth,
+      viewportHeight: window.innerHeight,
+      itemCount: entries.length,
+    }));
+  }, [entries.length]);
 
   const openPicker = useCallback(() => {
     clearPickerCloseTimer();
@@ -578,7 +562,7 @@ function ModulePickerRow({
             title={`${expanded ? 'Collapse' : 'Expand'} ${displayName}`}>
             <ModuleTreeIndent depth={depth} />
             <ModuleTreeLevelBadge depth={depth} />
-            <span className="module-tree__caret" aria-hidden="true">{expanded ? '−' : '+'}</span>
+            <span className="module-tree__caret" aria-hidden="true">{expanded ? '⌄' : '›'}</span>
           </button>
         )}
         <button
@@ -861,7 +845,7 @@ function TreeNode({
           >
             <ModuleTreeIndent depth={depth} />
             <ModuleTreeLevelBadge depth={depth} />
-            <span className="module-tree__caret" aria-hidden="true">{open ? '−' : '+'}</span>
+             <span className="module-tree__caret" aria-hidden="true">{open ? '⌄' : '›'}</span>
             {content}
           </button>
         )}

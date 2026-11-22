@@ -26,9 +26,10 @@ function LegacyJavaProjectRedirect() {
 export function App() {
   const { pathname } = useLocation();
   const isModulePage = isTopicKnowledgePath(pathname);
+  const isTopicsPage = pathname === '/learning' || pathname === '/learning/';
 
   return (
-    <div className={`app-shell${isModulePage ? ' app-shell--module-viewport' : ''}`}>
+    <div className={`app-shell${isModulePage ? ' app-shell--module-viewport' : ''}${isTopicsPage ? ' app-shell--topics-viewport' : ''}`}>
       <PageMetadata />
       <Header />
       <Routes>

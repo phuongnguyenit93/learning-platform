@@ -116,6 +116,8 @@ export function LearningTopicsPage() {
   const [details, setDetails] = useState<ProgressDetails | null>(null);
   const detailsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const [unavailableTopic, setUnavailableTopic] = useState<string | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const topicsScrollRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -162,140 +164,165 @@ export function LearningTopicsPage() {
     triggerRef.current?.focus();
   };
 
+  const selectedGroup = catalog.status === 'ready'
+    ? catalog.groups.find(({ category }) => category.id === selectedCategoryId) ?? catalog.groups[0]
+    : undefined;
+
   return (
     <main className="learning-topics-page">
-      <div className="learning-topics-page__intro">
-        <span className="learning-topics-page__eyebrow">LEARNING PATHS</span>
-        <h1>{language === 'vi' ? 'Bạn muốn học gì hôm nay?' : 'What would you like to learn?'}</h1>
-        <p>
-          {language === 'vi'
-            ? 'Chọn một chủ đề để bắt đầu khám phá kiến thức và dự án thực hành.'
-            : 'Choose a topic to explore knowledge and hands-on projects.'}
-        </p>
-      </div>
-
-      {isAdmin && (
-        <div className="learning-admin-toolbar">
-          <span>{language === 'vi' ? 'Chế độ quản trị danh mục' : 'Catalog administration'}</span>
-          <button type="button" className="catalog-admin-btn"
-            onClick={() => setEditor({ kind: 'category' })}>
-            + {language === 'vi' ? 'Tạo Category' : 'Create Category'}
-          </button>
-        </div>
-      )}
-
-      {catalog.status === 'loading' && (
-        <div className="learning-topics-state" role="status">
-          {language === 'vi' ? 'Đang tải danh sách chủ đề...' : 'Loading learning topics...'}
-        </div>
-      )}
-      {catalog.status === 'error' && (
-        <div className="learning-topics-state" role="alert">
-          <p>{language === 'vi'
-            ? 'Không thể tải danh sách chủ đề. Vui lòng thử lại.'
-            : 'Unable to load topics. Please try again.'}</p>
-          <button className="learning-topics-retry" type="button" onClick={() => setReloadKey((key) => key + 1)}>
-            {language === 'vi' ? 'Thử lại' : 'Retry'}
-          </button>
-        </div>
-      )}
-      {catalog.status === 'ready' && catalog.groups.length === 0 && (
-        <div className="learning-topics-state" role="status">
-          {language === 'vi' ? 'Chưa có chủ đề nào để hiển thị.' : 'No topics are available yet.'}
-        </div>
-      )}
-      {catalog.status === 'ready' && catalog.groups.length > 0 && (
-        <div className="learning-topics-categories">
-          {progress.status === 'error' && (
-            <div className="learning-topic-progress-error" role="alert">
-              <span>{language === 'vi' ? 'Không tải được thống kê Module.' : 'Could not load Module statistics.'}</span>
-              <button type="button" onClick={() => setProgressRetry((value) => value + 1)}>
-                {language === 'vi' ? 'Thử lại' : 'Retry'}
-              </button>
-            </div>
+      <aside className="learning-topics-sidebar" aria-label={language === 'vi' ? 'Danh mục học tập' : 'Learning categories'}>
+        <div className="learning-topics-sidebar__header">
+          <div>
+            <span className="learning-topics-sidebar__eyebrow">CATEGORY</span>
+            <h1>{language === 'vi' ? 'Danh mục' : 'Categories'}</h1>
+          </div>
+          {isAdmin && (
+            <button type="button" className="catalog-admin-btn" onClick={() => setEditor({ kind: 'category' })}>
+              + {language === 'vi' ? 'Tạo Category' : 'Create Category'}
+            </button>
           )}
-          {catalog.groups.map(({ category, topics }, categoryIndex) => (
-            <section className="learning-topic-category" key={category.id} aria-labelledby={`topic-category-${category.id}`}>
-              <div className="learning-topic-category__header">
-                <div>
-                  <span className="learning-topic-category__eyebrow">
-                    {String(categoryIndex + 1).padStart(2, '0')} / CATEGORY
-                  </span>
-                  <h2 id={`topic-category-${category.id}`}>{category.name}</h2>
-                </div>
-                <div className="learning-topic-category__header-actions">
-                  <span className="learning-topic-category__count">
-                    {topics.length} {topics.length === 1 ? 'TOPIC' : 'TOPICS'}
-                  </span>
-                  {isAdmin && (
-                    <>
-                      {'active' in category && category.active === false &&
-                        <span className="catalog-admin-inactive">INACTIVE</span>}
-                      <button type="button" className="catalog-admin-btn catalog-admin-btn--ghost"
-                        onClick={() => setEditor({ kind: 'category', category })}>
-                        {language === 'vi' ? 'Sửa Category' : 'Edit Category'}
-                      </button>
-                      <button type="button" className="catalog-admin-btn"
-                        onClick={() => setEditor({ kind: 'topic', category })}>
-                        + {language === 'vi' ? 'Tạo Topic' : 'Create Topic'}
-                      </button>
-                    </>
-                  )}
-                </div>
+        </div>
+        <nav className="learning-topics-sidebar__list" aria-label={language === 'vi' ? 'Chọn danh mục' : 'Select category'}>
+          {catalog.status === 'ready' && catalog.groups.map(({ category, topics }, categoryIndex) => (
+            <button
+              type="button"
+              key={category.id}
+              className={`learning-topics-sidebar__item${selectedGroup?.category.id === category.id ? ' is-selected' : ''}`}
+              aria-pressed={selectedGroup?.category.id === category.id}
+              aria-controls="learning-topic-category-panel"
+              onClick={() => {
+                setSelectedCategoryId(category.id);
+                if (topicsScrollRef.current) topicsScrollRef.current.scrollTop = 0;
+              }}
+            >
+              <span className="learning-topics-sidebar__number">{String(categoryIndex + 1).padStart(2, '0')}</span>
+              <span className="learning-topics-sidebar__item-name">
+                {category.name}
+                {isAdmin && 'active' in category && category.active === false && (
+                  <span className="catalog-admin-inactive">INACTIVE</span>
+                )}
+              </span>
+              <span className="learning-topics-sidebar__item-count">{topics.length}</span>
+            </button>
+          ))}
+        </nav>
+      </aside>
+
+      <div className="learning-topics-categories">
+        {catalog.status === 'loading' && (
+          <div className="learning-topics-state" role="status">
+            {language === 'vi' ? 'Đang tải danh sách chủ đề...' : 'Loading learning topics...'}
+          </div>
+        )}
+        {catalog.status === 'error' && (
+          <div className="learning-topics-state" role="alert">
+            <p>{language === 'vi'
+              ? 'Không thể tải danh sách chủ đề. Vui lòng thử lại.'
+              : 'Unable to load topics. Please try again.'}</p>
+            <button className="learning-topics-retry" type="button" onClick={() => setReloadKey((key) => key + 1)}>
+              {language === 'vi' ? 'Thử lại' : 'Retry'}
+            </button>
+          </div>
+        )}
+        {catalog.status === 'ready' && !selectedGroup && (
+          <div className="learning-topics-state" role="status">
+            {language === 'vi' ? 'Chưa có chủ đề nào để hiển thị.' : 'No topics are available yet.'}
+          </div>
+        )}
+        {selectedGroup && (
+          <section
+            id="learning-topic-category-panel"
+            className="learning-topic-category"
+            aria-labelledby={`topic-category-${selectedGroup.category.id}`}
+          >
+            <div className="learning-topic-category__header">
+              <div>
+                <span className="learning-topic-category__eyebrow">
+                  {language === 'vi' ? 'CHỦ ĐỀ THEO DANH MỤC' : 'TOPICS BY CATEGORY'}
+                </span>
+                <h2 id={`topic-category-${selectedGroup.category.id}`}>{selectedGroup.category.name}</h2>
               </div>
-              {isAdmin && topics.length === 0 && (
+              <div className="learning-topic-category__header-actions">
+                <span className="learning-topic-category__count">
+                  {selectedGroup.topics.length} {selectedGroup.topics.length === 1 ? 'TOPIC' : 'TOPICS'}
+                </span>
+                {isAdmin && (
+                  <>
+                    <button type="button" className="catalog-admin-btn catalog-admin-btn--ghost"
+                      onClick={() => setEditor({ kind: 'category', category: selectedGroup.category })}>
+                      {language === 'vi' ? 'Sửa Category' : 'Edit Category'}
+                    </button>
+                    <button type="button" className="catalog-admin-btn"
+                      onClick={() => setEditor({ kind: 'topic', category: selectedGroup.category })}>
+                      + {language === 'vi' ? 'Tạo Topic' : 'Create Topic'}
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className="learning-topic-category__scroll" ref={topicsScrollRef}>
+              {progress.status === 'error' && (
+                <div className="learning-topic-progress-error" role="alert">
+                  <span>{language === 'vi' ? 'Không tải được thống kê Module.' : 'Could not load Module statistics.'}</span>
+                  <button type="button" onClick={() => setProgressRetry((value) => value + 1)}>
+                    {language === 'vi' ? 'Thử lại' : 'Retry'}
+                  </button>
+                </div>
+              )}
+              {isAdmin && selectedGroup.topics.length === 0 && (
                 <p className="learning-topic-category__empty">
                   {language === 'vi' ? 'Category chưa có Topic. Chọn “Tạo Topic” để bắt đầu.' : 'No topics yet. Use “Create Topic” to add one.'}
                 </p>
               )}
               <div className="learning-topics-grid">
-                {topics.map((topic, index) => {
+                {selectedGroup.topics.map((topic, index) => {
                   const stats = progress.status === 'ready' ? progress.byTopic.get(topic.id) : undefined;
                   const hasAdminProgress = isAdmin && stats?.partialModules !== undefined
                     && stats.notStartedModules !== undefined;
                   return (
-                  <div className={`learning-topic-card-shell${isAdmin ? ' learning-topic-card-shell--admin' : ''}${hasAdminProgress ? ' learning-topic-card-shell--with-progress' : ''}`} key={topic.id}>
-                    {isAdmin && (
-                      <button type="button" className="catalog-admin-topic-edit"
-                        onClick={() => setEditor({ kind: 'topic', category, topic })}>
-                        {language === 'vi' ? 'Sửa Topic' : 'Edit Topic'}
-                      </button>
-                    )}
-                    <TopicCard
-                      topic={topic}
-                      index={index}
-                      language={language}
-                      progress={stats}
-                      progressFailed={progress.status === 'error'}
-                      onComingSoon={(name, trigger) => {
-                        triggerRef.current = trigger;
-                        setUnavailableTopic(name);
-                      }}
-                    />
-                    {hasAdminProgress && (
-                      <div className="topic-progress-admin">
-                        {([
-                          ['PARTIAL', stats.partialModules!, language === 'vi' ? 'Đang dang dở' : 'Incomplete'],
-                          ['NOT_STARTED', stats.notStartedModules!, language === 'vi' ? 'Chưa làm' : 'Not started'],
-                        ] as const).map(([status, count, label]) => (
-                          <div className="topic-progress-admin__row" key={status}>
-                            <span className={`topic-progress-admin__label is-${status.toLowerCase()}`}>{label}</span>
-                            <strong>{count}</strong>
-                            {count > 0 && <button type="button" onClick={(event) => {
-                              detailsTriggerRef.current = event.currentTarget;
-                              setDetails({ topicId: topic.id, topicName: topic.name, status });
-                            }}>{language === 'vi' ? 'Chi tiết' : 'Details'}</button>}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );})}
+                    <div className={`learning-topic-card-shell${isAdmin ? ' learning-topic-card-shell--admin' : ''}${hasAdminProgress ? ' learning-topic-card-shell--with-progress' : ''}`} key={topic.id}>
+                      {isAdmin && (
+                        <button type="button" className="catalog-admin-topic-edit"
+                          onClick={() => setEditor({ kind: 'topic', category: selectedGroup.category, topic })}>
+                          {language === 'vi' ? 'Sửa Topic' : 'Edit Topic'}
+                        </button>
+                      )}
+                      <TopicCard
+                        topic={topic}
+                        index={index}
+                        language={language}
+                        progress={stats}
+                        progressFailed={progress.status === 'error'}
+                        onComingSoon={(name, trigger) => {
+                          triggerRef.current = trigger;
+                          setUnavailableTopic(name);
+                        }}
+                      />
+                      {hasAdminProgress && (
+                        <div className="topic-progress-admin">
+                          {([
+                            ['PARTIAL', stats.partialModules!, language === 'vi' ? 'Đang dang dở' : 'Incomplete'],
+                            ['NOT_STARTED', stats.notStartedModules!, language === 'vi' ? 'Chưa làm' : 'Not started'],
+                          ] as const).map(([status, count, label]) => (
+                            <div className="topic-progress-admin__row" key={status}>
+                              <span className={`topic-progress-admin__label is-${status.toLowerCase()}`}>{label}</span>
+                              <strong>{count}</strong>
+                              {count > 0 && <button type="button" onClick={(event) => {
+                                detailsTriggerRef.current = event.currentTarget;
+                                setDetails({ topicId: topic.id, topicName: topic.name, status });
+                              }}>{language === 'vi' ? 'Chi tiết' : 'Details'}</button>}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            </section>
-          ))}
-        </div>
-      )}
+            </div>
+          </section>
+        )}
+      </div>
 
       {isAdmin && editor && (
         <CatalogEditor

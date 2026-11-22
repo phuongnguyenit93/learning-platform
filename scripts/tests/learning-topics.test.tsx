@@ -122,7 +122,7 @@ const json = (value: unknown) => new Response(JSON.stringify(value), {
   status: 200, headers: { 'Content-Type': 'application/json' },
 });
 
-test('topics are grouped and sorted by database categories; available topics navigate by slug', async () => {
+test('categories remain in the left sidebar; selecting one replaces the right topic list', async () => {
   await withTopicsPage((url) => {
     if (url === `${backend}/categories`) return json(categories);
     if (url === `${backend}/topics`) return json(topics);
@@ -133,26 +133,38 @@ test('topics are grouped and sorted by database categories; available topics nav
       { url: `${backend}/topics`, cache: 'no-store' },
       { url: `${backend}/topics/progress`, cache: 'no-store' },
     ]);
-    const sections = [...host.querySelectorAll<HTMLElement>('.learning-topic-category')];
-    assert.deepEqual(sections.map((section) => section.querySelector('h2')?.textContent),
+    const nav = [...host.querySelectorAll<HTMLButtonElement>('.learning-topics-sidebar__item')];
+    assert.deepEqual(nav.map((item) => item.querySelector('.learning-topics-sidebar__item-name')?.textContent),
       ['Backend', 'Frontend']);
-    assert.deepEqual([...sections[0].querySelectorAll('.learning-topic-card__name')].map((el) => el.textContent),
+    assert.equal(nav[0].getAttribute('aria-pressed'), 'true');
+    assert.equal(host.querySelectorAll('.learning-topic-category').length, 1);
+    assert.equal(host.querySelector('.learning-topic-category h2')?.textContent, 'Backend');
+    assert.deepEqual([...host.querySelectorAll('.learning-topic-card__name')].map((el) => el.textContent),
       ['Java', 'JavaScript', 'NodeJS']);
+    assert.equal(host.textContent?.includes('LEARNING PATHS'), false);
+    assert.equal(host.textContent?.includes('What would you like to learn?'), false);
     assert.equal(host.textContent?.includes('Hidden topic'), false);
-    assert.equal(sections[0].querySelector<HTMLAnchorElement>('a.learning-topic-card')?.getAttribute('href'),
+    assert.equal(host.querySelector<HTMLAnchorElement>('a.learning-topic-card')?.getAttribute('href'),
       '/learning/java/knowledge');
-    assert.match(sections[0].textContent ?? '', /Java programming language/);
-    assert.match(sections[0].textContent ?? '', /Tổng Module/);
-    assert.match(sections[0].textContent ?? '', /Hoàn thành/);
+    assert.match(host.textContent ?? '', /Java programming language/);
+    assert.match(host.textContent ?? '', /Total modules|T.ng Module/);
     assert.equal(host.querySelector('.topic-progress-admin'), null);
-
-    // Oracle allows a Topic to have no SVG; the card must render its fallback.
-    assert.equal(sections[0].querySelector('.learning-topic-card__logo-fallback')?.textContent, 'N');
-
-    const logo = sections[0].querySelector<HTMLImageElement>('.learning-topic-card__logo');
+    assert.equal(host.querySelector('.learning-topic-card__logo-fallback')?.textContent, 'N');
+    const logo = host.querySelector<HTMLImageElement>('.learning-topic-card__logo');
     assert.ok(logo?.src.startsWith('data:image/svg+xml;charset=utf-8,'));
     assert.match(decodeURIComponent(logo.src.split(',')[1]), /<path/);
-    await act(async () => sections[0].querySelector<HTMLAnchorElement>('a.learning-topic-card')?.click());
+
+    await act(async () => nav[1].click());
+    assert.equal(nav[1].getAttribute('aria-pressed'), 'true');
+    assert.equal(nav[0].getAttribute('aria-pressed'), 'false');
+    assert.equal(host.querySelector('.learning-topic-category h2')?.textContent, 'Frontend');
+    assert.deepEqual([...host.querySelectorAll('.learning-topic-card__name')].map((el) => el.textContent), ['React']);
+    assert.equal(host.querySelector('.learning-topic-category__scroll') !== null, true);
+
+    await act(async () => nav[0].click());
+    assert.deepEqual([...host.querySelectorAll('.learning-topic-card__name')].map((el) => el.textContent),
+      ['Java', 'JavaScript', 'NodeJS']);
+    await act(async () => host.querySelector<HTMLAnchorElement>('a.learning-topic-card')?.click());
     assert.match(host.textContent ?? '', /Java Knowledge page/);
   });
 });
@@ -201,11 +213,11 @@ test('network failures show a retry button instead of old hardcoded topics', asy
     assert.equal(host.querySelectorAll('.learning-topic-card').length, 0);
     failed = false;
     await act(async () => host.querySelector<HTMLButtonElement>('.learning-topics-retry')?.click());
-    assert.equal(host.querySelectorAll('.learning-topic-card').length, 4);
+    assert.equal(host.querySelectorAll('.learning-topic-card').length, 3);
   });
 });
 
-test('admin sees empty categories and hidden topics with separate create/edit forms', async () => {
+test('admin can manage empty categories and hidden topics from the selected pane', async () => {
   const adminCategories = [
     ...categories.map((category) => ({ ...category, active: true })),
     { id: 50, code: 'EMPTY', name: 'Empty Category', sortOrder: 3, active: false },
@@ -220,39 +232,42 @@ test('admin sees empty categories and hidden topics with separate create/edit fo
       'https://api.nguyendodinhphuong.name.vn/api/admin/topics',
       'https://api.nguyendodinhphuong.name.vn/api/admin/topics/progress',
     ]);
-    const sections = [...host.querySelectorAll<HTMLElement>('.learning-topic-category')];
-    assert.deepEqual(sections.map((section) => section.querySelector('h2')?.textContent),
-      ['Backend', 'Frontend', 'Empty Category']);
-    assert.match(sections[1].textContent ?? '', /Hidden topic/);
-    assert.match(sections[2].textContent ?? '', /INACTIVE/);
-    assert.match(sections[2].textContent ?? '', /chưa có Topic/);
+    const nav = [...host.querySelectorAll<HTMLButtonElement>('.learning-topics-sidebar__item')];
+    assert.deepEqual(nav.map((item) => item.querySelector('.learning-topics-sidebar__item-name')?.textContent),
+      ['Backend', 'Frontend', 'Empty CategoryINACTIVE']);
+    assert.equal(host.querySelector('.learning-topic-category h2')?.textContent, 'Backend');
 
-    const createCategoryButton = host.querySelector<HTMLButtonElement>('.learning-admin-toolbar button');
+    const createCategoryButton = host.querySelector<HTMLButtonElement>('.learning-topics-sidebar__header button');
     assert.ok(createCategoryButton);
     await act(async () => createCategoryButton.click());
     let dialog = host.querySelector<HTMLElement>('[role="dialog"].catalog-editor');
     assert.ok(dialog);
     assert.equal(dialog.querySelector('input')?.value, '');
-    assert.match(dialog.textContent ?? '', /Tạo Category/);
-
     await act(async () => dialog?.querySelector<HTMLButtonElement>('.catalog-editor__close')?.click());
     assert.equal(host.querySelector('.catalog-editor'), null);
 
-    await act(async () => sections[0].querySelector<HTMLButtonElement>('.catalog-admin-btn--ghost')?.click());
+    await act(async () => host.querySelector<HTMLButtonElement>('.catalog-admin-btn--ghost')?.click());
     dialog = host.querySelector<HTMLElement>('[role="dialog"].catalog-editor');
     assert.equal(dialog?.querySelector('input')?.value, 'BACKEND');
     await act(async () => dialog?.querySelector<HTMLButtonElement>('.catalog-editor__close')?.click());
 
-    await act(async () => sections[2].querySelector<HTMLButtonElement>('.learning-topic-category__header-actions .catalog-admin-btn:not(.catalog-admin-btn--ghost)')?.click());
+    await act(async () => nav[2].click());
+    assert.equal(host.querySelector('.learning-topic-category h2')?.textContent, 'Empty Category');
+    assert.equal(host.querySelectorAll('.learning-topic-card').length, 0);
+    assert.match(host.querySelector('.learning-topic-category__empty')?.textContent ?? '', /Topic/);
+    await act(async () => host.querySelector<HTMLButtonElement>('.learning-topic-category__header-actions .catalog-admin-btn:not(.catalog-admin-btn--ghost)')?.click());
     dialog = host.querySelector<HTMLElement>('[role="dialog"].catalog-editor');
     assert.match(dialog?.textContent ?? '', /Empty Category/);
     assert.equal(dialog?.querySelectorAll('input').length, 3);
     assert.match(dialog?.textContent ?? '', /ICON_SVG/);
     await act(async () => dialog?.querySelector<HTMLButtonElement>('.catalog-editor__close')?.click());
 
-    const hiddenCard = [...sections[1].querySelectorAll<HTMLElement>('.learning-topic-card-shell')]
+    await act(async () => nav[1].click());
+    assert.match(host.textContent ?? '', /Hidden topic/);
+    const hiddenCard = [...host.querySelectorAll<HTMLElement>('.learning-topic-card-shell')]
       .find((card) => card.querySelector('.learning-topic-card__name')?.textContent === 'Hidden topic');
-    await act(async () => hiddenCard?.querySelector<HTMLButtonElement>('.catalog-admin-topic-edit')?.click());
+    assert.ok(hiddenCard);
+    await act(async () => hiddenCard.querySelector<HTMLButtonElement>('.catalog-admin-topic-edit')?.click());
     dialog = host.querySelector<HTMLElement>('[role="dialog"].catalog-editor');
     assert.equal(dialog?.querySelector('input')?.value, 'HIDDEN');
     assert.equal(dialog?.querySelector('select')?.value, 'HIDDEN');

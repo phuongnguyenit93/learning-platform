@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { Window } from 'happy-dom';
 import React, { act } from 'react';
@@ -9,6 +10,23 @@ import { LanguageProvider } from '../../src/state/LanguageContext';
 import { ThemeProvider } from '../../src/state/ThemeContext';
 
 const origin = 'https://api.nguyendodinhphuong.name.vn';
+
+test('desktop header navigation is centered on the viewport, independent of right controls', () => {
+  const css = readFileSync(new URL('../../src/styles/index.css', import.meta.url), 'utf8');
+  const rule = (selector: string) => {
+    const begin = css.indexOf(selector + ' {');
+    assert.ok(begin >= 0, 'missing CSS selector ' + selector);
+    return css.slice(begin, css.indexOf('}', begin));
+  };
+  assert.match(rule('.topbar'), /grid-template-columns:\s*minmax\(0, 1fr\) auto minmax\(0, 1fr\)/,
+    'equal-width side tracks keep the center menu at 50% of screen width');
+  assert.match(rule('.topbar__nav'), /justify-self:\s*center/,
+    'navigation must occupy the center of the middle track');
+  assert.match(rule('.topbar__actions'), /justify-self:\s*end/,
+    'account controls stay on the right edge without shifting the menu');
+  assert.match(css, /@media \(max-width: 1280px\)\s*\{\s*\.topbar\s*\{\s*grid-template-columns:\s*auto minmax\(0, 1fr\) auto/,
+    'narrow desktop falls back before account controls overlap the center menu');
+});
 
 type RequestRecord = { url: string; method: string; credentials?: RequestCredentials; headers?: HeadersInit };
 

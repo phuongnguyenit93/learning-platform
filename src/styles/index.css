@@ -341,7 +341,9 @@ pre {
   z-index: 100;
   height: var(--header-height);
   display: grid;
-  grid-template-columns: minmax(155px, 1fr) auto minmax(0, 1.5fr);
+  /* Symmetric side tracks keep navigation centered on the viewport rather
+     than centered between the unequal brand and account controls. */
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 16px;
   padding: 0 20px;
@@ -389,6 +391,7 @@ pre {
   height: 100%;
   display: flex;
   align-items: stretch;
+  justify-self: center;
   gap: clamp(12px, 1.7vw, 28px);
 }
 
@@ -425,9 +428,18 @@ pre {
 .topbar__actions {
   display: flex;
   justify-content: flex-end;
+  justify-self: end;
   align-items: center;
   gap: 9px;
   min-width: 0;
+}
+
+/* On narrower desktops, the sign-in/search controls need more than half
+   the leftover space. Give them room rather than letting them overlap nav. */
+@media (max-width: 1280px) {
+  .topbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
 }
 
 .global-search {

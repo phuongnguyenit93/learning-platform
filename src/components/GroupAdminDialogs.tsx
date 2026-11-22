@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent, type FormEvent } from 'react';
 import {
-  createGroup, editGroup, moveTreeNode, saveAdminStructure,
+  createGroup, editGroup, editModule, moveTreeNode, saveAdminStructure,
   type AdminStructure, type AdminTreeNode, type GroupEditorTarget,
 } from '../data/groupAdmin';
 
@@ -91,6 +91,82 @@ export function GroupFormDialog({ topicId, revision, target, language, onClose, 
             </button>
             <button type="submit" className="catalog-admin-btn" disabled={saving}>
               {saving ? (isVi ? 'Đang lưu...' : 'Saving...') : (isVi ? 'Lưu Group' : 'Save Group')}
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  );
+}
+
+/** Module editing only changes MODULE.NAME/SLUG; Topic, placement and status stay untouched. */
+export function ModuleFormDialog({ revision, module, language, onClose, onSaved, onReload }: {
+  revision: string;
+  module: AdminTreeNode;
+  language: GroupLanguage;
+  onClose: () => void;
+  onSaved: (slug: string) => void;
+  onReload: () => void;
+}) {
+  const isVi = language === 'vi';
+  const [name, setName] = useState(module.name);
+  const [slug, setSlug] = useState(module.slug);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const escape = (event: KeyboardEvent) => { if (event.key === 'Escape' && !saving) onClose(); };
+    document.addEventListener('keydown', escape);
+    return () => document.removeEventListener('keydown', escape);
+  }, [saving, onClose]);
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (saving) return;
+    setSaving(true);
+    setError('');
+    try {
+      const result = await editModule(module.id, { name: name.trim(), slug: slug.trim() }, revision);
+      onSaved(result.slug);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : String(reason));
+    } finally { setSaving(false); }
+  }
+
+  const title = isVi ? 'Chỉnh sửa Module' : 'Edit Module';
+  return (
+    <div className="catalog-editor-overlay" onMouseDown={(event) => {
+      if (event.target === event.currentTarget && !saving) onClose();
+    }}>
+      <section role="dialog" aria-modal="true" aria-label={title} className="catalog-editor module-form-dialog">
+        <div className="catalog-editor__heading">
+          <div><span className="catalog-editor__eyebrow">ADMIN · MODULE</span><h2>{title}</h2></div>
+          <button type="button" className="catalog-editor__close" disabled={saving} onClick={onClose} aria-label="Close">×</button>
+        </div>
+        <p className="catalog-editor__context">
+          {isVi ? 'Chỉ thay đổi tên và slug. Topic, Group, thứ tự, trạng thái và SERVICE_NAME được giữ nguyên.'
+            : 'Only name and slug change. Topic, Group, order, status and SERVICE_NAME remain unchanged.'}
+        </p>
+        <form className="catalog-editor__form" onSubmit={(event) => void submit(event)}>
+          <label><span>MODULE NAME <em>*</em></span>
+            <input autoFocus required maxLength={200} value={name} onChange={(event) => setName(event.target.value)} />
+          </label>
+          <label><span>SLUG <em>*</em></span>
+            <input required maxLength={200} pattern="[a-z0-9]+(-[a-z0-9]+)*" spellCheck={false}
+              value={slug} onChange={(event) => setSlug(event.target.value.toLowerCase())} />
+            <small>{isVi ? 'Slug phải duy nhất trên toàn bộ Module và không trùng Group cùng Topic. Đổi slug sẽ đổi URL bài học.'
+              : 'Slug must be globally unique across Modules and must not match Groups in this Topic. Changing it changes the module URL.'}</small>
+          </label>
+          {error && <p role="alert" className="catalog-editor__error">{error}
+            {error.includes('tải lại') && <button type="button" className="catalog-admin-btn catalog-admin-btn--ghost"
+              onClick={onReload}>{isVi ? 'Tải lại cấu trúc' : 'Reload structure'}</button>}
+          </p>}
+          <div className="catalog-editor__actions">
+            <button type="button" className="catalog-admin-btn catalog-admin-btn--ghost" disabled={saving} onClick={onClose}>
+              {isVi ? 'Hủy' : 'Cancel'}
+            </button>
+            <button type="submit" className="catalog-admin-btn" disabled={saving}>
+              {saving ? (isVi ? 'Đang lưu...' : 'Saving...') : (isVi ? 'Lưu Module' : 'Save Module')}
             </button>
           </div>
         </form>

@@ -2125,6 +2125,19 @@ pre {
   cursor: pointer;
   transition: background 140ms ease, color 140ms ease;
 }
+.module-picker__entry { display: flex; align-items: center; min-width: 0; }
+.module-picker__entry .module-picker__item { flex: 1; min-width: 0; }
+.module-picker__edit {
+  flex: 0 0 auto;
+  margin-left: 5px;
+  padding: 7px 9px;
+  border: 1px solid var(--border-strong);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--blue);
+  cursor: pointer;
+}
+.module-picker__edit:hover, .module-picker__edit:focus-visible { border-color: var(--blue); outline: none; }
 
 .module-picker__item:hover,
 .module-picker__item:focus-visible {

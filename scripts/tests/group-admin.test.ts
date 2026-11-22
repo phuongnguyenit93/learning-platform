@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
-  createGroup, editGroup, fetchAdminStructure, moveTreeNode, projectAdminNodes, saveAdminStructure,
+  createGroup, editGroup, editModule, fetchAdminStructure, moveTreeNode, projectAdminNodes, saveAdminStructure,
   type AdminTreeNode,
 } from '../../src/data/groupAdmin';
 
@@ -92,6 +92,47 @@ test('a 409 conflict is surfaced without retrying or overwriting the tree', asyn
   }) as typeof fetch;
   try {
     await assert.rejects(saveAdminStructure(60, 'stale', tree), /tải lại/);
+    assert.equal(mutations, 1);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('editing Module metadata uses placement ID, CSRF/revision, and only name and slug', async () => {
+  const originalFetch = globalThis.fetch;
+  const writes: Array<{ url: string; init?: RequestInit }> = [];
+  globalThis.fetch = (async (url: RequestInfo | URL, init?: RequestInit) => {
+    if (String(url).endsWith('/api/auth/csrf')) {
+      return new Response(JSON.stringify({ token: 'module-csrf', headerName: 'X-CSRF-TOKEN' }), { status: 200 });
+    }
+    writes.push({ url: String(url), init });
+    return new Response(JSON.stringify({ moduleId: 101, placementId: 301, topicId: 60,
+      name: 'Module C updated', slug: 'module-c-updated' }), { status: 200 });
+  }) as typeof fetch;
+  try {
+    const result = await editModule(301, { name: 'Module C updated', slug: 'module-c-updated' }, 'rev-1');
+    assert.equal(result.slug, 'module-c-updated');
+    assert.equal(result.placementId, 301);
+    assert.equal(writes.length, 1);
+    assert.equal(writes[0].url, 'https://api.nguyendodinhphuong.name.vn/api/admin/module-placements/301/module');
+    assert.equal(writes[0].init?.method, 'PUT');
+    assert.equal(writes[0].init?.credentials, 'include');
+    assert.equal(new Headers(writes[0].init?.headers).get('X-CSRF-TOKEN'), 'module-csrf');
+    assert.deepEqual(JSON.parse(String(writes[0].init?.body)),
+      { name: 'Module C updated', slug: 'module-c-updated', revision: 'rev-1' });
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('editing Module with a stale revision returns conflict without retry', async () => {
+  const originalFetch = globalThis.fetch;
+  let mutations = 0;
+  globalThis.fetch = (async (url: RequestInfo | URL) => {
+    if (String(url).endsWith('/api/auth/csrf')) {
+      return new Response(JSON.stringify({ token: 'token', headerName: 'X-CSRF-TOKEN' }), { status: 200 });
+    }
+    mutations += 1;
+    return new Response(null, { status: 409 });
+  }) as typeof fetch;
+  try {
+    await assert.rejects(editModule(301, { name: 'Changed', slug: 'changed' }, 'stale'), /tải lại/);
     assert.equal(mutations, 1);
   } finally { globalThis.fetch = originalFetch; }
 });

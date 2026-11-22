@@ -24,6 +24,19 @@ export interface GroupInput {
   active: boolean;
 }
 
+export interface ModuleInput {
+  name: string;
+  slug: string;
+}
+
+export interface EditedModule {
+  moduleId: number;
+  placementId: number;
+  topicId: number;
+  name: string;
+  slug: string;
+}
+
 export type GroupEditorTarget = { kind: 'create' } | { kind: 'edit'; group: AdminTreeNode };
 
 const adminUrl = `${new URL(BACKEND_API_BASE_URL).origin}/api/admin`;
@@ -77,6 +90,11 @@ export function createGroup(topicId: number, input: GroupInput, revision: string
 
 export function editGroup(groupId: number, input: GroupInput, revision: string) {
   return mutate(`/groups/${groupId}`, 'PUT', { ...input, revision });
+}
+
+/** Admin tree MODULE.id is a placement ID, not MODULE.ID. */
+export function editModule(placementId: number, input: ModuleInput, revision: string) {
+  return mutate<EditedModule>(`/module-placements/${placementId}/module`, 'PUT', { ...input, revision });
 }
 
 export function saveAdminStructure(topicId: number, revision: string, nodes: AdminTreeNode[]) {

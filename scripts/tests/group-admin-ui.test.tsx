@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useLocation } from 'react-router-dom';
 import { Window } from 'happy-dom';
 import { ModuleSidebar } from '../../src/components/ModuleSidebar';
 import { dragScrollStep, rowDropPosition } from '../../src/components/GroupAdminDialogs';
@@ -27,6 +27,11 @@ const structure = {
 const publicNodes: ModuleCatalogNode[] = [
   { id: 'GROUP_200', name: 'Group A', kind: 'GROUP', children: [] },
 ];
+
+function RouteProbe() {
+  const { pathname, search, hash } = useLocation();
+  return <output data-testid="route">{pathname}{search}{hash}</output>;
+}
 
 test('row-wide drop positions and scroll edges are consistent for Groups and Modules', () => {
   assert.equal(rowDropPosition('GROUP', 110, 100, 100), 'before');
@@ -72,6 +77,10 @@ test('sidebar only shows Group admin actions for ADMIN and opens add/edit/modify
     if (String(url).endsWith('/api/admin/topics/60/structure') && init?.method === 'PUT') {
       return new Response(JSON.stringify({ ...structure, revision: 'revision-2' }), { status: 200 });
     }
+    if (String(url).endsWith('/api/admin/module-placements/301/module') && init?.method === 'PUT') {
+      return new Response(JSON.stringify({ moduleId: 101, placementId: 301, topicId: 60,
+        name: 'Module C', slug: 'module-c-renamed' }), { status: 200 });
+    }
     throw new Error(`Unexpected API request ${String(url)}`);
   }) as typeof fetch;
   const host = browser.document.createElement('div');
@@ -79,8 +88,9 @@ test('sidebar only shows Group admin actions for ADMIN and opens add/edit/modify
   const root = createRoot(host);
   const draw = async (topicId: number) => {
     await act(async () => {
-      root.render(<MemoryRouter><LanguageProvider><ModuleSidebar
-        nodes={publicNodes} topicId={topicId} activeModuleId="" enableRealModulesFilter={false}
+      root.render(<MemoryRouter initialEntries={['/learning/java/knowledge/module-c?tab=knowledge#lesson']}>
+        <RouteProbe /><LanguageProvider><ModuleSidebar
+        nodes={publicNodes} topicId={topicId} activeModuleId="module-c" enableRealModulesFilter={false}
         knowledgeCounts={{}} quizCounts={{}} interviewCounts={{}} caseStudyCounts={{}}
         roadmapAvailability={{}} contentCountsState="ready" onRetryContentCounts={() => {}}
         onStructureChanged={() => { reloaded += 1; }}
@@ -93,6 +103,7 @@ test('sidebar only shows Group admin actions for ADMIN and opens add/edit/modify
     assert.equal(host.querySelector('.module-group-admin-actions'), null);
     assert.equal(host.querySelector('.group-node-badge')?.textContent, 'G');
     assert.equal(host.querySelector('.module-tree__edit-group'), null);
+    assert.equal(host.querySelector('.module-picker__edit'), null);
 
     isAdmin = true;
     await draw(61);
@@ -111,6 +122,39 @@ test('sidebar only shows Group admin actions for ADMIN and opens add/edit/modify
     assert.match(dialog.textContent ?? '', /Group cấp 1/);
     assert.equal(dialog.querySelector('select'), null);
     await act(async () => dialog?.querySelector<HTMLButtonElement>('.catalog-editor__close')?.click());
+
+    const editModuleButton = host.querySelector<HTMLButtonElement>('[aria-label="Edit Module Module C"]');
+    assert.ok(editModuleButton, 'ADMIN can edit inactive root Modules');
+    await act(async () => editModuleButton.click());
+    const moduleDialog = browser.document.querySelector<HTMLElement>('.module-form-dialog');
+    assert.ok(moduleDialog);
+    assert.equal(moduleDialog.querySelectorAll('input').length, 2, 'Module has only name and slug inputs');
+    assert.equal(moduleDialog.querySelectorAll<HTMLInputElement>('input')[0].value, 'Module C');
+    assert.equal(moduleDialog.querySelectorAll<HTMLInputElement>('input')[1].value, 'module-c');
+    await act(async () => moduleDialog.querySelector<HTMLButtonElement>('button[type="submit"]')?.click());
+    const moduleWrite = calls.find((call) => call.url.endsWith('/api/admin/module-placements/301/module')
+      && call.init?.method === 'PUT');
+    assert.ok(moduleWrite);
+    assert.deepEqual(JSON.parse(String(moduleWrite.init?.body)),
+      { name: 'Module C', slug: 'module-c', revision: 'revision-1' });
+    assert.equal(moduleWrite.init?.credentials, 'include');
+    assert.equal(new Headers(moduleWrite.init?.headers).get('X-CSRF-TOKEN'), 'csrf');
+    assert.equal(browser.document.querySelector('.module-form-dialog'), null);
+    assert.equal(host.querySelector('[data-testid="route"]')?.textContent,
+      '/learning/java/knowledge/module-c-renamed?tab=knowledge#lesson',
+      'renaming active Module replaces its route while preserving query and hash');
+    await draw(60);
+
+    // A Module inside a terminal Group can also be edited from its right-hand picker.
+    const groupDPicker = host.querySelector<HTMLButtonElement>('[aria-label="Open Group D modules"]');
+    assert.ok(groupDPicker);
+    await act(async () => groupDPicker.click());
+    const pickerEdit = browser.document.querySelector<HTMLButtonElement>('.module-picker__edit[aria-label="Edit Module Module E"]');
+    assert.ok(pickerEdit);
+    await act(async () => pickerEdit.click());
+    assert.equal(browser.document.querySelector('.module-picker'), null);
+    assert.equal(browser.document.querySelector('.module-form-dialog input')?.getAttribute('value'), 'Module E');
+    await act(async () => browser.document.querySelector<HTMLButtonElement>('.module-form-dialog .catalog-editor__close')?.click());
 
     const edit = [...host.querySelectorAll<HTMLButtonElement>('.module-tree__edit-group')]
       .find((button) => button.getAttribute('aria-label') === 'Edit Group Group B');
@@ -207,11 +251,11 @@ test('sidebar only shows Group admin actions for ADMIN and opens add/edit/modify
     assert.ok(save);
     assert.equal(save.disabled, false);
     await act(async () => save.click());
-    const request = calls.find((call) => call.init?.method === 'PUT');
+    const request = calls.find((call) => call.url.endsWith('/api/admin/topics/60/structure') && call.init?.method === 'PUT');
     assert.ok(request);
     const payload = JSON.parse(String(request.init?.body));
     assert.deepEqual(payload.nodes.map((node: { id: number }) => node.id), [301, 200, 202, 303, 203, 304, 305]);
-    assert.equal(reloaded, 1);
+    assert.equal(reloaded, 2);
   } finally {
     await act(async () => root.unmount());
     await browser.happyDOM.abort();

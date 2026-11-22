@@ -140,7 +140,7 @@ export function TopicStructurePage() {
         });
       });
     return () => controller.abort();
-  }, [selectedSlug, moduleCoreRetry]);
+  }, [selectedSlug, moduleCoreRetry, reload]);
 
   useEffect(() => {
     if (catalog && !moduleSlug && modules[0]?.routeId) {

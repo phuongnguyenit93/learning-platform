@@ -42,6 +42,14 @@ const topics = [
   },
 ];
 
+const moduleProgress = [
+  { topicId: 3, totalModules: 3, completedModules: 2, partialModules: 1, notStartedModules: 0 },
+  { topicId: 4, totalModules: 4, completedModules: 1, partialModules: 1, notStartedModules: 2 },
+  { topicId: 10, totalModules: 0, completedModules: 0, partialModules: 0, notStartedModules: 0 },
+  { topicId: 8, totalModules: 2, completedModules: 2, partialModules: 0, notStartedModules: 0 },
+  { topicId: 11, totalModules: 0, completedModules: 0, partialModules: 0, notStartedModules: 0 },
+];
+
 async function withTopicsPage(
   respond: (url: string, init?: RequestInit) => Promise<Response> | Response,
   verify: (host: HTMLElement, requests: Array<{ url: string; cache?: RequestCache; method?: string; body?: string }>) => Promise<void>,
@@ -75,6 +83,11 @@ async function withTopicsPage(
     }
     if (String(url).endsWith('/api/auth/csrf')) {
       return json({ token: 'test-csrf', headerName: 'X-CSRF-TOKEN' });
+    }
+    if (String(url).endsWith('/topics/progress')) {
+      return json(admin ? moduleProgress : moduleProgress
+        .filter((row) => row.topicId !== 10)
+        .map(({ topicId, totalModules, completedModules }) => ({ topicId, totalModules, completedModules })));
     }
     return respond(String(url), init);
   }) as typeof fetch;
@@ -118,6 +131,7 @@ test('topics are grouped and sorted by database categories; available topics nav
     assert.deepEqual(requests.filter(({ url }) => url.startsWith(backend)), [
       { url: `${backend}/categories`, cache: 'no-store' },
       { url: `${backend}/topics`, cache: 'no-store' },
+      { url: `${backend}/topics/progress`, cache: 'no-store' },
     ]);
     const sections = [...host.querySelectorAll<HTMLElement>('.learning-topic-category')];
     assert.deepEqual(sections.map((section) => section.querySelector('h2')?.textContent),
@@ -128,6 +142,9 @@ test('topics are grouped and sorted by database categories; available topics nav
     assert.equal(sections[0].querySelector<HTMLAnchorElement>('a.learning-topic-card')?.getAttribute('href'),
       '/learning/java/knowledge');
     assert.match(sections[0].textContent ?? '', /Java programming language/);
+    assert.match(sections[0].textContent ?? '', /Tổng Module/);
+    assert.match(sections[0].textContent ?? '', /Hoàn thành/);
+    assert.equal(host.querySelector('.topic-progress-admin'), null);
 
     // Oracle allows a Topic to have no SVG; the card must render its fallback.
     assert.equal(sections[0].querySelector('.learning-topic-card__logo-fallback')?.textContent, 'N');
@@ -201,6 +218,7 @@ test('admin sees empty categories and hidden topics with separate create/edit fo
     assert.deepEqual(requests.filter(({ url }) => url.includes('/api/admin/')).map(({ url }) => url), [
       'https://api.nguyendodinhphuong.name.vn/api/admin/categories',
       'https://api.nguyendodinhphuong.name.vn/api/admin/topics',
+      'https://api.nguyendodinhphuong.name.vn/api/admin/topics/progress',
     ]);
     const sections = [...host.querySelectorAll<HTMLElement>('.learning-topic-category')];
     assert.deepEqual(sections.map((section) => section.querySelector('h2')?.textContent),
@@ -240,6 +258,35 @@ test('admin sees empty categories and hidden topics with separate create/edit fo
     assert.equal(dialog?.querySelector('select')?.value, 'HIDDEN');
     assert.deepEqual([...dialog!.querySelectorAll('select option')].map((option) => option.value),
       ['AVAILABLE', 'COMING_SOON', 'HIDDEN']);
+  }, true);
+});
+
+test('admin module readiness details are lazy, scoped to one Topic and contain SERVICE_NAMEs', async () => {
+  const names = ['SECURITY_AUTHENTICATION_PASSWORD', 'SECURITY_AUTHENTICATION_TOKEN'];
+  await withTopicsPage((url) => {
+    if (url.endsWith('/api/admin/categories')) return json(categories.map((category) => ({ ...category, active: true })));
+    if (url.endsWith('/api/admin/topics')) return json(topics);
+    if (url.endsWith('/api/admin/topics/4/module-progress?status=NOT_STARTED')) return json(names);
+    throw new Error(`Unexpected request: ${url}`);
+  }, async (host, requests) => {
+    const javascriptCard = [...host.querySelectorAll<HTMLElement>('.learning-topic-card-shell')]
+      .find((card) => card.querySelector('.learning-topic-card__name')?.textContent === 'JavaScript');
+    assert.ok(javascriptCard);
+    assert.equal(javascriptCard.querySelector('.topic-progress-admin')?.textContent?.includes('Đang dang dở'), true);
+    assert.equal(javascriptCard.querySelector('.topic-progress-admin')?.textContent?.includes('Chưa làm'), true);
+    assert.equal(javascriptCard.querySelectorAll('.topic-progress-admin button').length, 2);
+    assert.equal(requests.filter(({ url }) => url.includes('/module-progress?')).length, 0);
+    const notStartedButton = javascriptCard.querySelectorAll<HTMLButtonElement>('.topic-progress-admin button')[1];
+    await act(async () => notStartedButton.click());
+    const detailRequests = requests.filter(({ url }) => url.includes('/module-progress?'));
+    assert.equal(detailRequests.length, 1);
+    assert.equal(detailRequests[0].url, 'https://api.nguyendodinhphuong.name.vn/api/admin/topics/4/module-progress?status=NOT_STARTED');
+    const list = host.querySelectorAll('.topic-progress-dialog__list li');
+    assert.deepEqual([...list].map((item) => item.textContent), names);
+    assert.equal(host.querySelector('.topic-progress-dialog__count')?.textContent?.trim(), '2 Module');
+    await act(async () => host.querySelector<HTMLButtonElement>('.topic-progress-dialog__close')?.click());
+    assert.equal(host.querySelector('.topic-progress-dialog'), null);
+    assert.equal(host.ownerDocument.activeElement, notStartedButton);
   }, true);
 });
 

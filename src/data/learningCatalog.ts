@@ -25,6 +25,18 @@ export interface LearningTopicGroup {
   topics: LearningTopic[];
 }
 
+/** Readiness of Modules within one Topic (Vietnamese Knowledge is canonical). */
+export interface TopicModuleProgress {
+  topicId: number;
+  totalModules: number;
+  completedModules: number;
+  /** These two fields are returned exclusively by the ADMIN endpoint. */
+  partialModules?: number;
+  notStartedModules?: number;
+}
+
+export type IncompleteModuleStatus = 'PARTIAL' | 'NOT_STARTED';
+
 export interface AdminLearningCategory extends LearningCategory {
   active: boolean;
 }
@@ -65,6 +77,55 @@ function isTopic(value: unknown): value is LearningTopic {
     && ['AVAILABLE', 'COMING_SOON', 'HIDDEN'].includes(String(value.status))
     && typeof value.sortOrder === 'number'
     && isCategory(value.category);
+}
+
+const nonnegativeInt = (value: unknown): value is number =>
+  typeof value === 'number' && Number.isSafeInteger(value) && value >= 0;
+
+function isTopicProgress(value: unknown, admin: boolean): value is TopicModuleProgress {
+  if (!isRecord(value)) return false;
+  if (!nonnegativeInt(value.topicId) || !nonnegativeInt(value.totalModules)
+      || !nonnegativeInt(value.completedModules) || value.completedModules > value.totalModules) return false;
+  return !admin || (nonnegativeInt(value.partialModules)
+    && nonnegativeInt(value.notStartedModules)
+    && value.completedModules + value.partialModules + value.notStartedModules === value.totalModules);
+}
+
+/** Exactly one aggregate SQL on the server for the full catalog, never per Topic. */
+export async function fetchTopicModuleProgress(signal: AbortSignal, admin: boolean): Promise<TopicModuleProgress[]> {
+  const apiRoot = admin ? `${new URL(BACKEND_API_BASE_URL).origin}/api/admin` : BACKEND_API_BASE_URL;
+  const response = await fetch(`${apiRoot}/topics/progress`, {
+    signal,
+    cache: 'no-store',
+    headers: { Accept: 'application/json' },
+    ...(admin ? { credentials: 'include' as const } : {}),
+  });
+  if (!response.ok) throw new Error(`Topic progress returned HTTP ${response.status}`);
+  const data: unknown = await response.json();
+  if (!Array.isArray(data) || !data.every((item) => isTopicProgress(item, admin))) {
+    throw new Error('Invalid topic progress response');
+  }
+  return data;
+}
+
+/** Lazy ADMIN-only request. A public user never calls this endpoint. */
+export async function fetchIncompleteModuleServiceNames(
+  topicId: number, status: IncompleteModuleStatus, signal: AbortSignal,
+): Promise<string[]> {
+  const endpoint = `${new URL(BACKEND_API_BASE_URL).origin}/api/admin/topics/${topicId}`
+    + `/module-progress?status=${encodeURIComponent(status)}`;
+  const response = await fetch(endpoint, {
+    signal,
+    cache: 'no-store',
+    credentials: 'include',
+    headers: { Accept: 'application/json' },
+  });
+  if (!response.ok) throw new Error(`Module progress details returned HTTP ${response.status}`);
+  const data: unknown = await response.json();
+  if (!Array.isArray(data) || !data.every((item) => typeof item === 'string')) {
+    throw new Error('Invalid module progress details response');
+  }
+  return data;
 }
 
 async function fetchList<T>(

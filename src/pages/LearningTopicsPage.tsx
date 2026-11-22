@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchLearningCatalog, type LearningTopic, type LearningTopicGroup } from '../data/learningCatalog';
+import {
+  fetchLearningCatalog, fetchTopicModuleProgress,
+  type IncompleteModuleStatus, type LearningTopic, type LearningTopicGroup, type TopicModuleProgress,
+} from '../data/learningCatalog';
 import { CatalogEditor, type CatalogEditorTarget } from '../components/CatalogEditor';
+import { TopicProgressDetailsDialog } from '../components/TopicProgressDetailsDialog';
 import { topicSvgImageSrc } from '../data/topicSvg';
 import { useAuth } from '../state/useAuth';
 import { useLanguage } from '../state/LanguageContext';
@@ -11,16 +15,31 @@ type CatalogState =
   | { status: 'ready'; groups: LearningTopicGroup[] }
   | { status: 'error' };
 
+type ProgressState =
+  | { status: 'loading' }
+  | { status: 'ready'; byTopic: Map<number, TopicModuleProgress> }
+  | { status: 'error' };
+
+type ProgressDetails = {
+  topicId: number;
+  topicName: string;
+  status: IncompleteModuleStatus;
+};
+
 function TopicCard({
   topic,
   index,
   language,
   onComingSoon,
+  progress,
+  progressFailed,
 }: {
   topic: LearningTopic;
   index: number;
   language: 'vi' | 'en';
   onComingSoon: (name: string, trigger: HTMLButtonElement) => void;
+  progress?: TopicModuleProgress;
+  progressFailed: boolean;
 }) {
   const logoSrc = useMemo(() => topicSvgImageSrc(topic.iconSvg), [topic.iconSvg]);
   const available = topic.status === 'AVAILABLE';
@@ -37,6 +56,24 @@ function TopicCard({
       </span>
       <span className="learning-topic-card__name">{topic.name}</span>
       {topic.description && <span className="learning-topic-card__detail">{topic.description}</span>}
+      {progress ? (
+        <span className="learning-topic-card__progress">
+          <span className="learning-topic-card__progress-item">
+            <span>{language === 'vi' ? 'Tổng Module' : 'Total modules'}</span>
+            <strong>{progress.totalModules}</strong>
+          </span>
+          <span className="learning-topic-card__progress-item">
+            <span>{language === 'vi' ? 'Hoàn thành' : 'Completed'}</span>
+            <strong className="is-complete">{progress.completedModules}</strong>
+          </span>
+        </span>
+      ) : (
+        <span className="learning-topic-card__progress-note">
+          {progressFailed
+            ? (language === 'vi' ? 'Chưa tải được thống kê' : 'Statistics unavailable')
+            : (language === 'vi' ? 'Đang tải thống kê...' : 'Loading statistics...')}
+        </span>
+      )}
       <span className={`learning-topic-card__status${available ? ' is-available' : ''}`}>
         <span className="learning-topic-card__status-dot" aria-hidden="true" />
         {topic.status === 'HIDDEN'
@@ -72,8 +109,12 @@ export function LearningTopicsPage() {
   const authPending = authStatus === 'loading';
   const isAdmin = authStatus === 'authenticated' && Boolean(user?.roles.includes('ADMIN'));
   const [catalog, setCatalog] = useState<CatalogState>({ status: 'loading' });
+  const [progress, setProgress] = useState<ProgressState>({ status: 'loading' });
+  const [progressRetry, setProgressRetry] = useState(0);
   const [reloadKey, setReloadKey] = useState(0);
   const [editor, setEditor] = useState<CatalogEditorTarget | null>(null);
+  const [details, setDetails] = useState<ProgressDetails | null>(null);
+  const detailsTriggerRef = useRef<HTMLButtonElement | null>(null);
   const [unavailableTopic, setUnavailableTopic] = useState<string | null>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
@@ -94,6 +135,22 @@ export function LearningTopicsPage() {
       });
     return () => controller.abort();
   }, [reloadKey, isAdmin, authPending]);
+
+  useEffect(() => {
+    if (authPending) return;
+    const controller = new AbortController();
+    setProgress({ status: 'loading' });
+    fetchTopicModuleProgress(controller.signal, isAdmin)
+      .then((rows) => {
+        if (!controller.signal.aborted) {
+          setProgress({ status: 'ready', byTopic: new Map(rows.map((row) => [row.topicId, row])) });
+        }
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setProgress({ status: 'error' });
+      });
+    return () => controller.abort();
+  }, [reloadKey, progressRetry, isAdmin, authPending]);
 
   useEffect(() => {
     if (unavailableTopic) dialogRef.current?.showModal?.();
@@ -149,6 +206,14 @@ export function LearningTopicsPage() {
       )}
       {catalog.status === 'ready' && catalog.groups.length > 0 && (
         <div className="learning-topics-categories">
+          {progress.status === 'error' && (
+            <div className="learning-topic-progress-error" role="alert">
+              <span>{language === 'vi' ? 'Không tải được thống kê Module.' : 'Could not load Module statistics.'}</span>
+              <button type="button" onClick={() => setProgressRetry((value) => value + 1)}>
+                {language === 'vi' ? 'Thử lại' : 'Retry'}
+              </button>
+            </div>
+          )}
           {catalog.groups.map(({ category, topics }, categoryIndex) => (
             <section className="learning-topic-category" key={category.id} aria-labelledby={`topic-category-${category.id}`}>
               <div className="learning-topic-category__header">
@@ -184,8 +249,12 @@ export function LearningTopicsPage() {
                 </p>
               )}
               <div className="learning-topics-grid">
-                {topics.map((topic, index) => (
-                  <div className={`learning-topic-card-shell${isAdmin ? ' learning-topic-card-shell--admin' : ''}`} key={topic.id}>
+                {topics.map((topic, index) => {
+                  const stats = progress.status === 'ready' ? progress.byTopic.get(topic.id) : undefined;
+                  const hasAdminProgress = isAdmin && stats?.partialModules !== undefined
+                    && stats.notStartedModules !== undefined;
+                  return (
+                  <div className={`learning-topic-card-shell${isAdmin ? ' learning-topic-card-shell--admin' : ''}${hasAdminProgress ? ' learning-topic-card-shell--with-progress' : ''}`} key={topic.id}>
                     {isAdmin && (
                       <button type="button" className="catalog-admin-topic-edit"
                         onClick={() => setEditor({ kind: 'topic', category, topic })}>
@@ -196,13 +265,32 @@ export function LearningTopicsPage() {
                       topic={topic}
                       index={index}
                       language={language}
+                      progress={stats}
+                      progressFailed={progress.status === 'error'}
                       onComingSoon={(name, trigger) => {
                         triggerRef.current = trigger;
                         setUnavailableTopic(name);
                       }}
                     />
+                    {hasAdminProgress && (
+                      <div className="topic-progress-admin">
+                        {([
+                          ['PARTIAL', stats.partialModules!, language === 'vi' ? 'Đang dang dở' : 'Incomplete'],
+                          ['NOT_STARTED', stats.notStartedModules!, language === 'vi' ? 'Chưa làm' : 'Not started'],
+                        ] as const).map(([status, count, label]) => (
+                          <div className="topic-progress-admin__row" key={status}>
+                            <span className={`topic-progress-admin__label is-${status.toLowerCase()}`}>{label}</span>
+                            <strong>{count}</strong>
+                            {count > 0 && <button type="button" onClick={(event) => {
+                              detailsTriggerRef.current = event.currentTarget;
+                              setDetails({ topicId: topic.id, topicName: topic.name, status });
+                            }}>{language === 'vi' ? 'Chi tiết' : 'Details'}</button>}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
-                ))}
+                );})}
               </div>
             </section>
           ))}
@@ -218,6 +306,20 @@ export function LearningTopicsPage() {
           onSaved={() => {
             setEditor(null);
             setReloadKey((key) => key + 1);
+          }}
+        />
+      )}
+
+      {isAdmin && details && (
+        <TopicProgressDetailsDialog
+          key={`${details.topicId}:${details.status}`}
+          topicId={details.topicId}
+          topicName={details.topicName}
+          progressStatus={details.status}
+          language={language}
+          onClose={() => {
+            setDetails(null);
+            detailsTriggerRef.current?.focus();
           }}
         />
       )}

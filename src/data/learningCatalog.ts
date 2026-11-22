@@ -39,6 +39,8 @@ export interface TopicMutation {
   slug: string;
   name: string;
   description: string;
+  /** Optional for existing API consumers; newly created topics start COMING_SOON. */
+  status?: LearningTopic['status'];
 }
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>

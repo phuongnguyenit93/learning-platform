@@ -1595,6 +1595,31 @@ pre {
   gap: 7px;
 }
 
+/* Module picker rows can contain long Group names. Keep the module count and
+   admin actions visible while the label wraps and the row grows naturally. */
+.module-tree__row.is-module-picker .module-tree__content {
+  flex-wrap: wrap;
+  gap: 4px 7px;
+  padding-block: 7px;
+}
+
+.module-tree__row.is-module-picker .module-tree__label {
+  flex: 1 1 calc(100% - 26px);
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+
+.module-tree__row.is-module-picker .module-tree__active-module {
+  max-width: calc(100% - 24px);
+  margin-left: 24px;
+}
+
+.module-tree__row.is-module-picker .module-tree__count {
+  margin-left: 7px;
+}
+
 .module-tree__content.is-active {
   color: var(--row-active-text);
 }
@@ -1912,10 +1937,13 @@ pre {
 
 .module-tree__label {
   flex: 0 1 auto;
+  min-width: 0;
   color: var(--text-soft);
   font-size: 13px;
   font-weight: 570;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
 }
 
 .module-tree__content.is-active .module-tree__label {
@@ -6451,7 +6479,7 @@ pre {
 .catalog-editor__form label { display: grid; gap: 8px; font-size: 12px; font-weight: 750; }
 .catalog-editor__form label > span { color: var(--text); letter-spacing: .05em; }
 .catalog-editor__form em { color: #ff8c8c; font-style: normal; }
-.catalog-editor__form input, .catalog-editor__form textarea {
+.catalog-editor__form input, .catalog-editor__form textarea, .catalog-editor__form select {
   display: block;
   width: 100%;
   border: 1px solid var(--border-strong);
@@ -6464,7 +6492,7 @@ pre {
   font-weight: 500;
   outline: none;
 }
-.catalog-editor__form input:focus, .catalog-editor__form textarea:focus { border-color: var(--blue); }
+.catalog-editor__form input:focus, .catalog-editor__form textarea:focus, .catalog-editor__form select:focus { border-color: var(--blue); }
 .catalog-editor__form textarea { resize: vertical; min-height: 84px; }
 .catalog-editor__form small { color: var(--text-muted); font-weight: 400; line-height: 1.5; }
 .catalog-editor__hint { margin: -3px 0 0; }
@@ -6559,15 +6587,14 @@ pre {
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.025em;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .learning-topic-card__detail {
   margin-top: 6px;
   line-height: 1.5;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .learning-topic-card__status {

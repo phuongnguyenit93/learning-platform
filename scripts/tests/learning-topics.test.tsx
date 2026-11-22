@@ -237,6 +237,42 @@ test('admin sees empty categories and hidden topics with separate create/edit fo
     await act(async () => hiddenCard?.querySelector<HTMLButtonElement>('.catalog-admin-topic-edit')?.click());
     dialog = host.querySelector<HTMLElement>('[role="dialog"].catalog-editor');
     assert.equal(dialog?.querySelector('input')?.value, 'HIDDEN');
+    assert.equal(dialog?.querySelector('select')?.value, 'HIDDEN');
+    assert.deepEqual([...dialog!.querySelectorAll('select option')].map((option) => option.value),
+      ['AVAILABLE', 'COMING_SOON', 'HIDDEN']);
+  }, true);
+});
+
+test('admin can switch Topic status and sends status in update without changing other metadata', async () => {
+  let updated = false;
+  await withTopicsPage((url, init) => {
+    if (url.endsWith('/api/admin/categories')) return json(categories.map((category) => ({ ...category, active: true })));
+    if (url.endsWith('/api/admin/topics') && !init?.method) return json(topics);
+    if (url.endsWith('/api/admin/topics/4') && init?.method === 'PUT') {
+      const body = JSON.parse(String(init.body));
+      assert.deepEqual(body, {
+        code: 'JAVASCRIPT', slug: 'javascript', name: 'JavaScript', description: '', status: 'AVAILABLE',
+      });
+      updated = true;
+      return json({ ...topics[0], ...body });
+    }
+    throw new Error(`Unexpected request: ${url}`);
+  }, async (host, requests) => {
+    const javascriptCard = [...host.querySelectorAll<HTMLElement>('.learning-topic-card-shell')]
+      .find((card) => card.querySelector('.learning-topic-card__name')?.textContent === 'JavaScript');
+    assert.ok(javascriptCard);
+    await act(async () => javascriptCard.querySelector<HTMLButtonElement>('.catalog-admin-topic-edit')?.click());
+    const select = host.querySelector<HTMLSelectElement>('.catalog-editor select');
+    assert.ok(select);
+    assert.equal(select.value, 'COMING_SOON');
+    await act(async () => {
+      select.value = 'AVAILABLE';
+      select.dispatchEvent(new window.Event('change', { bubbles: true }));
+    });
+    assert.equal(select.value, 'AVAILABLE');
+    await act(async () => host.querySelector<HTMLButtonElement>('.catalog-editor button[type="submit"]')?.click());
+    assert.equal(updated, true);
+    assert.equal(requests.filter(({ method }) => method === 'PUT').length, 1);
   }, true);
 });
 
@@ -252,7 +288,7 @@ test('admin writes include cookies, a CSRF header and the requested payload', as
   }) as typeof fetch;
   try {
     await createCategory({ code: 'NEW', name: 'New category' });
-    await updateTopic(20, { code: 'JAVA', slug: 'java', name: 'Java', description: '' });
+    await updateTopic(20, { code: 'JAVA', slug: 'java', name: 'Java', description: '', status: 'COMING_SOON' });
     assert.deepEqual(calls.map((call) => call.url), [
       'https://api.nguyendodinhphuong.name.vn/api/auth/csrf',
       'https://api.nguyendodinhphuong.name.vn/api/admin/categories',
@@ -264,7 +300,7 @@ test('admin writes include cookies, a CSRF header and the requested payload', as
     assert.equal(calls[1].init?.credentials, 'include');
     assert.equal(new Headers(calls[1].init?.headers).get('X-CSRF-TOKEN'), 'csrf-token');
     assert.deepEqual(JSON.parse(String(calls[3].init?.body)),
-      { code: 'JAVA', slug: 'java', name: 'Java', description: '' });
+      { code: 'JAVA', slug: 'java', name: 'Java', description: '', status: 'COMING_SOON' });
   } finally {
     globalThis.fetch = originalFetch;
   }

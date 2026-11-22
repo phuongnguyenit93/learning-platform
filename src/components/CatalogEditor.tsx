@@ -8,7 +8,13 @@ export type CatalogEditorTarget =
   | { kind: 'category'; category?: LearningCategory }
   | { kind: 'topic'; category: LearningCategory; topic?: LearningTopic };
 
-type FormValues = { code: string; name: string; slug: string; description: string };
+type FormValues = {
+  code: string;
+  name: string;
+  slug: string;
+  description: string;
+  status: LearningTopic['status'];
+};
 
 export function CatalogEditor({ target, language, onClose, onSaved }: {
   target: CatalogEditorTarget;
@@ -22,6 +28,7 @@ export function CatalogEditor({ target, language, onClose, onSaved }: {
     name: existing?.name ?? '',
     slug: target.kind === 'topic' ? target.topic?.slug ?? '' : '',
     description: target.kind === 'topic' ? target.topic?.description ?? '' : '',
+    status: target.kind === 'topic' ? target.topic?.status ?? 'COMING_SOON' : 'COMING_SOON',
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +48,7 @@ export function CatalogEditor({ target, language, onClose, onSaved }: {
     return () => document.removeEventListener('keydown', onEscape);
   }, [onClose, saving]);
 
-  const set = (field: keyof FormValues, value: string) =>
+  const set = <K extends keyof FormValues>(field: K, value: FormValues[K]) =>
     setForm((previous) => ({ ...previous, [field]: value }));
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -58,6 +65,7 @@ export function CatalogEditor({ target, language, onClose, onSaved }: {
         const body = {
           code: form.code.trim(), slug: form.slug.trim(),
           name: form.name.trim(), description: form.description.trim(),
+          ...(target.topic ? { status: form.status } : {}),
         };
         if (target.topic) await updateTopic(target.topic.id, body);
         else await createTopic(target.category.id, body);
@@ -115,6 +123,20 @@ export function CatalogEditor({ target, language, onClose, onSaved }: {
                 placeholder={isVi ? 'Mô tả ngắn về chủ đề...' : 'Short topic description...'}
                 onChange={(event) => set('description', event.target.value)} />
               <small>{isVi ? 'ICON_SVG chỉ chỉnh trực tiếp trong database.' : 'ICON_SVG is managed directly in the database.'}</small>
+            </label>
+          )}
+          {target.kind === 'topic' && target.topic && (
+            <label>
+              <span>{isVi ? 'TRẠNG THÁI' : 'STATUS'} <em>*</em></span>
+              <select value={form.status} disabled={saving}
+                onChange={(event) => set('status', event.target.value as LearningTopic['status'])}>
+                <option value="AVAILABLE">AVAILABLE</option>
+                <option value="COMING_SOON">COMING_SOON</option>
+                <option value="HIDDEN">HIDDEN</option>
+              </select>
+              <small>{isVi
+                ? 'AVAILABLE: có thể mở học. COMING_SOON: hiển thị sắp cập nhật. HIDDEN: ẩn với người học.'
+                : 'AVAILABLE: open for learning. COMING_SOON: show as coming soon. HIDDEN: hide from learners.'}</small>
             </label>
           )}
           {!editing && <p className="catalog-editor__hint">

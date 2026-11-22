@@ -266,6 +266,8 @@ test('top-level Paradigm leaf modules open the same one-module picker as nested 
     assert.equal(rows.length, 2);
     assert.ok(rows.every((row) => row.classList.contains('is-module-picker')));
     assert.ok(rows.every((row) => !row.querySelector('.module-tree__dashboard-zone')));
+    assert.ok(rows.every((row) => row.querySelector('.module-tree__vertical-cue--placeholder')),
+      'standalone Module pickers keep their existing indentation');
     assert.deepEqual(rows.map((row) => row.querySelector('.module-tree__count')?.textContent), ['1 module', '1 module']);
     assert.equal(host.querySelectorAll('.module-tree__level-badge').length, 0);
     assert.equal(host.querySelectorAll('.group-node-badge--module').length, 2);
@@ -292,6 +294,9 @@ test('nested terminal groups still show their module picker without extra nestin
     const group = host.querySelector<HTMLButtonElement>('[aria-label="Open Spring Boot modules"]');
     assert.ok(group);
     assert.equal(group.querySelector('.module-tree__count')?.textContent, '1 module');
+    assert.equal(group.querySelector('.module-tree__vertical-cue--placeholder'), null,
+      'terminal Group labels align with other Groups at the same depth');
+    assert.ok(group.querySelector('.module-tree__caret'), 'terminal Group retains its picker caret');
     assert.equal(host.querySelectorAll('.module-tree__level-badge').length, 0);
     assert.equal(host.querySelectorAll('.group-node-badge--group').length, 1);
     Object.defineProperty(host.ownerDocument.defaultView, 'innerWidth', { configurable: true, value: 1380 });

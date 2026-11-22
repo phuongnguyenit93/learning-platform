@@ -558,7 +558,9 @@ function ModulePickerRow({
         >
           {!onToggleExpand && <>
             <ModuleTreeIndent depth={depth} />
-            <span className="module-tree__vertical-cue module-tree__vertical-cue--placeholder" aria-hidden="true" />
+            {group.kind !== 'GROUP' && (
+              <span className="module-tree__vertical-cue module-tree__vertical-cue--placeholder" aria-hidden="true" />
+            )}
             <span className="module-tree__caret" aria-hidden="true">›</span>
           </>}
           <span className={`module-tree__content${containsActiveModule ? ' is-active' : ''}`}>

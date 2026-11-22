@@ -10,6 +10,7 @@ import { ReadingFullscreenContext, useModuleReadingFullscreen } from '../compone
 import { collectRealModules, findModuleByRouteId, formatCatalogName } from '../data/moduleCatalog';
 import { fetchModuleCore, type ModuleCore } from '../data/moduleCore';
 import { fetchModuleMenu, type DatabaseModuleMenu } from '../data/moduleKnowledge';
+import { fetchTopicKnowledgeCounts } from '../data/topicKnowledgeCounts';
 import { fetchTopicStructure } from '../data/topicStructure';
 import { topicKnowledgePath } from '../data/topicRoutes';
 import { useLanguage } from '../state/LanguageContext';
@@ -31,6 +32,11 @@ type MenuState =
   | { slug: string; language: string; status: 'ready'; menu: DatabaseModuleMenu }
   | { slug: string; language: string; status: 'missing' }
   | { slug: string; language: string; status: 'error'; message: string };
+
+type TopicCountsState =
+  | { topicId: number; language: string; status: 'loading' }
+  | { topicId: number; language: string; status: 'ready'; counts: Record<string, number> }
+  | { topicId: number; language: string; status: 'error' };
 
 const EMPTY_COUNTS: Record<string, number> = {};
 const EMPTY_ROADMAPS: Record<string, boolean> = {};
@@ -60,6 +66,7 @@ export function TopicStructurePage() {
   const [moduleCoreRetry, setModuleCoreRetry] = useState(0);
   const [menuState, setMenuState] = useState<MenuState | null>(null);
   const [menuReload, setMenuReload] = useState(0);
+  const [topicCountsState, setTopicCountsState] = useState<TopicCountsState | null>(null);
   const readingRef = useRef<HTMLElement>(null);
   const readingFullscreen = useModuleReadingFullscreen(readingRef);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
@@ -89,11 +96,26 @@ export function TopicStructurePage() {
   }, [topicSlug, moduleSlug, requestedTab]);
 
   const catalog = state.topicSlug === topicSlug && state.status === 'ready' ? state.catalog : null;
+  const topicId = Number(catalog?.root.id.replace('topic:', '')) || 0;
   const modules = useMemo(() => catalog ? collectRealModules(catalog.root) : [], [catalog]);
   const selected = useMemo(() => (
     catalog && moduleSlug ? findModuleByRouteId(catalog.root, moduleSlug) : undefined
   ), [catalog, moduleSlug]);
   const selectedSlug = selected?.slug ?? '';
+
+  useEffect(() => {
+    if (!topicId) return;
+    const controller = new AbortController();
+    setTopicCountsState({ topicId, language, status: 'loading' });
+    fetchTopicKnowledgeCounts(topicId, language, controller.signal)
+      .then((counts) => {
+        if (!controller.signal.aborted) setTopicCountsState({ topicId, language, status: 'ready', counts });
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setTopicCountsState({ topicId, language, status: 'error' });
+      });
+    return () => controller.abort();
+  }, [topicId, language, reload]);
 
   useEffect(() => {
     if (!selectedSlug) {
@@ -148,6 +170,16 @@ export function TopicStructurePage() {
     }
   }, [catalog, moduleSlug, modules, navigate, topicSlug, search, hash]);
 
+  const scopedMenuState = menuState?.slug === selectedSlug && menuState.language === language
+    ? menuState : null;
+  const menu = scopedMenuState?.status === 'ready' ? scopedMenuState.menu : null;
+  const scopedCountsState = topicCountsState?.topicId === topicId && topicCountsState.language === language
+    ? topicCountsState : null;
+  const knowledgeCounts = useMemo(() => {
+    const all = scopedCountsState?.status === 'ready' ? scopedCountsState.counts : EMPTY_COUNTS;
+    return menu && selectedSlug ? { ...all, [selectedSlug]: menu.lessonCount } : all;
+  }, [scopedCountsState, menu, selectedSlug]);
+
   if (state.topicSlug !== topicSlug || state.status === 'loading') {
     return (
       <main className="learning-layout learning-layout--status" role="status">
@@ -174,10 +206,6 @@ export function TopicStructurePage() {
 
   const core = moduleCoreState?.slug === selectedSlug && moduleCoreState.status === 'ready'
     ? moduleCoreState.module : null;
-  const scopedMenuState = menuState?.slug === selectedSlug && menuState.language === language
-    ? menuState : null;
-  const menu = scopedMenuState?.status === 'ready' ? scopedMenuState.menu : null;
-  const knowledgeCounts = menu && selectedSlug ? { [selectedSlug]: menu.lessonCount } : EMPTY_COUNTS;
   const tabStats = { knowledge: menu?.lessonCount ?? 0, quiz: 0, interview: 0, casestudy: 0 };
   const routeParams = new URLSearchParams(search);
   const chapterSlug = routeParams.get('chapter') ?? routeParams.get('category');
@@ -215,7 +243,7 @@ export function TopicStructurePage() {
       <ModuleSidebar
         key={topicSlug}
         nodes={catalog!.root.children}
-        topicId={Number(catalog!.root.id.replace('topic:', '')) || undefined}
+        topicId={topicId || undefined}
         onStructureChanged={() => setReload((value) => value + 1)}
         activeModuleId={selected?.routeId ?? ''}
         enableRealModulesFilter={false}
@@ -224,7 +252,7 @@ export function TopicStructurePage() {
         interviewCounts={EMPTY_COUNTS}
         caseStudyCounts={EMPTY_COUNTS}
         roadmapAvailability={EMPTY_ROADMAPS}
-        contentCountsState="ready"
+        contentCountsState={scopedCountsState?.status ?? 'loading'}
         onRetryContentCounts={() => {}}
       />
 

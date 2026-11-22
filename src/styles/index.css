@@ -2088,7 +2088,9 @@ pre {
 
 .module-picker {
   position: fixed;
-  z-index: 80;
+  /* This body portal must be above sticky Knowledge controls (90), which would
+     otherwise draw across the Module list. Keep below dialog overlays (2000+). */
+  z-index: 150;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -2102,6 +2104,7 @@ pre {
 
 .module-picker__header {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
@@ -2136,10 +2139,18 @@ pre {
 
 .module-picker__list {
   min-height: 0;
-  overflow-y: auto;
+  overflow-y: scroll;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
   padding: 8px;
   scrollbar-color: var(--border-strong) transparent;
   scrollbar-width: thin;
+}
+.module-picker__list:focus-visible { outline: 2px solid var(--blue); outline-offset: -3px; }
+.module-tree__badge--knowledge.is-unavailable {
+  background: var(--chip-bg);
+  color: var(--text-muted);
 }
 
 .module-picker__item {

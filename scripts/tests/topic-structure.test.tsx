@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 import { Window } from 'happy-dom';
 import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { fetchTopicStructure } from '../../src/data/topicStructure';
+import { fetchTopicKnowledgeCounts } from '../../src/data/topicKnowledgeCounts';
 import { calculateModulePickerPosition } from '../../src/data/modulePickerPosition';
 import { BACKEND_API_BASE_URL } from '../../src/data/backendHealth';
 import { TopicStructurePage } from '../../src/pages/TopicStructurePage';
@@ -75,6 +77,41 @@ test('picker position follows a low row, measures list size and stays outside si
   assert.equal(narrowRight.width, 666);
   const tightDesktop = calculateModulePickerPosition({ ...base, viewportWidth: 830, sidebarRight: 650, itemCount: 1 });
   assert.equal(tightDesktop.left, 12, 'without room on right, use the compact popup');
+
+  const underNavigation = calculateModulePickerPosition({
+    ...base, itemCount: 19, obscuredTop: 88,
+  });
+  assert.ok(underNavigation.top >= 100, 'popup header and first row clear sticky navigation');
+  assert.ok(underNavigation.top + underNavigation.maxHeight <= 778);
+  assert.ok(underNavigation.maxHeight <= 678, 'long popup fits in the region below navigation');
+  assert.ok(104 + 56 * 19 > underNavigation.maxHeight, 'the 19-row list must scroll internally');
+  const compactWithNavigation = calculateModulePickerPosition({
+    ...base, viewportWidth: 690, itemCount: 19, obscuredTop: 88,
+  });
+  assert.equal(compactWithNavigation.top, 100);
+});
+
+test('Module picker portal remains in front of sticky Knowledge tabs, below modal overlays', () => {
+  // The popup is portaled to document.body, so its z-index participates in
+  // root stacking instead of the sidebar's stacking context.
+  const css = readFileSync(new URL('../../src/styles/index.css', import.meta.url), 'utf8');
+  const layer = (selector: string) => {
+    const index = css.indexOf(selector + ' {');
+    assert.notEqual(index, -1, 'missing CSS selector ' + selector);
+    const rule = css.slice(index, css.indexOf('}', index));
+    const match = rule.match(/z-index:\s*(\d+)/);
+    assert.ok(match, 'missing z-index for ' + selector);
+    return Number(match[1]);
+  };
+  const picker = layer('.module-picker');
+  assert.ok(picker > layer('.knowledge-sticky-controls'),
+    'Knowledge sticky category tabs cannot cover Module entries');
+  assert.ok(picker > layer('.module-tab-wrapper'),
+    'main Module tabs cannot cover Module entries');
+  assert.ok(picker > layer('.java-section-nav'),
+    'navigation remains above the Module popup only by its physical position');
+  assert.ok(picker < layer('.catalog-editor-overlay'),
+    'modal overlays must remain above the Module popup');
 });
 
 function mockApi(
@@ -96,6 +133,20 @@ function mockApi(
     }
     if (url === `${BACKEND_API_BASE_URL}/topics/30/structure`) {
       return new Response(JSON.stringify(structure.paradigm), { status: 200 });
+    }
+    const counts = /^https:\/\/api\.nguyendodinhphuong\.name\.vn\/api\/v1\/topics\/(10|20|30)\/knowledge-counts\?lang=(vi|en)$/.exec(url);
+    if (counts) {
+      const [, topicId, languageCode] = counts;
+      return new Response(JSON.stringify({
+        languageCode,
+        counts: topicId === '20' ? {
+          'spring-boot-fundamentals': languageCode === 'vi' ? 3 : 0,
+          'spring-data-cassandra': 12, 'spring-data-commons': 0, 'spring-data-rest': 8,
+        } : {
+          'java-stream-api': languageCode === 'vi' ? 17 : 0,
+          'imperative-programming': 0, 'functional-programming': 5,
+        },
+      }), { status: 200 });
     }
     const moduleCore = /^https:\/\/api\.nguyendodinhphuong\.name\.vn\/api\/v1\/modules\/([^/?]+)$/.exec(url);
     if (moduleCore) {
@@ -167,6 +218,26 @@ test('unknown Topic and duplicate structure slug fail closed rather than falling
   globalThis.fetch = mockApi([], duplicate);
   try {
     await assert.rejects(fetchTopicStructure('spring', new AbortController().signal), /Duplicate module slug/);
+  } finally {
+    globalThis.fetch = oldFetch;
+  }
+});
+
+test('Topic counts load for all Modules without selecting them and stay locale-specific', async () => {
+  const oldFetch = globalThis.fetch;
+  const requests: string[] = [];
+  globalThis.fetch = mockApi(requests);
+  try {
+    const vi = await fetchTopicKnowledgeCounts(20, 'vi', new AbortController().signal);
+    assert.equal(vi['spring-boot-fundamentals'], 3);
+    assert.equal(vi['spring-data-cassandra'], 12);
+    assert.equal(vi['spring-data-commons'], 0);
+    const en = await fetchTopicKnowledgeCounts(20, 'en', new AbortController().signal);
+    assert.equal(en['spring-boot-fundamentals'], 0);
+    assert.deepEqual(requests, [
+      `${BACKEND_API_BASE_URL}/topics/20/knowledge-counts?lang=vi`,
+      `${BACKEND_API_BASE_URL}/topics/20/knowledge-counts?lang=en`,
+    ]);
   } finally {
     globalThis.fetch = oldFetch;
   }
@@ -248,6 +319,7 @@ test('Spring Knowledge page selects database module by slug and never requests s
     assert.deepEqual(requests.slice(2).filter((request) => !request.endsWith('/api/auth/me')).sort(), [
       `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals`,
       `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals/menu?lang=vi`,
+      `${BACKEND_API_BASE_URL}/topics/20/knowledge-counts?lang=vi`,
     ].sort());
   });
 });
@@ -317,6 +389,66 @@ test('nested terminal groups still show their module picker without extra nestin
   });
 });
 
+test('19-item picker clears sticky navigation, keeps item 1 and allows scrolling the entire list', async () => {
+  const versions = Array.from({ length: 19 }, (_, index) => {
+    const version = index + 5;
+    return {
+      nodeKey: 'JAVA_VERSION_' + version,
+      name: 'java version java' + version,
+      kind: 'MODULE',
+      slug: 'java-version-java' + version,
+      children: [],
+    };
+  });
+  const longStructure = {
+    ...structures,
+    java: {
+      ...structures.java,
+      root: {
+        ...structures.java.root,
+        children: [{
+          nodeKey: 'JAVA_VERSIONS', name: 'java versions', kind: 'GROUP',
+          slug: 'java-versions', children: versions,
+        }],
+      },
+    },
+  };
+  await renderPage('/learning/java/knowledge/java-version-java18', async (host) => {
+    const win = host.ownerDocument.defaultView;
+    Object.defineProperty(win, 'innerWidth', { configurable: true, value: 1380 });
+    Object.defineProperty(win, 'innerHeight', { configurable: true, value: 790 });
+
+    const nav = host.ownerDocument.createElement('div');
+    nav.className = 'java-section-nav';
+    nav.getBoundingClientRect = () => ({ top: 0, bottom: 88, left: 0, right: 1380,
+      x: 0, y: 0, width: 1380, height: 88, toJSON() {} });
+    host.ownerDocument.body.appendChild(nav);
+
+    const group = host.querySelector<HTMLButtonElement>('[aria-label="Open Java versions modules"]');
+    assert.ok(group);
+    group.getBoundingClientRect = () => ({ top: 585, bottom: 623, left: 0, right: 440,
+      x: 0, y: 585, width: 440, height: 38, toJSON() {} });
+    const sidebar = group.closest<HTMLElement>('.learning-sidebar');
+    assert.ok(sidebar);
+    sidebar.getBoundingClientRect = () => ({ top: 88, bottom: 790, left: 0, right: 525,
+      x: 0, y: 88, width: 525, height: 702, toJSON() {} });
+
+    await act(async () => group.click());
+    const popup = host.ownerDocument.querySelector<HTMLElement>('.module-picker');
+    assert.ok(popup);
+    assert.ok(Number.parseFloat(popup.style.top) >= 100);
+    assert.ok(Number.parseFloat(popup.style.top) + Number.parseFloat(popup.style.maxHeight) <= 778);
+    const scrollList = popup.querySelector<HTMLElement>('.module-picker__list');
+    assert.ok(scrollList && scrollList.tabIndex === 0);
+    const entries = [...scrollList.querySelectorAll('.module-picker__entry')];
+    assert.equal(entries.length, 19);
+    assert.equal(entries[0].querySelector('.module-picker__sequence')?.textContent, '1');
+    assert.equal(entries[18].querySelector('.module-picker__sequence')?.textContent, '19');
+    assert.ok(popup.querySelector('.module-picker__header'), 'the header remains above the scroll region');
+    nav.remove();
+  }, {}, longStructure);
+});
+
 test('mixed Spring Data Group opens direct Module leaves in one picker while nested Groups stay in the sidebar', async () => {
   const springData = {
     nodeKey: 'SPRING_DATA', name: 'Spring data', kind: 'GROUP', slug: 'spring-data', children: [
@@ -361,6 +493,9 @@ test('mixed Spring Data Group opens direct Module leaves in one picker while nes
     ['Spring data cassandra', 'Spring data commons', 'Spring data rest']);
     assert.deepEqual([...popup.querySelectorAll('.module-picker__item')].map((item) =>
       item.querySelector('.module-picker__sequence')?.textContent), ['1', '2', '3']);
+    assert.deepEqual([...popup.querySelectorAll('.module-picker__item')].map((item) =>
+      item.querySelector('.module-tree__badge--knowledge')?.textContent),
+    ['12 bài', '0 bài', '8 bài'], 'all Modules show lesson counts without requiring selection');
     assert.doesNotMatch(popup.textContent ?? '', /Spring data relational/);
 
     await act(async () => host.querySelector<HTMLButtonElement>('[aria-label="Collapse Spring data"]')?.click());
@@ -406,6 +541,10 @@ test('changing VI/EN loads only requested translation without reloading structur
     assert.deepEqual(requests.filter((url) => url.includes('/overview?')), [
       `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals/overview?lang=vi`,
       `${BACKEND_API_BASE_URL}/modules/spring-boot-fundamentals/overview?lang=en`,
+    ]);
+    assert.deepEqual(requests.filter((url) => url.includes('/knowledge-counts?')), [
+      `${BACKEND_API_BASE_URL}/topics/20/knowledge-counts?lang=vi`,
+      `${BACKEND_API_BASE_URL}/topics/20/knowledge-counts?lang=en`,
     ]);
     assert.equal(requests.filter((url) => url.endsWith('/structure')).length, 1);
   });

@@ -13,12 +13,16 @@ export interface ModulePickerGeometry {
   viewportWidth: number;
   viewportHeight: number;
   itemCount: number;
+  /** Bottom of the sticky navigation in viewport pixels. */
+  obscuredTop?: number;
 }
 
 export function calculateModulePickerPosition(geometry: ModulePickerGeometry): ModulePickerPosition {
-  const { anchorTop, anchorRight, sidebarRight, viewportWidth, viewportHeight, itemCount } = geometry;
+  const { anchorTop, anchorRight, sidebarRight, viewportWidth, viewportHeight, itemCount,
+    obscuredTop = 0 } = geometry;
   const margin = 12;
-  const viewportHeightAvailable = Math.max(0, viewportHeight - margin * 2);
+  const safeTop = Math.max(margin, obscuredTop + margin);
+  const viewportHeightAvailable = Math.max(0, viewportHeight - safeTop - margin);
   // The header and list have different fixed padding; each item occupies about 56px.
   // The popup may scroll internally, but a one-item popup must not be treated as 540px tall.
   const desiredHeight = Math.min(viewportHeightAvailable, 104 + 56 * Math.max(1, itemCount));
@@ -29,14 +33,14 @@ export function calculateModulePickerPosition(geometry: ModulePickerGeometry): M
 
   if (compact) {
     return {
-      top: margin,
+      top: safeTop,
       left: margin,
       width: Math.max(0, viewportWidth - margin * 2),
       maxHeight: viewportHeightAvailable,
     };
   }
 
-  const top = Math.max(margin, Math.min(anchorTop - 12, viewportHeight - desiredHeight - margin));
+  const top = Math.max(safeTop, Math.min(anchorTop - margin, viewportHeight - desiredHeight - margin));
   return {
     top,
     left: rightLeft,

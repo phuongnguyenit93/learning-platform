@@ -187,6 +187,7 @@ function ModuleBadges({
   interviewCounts,
   caseStudyCounts,
   roadmapAvailability,
+  showKnowledgeCount = false,
 }: {
   routeId: string;
   knowledgeCounts: Record<string, number>;
@@ -194,14 +195,17 @@ function ModuleBadges({
   interviewCounts: Record<string, number>;
   caseStudyCounts: Record<string, number>;
   roadmapAvailability: Record<string, boolean>;
+  showKnowledgeCount?: boolean;
 }) {
-  const knowledgeCount = knowledgeCounts[routeId] ?? 0;
+  const { language } = useLanguage();
+  const publishedKnowledgeCount = knowledgeCounts[routeId];
+  const knowledgeCount = publishedKnowledgeCount ?? 0;
   const quizCount = quizCounts[routeId] ?? 0;
   const interviewCount = interviewCounts[routeId] ?? 0;
   const caseStudyCount = caseStudyCounts[routeId] ?? 0;
   const hasRoadmap = roadmapAvailability[routeId] === true;
 
-  if (knowledgeCount === 0 && quizCount === 0 && interviewCount === 0 && caseStudyCount === 0 && !hasRoadmap) {
+  if (!showKnowledgeCount && knowledgeCount === 0 && quizCount === 0 && interviewCount === 0 && caseStudyCount === 0 && !hasRoadmap) {
     return null;
   }
 
@@ -212,9 +216,19 @@ function ModuleBadges({
           R
         </span>
       )}
-      {knowledgeCount > 0 && (
-        <span className="module-tree__badge module-tree__badge--knowledge" title="Knowledge">
-          {knowledgeCount}
+      {(showKnowledgeCount || knowledgeCount > 0) && (
+        <span className={publishedKnowledgeCount === undefined
+          ? 'module-tree__badge module-tree__badge--knowledge is-unavailable'
+          : 'module-tree__badge module-tree__badge--knowledge'}
+          title={publishedKnowledgeCount === undefined
+            ? (language === 'vi' ? 'Chưa có thống kê Knowledge' : 'Knowledge count unavailable')
+            : publishedKnowledgeCount + (language === 'vi' ? ' bài Knowledge đã xuất bản' : ' published Knowledge lessons')}
+          aria-label={publishedKnowledgeCount === undefined
+            ? (language === 'vi' ? 'Chưa có thống kê số bài Knowledge' : 'Knowledge count unavailable')
+            : publishedKnowledgeCount + (language === 'vi' ? ' bài Knowledge đã xuất bản' : ' published Knowledge lessons')}>
+          {showKnowledgeCount && publishedKnowledgeCount !== undefined
+            ? publishedKnowledgeCount + (language === 'vi' ? ' bài' : ' lessons')
+            : publishedKnowledgeCount ?? '…'}
         </span>
       )}
       {quizCount > 0 && (
@@ -299,7 +313,8 @@ function ModulePickerPopup({
         </span>
       </div>
 
-      <div className="module-picker__list">
+      <div className="module-picker__list" role="region"
+        aria-label={groupName + ' module list'} tabIndex={0}>
         {entries.map(({ node: moduleNode, sequence }) => {
           const routeId = moduleNode.routeId;
 
@@ -344,6 +359,7 @@ function ModulePickerPopup({
                 interviewCounts={interviewCounts}
                 caseStudyCounts={caseStudyCounts}
                 roadmapAvailability={roadmapAvailability}
+                showKnowledgeCount
               />
               <span className="module-picker__open-cue" aria-hidden="true">›</span>
               </button>
@@ -425,6 +441,10 @@ function ModulePickerRow({
 
     const rect = anchor.getBoundingClientRect();
     const sidebarRight = anchor.closest('.learning-sidebar')?.getBoundingClientRect().right ?? rect.right;
+    const navBottom = Math.max(
+      document.querySelector('.java-section-nav')?.getBoundingClientRect().bottom ?? 0,
+      document.querySelector('.topbar')?.getBoundingClientRect().bottom ?? 0,
+    );
     setPickerPosition(calculateModulePickerPosition({
       anchorTop: rect.top,
       anchorRight: rect.right,
@@ -432,6 +452,7 @@ function ModulePickerRow({
       viewportWidth: window.innerWidth,
       viewportHeight: window.innerHeight,
       itemCount: entries.length,
+      obscuredTop: navBottom,
     }));
   }, [entries.length]);
 

@@ -1,14 +1,15 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import defaultFavicon from '../assets/favicon.svg';
-import javaFavicon from '../assets/logos/java.svg';
 import { topicFromPathname } from '../data/topicRoutes';
+
+const defaultFavicon = new URL('../assets/favicon.svg', import.meta.url).href;
+const javaFavicon = new URL('../assets/logos/java.svg', import.meta.url).href;
 
 /**
  * The Portal is one SPA document, so route changes must also update the
  * browser-tab metadata. Keep this separate from the visible Header.
  */
-export function PageMetadata() {
+export function PageMetadata({ topicIconSrc = null }: { topicIconSrc?: string | null }) {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export function PageMetadata() {
             ? `${topicLabel} Learning - ${pathname.endsWith('/overview') ? 'Overview' : 'Knowledge'}`
               : 'Learning Platform';
 
-    const favicon = isJavaLearning ? javaFavicon : defaultFavicon;
+    const favicon = topicIconSrc ?? (isJavaLearning ? javaFavicon : defaultFavicon);
 
     document.title = title;
 
@@ -40,7 +41,7 @@ export function PageMetadata() {
 
     icon.type = 'image/svg+xml';
     icon.href = favicon;
-  }, [pathname]);
+  }, [pathname, topicIconSrc]);
 
   return null;
 }

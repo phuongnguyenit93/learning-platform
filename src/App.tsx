@@ -11,6 +11,7 @@ import { AboutMePage } from './pages/AboutMePage';
 import { SopPage } from './pages/SopPage';
 import { OverviewPage } from './pages/OverviewPage';
 import { isTopicKnowledgePath } from './data/topicRoutes';
+import { useTopicBrandingIcon } from './data/useTopicBrandingIcon';
 import { TopicIndexRedirect } from './pages/TopicIndexRedirect';
 
 function LegacyMyCvRedirect() {
@@ -25,13 +26,14 @@ function LegacyJavaProjectRedirect() {
 
 export function App() {
   const { pathname } = useLocation();
+  const topicIconSrc = useTopicBrandingIcon(pathname);
   const isModulePage = isTopicKnowledgePath(pathname);
   const isTopicsPage = pathname === '/learning' || pathname === '/learning/';
 
   return (
     <div className={`app-shell${isModulePage ? ' app-shell--module-viewport' : ''}${isTopicsPage ? ' app-shell--topics-viewport' : ''}`}>
-      <PageMetadata />
-      <Header />
+      <PageMetadata topicIconSrc={topicIconSrc} />
+      <Header topicIconSrc={topicIconSrc} />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/learning" element={<LearningTopicsPage />} />

@@ -57,7 +57,7 @@ function GoogleIcon() {
   );
 }
 
-export function Header() {
+export function Header({ topicIconSrc = null }: { topicIconSrc?: string | null }) {
   const { pathname } = useLocation();
   const { language, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -65,6 +65,7 @@ export function Header() {
   const text = labels[language];
   const topicSlug = topicFromPathname(pathname);
   const isJavaLearning = topicSlug === 'java';
+  const brandIconSrc = topicIconSrc ?? (isJavaLearning ? javaLogo : null);
   const topicLabel = topicSlug === null ? null : topicSlug === 'java' ? 'Java' : topicSlug.charAt(0).toUpperCase() + topicSlug.slice(1);
   const isMyCv = pathname === '/about-me' || pathname === '/about-me/';
 
@@ -72,7 +73,7 @@ export function Header() {
     <header className="topbar">
       <div className={`topbar__brand${isMyCv ? ' topbar__brand--cv' : ''}`}>
         <span className="topbar__brand-icon" aria-hidden="true">
-          {isJavaLearning ? <img src={javaLogo} alt="" /> : '☕'}
+          {brandIconSrc ? <img src={brandIconSrc} alt="" /> : '☕'}
         </span>
         {isMyCv ? (
           <span className="topbar__brand-name">Nguyen Do Dinh Phuong</span>
